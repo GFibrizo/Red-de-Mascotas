@@ -16,7 +16,7 @@
 -->
 
 <resources>
-    <string name="app_name">Encontrándonos</string>
+    <string name="app_name">Red de mascotas</string>
 
   <string name="cheese_ipsum">Jarlsberg lancashire edam. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
@@ -26,5 +26,12 @@
   <string name="checkin">Checkin</string>
   <string name="menu_settings">Opciones</string>
   <string name="username">Fabrizio Graffe</string>
-
+  <string name="adopt">Adoptar</string>
+  <string name="offer_in_adoption">Ofrecer en adopción</string>
+  <string name="report_missing">Reportar extravío</string>
+  <string name="report_found">Reportar hallazgo</string>
+  <string name="invite_a_friend">Invitar a un amigo</string>
+  <string name="config">Ajustes</string>
+  <string name="about">Acerca de</string>
+  
 </resources>
