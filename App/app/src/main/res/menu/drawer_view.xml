@@ -21,35 +21,38 @@
         android:id="@+id/features"
         android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
-            android:title="Adoptar"
+            android:id="@+id/adopt"
+            android:title="@string/adopt"
             android:icon="@drawable/ic_search_black_24dp" />
         <item
-            android:id="@+id/nav_messages"
+            android:id="@+id/offer_in_adoption"
             android:icon="@drawable/ic_favorite_black_24dp"
-            android:title="Ofrecer en adopción" />
+            android:title="@string/offer_in_adoption" />
         <item
-            android:id="@+id/nav_friends"
+            android:id="@+id/report_missing"
             android:icon="@drawable/ic_report_black_24dp"
-            android:title="Reportar extravío" />
+            android:title="@string/report_missing" />
         <item
-            android:id="@+id/nav_discussion"
+            android:id="@+id/report_found"
             android:icon="@drawable/ic_send_black_24dp"
-            android:title="Reportar hallazgo" />
+            android:title="@string/report_found" />
     </group>
     <group
         android:id="@+id/others"
         android:checkableBehavior="single">
 
         <item
+            android:id="@+id/invite_a_friend"
             android:icon="@drawable/ic_person_add_black_24dp"
-            android:title="Invitar a un amigo" />
+            android:title="@string/invite_a_friend" />
         <item
+            android:id="@+id/config"
             android:icon="@drawable/ic_settings_black_24dp"
-            android:title="Ajustes" />
+            android:title="@string/config" />
         <item
+            android:id="@+id/about"
             android:icon="@drawable/ic_info_black_24dp"
-            android:title="Acerca de" />
+            android:title="@string/about" />
     </group>
     <!-- <item android:title="Otros"> -->
 
