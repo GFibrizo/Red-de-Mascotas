@@ -26,5 +26,9 @@
   <string name="checkin">Checkin</string>
   <string name="menu_settings">Opciones</string>
   <string name="username">Fabrizio Graffe</string>
+  <string name="app_id">1678287159056803</string>
+    <string name="title_activity_login">LoginActivity</string>
 
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>
