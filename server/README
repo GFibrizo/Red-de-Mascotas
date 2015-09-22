@@ -1,0 +1,116 @@
+
+1.- Tener instalado el JDK 7.
+
+2.- Instalar Intellij IDEA Ultimate 14.04 (yo no me bajaría la última versión porque la probé en el trabajo y tiene ciertas cosas que no están buenas):
+	https://confluence.jetbrains.com/display/IntelliJIDEA/Previous+IntelliJ+IDEA+Releases
+
+License key:
+		ychon
+		11298-D4XZY-Y97M4-D6QNW-TW3K2-91IQ7
+
+3.- Para bajarse el plugin de Play: File -> Settings... -> Plugins e instalan el de Scala, porque ahora viene Play dentro del plugin de Scala.
+
+4.- Para abrir el proyecto: Open (Seleccionan la carpeta server)
+
+Seleccionen: use auto-import y download source and docs
+
+Se van a tomar unos cuantos termos de mate porque tarda muuucho en bajar todas las dependencias...
+
+5.- Para correrlo agregan la configuración en Run: Run -> Edit Configurations -> "+" -> Play 2 App:
+	Name: Server
+
+6.- Darle Play!
+	Deberían ver el json {"content":"Hola mundo!!! :D"} si le pegan a http://localhost:9000 desde el browser.
+
+
+
+
+Instalación de MongoDB
+======================
+
+1.- sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv 7F0CEB10
+
+2.- Para Ubuntu 14.04: echo "deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+
+    Para Ubuntu 12.04: echo "deb http://repo.mongodb.org/apt/ubuntu precise/mongodb-org/3.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-3.0.list
+
+3.- sudo apt-get update
+
+4.- sudo apt-get install -y mongodb-org
+
+
+
+Para prender la base
+--------------------
+	sudo service mongod start
+
+Para apagar la base
+-------------------
+	sudo service mongod stop
+
+Para entrar al shell de la base
+-------------------------------
+	mongo
+
+Para hacer un backup de la base
+-------------------------------
+	mongodump --out ./mongo/ --db redDeMascotas   # Si estás parado en la raiz del repo
+
+Para restaurar el backup de la base
+-----------------------------------
+	mongorestore redDeMascotas/   # Estando parados en la carpeta mongo del repo
+	
+
+
+
+Comandos útiles dentro del shell de MongoDB
+===========================================
+
+1.- Entrar a una base de datos: use <nombre de base de datos>
+	Para mostrar las que hay: show databases
+2.- Una vez dentro de una base de datos, para mostrar las colecciones que tiene: show collections
+
+Para hacer queries: db.<nombre de la colección>.<lo que quieras hacer>
+
+
+Ejemplos:
+
+db.usuarios.findOne() ---> Trae un usuario cualquiera
+
+db.usuarios.find({nombre: "Yamila"}) ---> Trae los usuarios con nombre Yamila
+
+
+
+
+Probar grabar un usuario en el proyecto
+=======================================
+
+1.- Instalarse el plugin RESTClient en el browser (está tanto para Firefox como Chrome). Va a servir para probar todos los POSTs.
+
+En Headers agregar:
+	Name: Content-Type
+	Value: application/json
+Siempre pegarle con este header porque si no no sabe qué tipo de dato viene.
+
+Method: POST
+
+URL: http://localhost:9000/usuario
+
+Body:
+{
+"nombreDeUsuario": "GlinsekY",
+"email": "yamila.glinsek@gmail.com",
+"contrasenia": "password",
+"nombre": "Yamila",
+"apellido": "Glinsek",
+"telefono": "01149576440",
+"domicilio": {
+"calle": "Pavón",
+"numero": "3100",
+"barrio": "San Cristóbal",
+"ciudad": "C.A.B.A",
+"provincia": "C.A.B.A",
+"pais": "Argentina"
+}
+}
+
