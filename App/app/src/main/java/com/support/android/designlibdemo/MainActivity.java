@@ -30,12 +30,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -48,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private TabLayout mTabLayout;
+    private FragmentManager fragmentManager;
 
 
     @Override
@@ -115,10 +113,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new CheeseListFragment(), "En adopción");
-        adapter.addFragment(new CheeseListFragment(), "Mis búsquedas");
-        adapter.addFragment(new CheeseListFragment(), "Mis\n publicaciones");
+        fragmentManager = getSupportFragmentManager();
+        Adapter adapter = new Adapter(fragmentManager);
+        adapter.addFragment(new PetsListFragment(), "En adopción");
+        adapter.addFragment(new PetsListFragment(), "Mis búsquedas");
+        adapter.addFragment(new PetsListFragment(), "Mis\n publicaciones");
         viewPager.setAdapter(adapter);
     }
 
@@ -130,6 +129,23 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                switch (menuItem.getItemId()) {
+                    case R.id.adopt:
+                        return true;
+                    case R.id.offer_in_adoption:
+                        //fragmentManager.
+                        return true;
+                    case R.id.report_missing:
+                        return true;
+                    case R.id.report_found:
+                        return true;
+                    case R.id.invite_a_friend:
+                        return true;
+                    case R.id.config:
+                        return true;
+                    case R.id.about:
+                        return true;
+                }
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
                 return true;
@@ -168,4 +184,8 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentTitles.get(position);
         }
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
 }
