@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 
 import com.facebook.*;
 import com.facebook.CallbackManager;
@@ -43,6 +45,8 @@ public class LoginActivity extends FragmentActivity {
 
         @Override
         public void onSuccess(Sharer.Result result) {
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            startActivity(intent);
             Log.d("HelloFacebook", "Success!");
             if (result.getPostId() != null) {
                 String title = getString(R.string.success);
@@ -71,10 +75,19 @@ public class LoginActivity extends FragmentActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         FacebookSdk.sdkInitialize(this.getApplicationContext());
 
         callbackManager = CallbackManager.Factory.create();
-
+        setContentView(R.layout.activity_login);
+        final Button button = (Button) findViewById(R.id.btn_login);
+        button.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });
         LoginManager.getInstance().registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
@@ -113,6 +126,7 @@ public class LoginActivity extends FragmentActivity {
                     }
                 });
 
+
         shareDialog = new ShareDialog(this);
         shareDialog.registerCallback(
                 callbackManager,
@@ -123,7 +137,6 @@ public class LoginActivity extends FragmentActivity {
             pendingAction = PendingAction.valueOf(name);
         }
 
-        setContentView(R.layout.activity_login);
 
         profileTracker = new ProfileTracker() {
             @Override
