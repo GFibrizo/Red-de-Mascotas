@@ -134,7 +134,7 @@ Mascota:
 "tamanio": "Grande",
 "colores": ["Beige"],
 "colorDeOjos": "Marron",
-"conducta": "Jugueton",
+"conducta": ["Jugueton", "De compañía"],
 "necesitaHogarDeTransito": false,
 "estaCastrada": true,
 "tomaMedicinaTemporal": false,

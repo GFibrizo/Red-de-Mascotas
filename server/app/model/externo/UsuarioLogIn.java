@@ -4,6 +4,6 @@ public class UsuarioLogIn {
 
     public String nombreDeUsuario;
 
-    public String contrasenia;
+    public String contraseniaEncriptada;
 
 }

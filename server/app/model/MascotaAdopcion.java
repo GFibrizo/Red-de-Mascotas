@@ -38,7 +38,7 @@ public class MascotaAdopcion {
 
     public String colorDeOjos;
 
-    public String conducta;
+    public List<String> conducta;
 
     public List<String> imagenes;
 
@@ -68,7 +68,7 @@ public class MascotaAdopcion {
 
     public MascotaAdopcion(String nombre, String tipo, String duenioId, Domicilio domicilio, String raza,
                            String sexo, String edad, String tamanio, List<String> colores, String colorDeOjos,
-                           String conducta, Boolean necesitaHogarDeTransito, Boolean estaCastrada,
+                           List<String> conducta, Boolean necesitaHogarDeTransito, Boolean estaCastrada,
                            Boolean tomaMedicinaTemporal, Boolean tomaMedicinaCronica, String descripcion) {
         this.nombre = nombre;
         this.tipo = tipo;
@@ -121,7 +121,7 @@ public class MascotaAdopcion {
         if (filtros.tamanios != null) query.push("tamanio").add("$in", filtros.tamanios.toArray());
         if (filtros.colores != null) query.push("colores").add("$in", filtros.colores.toArray());
         if (filtros.coloresDeOjos != null) query.push("colorDeOjos").add("$in", filtros.coloresDeOjos.toArray());
-        if (filtros.barrio != null) query.add("tipo", filtros.barrio);
+        if (filtros.barrio != null) query.add("barrio", filtros.barrio);
         if (filtros.ciudad != null) query.add("raza", filtros.ciudad);
         return query.get();
     }

@@ -5,6 +5,7 @@
 # LogIn
 GET         /login/cuenta                                @controllers.UsuarioControlador.logInCuenta
 GET         /login/facebook/:facebookId                  @controllers.UsuarioControlador.logInFacebook(facebookId)
+GET         /usuario/:nombreDeUsuario/salt               @controllers.UsuarioControlador.traerSaltDeUsuario(nombreDeUsuario)
 
 # Registro de usuario
 POST        /usuario                                     @controllers.UsuarioControlador.registrarUsuarioCuenta
