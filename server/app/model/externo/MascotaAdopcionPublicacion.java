@@ -8,7 +8,7 @@ public class MascotaAdopcionPublicacion {
 
     public String nombre;
 
-    public String tipoDeMascota;
+    public String tipo;
 
     public String duenioId;
 

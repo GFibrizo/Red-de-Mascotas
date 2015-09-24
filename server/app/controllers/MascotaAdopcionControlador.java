@@ -16,7 +16,7 @@ import java.util.List;
 public class MascotaAdopcionControlador {
 
     @Autowired
-    MascotaAdopcionServicio servicio;
+    private MascotaAdopcionServicio servicio;
 
     public Result publicarMascota() {
         Form<MascotaAdopcionPublicacion> form = Form.form(MascotaAdopcionPublicacion.class).bindFromRequest();
@@ -25,7 +25,6 @@ public class MascotaAdopcionControlador {
         return play.mvc.Controller.ok();
     }
 
-    // TODO
     public Result buscarMascotas() {
         Form<FiltrosBusquedaAdopcion> form = Form.form(FiltrosBusquedaAdopcion.class).bindFromRequest();
         FiltrosBusquedaAdopcion filtros = form.get();
