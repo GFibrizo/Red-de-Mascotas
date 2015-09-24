@@ -15,7 +15,7 @@
   ~ limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.support.android.designlibdemo">
+    package="com.support.android.designlibdemo" >
 
     <uses-permission android:name="android.permission.INTERNET" />
 
