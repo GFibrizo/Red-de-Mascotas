@@ -28,6 +28,8 @@ public class MascotaAdopcionPublicacion {
 
     public List<String> conducta;
 
+    public List<String> imagenes;
+
     public Boolean necesitaHogarDeTransito;
 
     public Boolean estaCastrada;

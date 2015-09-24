@@ -115,6 +115,24 @@ Body:
 }
 
 
+
+Probar probar subir una imagen
+==============================
+
+Instalarse el plugin de Chrome Postman (no sé si está en Firefox también).
+
+Url: http://localhost:9000/mascota/adopcion/imagen
+
+Method: POST
+
+En Key - Value, seleccionan "File" y le ponen en Key "imagen" y seleccionan el archivo.
+
+
+
+
+Estructuras para probar rápido:
+-------------------------------
+
 Mascota:
 {
 "nombre": "Nala",

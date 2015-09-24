@@ -68,8 +68,8 @@ public class MascotaAdopcion {
 
     public MascotaAdopcion(String nombre, String tipo, String duenioId, Domicilio domicilio, String raza,
                            String sexo, String edad, String tamanio, List<String> colores, String colorDeOjos,
-                           List<String> conducta, Boolean necesitaHogarDeTransito, Boolean estaCastrada,
-                           Boolean tomaMedicinaTemporal, Boolean tomaMedicinaCronica, String descripcion) {
+                           List<String> conducta, List<String> imagenes, Boolean necesitaHogarDeTransito,
+                           Boolean estaCastrada, Boolean tomaMedicinaTemporal, Boolean tomaMedicinaCronica, String descripcion) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.duenioId = duenioId;
@@ -81,6 +81,7 @@ public class MascotaAdopcion {
         this.colores = colores;
         this.colorDeOjos = colorDeOjos;
         this.conducta = conducta;
+        this.imagenes = imagenes;
         this.necesitaHogarDeTransito = necesitaHogarDeTransito;
         this.estaCastrada = estaCastrada;
         this.tomaMedicinaTemporal = tomaMedicinaTemporal;
