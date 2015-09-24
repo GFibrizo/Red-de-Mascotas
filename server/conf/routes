@@ -20,5 +20,6 @@ POST        /mascota/adopcion                            @controllers.MascotaAdo
 # Busqueda de mascotas en adopcion
 GET         /mascotas/adopcion                           @controllers.MascotaAdopcionControlador.buscarMascotas
 
-# Subir archivos
+# Media
+GET         /mascota/imagen/:imagenId                    @controllers.ImagenControlador.traerImagenMascota(imagenId)
 POST        /mascota/imagen                              @controllers.ImagenControlador.subirImagenMascota

@@ -28,4 +28,9 @@ public class ImagenControlador extends play.mvc.Controller {
         }
     }
 
+    public Result traerImagenMascota(String imagenId) {
+        File file = new File("public/images/mascotas", imagenId);
+        return play.mvc.Controller.ok(file);
+    }
+
 }
