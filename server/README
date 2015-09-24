@@ -121,7 +121,7 @@ Probar probar subir una imagen
 
 Instalarse el plugin de Chrome Postman (no sé si está en Firefox también).
 
-Url: http://localhost:9000/mascota/adopcion/imagen
+Url: http://localhost:9000/mascota/imagen
 
 Method: POST
 

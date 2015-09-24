@@ -21,4 +21,4 @@ POST        /mascota/adopcion                            @controllers.MascotaAdo
 GET         /mascotas/adopcion                           @controllers.MascotaAdopcionControlador.buscarMascotas
 
 # Subir archivos
-POST        /mascota/adopcion/imagen                     @controllers.MascotaAdopcionControlador.subirImagen
+POST        /mascota/imagen                              @controllers.ImagenControlador.subirImagenMascota
