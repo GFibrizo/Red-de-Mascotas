@@ -18,4 +18,5 @@
 <resources>
     <color name="window_background">#FFF5F5F5</color>
     <color name="tab_background">#263238</color>
+    <color name="button_login">#32bcff</color>
 </resources>
