@@ -1,0 +1,20 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# LogIn
+GET         /login/cuenta                                @controllers.UsuarioControlador.logInCuenta
+GET         /login/facebook/:facebookId                  @controllers.UsuarioControlador.logInFacebook(facebookId)
+
+# Registro de usuario
+POST        /usuario                                     @controllers.UsuarioControlador.registrarUsuarioCuenta
+POST        /usuario/facebook                            @controllers.UsuarioControlador.registrarUsuarioFacebook
+
+# Usuario
+GET         /usuario/:usuarioId/mascotas-adopcion        @controllers.UsuarioControlador.traerMascotasEnAdopcion(usuarioId)
+
+# Publicacion de mascota en adopcion
+POST        /mascota/adopcion                            @controllers.MascotaAdopcionControlador.publicarMascota()
+
+# Busqueda de mascotas en adopcion
+GET         /mascotas/adopcion                           @controllers.MascotaAdopcionControlador.buscarMascotas()

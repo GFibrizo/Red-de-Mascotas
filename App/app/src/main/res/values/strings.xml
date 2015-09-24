@@ -33,5 +33,10 @@
   <string name="invite_a_friend">Invitar a un amigo</string>
   <string name="config">Ajustes</string>
   <string name="about">Acerca de</string>
-  
+
+  <string name="app_id">1678287159056803</string>
+    <string name="title_activity_login">LoginActivity</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
 </resources>
