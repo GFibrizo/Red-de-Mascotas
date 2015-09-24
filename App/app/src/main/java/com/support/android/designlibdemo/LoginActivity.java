@@ -88,8 +88,8 @@ public class LoginActivity extends FragmentActivity {
         profileTracker = new ProfileTracker() {
             @Override
             protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                startActivity(intent);
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(intent);
                 //showResult(newProfile.getFirstName(),newProfile.getLastName());
             }
         };
@@ -101,7 +101,7 @@ public class LoginActivity extends FragmentActivity {
         final Button button = (Button) findViewById(R.id.btn_login);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            Intent intent = new Intent(LoginActivity.this, LoginUserActivity.class);
             startActivity(intent);
             }
         });
@@ -125,14 +125,17 @@ public class LoginActivity extends FragmentActivity {
     @Override
     public void onResume() {
         super.onResume();
+
         Profile profile = Profile.getCurrentProfile();
         if(profile != null){
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+            intent.putExtra("PROFILE_IMG_ID", profile.getProfilePictureUri(10,10));
+            intent.putExtra("PROFILE_LAST_NAME", profile.getLastName());
+            intent.putExtra("PROFILE_FIRST_NAME", profile.getFirstName());
+
+
             startActivity(intent);
-            //showResult(profile.getFirstName(),profile.getLastName());
         }
-
     }
-
 
 }

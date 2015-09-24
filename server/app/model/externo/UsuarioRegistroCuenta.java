@@ -1,5 +1,6 @@
 package model.externo;
 
+import model.Contrasenia;
 import model.Domicilio;
 
 public class UsuarioRegistroCuenta {
@@ -8,7 +9,7 @@ public class UsuarioRegistroCuenta {
 
     public String email;
 
-    public String contrasenia;
+    public Contrasenia contrasenia;
 
     public String nombre;
 

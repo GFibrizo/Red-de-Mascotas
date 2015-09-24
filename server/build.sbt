@@ -7,6 +7,7 @@ lazy val `server` = (project in file(".")).enablePlugins(PlayJava)
 libraryDependencies ++= Seq(
   javaCore,
   javaWs % "test",
+  "org.apache.directory.studio" % "org.apache.commons.io" % "2.4",
   "org.springframework" % "spring-context" % "4.1.1.RELEASE",
   "org.springframework" % "spring-orm" % "4.1.1.RELEASE",
   "org.springframework" % "spring-jdbc" % "4.1.1.RELEASE",

@@ -5,6 +5,7 @@
 # LogIn
 GET         /login/cuenta                                @controllers.UsuarioControlador.logInCuenta
 GET         /login/facebook/:facebookId                  @controllers.UsuarioControlador.logInFacebook(facebookId)
+GET         /usuario/:nombreDeUsuario/salt               @controllers.UsuarioControlador.traerSaltDeUsuario(nombreDeUsuario)
 
 # Registro de usuario
 POST        /usuario                                     @controllers.UsuarioControlador.registrarUsuarioCuenta
@@ -18,3 +19,7 @@ POST        /mascota/adopcion                            @controllers.MascotaAdo
 
 # Busqueda de mascotas en adopcion
 GET         /mascotas/adopcion                           @controllers.MascotaAdopcionControlador.buscarMascotas
+
+# Media
+GET         /mascota/imagen/:imagenId                    @controllers.ImagenControlador.traerImagenMascota(imagenId)
+POST        /mascota/imagen                              @controllers.ImagenControlador.subirImagenMascota
