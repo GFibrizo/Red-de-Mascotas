@@ -1,6 +1,9 @@
 package model;
 
 import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DBObject;
+import model.externo.FiltrosBusquedaAdopcion;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
@@ -17,7 +20,7 @@ public class MascotaAdopcion {
 
     public String nombre;
 
-    public String tipoDeMascota;
+    public String tipo;
 
     public String duenioId;
 
@@ -63,12 +66,12 @@ public class MascotaAdopcion {
 
     public MascotaAdopcion() { }
 
-    public MascotaAdopcion(String nombre, String tipoDeMascota, String duenioId, Domicilio domicilio, String raza,
+    public MascotaAdopcion(String nombre, String tipo, String duenioId, Domicilio domicilio, String raza,
                            String sexo, String edad, String tamanio, List<String> colores, String colorDeOjos,
                            String conducta, Boolean necesitaHogarDeTransito, Boolean estaCastrada,
                            Boolean tomaMedicinaTemporal, Boolean tomaMedicinaCronica, String descripcion) {
         this.nombre = nombre;
-        this.tipoDeMascota = tipoDeMascota;
+        this.tipo = tipo;
         this.duenioId = duenioId;
         this.domicilio = domicilio;
         this.raza = raza;
@@ -85,8 +88,8 @@ public class MascotaAdopcion {
         this.descripcion = descripcion;
     }
 
-    private void actualizarEstadoPublicacion(String estado) {
-        this.estadoPublicacion = estado;
+    private void actualizarEstadoPublicado() {
+        this.estadoPublicacion = "PUBLICADO";
         this.fechaDePublicacion = DateTime.now();
     }
 
@@ -94,8 +97,12 @@ public class MascotaAdopcion {
         return MascotaAdopcion.coleccion.find(new BasicDBObject("duenioId", duenioId)).toArray();
     }
 
+    public static List<MascotaAdopcion> buscar(FiltrosBusquedaAdopcion filtros) {
+        return MascotaAdopcion.coleccion.find(construirFiltrosDeBusqueda(filtros)).toArray();
+    }
+
     public static void crear(MascotaAdopcion mascotaAdopcion) {
-        mascotaAdopcion.actualizarEstadoPublicacion("PUBLICADO");
+        mascotaAdopcion.actualizarEstadoPublicado();
         MascotaAdopcion.coleccion.save(mascotaAdopcion);
     }
 
@@ -103,6 +110,20 @@ public class MascotaAdopcion {
         MascotaAdopcion mascotaAdopcion = MascotaAdopcion.coleccion.findOneById(id);
         if (mascotaAdopcion != null)
             MascotaAdopcion.coleccion.remove(mascotaAdopcion);
+    }
+
+    private static DBObject construirFiltrosDeBusqueda(FiltrosBusquedaAdopcion filtros) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        if (filtros.tipo != null) query.add("tipo", filtros.tipo);
+        if (filtros.raza != null) query.add("raza", filtros.raza);
+        if (filtros.sexos != null) query.push("sexo").add("$in", filtros.sexos.toArray());
+        if (filtros.edades != null) query.push("edad").add("$in", filtros.edades.toArray());
+        if (filtros.tamanios != null) query.push("tamanio").add("$in", filtros.tamanios.toArray());
+        if (filtros.colores != null) query.push("colores").add("$in", filtros.colores.toArray());
+        if (filtros.coloresDeOjos != null) query.push("colorDeOjos").add("$in", filtros.coloresDeOjos.toArray());
+        if (filtros.barrio != null) query.add("tipo", filtros.barrio);
+        if (filtros.ciudad != null) query.add("raza", filtros.ciudad);
+        return query.get();
     }
 
 }

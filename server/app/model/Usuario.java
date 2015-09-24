@@ -1,7 +1,5 @@
 package model;
 
-import java.util.*;
-
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import play.modules.mongodb.jackson.MongoDB;
@@ -30,8 +28,6 @@ public class Usuario {
     public String telefono;
 
     public Domicilio domicilio;
-
-    // TODO: Parametros de busquedas
 
 
     private static JacksonDBCollection<Usuario, String> coleccion = MongoDB.getCollection("usuarios", Usuario.class, String.class);
