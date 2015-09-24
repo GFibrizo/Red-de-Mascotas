@@ -39,7 +39,8 @@
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:minHeight="?attr/actionBarSize"
             app:tabTextAppearance="@style/TabTextStyle"
             app:tabBackground="@color/tab_background"/>
 

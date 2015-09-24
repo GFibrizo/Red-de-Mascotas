@@ -16,6 +16,7 @@
 
 package com.support.android.designlibdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -30,6 +31,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -57,8 +59,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -82,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
-        mTabLayout.setupWithViewPager(viewPager);
+        if (viewPager != null)
+            mTabLayout.setupWithViewPager(viewPager);
     }
 
 
@@ -129,26 +134,34 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                Intent intent = null;
                 switch (menuItem.getItemId()) {
                     case R.id.adopt:
-                        return true;
+                        break;
                     case R.id.offer_in_adoption:
-                        //fragmentManager.
-                        return true;
+                        Toast.makeText(getApplicationContext(), "PUBLICAR", Toast.LENGTH_LONG).show();
+                        intent = new Intent(getApplicationContext(), PublishInAdoptionActivity.class);
+                        break;
                     case R.id.report_missing:
-                        return true;
+                        break;
                     case R.id.report_found:
-                        return true;
+                        break;
                     case R.id.invite_a_friend:
-                        return true;
+                        break;
                     case R.id.config:
-                        return true;
+                        break;
                     case R.id.about:
+                        break;
+                    default:
+                        mDrawerLayout.closeDrawers();
                         return true;
                 }
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
+                if (intent != null)
+                    startActivity(intent);
                 return true;
+
             }
         });
     }
