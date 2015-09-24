@@ -114,3 +114,30 @@ Body:
 }
 }
 
+
+Mascota:
+{
+"nombre": "Nala",
+"tipo": "Perro",
+"duenioId": "242j3kl53j2l2tf",
+"domicilio": {
+"calle": "Pavón",
+"numero": "3100",
+"barrio": "San Cristóbal",
+"ciudad": "C.A.B.A",
+"provincia": "C.A.B.A",
+"pais": "Argentina"
+},
+"raza": "Golden Retriever",
+"sexo": "Hembra",
+"edad": "1 - 3 años",
+"tamanio": "Grande",
+"colores": ["Beige"],
+"colorDeOjos": "Marron",
+"conducta": "Jugueton",
+"necesitaHogarDeTransito": false,
+"estaCastrada": true,
+"tomaMedicinaTemporal": false,
+"tomaMedicinaCronica": false,
+"descripcion": "Nala es una hermosa perrita de compañía."
+}

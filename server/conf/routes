@@ -14,7 +14,7 @@ POST        /usuario/facebook                            @controllers.UsuarioCon
 GET         /usuario/:usuarioId/mascotas-adopcion        @controllers.UsuarioControlador.traerMascotasEnAdopcion(usuarioId)
 
 # Publicacion de mascota en adopcion
-POST        /mascota/adopcion                            @controllers.MascotaAdopcionControlador.publicarMascota()
+POST        /mascota/adopcion                            @controllers.MascotaAdopcionControlador.publicarMascota
 
 # Busqueda de mascotas en adopcion
-GET         /mascotas/adopcion                           @controllers.MascotaAdopcionControlador.buscarMascotas()
+GET         /mascotas/adopcion                           @controllers.MascotaAdopcionControlador.buscarMascotas

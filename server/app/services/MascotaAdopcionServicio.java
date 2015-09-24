@@ -12,7 +12,7 @@ public class MascotaAdopcionServicio {
 
     public void publicarMascota(MascotaAdopcionPublicacion mascotaPublicacion) {
         MascotaAdopcion mascota = new MascotaAdopcion(mascotaPublicacion.nombre,
-                                                      mascotaPublicacion.tipoDeMascota,
+                                                      mascotaPublicacion.tipo,
                                                       mascotaPublicacion.duenioId,
                                                       mascotaPublicacion.domicilio,
                                                       mascotaPublicacion.raza,
@@ -31,7 +31,7 @@ public class MascotaAdopcionServicio {
     }
 
     public List<MascotaAdopcion> buscarMascotas(FiltrosBusquedaAdopcion filtros) {
-        return null;
+        return MascotaAdopcion.buscar(filtros);
     }
 
 }
