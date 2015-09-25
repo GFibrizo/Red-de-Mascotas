@@ -60,7 +60,7 @@
             android:id="@+id/load_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/load"
+            android:src="@drawable/profile"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_alignParentTop="true"

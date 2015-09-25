@@ -2,4 +2,11 @@
 <resources>
     <string name="Title">Red de Mascotas</string>
     <string name="Ingresar">Ingresar</string>
+    <string name="offer_in_adoption">Publicar adopcion</string>
+    <string name="adopt">Adoptar</string>
+    <string name="report_missing">Reportar extravío</string>
+    <string name="report_found">Reportar hallazgo</string>
+    <string name="invite_a_friend">Invitar a un amigo</string>
+    <string name="config">Ajustes</string>
+    <string name="about">Acerca de</string>
 </resources>

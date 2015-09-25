@@ -66,4 +66,12 @@
   <string name="error_invalid_password">This password is too short</string>
   <string name="error_incorrect_password">This password is incorrect</string>
   <string name="error_field_required">This field is required</string>
+  <string name="login_button_text">Entrar con Facebook</string>
+  <string name="offer_in_adoption">Ofrecer en adopción</string>
+  <string name="adopt">Adoptar</string>
+  <string name="report_missing">Reportar extravío</string>
+  <string name="report_found">Reportar hallazgo</string>
+  <string name="invite_a_friend">Invitar a un amigo</string>
+  <string name="config">Ajustes</string>
+  <string name="about">Acerca de</string>
 </resources>
