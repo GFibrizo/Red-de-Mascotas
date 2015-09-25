@@ -16,6 +16,7 @@
 
 package com.support.android.designlibdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -30,12 +31,10 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -48,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout mDrawerLayout;
     private TabLayout mTabLayout;
+    private FragmentManager fragmentManager;
 
 
     @Override
@@ -59,8 +59,10 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         final ActionBar ab = getSupportActionBar();
-        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
-        ab.setDisplayHomeAsUpEnabled(true);
+        if (ab != null) {
+            ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+            ab.setDisplayHomeAsUpEnabled(true);
+        }
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -84,7 +86,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
-        mTabLayout.setupWithViewPager(viewPager);
+        if (viewPager != null)
+            mTabLayout.setupWithViewPager(viewPager);
     }
 
 
@@ -115,10 +118,11 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupViewPager(ViewPager viewPager) {
-        Adapter adapter = new Adapter(getSupportFragmentManager());
-        adapter.addFragment(new CheeseListFragment(), "En adopción");
-        adapter.addFragment(new CheeseListFragment(), "Mis búsquedas");
-        adapter.addFragment(new CheeseListFragment(), "Mis\n publicaciones");
+        fragmentManager = getSupportFragmentManager();
+        Adapter adapter = new Adapter(fragmentManager);
+        adapter.addFragment(new PetsListFragment(), "En adopción");
+        adapter.addFragment(new PetsListFragment(), "Mis búsquedas");
+        adapter.addFragment(new PetsListFragment(), "Mis\n publicaciones");
         viewPager.setAdapter(adapter);
     }
 
@@ -130,9 +134,34 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(MenuItem menuItem) {
+                Intent intent = null;
+                switch (menuItem.getItemId()) {
+                    case R.id.adopt:
+                        break;
+                    case R.id.offer_in_adoption:
+                        Toast.makeText(getApplicationContext(), "PUBLICAR", Toast.LENGTH_LONG).show();
+                        intent = new Intent(getApplicationContext(), PublishInAdoptionActivity.class);
+                        break;
+                    case R.id.report_missing:
+                        break;
+                    case R.id.report_found:
+                        break;
+                    case R.id.invite_a_friend:
+                        break;
+                    case R.id.config:
+                        break;
+                    case R.id.about:
+                        break;
+                    default:
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                }
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
+                if (intent != null)
+                    startActivity(intent);
                 return true;
+
             }
         });
     }
@@ -168,4 +197,8 @@ public class MainActivity extends AppCompatActivity {
             return mFragmentTitles.get(position);
         }
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
 }

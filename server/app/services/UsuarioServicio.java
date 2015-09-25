@@ -1,26 +1,40 @@
 package services;
 
-import model.Contrasenia;
 import model.MascotaAdopcion;
 import model.Usuario;
 import model.externo.UsuarioLogIn;
 import model.externo.UsuarioRegistroCuenta;
 import model.externo.UsuarioRegistroFacebook;
-import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.stereotype.Service;
 
-import java.security.SecureRandom;
 import java.util.List;
+
+// TODO: Pasar a Android
+/*
+import model.Contrasenia;
+import org.apache.commons.codec.digest.DigestUtils;
+import java.security.SecureRandom;
+*/
 
 @Service
 public class UsuarioServicio {
 
+    // TODO: Pasar a Android
+    /*
     private SecureRandom secureRandom = new SecureRandom();
+    */
 
     public Usuario logIn(UsuarioLogIn usuarioLogIn) {
         Usuario usuario = Usuario.traerPorNombreDeUsuario(usuarioLogIn.nombreDeUsuario);
-        if (usuario != null && contraseniaValida(usuarioLogIn.contrasenia, usuario.contrasenia)) {
+        if (usuario != null && usuarioLogIn.contraseniaEncriptada == usuario.contrasenia.encriptacion) {
             return usuario;
+        } else return null;
+    }
+
+    public String traerSalt(String nombreDeUsuario) {
+        Usuario usuario = Usuario.traerPorNombreDeUsuario(nombreDeUsuario);
+        if (usuario != null) {
+            return usuario.contrasenia.salt;
         } else return null;
     }
 
@@ -35,7 +49,7 @@ public class UsuarioServicio {
                                       usuarioRegistro.nombre,
                                       usuarioRegistro.apellido,
                                       usuarioRegistro.email,
-                                      crearContrasenia(usuarioRegistro.contrasenia),
+                                      usuarioRegistro.contrasenia,
                                       usuarioRegistro.telefono,
                                       usuarioRegistro.domicilio);
         Usuario.crear(usuario);
@@ -56,13 +70,14 @@ public class UsuarioServicio {
         return MascotaAdopcion.traerPorDuenioId(usuarioId);
     }
 
+    // TODO: Pasar a Android
+    /*
     private Contrasenia crearContrasenia(String contrasenia) {
         byte[] salt = new byte[20];
         secureRandom.nextBytes(salt);
         String saltStr = salt.toString();
         return new Contrasenia(encriptarContraseña(contrasenia, saltStr), saltStr);
     }
-
     private String encriptarContraseña(String contrasenia, String salt) {
         return DigestUtils.sha1Hex(salt + contrasenia);
     }
@@ -70,5 +85,7 @@ public class UsuarioServicio {
     private Boolean contraseniaValida(String contrasenia, Contrasenia contraseniaGuardada) {
         return contraseniaGuardada.encriptacion.equals(encriptarContraseña(contrasenia, contraseniaGuardada.salt));
     }
+    */
+
 
 }

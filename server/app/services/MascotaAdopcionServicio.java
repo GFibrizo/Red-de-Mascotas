@@ -22,6 +22,7 @@ public class MascotaAdopcionServicio {
                                                       mascotaPublicacion.colores,
                                                       mascotaPublicacion.colorDeOjos,
                                                       mascotaPublicacion.conducta,
+                                                      mascotaPublicacion.imagenes,
                                                       mascotaPublicacion.necesitaHogarDeTransito,
                                                       mascotaPublicacion.estaCastrada,
                                                       mascotaPublicacion.tomaMedicinaTemporal,

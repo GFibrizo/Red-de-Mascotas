@@ -26,7 +26,9 @@ public class MascotaAdopcionPublicacion {
 
     public String colorDeOjos;
 
-    public String conducta;
+    public List<String> conducta;
+
+    public List<String> imagenes;
 
     public Boolean necesitaHogarDeTransito;
 
