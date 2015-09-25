@@ -63,8 +63,8 @@
                     android:src="@drawable/ic_send_white_48dp"
                     android:layout_gravity="center_vertical|left" />
 
-                <AutoCompleteTextView android:id="@+id/email" android:layout_width="248dp"
-                    android:layout_height="wrap_content" android:hint="@string/prompt_email"
+                <AutoCompleteTextView android:id="@+id/user" android:layout_width="248dp"
+                    android:layout_height="wrap_content" android:hint="@string/prompt_user"
                     android:inputType="textEmailAddress" android:maxLines="1"
                     android:singleLine="true"
                     android:layout_gravity="center_vertical|right"

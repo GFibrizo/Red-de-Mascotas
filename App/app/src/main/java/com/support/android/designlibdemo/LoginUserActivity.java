@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ContentResolver;
 import android.content.CursorLoader;
@@ -17,6 +18,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,6 +29,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,7 +57,7 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
     private UserLoginTask mAuthTask = null;
 
     // UI references.
-    private AutoCompleteTextView mEmailView;
+    private AutoCompleteTextView userView;
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
@@ -59,7 +68,7 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         setContentView(R.layout.activity_login_user);
 
         // Set up the login form.
-        mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
+        userView = (AutoCompleteTextView) findViewById(R.id.user);
         populateAutoComplete();
 
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -102,11 +111,11 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         }
 
         // Reset errors.
-        mEmailView.setError(null);
+        userView.setError(null);
         mPasswordView.setError(null);
 
         // Store values at the time of the login attempt.
-        String email = mEmailView.getText().toString();
+        String user = userView.getText().toString();
         String password = mPasswordView.getText().toString();
 
         boolean cancel = false;
@@ -120,13 +129,13 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         }
 
         // Check for a valid email address.
-        if (TextUtils.isEmpty(email)) {
-            mEmailView.setError(getString(R.string.error_field_required));
-            focusView = mEmailView;
+        if (TextUtils.isEmpty(user)) {
+            userView.setError(getString(R.string.error_field_required));
+            focusView = userView;
             cancel = true;
-        } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
-            focusView = mEmailView;
+        } else if (!isUserValid(user)) {
+            userView.setError(getString(R.string.error_invalid_user));
+            focusView = userView;
             cancel = true;
         }
 
@@ -138,19 +147,21 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
             // Show a progress spinner, and kick off a background task to
             // perform the user login attempt.
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
+            mAuthTask = new UserLoginTask(user, password);
             mAuthTask.execute((Void) null);
         }
     }
 
-    private boolean isEmailValid(String email) {
-        //TODO: Replace this with your own logic
-        return email.contains("@");
+    private boolean isUserValid(String user) {
+        //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
+        //return ((user.length() >= 6 && user.length() <= 12) && user.matches("[a-zA-Z][0-9]+"));
+        return true;
     }
 
     private boolean isPasswordValid(String password) {
-        //TODO: Replace this with your own logic
-        return password.length() > 4;
+        //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
+        //return ((password.length() >= 6 && password.length() <= 12) && password.matches("[a-zA-Z][0-9]+"));
+        return true;
     }
 
     /**
@@ -208,14 +219,14 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> emails = new ArrayList<String>();
+        List<String> users = new ArrayList<String>();
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            emails.add(cursor.getString(ProfileQuery.ADDRESS));
+            users.add(cursor.getString(ProfileQuery.NAME));
             cursor.moveToNext();
         }
 
-        addEmailsToAutoComplete(emails);
+        addEmailsToAutoComplete(users);
     }
 
     @Override
@@ -225,22 +236,22 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
     private interface ProfileQuery {
         String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Email.ADDRESS,
-                ContactsContract.CommonDataKinds.Email.IS_PRIMARY,
+                ContactsContract.CommonDataKinds.Nickname.NAME,
+                ContactsContract.CommonDataKinds.Nickname.IS_PRIMARY,
         };
 
-        int ADDRESS = 0;
+        int NAME = 0;
         int IS_PRIMARY = 1;
     }
 
 
-    private void addEmailsToAutoComplete(List<String> emailAddressCollection) {
+    private void addEmailsToAutoComplete(List<String> usersCollection) {
         //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
         ArrayAdapter<String> adapter =
                 new ArrayAdapter<String>(LoginUserActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, emailAddressCollection);
+                        android.R.layout.simple_dropdown_item_1line, usersCollection);
 
-        mEmailView.setAdapter(adapter);
+        userView.setAdapter(adapter);
     }
 
     /**
@@ -260,7 +271,33 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
+            URL url;
+            HttpURLConnection urlConnection = null;
+            try {
+                url = new URL("http://www.android.com/");
 
+                urlConnection = (HttpURLConnection) url
+                        .openConnection();
+
+                InputStream in = urlConnection.getInputStream();
+
+                InputStreamReader isw = new InputStreamReader(in);
+
+                int data = isw.read();
+                while (data != -1) {
+                    char current = (char) data;
+                    data = isw.read();
+                    System.out.print(current);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            } finally {
+                try {
+                    urlConnection.disconnect();
+                } catch (Exception e) {
+                    e.printStackTrace(); //If you want further info on failure...
+                }
+            }
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
