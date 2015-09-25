@@ -26,8 +26,117 @@
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/Theme.DesignDemo"
             app:layout_scrollFlags="scroll|enterAlways" />
+
+            <RelativeLayout
+                android:id="@+id/publish_subtitle_layout"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#263238">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/offer_in_adoption"
+                    android:textSize="17dp"
+                    android:gravity="bottom"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="20dp"/>
+
+            </RelativeLayout>
+
+
     </android.support.design.widget.AppBarLayout>
 
 
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="130dp"
+        android:id="@+id/relativeLayout">
+
+        <ImageView
+            android:id="@+id/load_image"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:src="@drawable/load"
+            android:layout_marginLeft="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_toRightOf="@+id/load_image"
+            android:layout_marginLeft="10dp">
+
+
+            <EditText
+                android:id="@+id/published_pet"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Nombre"
+                android:inputType="textPersonName" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Tipo de mascota"
+                android:id="@+id/pet_type" />
+
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="Perro"
+                android:textOff="Gato"
+                android:id="@+id/switch_pet_type" />
+
+
+<!--
+        <EditText
+            android:id="@+id/published_pet"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:layout_toRightOf="@+id/load_image"
+            android:layout_marginLeft="15dp"
+            android:layout_marginStart="15dp"
+            android:layout_marginRight="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Tipo de mascota"
+            android:id="@+id/pet_type"
+            android:layout_below="@+id/published_pet"
+            android:layout_alignLeft="@+id/published_pet"
+            android:layout_alignStart="@+id/published_pet"
+            android:layout_marginTop="15dp" />
+
+        <Switch
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textOn="Perro"
+            android:textOff="Gato"
+            android:id="@+id/switch_pet_type"
+            android:layout_marginLeft="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/pet_type"
+            android:layout_alignLeft="@+id/pet_type"
+            android:layout_alignStart="@+id/pet_type" />
+-->
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </RelativeLayout>
