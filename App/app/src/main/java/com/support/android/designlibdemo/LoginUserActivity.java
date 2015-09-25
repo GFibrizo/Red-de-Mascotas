@@ -29,15 +29,31 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonArrayRequest;
+import com.android.volley.toolbox.JsonObjectRequest;
+
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+
+import javax.net.ssl.HttpsURLConnection;
+
+import utils.ConnectionSingleton;
 
 /**
  * A login screen that offers login via email/password.
@@ -260,54 +276,39 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
      */
     public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
+        private final String mUser;
         private final String mPassword;
 
         UserLoginTask(String email, String password) {
-            mEmail = email;
+            mUser = email;
             mPassword = password;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            URL url;
-            HttpURLConnection urlConnection = null;
-            try {
-                url = new URL("http://www.android.com/");
+            ConnectionSingleton connectionSingleton = ConnectionSingleton.getInstance(getApplicationContext());
+            // Mapeo de los pares clave-valor
+            HashMap<String, String> parametros = new HashMap();
+            parametros.put("user", mUser);
+            parametros.put("password", mPassword);
 
-                urlConnection = (HttpURLConnection) url
-                        .openConnection();
-
-                InputStream in = urlConnection.getInputStream();
-
-                InputStreamReader isw = new InputStreamReader(in);
-
-                int data = isw.read();
-                while (data != -1) {
-                    char current = (char) data;
-                    data = isw.read();
-                    System.out.print(current);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    urlConnection.disconnect();
-                } catch (Exception e) {
-                    e.printStackTrace(); //If you want further info on failure...
-                }
-            }
+            String url = "http://jsonplaceholder.typicode.com/posts/1";
+            //JsonObjectRequest jsArrayRequest = connectionSingleton.createPostRequest(url,parametros);
+            JsonArrayRequest jsArrayRequest = connectionSingleton.createGetRequest(url);
+            // Añadir petición a la cola
+            connectionSingleton.addToRequestQueue(jsArrayRequest);
             try {
                 // Simulate network access.
                 Thread.sleep(2000);
+                System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
             } catch (InterruptedException e) {
                 return false;
             }
 
             for (String credential : DUMMY_CREDENTIALS) {
                 String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
+                if (pieces[0].equals(mUser)) {
                     // Account exists, return true if the password matches.
                     return pieces[1].equals(mPassword);
                 }
@@ -323,6 +324,7 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
             showProgress(false);
 
             if (success) {
+                System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
                 Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();

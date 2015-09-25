@@ -48,8 +48,8 @@
   <string name="pick_seattle_place">Pick a Seattle Place</string>
 
   <string name="exception">Exception: %1$s</string>
-    <string name="Title">Red de Mascotas</string>
-    <string name="Ingresar">Ingresar con cuenta</string>
+  <string name="Title">Red de Mascotas</string>
+  <string name="Ingresar">Ingresar con cuenta</string>
 
   <string name="title_activity_login_user">Sign in</string>
 
@@ -66,7 +66,7 @@
   <string name="error_invalid_password">This password is too short</string>
   <string name="error_incorrect_password">This password is incorrect</string>
   <string name="error_field_required">This field is required</string>
-  <string name="login_button_text">Entrar con Facebook</string>
+  <string name="login_button_text">Ingresar con Facebook</string>
   <string name="offer_in_adoption">Ofrecer en adopción</string>
   <string name="adopt">Adoptar</string>
   <string name="report_missing">Reportar extravío</string>
