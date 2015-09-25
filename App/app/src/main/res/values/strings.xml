@@ -27,7 +27,7 @@
   <string name="checkin">Checkin</string>
   <string name="menu_settings">Opciones</string>
   <string name="username">Fabrizio Graffe</string>
-    <string name="title_activity_login">Login</string>
+    <string name="title_activity_login">Red de Mascotas</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
@@ -55,11 +55,13 @@
 
   <!-- Strings related to login -->
   <string name="prompt_email">Email</string>
-  <string name="prompt_password">Password (optional)</string>
+  <string name="prompt_user">Usuario</string>
+  <string name="prompt_password">Contraseña</string>
   <string name="action_sign_in">Sign in or register</string>
   <string name="action_sign_in_short">Ingresar</string>
   <string name="crear_nueva_cuenta">¿Aun no tenes cuenta? Registrate</string>
 
+  <string name="error_invalid_user">Usuario invalido</string>
   <string name="error_invalid_email">This email address is invalid</string>
   <string name="error_invalid_password">This password is too short</string>
   <string name="error_incorrect_password">This password is incorrect</string>
