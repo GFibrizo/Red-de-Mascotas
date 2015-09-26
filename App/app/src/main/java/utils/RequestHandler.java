@@ -1,36 +1,37 @@
 package utils;
 
 import android.content.Context;
-import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.util.HashMap;
 
 
-public final class ConnectionSingleton {
+public final class RequestHandler {
     // Atributos
-    private static ConnectionSingleton singleton;
+    private static RequestHandler singleton;
     private RequestQueue requestQueue;
     private static Context context;
+    private static String serverUrl = "http://192.168.1.106:8090";
+    private ResponseHandler responseHandler;
 
-    private ConnectionSingleton(Context context) {
-        ConnectionSingleton.context = context;
+
+    private RequestHandler(Context context) {
+        RequestHandler.context = context;
         requestQueue = getRequestQueue();
+        responseHandler = new ResponseHandler();
     }
 
-    public static synchronized ConnectionSingleton getInstance(Context context) {
+    public static synchronized RequestHandler getInstance(Context context) {
         if (singleton == null) {
-            singleton = new ConnectionSingleton(context);
+            singleton = new RequestHandler(context);
         }
         return singleton;
     }
@@ -53,9 +54,11 @@ public final class ConnectionSingleton {
                 new JSONObject(parametros),
                 new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONObject response) {
+                    public void onResponse(JSONObject jsonResponse) {
                         // Manejo de la respuesta
-                        System.out.print(response.toString());
+                        responseHandler.setResponse(jsonResponse);
+                        responseHandler.setMessage(ResponseHandler.OK);
+                        responseHandler.setOkStatus();
 
                     }
                 },
@@ -64,6 +67,8 @@ public final class ConnectionSingleton {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Manejo de errores
+                        responseHandler.setMessage(error.getMessage());
+                        responseHandler.setErrorStatus();
 
                     }
                 });
@@ -71,28 +76,33 @@ public final class ConnectionSingleton {
         return request;
     }
 
-    public JsonArrayRequest createGetRequest(String url) {
+    public JsonObjectRequest createGetRequest(String url) {
 
-        JsonArrayRequest request = new JsonArrayRequest(
-                url,
-                new Response.Listener<JSONArray>() {
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                this.serverUrl + url,
+                new Response.Listener<JSONObject>() {
                     @Override
-                    public void onResponse(JSONArray response) {
-                        // Manejo de la respuesta
-                        System.out.print(response.toString());
-
+                    public void onResponse(JSONObject jsonResponse) {
+                        responseHandler.setResponse(jsonResponse);
+                        responseHandler.setMessage(ResponseHandler.OK);
+                        responseHandler.setOkStatus();
                     }
                 },
                 new Response.ErrorListener() {
-
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejo de la respuesta
-                        System.out.print(error.toString());
+                        responseHandler.setMessage(error.getMessage());
+                        responseHandler.setErrorStatus();
                     }
-                });
+                }
+        );
 
         return request;
     }
 
+
+    public ResponseHandler getResponseHandler() {
+        return responseHandler;
+    }
 }
