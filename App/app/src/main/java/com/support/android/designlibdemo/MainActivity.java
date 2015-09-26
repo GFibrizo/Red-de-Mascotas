@@ -152,6 +152,9 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.about:
                         break;
+                    case R.id.logout:
+                        // ACA VA EL CODIGO PARA EL LOGOUT
+                        break;
                     default:
                         mDrawerLayout.closeDrawers();
                         return true;

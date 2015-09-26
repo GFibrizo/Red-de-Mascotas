@@ -21,7 +21,7 @@
             android:id="@+id/toolbar_publish"
             android:layout_width="match_parent"
             android:subtitleTextColor="#ffffff"
-            android:elevation="2dp"
+            android:elevation="3dp"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/Theme.DesignDemo"
@@ -72,7 +72,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toRightOf="@+id/load_image"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:id="@+id/linearLayout">
 
 
             <EditText
@@ -87,55 +88,71 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Tipo de mascota"
-                android:id="@+id/pet_type" />
+                android:id="@+id/pet_type"
+                android:layout_marginTop="10dp" />
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOn="Perro"
                 android:textOff="Gato"
-                android:id="@+id/switch_pet_type" />
+                android:id="@+id/switch_pet_type"
+                android:layout_marginTop="5dp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Género"
+                android:id="@+id/pet_gender"
+                android:layout_marginTop="10dp" />
 
-<!--
-        <EditText
-            android:id="@+id/published_pet"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:inputType="textPersonName"
-            android:layout_toRightOf="@+id/load_image"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Tipo de mascota"
-            android:id="@+id/pet_type"
-            android:layout_below="@+id/published_pet"
-            android:layout_alignLeft="@+id/published_pet"
-            android:layout_alignStart="@+id/published_pet"
-            android:layout_marginTop="15dp" />
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textOn="Perro"
-            android:textOff="Gato"
-            android:id="@+id/switch_pet_type"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/pet_type"
-            android:layout_alignLeft="@+id/pet_type"
-            android:layout_alignStart="@+id/pet_type" />
--->
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="Hembra"
+                android:textOff="Macho"
+                android:id="@+id/switch_pet_gender"
+                android:layout_marginTop="5dp" />
 
         </LinearLayout>
+
+        <!--
+        <AppCompatAutoCompleteTextView
+            android:id="@+id/breed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Raza"
+            android:inputType="textAutoComplete" />
+        -->
+
+        <EditText
+            android:id="@+id/breed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Raza"
+            android:inputType="textAutoComplete"
+            android:layout_alignBottom="@id/load_image"
+            android:layout_margin="150dp" />
+
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pet_age"
+            android:layout_alignLeft="@+id/breed"
+            android:layout_alignBottom="@+id/breed"
+            android:layout_marginTop="20dp" />
+
+        <SeekBar
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pet_size"
+            android:layout_below="@+id/linearLayout"
+            android:layout_alignLeft="@+id/pet_age"
+            android:layout_alignBottom="@+id/pet_age"
+            android:layout_marginTop="20dp" />
+
 
     </RelativeLayout>
 

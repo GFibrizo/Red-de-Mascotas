@@ -74,4 +74,5 @@
   <string name="invite_a_friend">Invitar a un amigo</string>
   <string name="config">Ajustes</string>
   <string name="about">Acerca de</string>
+  <string name="logout_msg">Salir</string>
 </resources>
