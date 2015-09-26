@@ -35,4 +35,8 @@ public class MascotaAdopcionServicio {
         return MascotaAdopcion.buscar(filtros);
     }
 
+    public List<MascotaAdopcion> traerUltimasPublicaciones() {
+        return MascotaAdopcion.traerUltimasPublicaciones();
+    }
+
 }

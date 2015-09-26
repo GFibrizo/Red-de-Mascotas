@@ -32,4 +32,9 @@ public class MascotaAdopcionControlador {
         return play.mvc.Controller.ok(Json.toJson(mascotas));
     }
 
+    public Result traerUltimasPublicaciones() {
+        List<MascotaAdopcion> mascotas = servicio.traerUltimasPublicaciones();
+        return play.mvc.Controller.ok(Json.toJson(mascotas));
+    }
+
 }

@@ -19,6 +19,7 @@ POST        /mascota/adopcion                            @controllers.MascotaAdo
 
 # Busqueda de mascotas en adopcion
 GET         /mascotas/adopcion                           @controllers.MascotaAdopcionControlador.buscarMascotas
+GET         /mascotas/ultimas                            @controllers.MascotaAdopcionControlador.traerUltimasPublicaciones
 
 # Media
 GET         /mascota/imagen/:imagenId                    @controllers.ImagenControlador.traerImagenMascota(imagenId)
