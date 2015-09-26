@@ -48,6 +48,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -73,7 +80,7 @@
             android:orientation="vertical"
             android:layout_toRightOf="@+id/load_image"
             android:layout_marginLeft="10dp"
-            android:id="@+id/linearLayout">
+            android:id="@+id/linearLayout1">
 
 
             <EditText
@@ -81,7 +88,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nombre"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:layout_marginRight="10dp"/>
 
             <TextView
                 android:layout_width="match_parent"
@@ -125,34 +133,98 @@
             android:hint="Raza"
             android:inputType="textAutoComplete" />
         -->
-
-        <EditText
-            android:id="@+id/breed"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Raza"
-            android:inputType="textAutoComplete"
-            android:layout_alignBottom="@id/load_image"
-            android:layout_margin="150dp" />
+            android:orientation="vertical"
+            android:layout_below="@id/linearLayout1"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <EditText
+                android:id="@+id/breed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Raza"
+                android:inputType="textAutoComplete" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textAlignment="gravity"
+                android:text="Edad" />
 
 
-        <SeekBar
-            android:layout_width="match_parent"
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp" >
+
+                <TextView
+                    android:id="@+id/age_label"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:text="0 años" />
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pet_age"
+                    android:layout_toRightOf="@id/age_label" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_gravity="left"
+                android:textAlignment="gravity"
+                android:layout_height="wrap_content"
+                android:text="Tamaño" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp" >
+
+                <TextView
+                    android:id="@+id/size_label"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:text="Muy pequeño"
+                    android:layout_marginLeft="20dp"/>
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pet_size"
+                    android:layout_toRightOf="@id/size_label" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/pet_age"
-            android:layout_alignLeft="@+id/breed"
-            android:layout_alignBottom="@+id/breed"
-            android:layout_marginTop="20dp" />
-
-        <SeekBar
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/pet_size"
-            android:layout_below="@+id/linearLayout"
-            android:layout_alignLeft="@+id/pet_age"
-            android:layout_alignBottom="@+id/pet_age"
-            android:layout_marginTop="20dp" />
-
+            android:text="Siguiente"
+            android:background="#2196F3"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:id="@+id/button_publish_1"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_alignRight="@+id/linearLayout2"
+            android:layout_alignEnd="@+id/linearLayout2" />
 
     </RelativeLayout>
 
