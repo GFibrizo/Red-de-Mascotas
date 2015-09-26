@@ -60,7 +60,7 @@ public class MascotaAdopcion {
 
     public String fechaDePublicacion;
 
-    private static final int MAX_ULTIMAS_PUBLICACIONES = 2;
+    private static final int MAX_ULTIMAS_PUBLICACIONES = 10;
 
 
     private static JacksonDBCollection<MascotaAdopcion, String> coleccion = MongoDB.getCollection("mascotasEnAdopcion", MascotaAdopcion.class, String.class);
