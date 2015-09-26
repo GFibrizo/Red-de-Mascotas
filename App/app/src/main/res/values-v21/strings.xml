@@ -3,10 +3,16 @@
     <string name="Title">Red de Mascotas</string>
     <string name="Ingresar">Ingresar</string>
     <string name="offer_in_adoption">Publicar adopcion</string>
+    <string name="search_result_list">Resultados de la Búsqueda</string>
     <string name="adopt">Adoptar</string>
     <string name="report_missing">Reportar extravío</string>
     <string name="report_found">Reportar hallazgo</string>
     <string name="invite_a_friend">Invitar a un amigo</string>
     <string name="config">Ajustes</string>
     <string name="about">Acerca de</string>
+    <string name="nombreLabel">Nombre:</string>
+    <string name="sexoLabel">Sexo:</string>
+    <string name="edadLabel">Edad:</string>
+    <string name="tamanioLabel">Tamaño:</string>
+    <string name="ubicacionLabel">Ubicación:</string>
 </resources>
