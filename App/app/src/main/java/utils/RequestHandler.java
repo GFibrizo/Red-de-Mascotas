@@ -18,16 +18,17 @@ import java.util.HashMap;
 public final class RequestHandler {
     // Atributos
     private static RequestHandler singleton;
+    private static String serverUrl;
     private RequestQueue requestQueue;
     private static Context context;
-    private static String serverUrl = "http://192.168.1.106:9000";
-    private ResponseHandler responseHandler;
 
+    public static void setServerUrl(String serverUrl) {
+        RequestHandler.serverUrl = serverUrl;
+    }
 
     private RequestHandler(Context context) {
         RequestHandler.context = context;
         requestQueue = getRequestQueue();
-        responseHandler = new ResponseHandler();
     }
 
     public static synchronized RequestHandler getInstance(Context context) {
@@ -35,6 +36,10 @@ public final class RequestHandler {
             singleton = new RequestHandler(context);
         }
         return singleton;
+    }
+
+    public static String getServerUrl() {
+        return serverUrl;
     }
 
     public RequestQueue getRequestQueue() {
@@ -49,113 +54,5 @@ public final class RequestHandler {
     }
 
 
-    public JsonObjectRequest createPostRequest(String url, HashMap<String, String> parameters) {
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
-                url,
-                new JSONObject(parameters),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonResponse) {
-                        // Manejo de la respuesta
-                        responseHandler.setResponse(jsonResponse);
-                        responseHandler.setMessage(ResponseHandler.OK);
-                        responseHandler.setOkStatus();
 
-                    }
-                },
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Manejo de errores
-                        responseHandler.setResponse(error.getMessage());
-                        responseHandler.setMessage(error.getMessage());
-                        responseHandler.setErrorStatus();
-
-                    }
-                });
-
-        return request;
-    }
-
-    public JsonObjectRequest createGetRequestJson(String url) {
-
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
-                this.serverUrl + url,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonResponse) {
-                        responseHandler.setResponse(jsonResponse);
-                        responseHandler.setMessage(ResponseHandler.OK);
-                        responseHandler.setOkStatus();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        responseHandler.setResponse(error.getMessage());
-                        responseHandler.setMessage(error.getMessage());
-                        responseHandler.setErrorStatus();
-                    }
-                }
-        );
-
-        return request;
-    }
-
-    public JsonObjectRequest createGetRequestJson(String url, HashMap<String, String> parameters) {
-
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.GET,
-                this.serverUrl + url,
-                new JSONObject(parameters),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject jsonResponse) {
-                        responseHandler.setResponse(jsonResponse);
-                        responseHandler.setMessage(ResponseHandler.OK);
-                        responseHandler.setOkStatus();
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        responseHandler.setResponse(error.getMessage());
-                        responseHandler.setMessage(error.getMessage());
-                        responseHandler.setErrorStatus();
-                    }
-                }
-        );
-
-        return request;
-    }
-
-    public StringRequest createGetRequestString(String url) {
-
-        StringRequest request = new StringRequest(Request.Method.GET, this.serverUrl + url,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        responseHandler.setResponse(response);
-                        responseHandler.setMessage(ResponseHandler.OK);
-                        responseHandler.setOkStatus();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                responseHandler.setResponse(error.getMessage());
-                responseHandler.setMessage(error.getMessage());
-                responseHandler.setErrorStatus();
-            }
-        });
-
-        return request;
-    }
-
-
-    public ResponseHandler getResponseHandler() {
-        return responseHandler;
-    }
 }

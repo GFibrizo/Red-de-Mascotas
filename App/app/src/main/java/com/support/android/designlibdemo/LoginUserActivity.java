@@ -26,21 +26,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.StringRequest;
-
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 
+import utils.LoginRequest;
 import utils.Password;
 import utils.RequestHandler;
-import utils.ResponseHandler;
 import utils.SecurityHandler;
 
 /**
@@ -275,53 +268,21 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         }
 
 
-        private String getUserSalt(String user) throws JSONException {
-            RequestHandler requestHandler = RequestHandler.getInstance(getApplicationContext());
-            String url = "/usuario/" + user +"/salt";
-            StringRequest request = requestHandler.createGetRequestString(url);
-            requestHandler.addToRequestQueue(request);
-            ResponseHandler rHandleer = requestHandler.getResponseHandler();
-            return rHandleer.getResponse();
-        }
-        
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
             SecurityHandler securityHandler = new SecurityHandler();
             Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
-            try {
-                encryptedPassword.setSalt(getUserSalt(mUser));
-                mStatus =  isValidUserPassword(encryptedPassword);
-            } catch (JSONException e) {
-                e.printStackTrace();
-                return false;
-            }
-            // TODO: register the new account here.
-            return mStatus;
-        }
+            LoginRequest loginRequest = new LoginRequest(getApplicationContext());
+            //RequestHandler requestHandler = RequestHandler.getInstance(getApplicationContext());
+            String salt = loginRequest.getUserSalt(mUser);
+            encryptedPassword.setSalt(salt);
+            //mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
 
-        private boolean isValidUserPassword(Password password) {
-            RequestHandler requestHandler = RequestHandler.getInstance(getApplicationContext());
-            String url = "/login/cuenta";
-            // Mapeo de los pares clave-valor
-            HashMap<String, String> parametros = new HashMap();
-            parametros.put("nombreDeUsuario", mUser);
-            parametros.put("contrasenia", mUser);
-            JsonObjectRequest request = requestHandler.createGetRequestJson(url, parametros);
-            requestHandler.addToRequestQueue(request);
-            ResponseHandler rHandleer = requestHandler.getResponseHandler();
-            if (!rHandleer.isValid()){
-                return false;
-            }
-//            try {
-//                //JSONObject jUser = new JSONObject(rHandleer.getResponse());
-//
-//            } catch (JSONException e) {
-//                e.printStackTrace();
-//                return false;
-//            }
+            // TODO: register the new account here.
             return true;
         }
+
 
         @Override
         protected void onPostExecute(final Boolean success) {

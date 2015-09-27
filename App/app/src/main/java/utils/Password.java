@@ -4,8 +4,8 @@ package utils;
  * Created by agu_k_000 on 26/09/2015.
  */
 public class Password {
-    public String encriptacion;
-    public String salt;
+    private String encriptacion;
+    private String salt;
 
     public String getEncriptacion() {
         return encriptacion;
