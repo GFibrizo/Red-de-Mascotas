@@ -26,7 +26,7 @@ public class UsuarioServicio {
 
     public Usuario logIn(UsuarioLogIn usuarioLogIn) {
         Usuario usuario = Usuario.traerPorNombreDeUsuario(usuarioLogIn.nombreDeUsuario);
-        if (usuario != null && usuarioLogIn.contraseniaEncriptada == usuario.contrasenia.encriptacion) {
+        if (usuario != null && usuarioLogIn.contraseniaEncriptada.equals(usuario.contrasenia.encriptacion)) {
             return usuario;
         } else return null;
     }

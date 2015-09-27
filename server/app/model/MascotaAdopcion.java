@@ -58,7 +58,9 @@ public class MascotaAdopcion {
 
     public String estadoPublicacion;
 
-    public DateTime fechaDePublicacion;
+    public String fechaDePublicacion;
+
+    private static final int MAX_ULTIMAS_PUBLICACIONES = 10;
 
 
     private static JacksonDBCollection<MascotaAdopcion, String> coleccion = MongoDB.getCollection("mascotasEnAdopcion", MascotaAdopcion.class, String.class);
@@ -91,7 +93,7 @@ public class MascotaAdopcion {
 
     private void actualizarEstadoPublicado() {
         this.estadoPublicacion = "PUBLICADO";
-        this.fechaDePublicacion = DateTime.now();
+        this.fechaDePublicacion = DateTime.now().toString("yyyy/MM/dd HH:mm:ss.SSS");
     }
 
     public static List<MascotaAdopcion> traerPorDuenioId(String duenioId) {
@@ -100,6 +102,10 @@ public class MascotaAdopcion {
 
     public static List<MascotaAdopcion> buscar(FiltrosBusquedaAdopcion filtros) {
         return MascotaAdopcion.coleccion.find(construirFiltrosDeBusqueda(filtros)).toArray();
+    }
+
+    public static List<MascotaAdopcion> traerUltimasPublicaciones() {
+        return MascotaAdopcion.coleccion.find().sort(new BasicDBObject("fechaDePublicacion", -1)).limit(MAX_ULTIMAS_PUBLICACIONES).toArray();
     }
 
     public static void crear(MascotaAdopcion mascotaAdopcion) {

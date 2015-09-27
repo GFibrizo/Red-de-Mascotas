@@ -4,9 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ContentResolver;
 import android.content.CursorLoader;
 import android.content.Intent;
 import android.content.Loader;
@@ -18,7 +16,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -29,31 +26,15 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonArrayRequest;
-import com.android.volley.toolbox.JsonObjectRequest;
 
-import org.json.JSONObject;
-
-import java.io.BufferedInputStream;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.net.ssl.HttpsURLConnection;
 
-import utils.ConnectionSingleton;
+import utils.LoginRequest;
+import utils.Password;
+import utils.RequestHandler;
+import utils.SecurityHandler;
 
 /**
  * A login screen that offers login via email/password.
@@ -171,13 +152,14 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
     private boolean isUserValid(String user) {
         //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
         //return ((user.length() >= 6 && user.length() <= 12) && user.matches("[a-zA-Z][0-9]+"));
-        return true;
+        return ((user.length() >= 6 && user.length() <= 12));
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
-        //return ((password.length() >= 6 && password.length() <= 12) && password.matches("[a-zA-Z][0-9]+"));
-        return true;
+        //*return ((password.length() >= 6 && password.length() <= 12) && password.matches("[a-zA-Z][0-9]+"));
+        return ((password.length() >= 6 && password.length() <= 12));
+
     }
 
     /**
@@ -274,49 +256,33 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+    public class UserLoginTask extends AsyncTask<Void, Void, Boolean>{
 
         private final String mUser;
         private final String mPassword;
-
+        private boolean mStatus;
         UserLoginTask(String email, String password) {
             mUser = email;
             mPassword = password;
+            mStatus = false;
         }
+
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            ConnectionSingleton connectionSingleton = ConnectionSingleton.getInstance(getApplicationContext());
-            // Mapeo de los pares clave-valor
-            HashMap<String, String> parametros = new HashMap();
-            parametros.put("user", mUser);
-            parametros.put("password", mPassword);
-
-            String url = "http://jsonplaceholder.typicode.com/posts/1";
-            //JsonObjectRequest jsArrayRequest = connectionSingleton.createPostRequest(url,parametros);
-            JsonArrayRequest jsArrayRequest = connectionSingleton.createGetRequest(url);
-            // Añadir petición a la cola
-            connectionSingleton.addToRequestQueue(jsArrayRequest);
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-                System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mUser)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
+            SecurityHandler securityHandler = new SecurityHandler();
+            Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
+            LoginRequest loginRequest = new LoginRequest(getApplicationContext());
+            //RequestHandler requestHandler = RequestHandler.getInstance(getApplicationContext());
+            String salt = loginRequest.getUserSalt(mUser);
+            encryptedPassword.setSalt(salt);
+            //mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
 
             // TODO: register the new account here.
             return true;
         }
+
 
         @Override
         protected void onPostExecute(final Boolean success) {
@@ -324,7 +290,6 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
             showProgress(false);
 
             if (success) {
-                System.out.print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa");
                 Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
@@ -339,6 +304,10 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
             mAuthTask = null;
             showProgress(false);
         }
+
+
     }
+
+
 }
 
