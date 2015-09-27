@@ -100,13 +100,13 @@
                         android:id="@+id/pet_type" />
 
                     <RadioGroup
-                        android:id="@+id/pet_type_radio"
+                        android:id="@+id/radio_pet_type"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" >
 
                         <RadioButton
-                            android:id="@+id/perro_radio"
+                            android:id="@+id/radio_dog"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#7e7e7e"
@@ -114,7 +114,7 @@
                             android:text="Perro" />
 
                         <RadioButton
-                            android:id="@+id/gato_radio"
+                            android:id="@+id/radio_cat"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -138,7 +138,7 @@
                         android:layout_height="wrap_content" >
 
                         <CheckBox
-                            android:id="@+id/gender_check_1"
+                            android:id="@+id/check_male"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#7e7e7e"
@@ -146,7 +146,7 @@
                             android:text="Macho" />
 
                         <CheckBox
-                            android:id="@+id/gender_check_2"
+                            android:id="@+id/check_female"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#7e7e7e"
@@ -154,7 +154,7 @@
                             android:text="Hembra" />
                     </TableRow>
 
-                    <EditText
+                    <AutoCompleteTextView
                         android:id="@+id/breed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -182,7 +182,7 @@
                         android:text="Edad" />
 
                     <CheckBox
-                        android:id="@+id/age_check_1"
+                        android:id="@+id/check_0to6m_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e"
@@ -190,7 +190,7 @@
                         android:text="0 a 6 meses" />
 
                     <CheckBox
-                        android:id="@+id/age_check_2"
+                        android:id="@+id/check_6to12m_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e"
@@ -198,7 +198,7 @@
                         android:text="6 a 12 meses" />
 
                     <CheckBox
-                        android:id="@+id/age_check_3"
+                        android:id="@+id/check_1to3y_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e"
@@ -206,7 +206,7 @@
                         android:text="1 a 3 años" />
 
                     <CheckBox
-                        android:id="@+id/age_check_4"
+                        android:id="@+id/check_3to7y_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e"
@@ -214,7 +214,7 @@
                         android:text="3 a 7 años" />
 
                     <CheckBox
-                        android:id="@+id/age_check_5"
+                        android:id="@+id/check_7toMorey_age"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e"
@@ -234,7 +234,8 @@
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:textStyle="bold"
-                android:id="@+id/button_search"
+                android:onClick="nextPage"
+                android:id="@+id/button_next"
                 android:layout_marginRight="30dp"
                 android:layout_marginEnd="40dp"
                 android:layout_below="@+id/linearLayout"
