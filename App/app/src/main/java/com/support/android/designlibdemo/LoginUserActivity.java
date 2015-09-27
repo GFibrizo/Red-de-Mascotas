@@ -41,13 +41,7 @@ import utils.SecurityHandler;
  */
 public class LoginUserActivity extends Activity implements LoaderCallbacks<Cursor> {
 
-    /**
-     * A dummy authentication store containing known user names and passwords.
-     * TODO: remove after connecting to a real authentication system.
-     */
-    private static final String[] DUMMY_CREDENTIALS = new String[]{
-            "foo@example.com:hello", "bar@example.com:world"
-    };
+
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
@@ -202,29 +196,29 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
         return new CursorLoader(this,
                 // Retrieve data rows for the device user's 'profile' contact.
-                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-
-                // Select only email addresses.
-                ContactsContract.Contacts.Data.MIMETYPE +
-                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-                .CONTENT_ITEM_TYPE},
-
-                // Show primary email addresses first. Note that there won't be
-                // a primary email address if the user hasn't specified one.
-                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
+//                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
+//                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
+//
+//                // Select only email addresses.
+//                ContactsContract.Contacts.Data.MIMETYPE +
+//                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
+//                .CONTENT_ITEM_TYPE},
+//
+//                // Show primary email addresses first. Note that there won't be
+//                // a primary email address if the user hasn't specified one.
+//                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
     }
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        List<String> users = new ArrayList<String>();
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-            users.add(cursor.getString(ProfileQuery.NAME));
-            cursor.moveToNext();
-        }
+//        List<String> users = new ArrayList<String>();
+//        cursor.moveToFirst();
+//        while (!cursor.isAfterLast()) {
+//            users.add(cursor.getString(ProfileQuery.NAME));
+//            cursor.moveToNext();
+//        }
 
-        addEmailsToAutoComplete(users);
+        //addEmailsToAutoComplete(users);
     }
 
     @Override
@@ -232,25 +226,25 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
     }
 
-    private interface ProfileQuery {
-        String[] PROJECTION = {
-                ContactsContract.CommonDataKinds.Nickname.NAME,
-                ContactsContract.CommonDataKinds.Nickname.IS_PRIMARY,
-        };
+//    private interface ProfileQuery {
+//        String[] PROJECTION = {
+//                ContactsContract.CommonDataKinds.Nickname.NAME,
+//                ContactsContract.CommonDataKinds.Nickname.IS_PRIMARY,
+//        };
+//
+//        int NAME = 0;
+//        int IS_PRIMARY = 1;
+//    }
 
-        int NAME = 0;
-        int IS_PRIMARY = 1;
-    }
 
-
-    private void addEmailsToAutoComplete(List<String> usersCollection) {
-        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-        ArrayAdapter<String> adapter =
-                new ArrayAdapter<String>(LoginUserActivity.this,
-                        android.R.layout.simple_dropdown_item_1line, usersCollection);
-
-        userView.setAdapter(adapter);
-    }
+//    private void addEmailsToAutoComplete(List<String> usersCollection) {
+//        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
+//        ArrayAdapter<String> adapter =
+//                new ArrayAdapter<String>(LoginUserActivity.this,
+//                        android.R.layout.simple_dropdown_item_1line, usersCollection);
+//
+//        userView.setAdapter(adapter);
+//    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
@@ -261,22 +255,30 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         private final String mUser;
         private final String mPassword;
         private boolean mStatus;
+        private boolean userValid;
+        private boolean passValid;
         UserLoginTask(String email, String password) {
             mUser = email;
             mPassword = password;
             mStatus = false;
+            userValid = false;
+            passValid = false;
         }
 
 
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            SecurityHandler securityHandler = new SecurityHandler();
-            Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
-            LoginRequest loginRequest = new LoginRequest(getApplicationContext());
-            encryptedPassword.setSalt(loginRequest.getUserSalt(mUser));
-            mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
-            return mStatus;
+            return true;
+//            SecurityHandler securityHandler = new SecurityHandler();
+//            Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
+//            LoginRequest loginRequest = new LoginRequest(getApplicationContext());
+//            String salt = loginRequest.getUserSalt(mUser);
+//            if (!salt.isEmpty()){
+//                encryptedPassword.setSalt(salt);
+//                mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
+//            }
+//            return mStatus;
         }
 
 
@@ -290,8 +292,14 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
                 startActivity(intent);
                 finish();
             } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
+                if (!userValid){
+                    userView.setError(getString(R.string.error_incorrect_password));
+                    userView.requestFocus();
+                }
+                if (!passValid){
+                    mPasswordView.setError(getString(R.string.error_incorrect_password));
+                    mPasswordView.requestFocus();
+                }
             }
         }
 
