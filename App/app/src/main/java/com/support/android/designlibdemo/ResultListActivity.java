@@ -1,33 +1,29 @@
 package com.support.android.designlibdemo;
 
-import android.content.Context;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TabLayout;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.AdapterView;
+import android.widget.ListView;
 
-import java.util.List;
+import java.util.ArrayList;
+
+/**  Esta clase se va a encargar de enviarle los resultados de las busquedas en tuplas de imagen
+ *   y texto al adapter ImageAndTextArrayAdapter para que haga su display.
+ */
 
 public class ResultListActivity extends AppCompatActivity {
 
-    private TabLayout mTabLayout;
+    private ListView listView ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result_list);
+        setContentView(R.layout.activity_result_list_view);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_result);
         setSupportActionBar(toolbar);
@@ -36,16 +32,7 @@ public class ResultListActivity extends AppCompatActivity {
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-
-        /*mTabLayout = (TabLayout) findViewById(R.id.tabs);
-
-        Tab newTab = mTabLayout.newTab();
-        newTab.setText("Publicar en adopción");
-        mTabLayout.addTab(newTab);
-        mTabLayout.setSelected(false);
-        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        mTabLayout.invalidate();*/
+        cargarResultados();
     }
 
 
@@ -70,4 +57,76 @@ public class ResultListActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+
+    private void cargarResultados(){
+        // Get ListView object from xml
+        listView = (ListView) findViewById(R.id.list);
+        ArrayList<TextAndImage> textAndImageArray = new ArrayList<TextAndImage>();
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer());
+
+        // ListView Item Click Listener
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
+//               @Override
+//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                    Intent intent = new Intent(thisActivity, WallActivity.class);
+//                    intent.putExtra("ownProfile", false);
+//                    int friendId = friends.get(position).getId();
+//                    intent.putExtra("friend_id", friendId);
+//                    startActivity(intent);
+//                }
+            }
+        });
+
+//                            String urlBaseForImage = IpConfig.LOCAL_IP.url() + "/getstudentpicture/";
+
+        ImageAndTextArrayAdapter adapter = new ImageAndTextArrayAdapter(this, R.layout.mock_image_and_text_single_row ,
+                    null, (ArrayList<TextAndImage>) textAndImageArray);
+        listView.setAdapter(adapter);
+
+    }
+
+
+    public class TextAndImageContainer implements TextAndImage {
+        private int id;
+        private String text;
+
+        TextAndImageContainer(){
+
+        }
+
+        TextAndImageContainer(int id, String text){
+            this.id = id;
+            this.text = text;
+        }
+
+        // Defined Array values to show in ListView
+        String[] values = new String[]{"Fiona", "Simba", "Homero", "Casandra", "Cleopatra"};
+
+        @Override
+        public int getId() {
+//            return id;
+            return 0; //TODO: cambiar url - new ImageUrlView(IpConfig.LOCAL_IP.url() + "/getstudentpicture/" + friendId, profilePricture).connect();
+        }
+
+        @Override
+        public String getText() {
+//            return text;
+            return values[0]; //TODO: cambiar origen - mValues.get(position)
+        }
+    }
+
 }
