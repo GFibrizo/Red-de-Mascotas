@@ -274,13 +274,9 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
             SecurityHandler securityHandler = new SecurityHandler();
             Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
             LoginRequest loginRequest = new LoginRequest(getApplicationContext());
-            //RequestHandler requestHandler = RequestHandler.getInstance(getApplicationContext());
-            String salt = loginRequest.getUserSalt(mUser);
-            encryptedPassword.setSalt(salt);
-            //mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
-
-            // TODO: register the new account here.
-            return true;
+            encryptedPassword.setSalt(loginRequest.getUserSalt(mUser));
+            mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
+            return mStatus;
         }
 
 
