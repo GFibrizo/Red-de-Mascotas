@@ -1,0 +1,256 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
+
+    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/publish_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true" />
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_publish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_publish"
+            android:layout_width="match_parent"
+            android:subtitleTextColor="#ffffff"
+            android:elevation="3dp"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/Theme.DesignDemo"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+        <RelativeLayout
+            android:id="@+id/publish_subtitle_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#263238">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/offer_in_adoption"
+                android:textSize="17dp"
+                android:gravity="bottom"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="20dp"/>
+
+        </RelativeLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <LinearLayout
+        android:id="@+id/layout_publish_2"
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/appbar_publish"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Colores de pelaje de la mascota"
+            android:id="@+id/label_hair_color"
+            android:layout_marginTop="20dp" />
+
+        <LinearLayout
+            android:id="@+id/layout_publish_21"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/layout_publish_2"
+            android:layout_marginTop="5dp"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:weightSum="1">
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Color principal"
+                android:id="@+id/hair_color1"
+                android:textAllCaps="false"
+                android:layout_marginRight="5dp"
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Color secundario"
+                android:id="@+id/hair_color2"
+                android:textAllCaps="false"
+                android:layout_marginLeft="5dp"
+                android:layout_weight="0.5"/>
+
+
+        </LinearLayout>
+
+
+
+        <LinearLayout
+            android:id="@+id/layout_publish_22"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Color de ojos"
+                android:id="@+id/label_eyes_color"
+                android:layout_weight="0.5"/>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Color"
+                android:id="@+id/eyes_color"
+                android:textAllCaps="false"
+                android:layout_weight="0.5"/>
+        </LinearLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/layout_publish_23"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Esta castrada"
+                android:id="@+id/is_castrated"
+                android:layout_weight="0.5"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:id="@+id/castrated_check"
+                android:layout_weight="0.5"/>
+        </RelativeLayout>
+
+
+
+        <RelativeLayout
+            android:id="@+id/layout_publish_24"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Necesita un hogar de tránsito"
+                android:id="@+id/transit_home_label"
+                android:layout_weight="0.5"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/transit_home_check"
+                android:layout_alignParentRight="true"
+                android:layout_weight="0.5"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/layout_publish_25"
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Necesita tomar alguna medicina de manera temporal"
+                android:id="@+id/temp_meds_label"
+                android:layout_weight="0.5"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/temp_meds_check"
+                android:layout_alignParentRight="true"
+                android:layout_weight="0.5"/>
+        </RelativeLayout>
+
+
+        <RelativeLayout
+            android:id="@+id/layout_publish_26"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="5dp"
+            android:weightSum="1">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Necesita tomar alguna medicina de manera crónica"
+                android:id="@+id/cron_meds_label"
+                android:layout_weight="0.5"/>
+
+            <CheckBox
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/cron_meds_check"
+                android:layout_alignParentRight="true"
+                android:layout_weight="0.5"/>
+        </RelativeLayout>
+
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/pet_desc"
+            android:text="Descripción de la mascota"
+            android:layout_marginTop="10dp"/>
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente"
+            android:background="#2196F3"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:onClick="nextPage"
+            android:id="@+id/button_publish_2"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_marginTop="10dp"
+            android:layout_gravity="right" />
+    </LinearLayout>
+
+</RelativeLayout>
+

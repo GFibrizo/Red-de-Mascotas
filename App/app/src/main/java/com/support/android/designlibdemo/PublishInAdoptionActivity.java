@@ -9,8 +9,19 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Switch;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class PublishInAdoptionActivity extends AppCompatActivity {
 
@@ -28,16 +39,6 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
-
-        /*mTabLayout = (TabLayout) findViewById(R.id.tabs);
-
-        Tab newTab = mTabLayout.newTab();
-        newTab.setText("Publicar en adopción");
-        mTabLayout.addTab(newTab);
-        mTabLayout.setSelected(false);
-        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
-        mTabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        mTabLayout.invalidate();*/
     }
 
     @Override
@@ -60,5 +61,51 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    public void nextPage(View view) {
+        JSONObject object = new JSONObject();
+        EditText name = (EditText)findViewById(R.id.published_pet_name);
+        Switch petType = (Switch)findViewById(R.id.switch_pet_type);
+        Switch petGender = (Switch)findViewById(R.id.switch_pet_gender);
+        AutoCompleteTextView breed = (AutoCompleteTextView)findViewById(R.id.breed);
+        TextView age = (TextView) findViewById(R.id.age_label);
+        TextView size = (TextView) findViewById(R.id.size_label);
+
+
+        try {
+            object.put("nombre", name.getText());
+
+            if (petType.isChecked()) {
+                object.put("tipo", petType.getTextOn());
+            } else {
+                object.put("tipo", petType.getTextOff());
+            }
+
+            if (petGender.isChecked()) {
+                object.put("genero", petType.getTextOn());
+            } else {
+                object.put("genero", petType.getTextOff());
+            }
+
+            object.put("raza", breed.getText());
+            object.put("edad", age.getText());
+            object.put("tamaño", size.getText());
+            object.put("nombre", name.getText());
+
+        } catch (JSONException e) {
+            Log.e("Error al crear el JSON", e.getMessage());
+        }
+        Intent intent = new Intent(getApplicationContext(), PublishInAdoptionActivity2.class);
+        intent.putExtra("data", object.toString());
+        if (intent != null)
+            startActivity(intent);
     }
 }

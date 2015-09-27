@@ -75,4 +75,6 @@
   <string name="config">Ajustes</string>
   <string name="about">Acerca de</string>
   <string name="logout_msg">Salir</string>
+    <string name="title_activity_publish_in_adoption2">PublishInAdoptionActivity2</string>
+    <string name="title_activity_publish_in_adoption3">PublishInAdoptionActivity3</string>
 </resources>

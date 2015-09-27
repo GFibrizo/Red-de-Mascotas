@@ -43,5 +43,6 @@ dependencies {
     compile 'com.google.android.gms:play-services-identity:7.8.0'
     compile 'com.google.android.gms:play-services-gcm:7.8.0'
     compile 'com.mcxiaoke.volley:library:1.0.19'
+    compile 'info.hoang8f:android-segmented:1.0.6'
 
 }

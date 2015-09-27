@@ -27,23 +27,27 @@
             app:popupTheme="@style/Theme.DesignDemo"
             app:layout_scrollFlags="scroll|enterAlways" />
 
+
             <RelativeLayout
                 android:id="@+id/publish_subtitle_layout"
                 android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
+                android:layout_height="match_parent"
+                android:minHeight="?attr/actionBarSize"
                 android:background="#263238">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/offer_in_adoption"
-                    android:textSize="17dp"
+                    android:textAppearance="@style/TabTextStyle"
                     android:gravity="bottom"
+                    android:textAllCaps="false"
                     android:layout_centerVertical="true"
                     android:layout_alignParentLeft="true"
                     android:paddingLeft="20dp"/>
 
             </RelativeLayout>
+
 
 
     </android.support.design.widget.AppBarLayout>
@@ -84,7 +88,7 @@
 
 
             <EditText
-                android:id="@+id/published_pet"
+                android:id="@+id/published_pet_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nombre"
@@ -98,6 +102,7 @@
                 android:text="Tipo de mascota"
                 android:id="@+id/pet_type"
                 android:layout_marginTop="10dp" />
+
 
             <Switch
                 android:layout_width="wrap_content"
@@ -143,7 +148,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
 
-            <EditText
+            <AutoCompleteTextView
                 android:id="@+id/breed"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -218,13 +223,15 @@
             android:text="Siguiente"
             android:background="#2196F3"
             android:textColor="#ffffff"
-            android:textAllCaps="false"
+            android:textAllCaps="true"
             android:id="@+id/button_publish_1"
+            android:onClick="nextPage"
             android:layout_marginRight="10dp"
             android:layout_marginEnd="40dp"
             android:layout_below="@+id/linearLayout2"
             android:layout_alignRight="@+id/linearLayout2"
-            android:layout_alignEnd="@+id/linearLayout2" />
+            android:layout_alignEnd="@+id/linearLayout2"
+            android:elevation="3dp"/>
 
     </RelativeLayout>
 
