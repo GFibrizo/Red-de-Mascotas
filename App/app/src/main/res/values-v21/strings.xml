@@ -3,6 +3,7 @@
     <string name="Title">Red de Mascotas</string>
     <string name="Ingresar">Ingresar con cuenta</string>
     <string name="offer_in_adoption">Publicar adopcion</string>
+    <string name="search_in_adoption">Búsqueda de mascotas en adopcion</string>
     <string name="adopt">Adoptar</string>
     <string name="report_missing">Reportar extravío</string>
     <string name="report_found">Reportar hallazgo</string>

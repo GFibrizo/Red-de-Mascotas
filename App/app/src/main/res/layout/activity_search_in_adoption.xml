@@ -1,0 +1,229 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.support.android.designlibdemo.SearchInAdoptionActivity">
+
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main_content"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar_search"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_search"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+            <RelativeLayout
+                android:id="@+id/search_subtitle_layout"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#263238">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/search_in_adoption"
+                    android:textSize="17dp"
+                    android:gravity="bottom"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="20dp"/>
+
+            </RelativeLayout>
+
+
+        </android.support.design.widget.AppBarLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+
+
+        </ScrollView>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="130dp"
+            android:id="@+id/relativeLayout">
+
+            <ImageView
+                android:id="@+id/load_image"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:src="@drawable/load"
+                android:layout_marginRight="10dp"
+                android:layout_alignParentRight="true" />
+
+            <LinearLayout
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginLeft="10dp"
+                android:id="@+id/linearLayout">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_toLeftOf="@+id/load_image"
+                    android:id="@+id/linearLayout1">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="18sp"
+                        android:text="Tipo de mascota"
+                        android:id="@+id/pet_type" />
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" >
+
+                        <CheckBox
+                            android:id="@+id/pet_type_check_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#7e7e7e"
+                            android:textSize="16sp"
+                            android:text="Perro" />
+
+                        <CheckBox
+                            android:id="@+id/pet_type_check_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#7e7e7e"
+                            android:textSize="16sp"
+                            android:text="Gato" />
+                    </TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="18sp"
+                        android:text="Sexo"
+                        android:id="@+id/sex"
+                        android:layout_marginTop="10dp" />
+
+                    <TableRow
+                        android:layout_width="fill_parent"
+                        android:layout_height="wrap_content" >
+
+                        <CheckBox
+                            android:id="@+id/sex_check_1"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#7e7e7e"
+                            android:textSize="16sp"
+                            android:text="Macho" />
+
+                        <CheckBox
+                            android:id="@+id/sex_check_2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#7e7e7e"
+                            android:textSize="16sp"
+                            android:text="Hembra" />
+                    </TableRow>
+
+                    <EditText
+                        android:id="@+id/breed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="Raza"
+                        android:inputType="textAutoComplete" />
+
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left"
+                    android:textAlignment="gravity"
+                    android:layout_marginTop="10dp"
+                    android:textColor="#7e7e7e"
+                    android:textSize="18sp"
+                    android:text="Edad" />
+
+                <CheckBox
+                    android:id="@+id/age_check_1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#7e7e7e"
+                    android:textSize="16sp"
+                    android:text="0 a 6 meses" />
+
+                <CheckBox
+                    android:id="@+id/age_check_2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#7e7e7e"
+                    android:textSize="16sp"
+                    android:text="6 a 12 meses" />
+
+                <CheckBox
+                    android:id="@+id/age_check_3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#7e7e7e"
+                    android:textSize="16sp"
+                    android:text="1 a 3 años" />
+
+                <CheckBox
+                    android:id="@+id/age_check_4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#7e7e7e"
+                    android:textSize="16sp"
+                    android:text="3 a 7 años" />
+
+                <CheckBox
+                    android:id="@+id/age_check_5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="#7e7e7e"
+                    android:textSize="16sp"
+                    android:text="más de 7 años" />
+
+            </LinearLayout>
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Siguiente"
+                android:background="#2196F3"
+                android:textColor="#ffffff"
+                android:textSize="16sp"
+                android:textAllCaps="false"
+                android:textStyle="bold"
+                android:id="@+id/button_search"
+                android:layout_marginRight="25dp"
+                android:layout_marginEnd="40dp"
+                android:layout_below="@+id/linearLayout"
+                android:layout_alignRight="@+id/linearLayout"
+                android:layout_alignEnd="@+id/linearLayout" />
+
+        </RelativeLayout>
+
+    </android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>

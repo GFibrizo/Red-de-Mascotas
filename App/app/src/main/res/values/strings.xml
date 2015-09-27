@@ -68,6 +68,7 @@
   <string name="error_field_required">This field is required</string>
   <string name="login_button_text">Ingresar con Facebook</string>
   <string name="offer_in_adoption">Ofrecer en adopción</string>
+  <string name="search_in_adoption">Búsqueda de mascotas en adopcion</string>
   <string name="adopt">Adoptar</string>
   <string name="report_missing">Reportar extravío</string>
   <string name="report_found">Reportar hallazgo</string>
