@@ -39,7 +39,7 @@ import utils.SecurityHandler;
 /**
  * A login screen that offers login via email/password.
  */
-public class LoginUserActivity extends Activity implements LoaderCallbacks<Cursor> {
+public class LoginUserActivity extends Activity {
 
 
     /**
@@ -60,8 +60,6 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
         // Set up the login form.
         userView = (AutoCompleteTextView) findViewById(R.id.user);
-        populateAutoComplete();
-
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -84,10 +82,6 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
-    }
-
-    private void populateAutoComplete() {
-        getLoaderManager().initLoader(0, null, this);
     }
 
 
@@ -192,33 +186,6 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         }
     }
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return null;
-//        return new CursorLoader(this,
-//                // Retrieve data rows for the device user's 'profile' contact.
-//                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
-//                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
-//
-//                // Select only email addresses.
-//                ContactsContract.Contacts.Data.MIMETYPE +
-//                        " = ?", new String[]{ContactsContract.CommonDataKinds.Email
-//                .CONTENT_ITEM_TYPE},
-//
-//                // Show primary email addresses first. Note that there won't be
-//                // a primary email address if the user hasn't specified one.
-//                ContactsContract.Contacts.Data.IS_PRIMARY + " DESC");
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> cursorLoader) {
-
-    }
 
 
     /**
@@ -244,16 +211,22 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            return true;
-//            SecurityHandler securityHandler = new SecurityHandler();
-//            Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
-//            LoginRequest loginRequest = new LoginRequest(getApplicationContext());
-//            String salt = loginRequest.getUserSalt(mUser);
-//            if (!salt.isEmpty()){
-//                encryptedPassword.setSalt(salt);
-//                mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
-//            }
-//            return mStatus;
+
+            SecurityHandler securityHandler = new SecurityHandler();
+            Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
+            LoginRequest loginRequest = new LoginRequest(getApplicationContext());
+            String salt = loginRequest.getUserSalt(mUser);
+            userValid = (salt != null);
+            if (userValid ){
+                encryptedPassword.setSalt(salt);
+                userValid = true;
+                mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
+                passValid = mStatus;
+            }else{
+                userValid = false;
+                mStatus = userValid;
+            }
+            return mStatus;
         }
 
 

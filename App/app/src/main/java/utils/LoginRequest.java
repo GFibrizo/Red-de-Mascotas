@@ -25,17 +25,16 @@ public class LoginRequest {
     RequestHandler requestHandler;
     public LoginRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
+        requestHandler.setServerUrl("http://192.168.1.106:9000");
         this.salt= "";
     }
 
 
     //Sincronico
     public String getUserSalt(String user) {
-
-        requestHandler.setServerUrl("http://192.168.1.106:9000");
-        String url = "/usuario/" + user + "/salt";
+        String path = buildSaltPath(user);
         RequestFuture<String> future = RequestFuture.newFuture();
-        StringRequest request = new StringRequest(Request.Method.GET, RequestHandler.getServerUrl() + url,future,future);
+        StringRequest request = new StringRequest(Request.Method.GET, RequestHandler.getServerUrl() + path,future,future);
         requestHandler.addToRequestQueue(request);
         String salt = null; // this line will block
         try {
@@ -49,10 +48,12 @@ public class LoginRequest {
         return salt;
     }
 
+
+
     public boolean isValidUserPassword(String user, Password password) {
-        String url = "/login/cuenta?nombreDeUsuario=" + user + "&contraseniaEncriptada=" + password.getEncriptacion();
+        String path = this.buildValidateUserPath(user,password.getEncriptacion());
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestHandler.getServerUrl() + url, future, future);
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestHandler.getServerUrl() + path, future, future);
         requestHandler.addToRequestQueue(request);
         JSONObject response = null;
         try {
@@ -65,5 +66,13 @@ public class LoginRequest {
             return false;
         }
         return true;
+    }
+
+    private String buildValidateUserPath(String user,String password){
+        return "/login/cuenta?nombreDeUsuario=" + user + "&contraseniaEncriptada=" + password;
+    }
+
+    private String buildSaltPath(String user){
+        return "/usuario/" + user + "/salt";
     }
 }

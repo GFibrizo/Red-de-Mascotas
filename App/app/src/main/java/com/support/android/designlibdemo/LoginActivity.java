@@ -100,8 +100,10 @@ public class LoginActivity extends FragmentActivity {
         final Button button = (Button) findViewById(R.id.btn_login);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-            Intent intent = new Intent(LoginActivity.this, LoginUserActivity.class);
-            startActivity(intent);
+//            Intent intent = new Intent(LoginActivity.this, LoginUserActivity.class);
+//            startActivity(intent);
+                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                startActivity(intent);
             }
         });
 
