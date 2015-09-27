@@ -1,34 +1,31 @@
 package com.support.android.designlibdemo;
 
-import android.app.AlertDialog;
-import android.content.Context;
+
 import android.content.Intent;
-import android.content.res.Configuration;
-import android.graphics.drawable.Drawable;
+
 import android.support.v4.app.FragmentActivity;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
+
 import android.os.Bundle;
-import android.text.Layout;
-import android.util.Log;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
+
 import android.view.View;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.ScrollView;
 
-import com.facebook.*;
+
+import com.facebook.AccessToken;
+import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.Profile;
+import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.facebook.share.Sharer;
 import com.facebook.share.widget.ShareDialog;
+
+import java.util.Arrays;
 
 public class LoginActivity extends FragmentActivity {
 
@@ -60,22 +57,16 @@ public class LoginActivity extends FragmentActivity {
     };
 
 
-    private void showResult(String title, String alertMessage) {
-        new AlertDialog.Builder(LoginActivity.this)
-                .setTitle(title)
-                .setMessage(alertMessage)
-                .setPositiveButton(R.string.ok, null)
-                .show();
-    }
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         FacebookSdk.sdkInitialize(this.getApplicationContext());
+        setContentView(R.layout.activity_login);
 
 
         callbackManager = CallbackManager.Factory.create();
+
 
         accessTokenTracker= new AccessTokenTracker() {
             @Override
@@ -95,18 +86,18 @@ public class LoginActivity extends FragmentActivity {
 
         accessTokenTracker.startTracking();
         profileTracker.startTracking();
-        setContentView(R.layout.activity_login);
+
 
         final Button button = (Button) findViewById(R.id.btn_login);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-//            Intent intent = new Intent(LoginActivity.this, LoginUserActivity.class);
-//            startActivity(intent);
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, LoginUserActivity.class);
                 startActivity(intent);
             }
         });
-
+        LoginButton loginButton = (LoginButton) findViewById(R.id.fb_login_button);
+        loginButton.setReadPermissions("user_friends");
+        loginButton.registerCallback(callbackManager, callback);
     }
 
     @Override
@@ -133,9 +124,9 @@ public class LoginActivity extends FragmentActivity {
             intent.putExtra("PROFILE_IMG_ID", profile.getProfilePictureUri(10,10));
             intent.putExtra("PROFILE_LAST_NAME", profile.getLastName());
             intent.putExtra("PROFILE_FIRST_NAME", profile.getFirstName());
-
-
-            //startActivity(intent);
+            startActivity(intent);
+        }else{
+            //finish();
         }
     }
 
