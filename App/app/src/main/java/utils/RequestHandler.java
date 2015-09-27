@@ -48,11 +48,12 @@ public final class RequestHandler {
         getRequestQueue().add(req);
     }
 
-    public JsonObjectRequest createPostRequest(String url, HashMap<String, String> parametros) {
+
+    public JsonObjectRequest createPostRequest(String url, HashMap<String, String> parameters) {
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
                 url,
-                new JSONObject(parametros),
+                new JSONObject(parameters),
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject jsonResponse) {
@@ -68,6 +69,7 @@ public final class RequestHandler {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Manejo de errores
+                        responseHandler.setResponse(error.getMessage());
                         responseHandler.setMessage(error.getMessage());
                         responseHandler.setErrorStatus();
 
@@ -93,6 +95,34 @@ public final class RequestHandler {
                 new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
+                        responseHandler.setResponse(error.getMessage());
+                        responseHandler.setMessage(error.getMessage());
+                        responseHandler.setErrorStatus();
+                    }
+                }
+        );
+
+        return request;
+    }
+
+    public JsonObjectRequest createGetRequestJson(String url, HashMap<String, String> parameters) {
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.GET,
+                this.serverUrl + url,
+                new JSONObject(parameters),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject jsonResponse) {
+                        responseHandler.setResponse(jsonResponse);
+                        responseHandler.setMessage(ResponseHandler.OK);
+                        responseHandler.setOkStatus();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        responseHandler.setResponse(error.getMessage());
                         responseHandler.setMessage(error.getMessage());
                         responseHandler.setErrorStatus();
                     }
@@ -115,6 +145,7 @@ public final class RequestHandler {
                 }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                responseHandler.setResponse(error.getMessage());
                 responseHandler.setMessage(error.getMessage());
                 responseHandler.setErrorStatus();
             }

@@ -8,10 +8,16 @@ import org.json.JSONObject;
  * Created by agu_k_000 on 26/09/2015.
  */
 public class ResponseHandler {
-    public static final String OK = "OK" ;
+    public static final String OK = "OK";
     String response;
-    String  message;
+    String message;
     private boolean status;
+
+    public ResponseHandler() {
+        this.response = "";
+        this.message = "";
+        this.status = false;
+    }
 
     public void setResponse(JSONObject response) {
         this.response = response.toString();
@@ -33,17 +39,13 @@ public class ResponseHandler {
         this.status = true;
     }
 
-    public void setErrorStatus() {
-        this.status = false;
-    }
+    public void setErrorStatus() {this.status = false;}
 
-    public String getResponse() {return response;}
+    public String getResponse() {return response; }
 
-    public boolean getStatus() {
-        return status;
-    }
+    public boolean isValid() { return status; }
 
-    public void setResponse(String response) {
-        this.response = response;
-    }
+    public void setResponse(String response) { this.response = response; }
+
+
 }

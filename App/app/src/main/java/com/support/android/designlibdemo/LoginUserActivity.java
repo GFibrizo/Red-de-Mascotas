@@ -31,6 +31,7 @@ import com.android.volley.toolbox.StringRequest;
 
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -286,9 +287,6 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            // Mapeo de los pares clave-valor
-//            HashMap<String, String> parametros = new HashMap();
-//            parametros.put("user", mUser);
             SecurityHandler securityHandler = new SecurityHandler();
             Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
             try {
@@ -303,8 +301,26 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         }
 
         private boolean isValidUserPassword(Password password) {
-            SecurityHandler securityHandler = new SecurityHandler();
-            return securityHandler.validPassword(mPassword,password);
+            RequestHandler requestHandler = RequestHandler.getInstance(getApplicationContext());
+            String url = "/login/cuenta";
+            // Mapeo de los pares clave-valor
+            HashMap<String, String> parametros = new HashMap();
+            parametros.put("nombreDeUsuario", mUser);
+            parametros.put("contrasenia", mUser);
+            JsonObjectRequest request = requestHandler.createGetRequestJson(url, parametros);
+            requestHandler.addToRequestQueue(request);
+            ResponseHandler rHandleer = requestHandler.getResponseHandler();
+            if (!rHandleer.isValid()){
+                return false;
+            }
+//            try {
+//                //JSONObject jUser = new JSONObject(rHandleer.getResponse());
+//
+//            } catch (JSONException e) {
+//                e.printStackTrace();
+//                return false;
+//            }
+            return true;
         }
 
         @Override
