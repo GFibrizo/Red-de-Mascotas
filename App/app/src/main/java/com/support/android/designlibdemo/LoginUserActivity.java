@@ -27,14 +27,20 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 
+
+import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 
+import utils.Password;
 import utils.RequestHandler;
+import utils.ResponseHandler;
+import utils.SecurityHandler;
 
 /**
  * A login screen that offers login via email/password.
@@ -152,13 +158,14 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
     private boolean isUserValid(String user) {
         //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
         //return ((user.length() >= 6 && user.length() <= 12) && user.matches("[a-zA-Z][0-9]+"));
-        return true;
+        return ((user.length() >= 6 && user.length() <= 12));
     }
 
     private boolean isPasswordValid(String password) {
         //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
-        //return ((password.length() >= 6 && password.length() <= 12) && password.matches("[a-zA-Z][0-9]+"));
-        return true;
+        //*return ((password.length() >= 6 && password.length() <= 12) && password.matches("[a-zA-Z][0-9]+"));
+        return ((password.length() >= 6 && password.length() <= 12));
+
     }
 
     /**
@@ -267,23 +274,41 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         }
 
 
+        private String getUserSalt(String user) throws JSONException {
+            RequestHandler requestHandler = RequestHandler.getInstance(getApplicationContext());
 
+            SecurityHandler securityHandler = new SecurityHandler();
+
+            Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
+
+
+            String url = "/usuario/" + user +"/salt";
+            StringRequest request = requestHandler.createGetStringRequest(url);
+            requestHandler.addToRequestQueue(request);
+            ResponseHandler rHandleer = requestHandler.getResponseHandler();
+            return rHandleer.getResponse();
+        }
+        
         @Override
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
-            RequestHandler requestHandler = RequestHandler.getInstance(getApplicationContext());
             // Mapeo de los pares clave-valor
             HashMap<String, String> parametros = new HashMap();
             parametros.put("user", mUser);
-            parametros.put("password", mPassword);
-            String url = "/info";
-            JsonObjectRequest request = requestHandler.createGetRequest(url);
-            requestHandler.addToRequestQueue(request);
-            requestHandler.getResponseHandler().getResponse();
+            String salt;
+            try {
+                salt = getUserSalt(mUser);
+                mStatus = true;
+            } catch (JSONException e) {
+                e.printStackTrace();
+                return false;
+            }
+            //parametros.put("password", contraseniaEncriptada.getEncriptacion());           
+
 
 
             // TODO: register the new account here.
-            return requestHandler.getResponseHandler().getStatus();
+            return mStatus;
         }
 
         @Override

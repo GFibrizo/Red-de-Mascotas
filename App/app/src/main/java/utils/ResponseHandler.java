@@ -1,5 +1,7 @@
 package utils;
 
+import com.android.volley.toolbox.StringRequest;
+
 import org.json.JSONObject;
 
 /**
@@ -7,12 +9,12 @@ import org.json.JSONObject;
  */
 public class ResponseHandler {
     public static final String OK = "OK" ;
-    JSONObject response;
+    String response;
     String  message;
     private boolean status;
 
     public void setResponse(JSONObject response) {
-        this.response = response;
+        this.response = response.toString();
     }
 
     public String getMessage() {
@@ -35,11 +37,13 @@ public class ResponseHandler {
         this.status = false;
     }
 
-    public JSONObject getResponse() {
-        return response;
-    }
+    public String getResponse() {return response;}
 
     public boolean getStatus() {
         return status;
+    }
+
+    public void setResponse(String response) {
+        this.response = response;
     }
 }

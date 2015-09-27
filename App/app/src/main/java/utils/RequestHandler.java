@@ -7,6 +7,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
 import org.json.JSONObject;
@@ -19,7 +20,7 @@ public final class RequestHandler {
     private static RequestHandler singleton;
     private RequestQueue requestQueue;
     private static Context context;
-    private static String serverUrl = "http://192.168.1.106:8090";
+    private static String serverUrl = "http://192.168.1.106:9000";
     private ResponseHandler responseHandler;
 
 
@@ -97,6 +98,27 @@ public final class RequestHandler {
                     }
                 }
         );
+
+        return request;
+    }
+
+    public StringRequest createGetStringRequest(String url) {
+
+        StringRequest request = new StringRequest(Request.Method.GET, this.serverUrl + url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        responseHandler.setResponse(response);
+                        responseHandler.setMessage(ResponseHandler.OK);
+                        responseHandler.setOkStatus();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                responseHandler.setMessage(error.getMessage());
+                responseHandler.setErrorStatus();
+            }
+        });
 
         return request;
     }

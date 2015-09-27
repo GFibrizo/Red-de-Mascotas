@@ -134,7 +134,7 @@ public class LoginActivity extends FragmentActivity {
             intent.putExtra("PROFILE_FIRST_NAME", profile.getFirstName());
 
 
-            startActivity(intent);
+            //startActivity(intent);
         }
     }
 
