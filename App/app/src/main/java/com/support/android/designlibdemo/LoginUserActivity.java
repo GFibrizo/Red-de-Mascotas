@@ -194,8 +194,9 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
     @Override
     public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return new CursorLoader(this,
-                // Retrieve data rows for the device user's 'profile' contact.
+        return null;
+//        return new CursorLoader(this,
+//                // Retrieve data rows for the device user's 'profile' contact.
 //                Uri.withAppendedPath(ContactsContract.Profile.CONTENT_URI,
 //                        ContactsContract.Contacts.Data.CONTENT_DIRECTORY), ProfileQuery.PROJECTION,
 //
@@ -211,14 +212,7 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
     @Override
     public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-//        List<String> users = new ArrayList<String>();
-//        cursor.moveToFirst();
-//        while (!cursor.isAfterLast()) {
-//            users.add(cursor.getString(ProfileQuery.NAME));
-//            cursor.moveToNext();
-//        }
 
-        //addEmailsToAutoComplete(users);
     }
 
     @Override
@@ -226,25 +220,6 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
     }
 
-//    private interface ProfileQuery {
-//        String[] PROJECTION = {
-//                ContactsContract.CommonDataKinds.Nickname.NAME,
-//                ContactsContract.CommonDataKinds.Nickname.IS_PRIMARY,
-//        };
-//
-//        int NAME = 0;
-//        int IS_PRIMARY = 1;
-//    }
-
-
-//    private void addEmailsToAutoComplete(List<String> usersCollection) {
-//        //Create adapter to tell the AutoCompleteTextView what to show in its dropdown list.
-//        ArrayAdapter<String> adapter =
-//                new ArrayAdapter<String>(LoginUserActivity.this,
-//                        android.R.layout.simple_dropdown_item_1line, usersCollection);
-//
-//        userView.setAdapter(adapter);
-//    }
 
     /**
      * Represents an asynchronous login/registration task used to authenticate
