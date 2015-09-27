@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
                 Intent intent = null;
                 switch (menuItem.getItemId()) {
                     case R.id.adopt:
+                        Toast.makeText(getApplicationContext(), "ADOPTAR", Toast.LENGTH_LONG).show();
+                        intent = new Intent(getApplicationContext(), SearchInAdoptionActivity.class);
                         break;
                     case R.id.offer_in_adoption:
                         Toast.makeText(getApplicationContext(), "PUBLICAR", Toast.LENGTH_LONG).show();
