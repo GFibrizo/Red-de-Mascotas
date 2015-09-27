@@ -57,6 +57,10 @@
             android:id="@+id/about"
             android:icon="@drawable/ic_info_black_24dp"
             android:title="@string/about" />
+        <item
+            android:id="@+id/logout"
+            android:icon="@drawable/ic_power_settings_new_black_24dp"
+            android:title="@string/logout_msg"/>
     </group>
     <!-- <item android:title="Otros"> -->
 

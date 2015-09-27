@@ -100,7 +100,10 @@ Body:
 {
 "nombreDeUsuario": "GlinsekY",
 "email": "yamila.glinsek@gmail.com",
-"contrasenia": "password",
+"contrasenia": {
+"encriptacion": "password",
+"salt": "jfkdlajlga"
+},
 "nombre": "Yamila",
 "apellido": "Glinsek",
 "telefono": "01149576440",

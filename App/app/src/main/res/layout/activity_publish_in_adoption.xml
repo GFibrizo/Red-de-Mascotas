@@ -21,7 +21,7 @@
             android:id="@+id/toolbar_publish"
             android:layout_width="match_parent"
             android:subtitleTextColor="#ffffff"
-            android:elevation="2dp"
+            android:elevation="3dp"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/Theme.DesignDemo"
@@ -48,6 +48,13 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+    </ScrollView>
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -60,7 +67,7 @@
             android:id="@+id/load_image"
             android:layout_width="150dp"
             android:layout_height="150dp"
-            android:src="@drawable/profile"
+            android:src="@drawable/load"
             android:layout_marginLeft="10dp"
             android:layout_marginStart="10dp"
             android:layout_alignParentTop="true"
@@ -72,7 +79,8 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_toRightOf="@+id/load_image"
-            android:layout_marginLeft="10dp">
+            android:layout_marginLeft="10dp"
+            android:id="@+id/linearLayout1">
 
 
             <EditText
@@ -80,62 +88,143 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Nombre"
-                android:inputType="textPersonName" />
+                android:inputType="textPersonName"
+                android:layout_marginRight="10dp"/>
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Tipo de mascota"
-                android:id="@+id/pet_type" />
+                android:id="@+id/pet_type"
+                android:layout_marginTop="10dp" />
 
             <Switch
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOn="Perro"
                 android:textOff="Gato"
-                android:id="@+id/switch_pet_type" />
+                android:id="@+id/switch_pet_type"
+                android:layout_marginTop="5dp" />
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="Género"
+                android:id="@+id/pet_gender"
+                android:layout_marginTop="10dp" />
 
-<!--
-        <EditText
-            android:id="@+id/published_pet"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:hint="Nombre"
-            android:inputType="textPersonName"
-            android:layout_toRightOf="@+id/load_image"
-            android:layout_marginLeft="15dp"
-            android:layout_marginStart="15dp"
-            android:layout_marginRight="10dp"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Tipo de mascota"
-            android:id="@+id/pet_type"
-            android:layout_below="@+id/published_pet"
-            android:layout_alignLeft="@+id/published_pet"
-            android:layout_alignStart="@+id/published_pet"
-            android:layout_marginTop="15dp" />
-
-        <Switch
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textOn="Perro"
-            android:textOff="Gato"
-            android:id="@+id/switch_pet_type"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_below="@+id/pet_type"
-            android:layout_alignLeft="@+id/pet_type"
-            android:layout_alignStart="@+id/pet_type" />
--->
+            <Switch
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textOn="Hembra"
+                android:textOff="Macho"
+                android:id="@+id/switch_pet_gender"
+                android:layout_marginTop="5dp" />
 
         </LinearLayout>
+
+        <!--
+        <AppCompatAutoCompleteTextView
+            android:id="@+id/breed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Raza"
+            android:inputType="textAutoComplete" />
+        -->
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_below="@id/linearLayout1"
+            android:layout_marginTop="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp">
+
+            <EditText
+                android:id="@+id/breed"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Raza"
+                android:inputType="textAutoComplete" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:textAlignment="gravity"
+                android:text="Edad" />
+
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp" >
+
+                <TextView
+                    android:id="@+id/age_label"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="20dp"
+                    android:text="0 años" />
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pet_age"
+                    android:layout_toRightOf="@id/age_label" />
+
+            </RelativeLayout>
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_gravity="left"
+                android:textAlignment="gravity"
+                android:layout_height="wrap_content"
+                android:text="Tamaño" />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal"
+                android:layout_marginLeft="10dp" >
+
+                <TextView
+                    android:id="@+id/size_label"
+                    android:layout_width="80dp"
+                    android:layout_height="match_parent"
+                    android:text="Muy pequeño"
+                    android:layout_marginLeft="20dp"/>
+
+                <SeekBar
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/pet_size"
+                    android:layout_toRightOf="@id/size_label" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Siguiente"
+            android:background="#2196F3"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:id="@+id/button_publish_1"
+            android:layout_marginRight="10dp"
+            android:layout_marginEnd="40dp"
+            android:layout_below="@+id/linearLayout2"
+            android:layout_alignRight="@+id/linearLayout2"
+            android:layout_alignEnd="@+id/linearLayout2" />
 
     </RelativeLayout>
 
