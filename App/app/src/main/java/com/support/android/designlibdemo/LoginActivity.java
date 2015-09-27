@@ -43,7 +43,6 @@ public class LoginActivity extends FragmentActivity {
         public void onSuccess(LoginResult loginResult) {
             AccessToken accessToken = loginResult.getAccessToken();
             Profile profile = Profile.getCurrentProfile();
-           //showResult(profile.getFirstName(), profile.getLastName());
             Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
         }

@@ -77,7 +77,7 @@ public final class RequestHandler {
         return request;
     }
 
-    public JsonObjectRequest createGetRequest(String url) {
+    public JsonObjectRequest createGetRequestJson(String url) {
 
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.GET,
@@ -102,7 +102,7 @@ public final class RequestHandler {
         return request;
     }
 
-    public StringRequest createGetStringRequest(String url) {
+    public StringRequest createGetRequestString(String url) {
 
         StringRequest request = new StringRequest(Request.Method.GET, this.serverUrl + url,
                 new Response.Listener<String>() {

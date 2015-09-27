@@ -276,14 +276,8 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
         private String getUserSalt(String user) throws JSONException {
             RequestHandler requestHandler = RequestHandler.getInstance(getApplicationContext());
-
-            SecurityHandler securityHandler = new SecurityHandler();
-
-            Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
-
-
             String url = "/usuario/" + user +"/salt";
-            StringRequest request = requestHandler.createGetStringRequest(url);
+            StringRequest request = requestHandler.createGetRequestString(url);
             requestHandler.addToRequestQueue(request);
             ResponseHandler rHandleer = requestHandler.getResponseHandler();
             return rHandleer.getResponse();
@@ -293,22 +287,24 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
         protected Boolean doInBackground(Void... params) {
             // TODO: attempt authentication against a network service.
             // Mapeo de los pares clave-valor
-            HashMap<String, String> parametros = new HashMap();
-            parametros.put("user", mUser);
-            String salt;
+//            HashMap<String, String> parametros = new HashMap();
+//            parametros.put("user", mUser);
+            SecurityHandler securityHandler = new SecurityHandler();
+            Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
             try {
-                salt = getUserSalt(mUser);
-                mStatus = true;
+                encryptedPassword.setSalt(getUserSalt(mUser));
+                mStatus =  isValidUserPassword(encryptedPassword);
             } catch (JSONException e) {
                 e.printStackTrace();
                 return false;
             }
-            //parametros.put("password", contraseniaEncriptada.getEncriptacion());           
-
-
-
             // TODO: register the new account here.
             return mStatus;
+        }
+
+        private boolean isValidUserPassword(Password password) {
+            SecurityHandler securityHandler = new SecurityHandler();
+            return securityHandler.validPassword(mPassword,password);
         }
 
         @Override
@@ -334,5 +330,7 @@ public class LoginUserActivity extends Activity implements LoaderCallbacks<Curso
 
 
     }
+
+
 }
 

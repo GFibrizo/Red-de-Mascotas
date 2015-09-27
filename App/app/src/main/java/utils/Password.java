@@ -20,4 +20,8 @@ public class Password {
         this.salt = salt;
 
     }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
 }
