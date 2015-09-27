@@ -58,23 +58,6 @@
             android:layout_marginTop="130dp"
             android:id="@+id/relativeLayout">
 
-            <ImageView
-                android:id="@+id/load_image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:src="@drawable/load"
-                android:layout_marginRight="10dp"
-                android:layout_alignParentRight="true" />
-
-            <ImageView
-                android:id="@+id/prints_image"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
-                android:src="@drawable/dog_prints"
-                android:layout_marginTop="230dp"
-                android:layout_marginRight="40dp"
-                android:layout_alignParentRight="true" />
-
             <LinearLayout
                 android:focusable="true"
                 android:focusableInTouchMode="true"
@@ -84,142 +67,255 @@
                 android:layout_marginLeft="10dp"
                 android:id="@+id/linearLayout">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_toLeftOf="@+id/load_image"
-                    android:id="@+id/linearLayout1">
+                    android:textColor="#7e7e7e"
+                    android:textSize="18sp"
+                    android:text="Tamaño"
+                    android:id="@+id/size"
+                    android:layout_marginTop="10dp" />
 
-                    <TextView
-                        android:layout_width="match_parent"
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <CheckBox
+                        android:id="@+id/check_size_small"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e"
-                        android:textSize="18sp"
-                        android:text="Tipo de mascota"
-                        android:id="@+id/pet_type" />
+                        android:textSize="16sp"
+                        android:text="Pequeño" />
 
-                    <RadioGroup
-                        android:id="@+id/pet_type_radio"
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content" >
-
-                        <RadioButton
-                            android:id="@+id/perro_radio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#7e7e7e"
-                            android:textSize="18sp"
-                            android:text="Perro" />
-
-                        <RadioButton
-                            android:id="@+id/gato_radio"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
-                            android:textColor="#7e7e7e"
-                            android:textSize="18sp"
-                            android:text="Gato" />
-
-                    </RadioGroup>
-
-                    <TextView
-                        android:layout_width="match_parent"
+                    <CheckBox
+                        android:id="@+id/check_size_medium"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e"
-                        android:textSize="18sp"
-                        android:text="Sexo"
-                        android:id="@+id/gender"
-                        android:layout_marginTop="10dp" />
+                        android:textSize="16sp"
+                        android:text="Mediano" />
 
-                    <TableRow
-                        android:layout_width="fill_parent"
-                        android:layout_height="wrap_content" >
-
-                        <CheckBox
-                            android:id="@+id/gender_check_1"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#7e7e7e"
-                            android:textSize="16sp"
-                            android:text="Macho" />
-
-                        <CheckBox
-                            android:id="@+id/gender_check_2"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textColor="#7e7e7e"
-                            android:textSize="16sp"
-                            android:text="Hembra" />
-                    </TableRow>
-
-                    <EditText
-                        android:id="@+id/breed"
-                        android:layout_width="match_parent"
+                    <CheckBox
+                        android:id="@+id/check_size_large"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:hint="Raza"
-                        android:inputType="textAutoComplete" />
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Grande" />
 
-                </LinearLayout>
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#7e7e7e"
+                    android:textSize="18sp"
+                    android:text="Color"
+                    android:id="@+id/color"
+                    android:layout_marginTop="10dp" />
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <CheckBox
+                        android:id="@+id/check_color_white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Blanco" />
+
+                    <CheckBox
+                        android:id="@+id/check_color_grey"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Gris" />
+
+                    <CheckBox
+                        android:id="@+id/check_color_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="26dp"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Negro" />
+
+                    <CheckBox
+                        android:id="@+id/check_color_brown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Marron" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <CheckBox
+                        android:id="@+id/check_color_beige"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Beige" />
+
+                    <CheckBox
+                        android:id="@+id/check_color_orange"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Naranja" />
+
+                    <CheckBox
+                        android:id="@+id/check_color_dun"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Pardo" />
+
+                    <CheckBox
+                        android:id="@+id/check_color_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Otro" />
+
+                </TableRow>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="#7e7e7e"
+                    android:textSize="18sp"
+                    android:text="Color de ojos"
+                    android:id="@+id/eye_color"
+                    android:layout_marginTop="10dp" />
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <CheckBox
+                        android:id="@+id/check_eye_color_black"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Negro" />
+
+                    <CheckBox
+                        android:id="@+id/check_eye_color_brown"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Marrón" />
+
+                    <CheckBox
+                        android:id="@+id/check_eye_color_green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="7dp"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Verde" />
+
+                </TableRow>
+
+                <TableRow
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content" >
+
+                    <CheckBox
+                        android:id="@+id/check_eye_color_blue"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Celeste" />
+
+                    <CheckBox
+                        android:id="@+id/check_eye_color_yellow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Amarillo" />
+
+                    <CheckBox
+                        android:id="@+id/check_eye_color_other"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="#7e7e7e"
+                        android:textSize="16sp"
+                        android:text="Otro" />
+
+                </TableRow>
 
                 <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical"
-                    android:layout_toLeftOf="@+id/prints_image"
-                    android:id="@+id/linearLayout2">
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal"
+                    android:baselineAligned="false">
 
-                    <TextView
-                        android:layout_width="match_parent"
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_gravity="left"
-                        android:textAlignment="gravity"
-                        android:layout_marginTop="10dp"
-                        android:textColor="#7e7e7e"
-                        android:textSize="18sp"
-                        android:text="Edad" />
+                        android:layout_weight="1">
 
-                    <CheckBox
-                        android:id="@+id/age_check_1"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#7e7e7e"
-                        android:textSize="16sp"
-                        android:text="0 a 6 meses" />
+                        <LinearLayout
+                            android:focusable="true"
+                            android:focusableInTouchMode="true"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical">
 
-                    <CheckBox
-                        android:id="@+id/age_check_2"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#7e7e7e"
-                        android:textSize="16sp"
-                        android:text="6 a 12 meses" />
+                            <AutoCompleteTextView
+                                android:id="@+id/city"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:hint="Ciudad"
+                                android:inputType="textAutoComplete" />
 
-                    <CheckBox
-                        android:id="@+id/age_check_3"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#7e7e7e"
-                        android:textSize="16sp"
-                        android:text="1 a 3 años" />
+                            <AutoCompleteTextView
+                                android:id="@+id/neighbourhood"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="10dp"
+                                android:hint="Barrio"
+                                android:inputType="textAutoComplete" />
+                        </LinearLayout>
 
-                    <CheckBox
-                        android:id="@+id/age_check_4"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:textColor="#7e7e7e"
-                        android:textSize="16sp"
-                        android:text="3 a 7 años" />
+                    </RelativeLayout>
 
-                    <CheckBox
-                        android:id="@+id/age_check_5"
-                        android:layout_width="wrap_content"
+                    <RelativeLayout
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:textColor="#7e7e7e"
-                        android:textSize="16sp"
-                        android:text="más de 7 años" />
+                        android:layout_weight="1">
+
+                        <ImageView
+                            android:id="@+id/prints_image"
+                            android:layout_width="90dp"
+                            android:layout_height="90dp"
+                            android:src="@drawable/dog_prints"
+                            android:layout_marginTop="10dp"
+                            android:layout_marginRight="40dp"
+                            android:layout_alignParentRight="true" />
+
+                    </RelativeLayout>
 
                 </LinearLayout>
 
@@ -228,12 +324,13 @@
             <Button
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
-                android:text="Siguiente"
+                android:text="Buscar"
                 android:background="#2196F3"
                 android:textColor="#ffffff"
                 android:textSize="18sp"
                 android:textAllCaps="false"
                 android:textStyle="bold"
+                android:onClick="search"
                 android:id="@+id/button_search"
                 android:layout_marginRight="30dp"
                 android:layout_marginEnd="40dp"
