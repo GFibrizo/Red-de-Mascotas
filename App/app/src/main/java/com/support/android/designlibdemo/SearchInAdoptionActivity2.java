@@ -12,9 +12,13 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 
+import com.support.android.designlibdemo.model.FiltrosBusquedaAdopcion;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import utils.SearchRequest;
 
 public class SearchInAdoptionActivity2 extends AppCompatActivity {
 
@@ -110,13 +114,17 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
             if (eyeColorOther.isChecked()) eyeColors.put(eyeColorOther.getText());
             object.put("coloresDeOjos", eyeColors);
 
-            object.put("ciudad", city.getText());
-            object.put("barrio", neighbourhood.getText());
+            object.put("ciudad", city.getText().toString());
+            object.put("barrio", neighbourhood.getText().toString());
 
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }
+        SearchRequest request = new SearchRequest(getApplicationContext());
+        FiltrosBusquedaAdopcion filters = new FiltrosBusquedaAdopcion(object);
+        JSONArray response = request.search(filters);
         Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
+        intent.putExtra("data", response.toString());
         if (intent != null)
             startActivity(intent);
     }

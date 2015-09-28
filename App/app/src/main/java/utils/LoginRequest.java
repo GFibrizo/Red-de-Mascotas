@@ -20,7 +20,7 @@ public class LoginRequest {
     RequestHandler requestHandler;
     public LoginRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
-        requestHandler.setServerUrl("http://192.168.1.106:9000");
+        requestHandler.setServerUrl("http://10.0.2.2:9000");
         this.salt= "";
     }
 
