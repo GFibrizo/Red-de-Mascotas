@@ -68,6 +68,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
+        <activity
+            android:name=".SearchInAdoptionActivity2"
+            android:parentActivityName=".SearchInAdoptionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.support.android.designlibdemo.SearchInAdoptionActivity" />
+        </activity>
         
         <activity android:name=".ResultListActivity"
             android:parentActivityName=".MainActivity">

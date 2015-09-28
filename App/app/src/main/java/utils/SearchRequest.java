@@ -20,7 +20,7 @@ public class SearchRequest {
 
     public SearchRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
-        requestHandler.setServerUrl("http://10.0.2.2:9000");
+        requestHandler.setServerUrl("http://localhost:9000");  //10.0.2.2
     }
 
     public JSONArray search(FiltrosBusquedaAdopcion filters) {
