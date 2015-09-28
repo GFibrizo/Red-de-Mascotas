@@ -1,5 +1,6 @@
 package com.support.android.designlibdemo;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -84,17 +85,16 @@ public class ResultListActivity extends AppCompatActivity {
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view,int position, long id) {
-//               @Override
-//                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                    Intent intent = new Intent(thisActivity, WallActivity.class);
+               @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                   Intent intent = new Intent(getApplicationContext(), PetsDetailActivity.class);
+                   intent.putExtra("id", id);
 //                    intent.putExtra("ownProfile", false);
 //                    int friendId = friends.get(position).getId();
 //                    intent.putExtra("friend_id", friendId);
-//                    startActivity(intent);
-//                }
-            }
+                    startActivity(intent);
+                }
+
         });
 
 //                            String urlBaseForImage = IpConfig.LOCAL_IP.url() + "/getstudentpicture/";

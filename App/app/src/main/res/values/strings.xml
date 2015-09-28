@@ -84,6 +84,8 @@
   <string name="edadLabel">Edad:</string>
   <string name="tamanioLabel">Tamaño:</string>
   <string name="ubicacionLabel">Ubicación:</string>
+  <string name="colorPelajeLabel">Color de Pelaje:</string>
+  <string name="colorOjosLabel">Color de ojos:</string>
     <string name="title_activity_logout">LogoutActivity</string>
   <string name="logout_facebook">Desloguearse Facebook</string>
 </resources>
