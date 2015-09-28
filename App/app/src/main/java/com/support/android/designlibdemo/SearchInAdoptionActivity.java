@@ -68,11 +68,9 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     public void nextPage(View view) {
-
         JSONObject object = new JSONObject();
         RadioButton petTypeDog = (RadioButton)findViewById(R.id.radio_dog);
         RadioButton petTypeCat = (RadioButton)findViewById(R.id.radio_cat);
@@ -84,7 +82,6 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
         CheckBox age1to3y = (CheckBox)findViewById(R.id.check_1to3y_age);
         CheckBox age3to7y = (CheckBox)findViewById(R.id.check_3to7y_age);
         CheckBox age7toMorey = (CheckBox)findViewById(R.id.check_7toMorey_age);
-
 
         // TODO: Faltan validaciones
         try {
@@ -112,15 +109,15 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }
+
         Intent intent = new Intent(getApplicationContext(), SearchInAdoptionActivity2.class);
         intent.putExtra("data", object.toString());
         if (intent != null)
             startActivity(intent);
-
     }
 
     static final String[] BREEDS = new String[] {
-            //Dog breeds
+        //Dog breeds
         "Affenpinscher", "Afgano", "Airedale Terrier", "Akita", "Alaskan Malamute", "American Foxhound", "American Staffordshire Terrier",
             "Antiguo perro pastor inglés", "Basenji", "Basset Hound", "Beagle", "Beauceron", "Bedlington Terrier", "Bichon Frise", "Bichón habanero",
             "Bichón maltés", "Bloodhound / Perro de San Huberto", "Bluetick Coonhound", "Border Collie", "Border Terrier", "Borzoi", "Boston Terrier",
@@ -147,8 +144,8 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
             "Terrier ruso negro", "Terrier tibetano", "Toy Fox Terrier", "Toy spaniel inglés", "Treeing Walker Coonhound", "Vallhund sueco", "Vizsla",
             "West Highland White Terrier", "Whippet", "Xoloitzcuintli", "Yorkshire Terrier",
 
-            // Cat breeds
-         "Abisinio", "Aphrodite's Giants", "Australian Mist", "American Curl", "Azul ruso", "American shorthair", "American wirehair", "Angora turco",
+        // Cat breeds
+        "Abisinio", "Aphrodite's Giants", "Australian Mist", "American Curl", "Azul ruso", "American shorthair", "American wirehair", "Angora turco",
             "Africano doméstico", "Bengala", "Bobtail japonés", "Bombay", "Bosque de Noruega", "Brazilian Shorthair", "Brivon de pelo corto", "Brivon de pelo largo",
             "British Shorthair", "Burmés", "Burmilla", "Cornish rexx", "California Spangled", "Ceylon", "Cymric", "Chartreux", "Deutsch Langhaar", "Devon rex",
             "Dorado africano", "Don Sphynx", "Dragon Li", "Europeo Común", "Exótico de Pelo Corto", "FoldEx", "German Rex", "Habana brown", "Himalayo", "Korat",

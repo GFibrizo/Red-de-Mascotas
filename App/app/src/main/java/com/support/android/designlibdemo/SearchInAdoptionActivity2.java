@@ -14,20 +14,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 
 import com.support.android.designlibdemo.model.FiltrosBusquedaAdopcion;
-import com.support.android.designlibdemo.model.Password;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import utils.LoginRequest;
 import utils.SearchRequest;
-import utils.SecurityHandler;
 
 public class SearchInAdoptionActivity2 extends AppCompatActivity {
 
     private JSONObject object = null;
-    FiltrosBusquedaAdopcion filters;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,11 +70,9 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
     }
 
     public void search(View view) {
-
         CheckBox sizeSmall = (CheckBox)findViewById(R.id.check_size_small);
         CheckBox sizeMedium = (CheckBox)findViewById(R.id.check_size_medium);
         CheckBox sizeLarge = (CheckBox)findViewById(R.id.check_size_large);
@@ -97,7 +92,6 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         CheckBox eyeColorOther = (CheckBox)findViewById(R.id.check_eye_color_other);
         AutoCompleteTextView city = (AutoCompleteTextView)findViewById(R.id.city);
         AutoCompleteTextView neighbourhood = (AutoCompleteTextView)findViewById(R.id.neighbourhood);
-
 
         // TODO: Faltan validaciones
         try {
@@ -136,21 +130,22 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         }
 
 
-        filters = new FiltrosBusquedaAdopcion(object);
+        FiltrosBusquedaAdopcion filters = new FiltrosBusquedaAdopcion(object);
 
         //Llamado a la clase interna que realiza el request
         QueryResultTask qTask = new QueryResultTask(filters);
         qTask.execute((Void) null);
-
     }
+
+
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
 
         FiltrosBusquedaAdopcion filters;
         JSONArray response;
+
         QueryResultTask( FiltrosBusquedaAdopcion filters) {
             this.filters = filters;
         }
-
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -159,7 +154,6 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
             response = request.search(filters);
             return true;
         }
-
 
         @Override
         protected void onPostExecute(final Boolean success) {
@@ -172,12 +166,8 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         }
 
         @Override
-        protected void onCancelled() {
-
-        }
-
+        protected void onCancelled() { }
 
     }
-
 
 }
