@@ -20,6 +20,9 @@ public class ResultListActivity extends AppCompatActivity {
 
     private ListView listView ;
 
+    // Defined Array values to show in ListView
+    String[] values = new String[]{"Fiona", "Simba", "Homero", "Casandra", "Cleopatra"};
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,18 +66,21 @@ public class ResultListActivity extends AppCompatActivity {
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
         ArrayList<TextAndImage> textAndImageArray = new ArrayList<TextAndImage>();
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
-        textAndImageArray.add(new TextAndImageContainer());
+        textAndImageArray.add(new TextAndImageContainer(1, values[0]));
+        textAndImageArray.add(new TextAndImageContainer(2, values[1]));
+        textAndImageArray.add(new TextAndImageContainer(3, values[2]));
+        textAndImageArray.add(new TextAndImageContainer(4, values[3]));
+        textAndImageArray.add(new TextAndImageContainer(5, values[4]));
+        textAndImageArray.add(new TextAndImageContainer(6, values[0]));
+        textAndImageArray.add(new TextAndImageContainer(7, values[0]));
+        textAndImageArray.add(new TextAndImageContainer(8, values[0]));
+        textAndImageArray.add(new TextAndImageContainer(9, values[0]));
+        textAndImageArray.add(new TextAndImageContainer(10, values[1]));
+        textAndImageArray.add(new TextAndImageContainer(11, values[2]));
+        textAndImageArray.add(new TextAndImageContainer(12, values[3]));
+        textAndImageArray.add(new TextAndImageContainer(13, values[4]));
+        textAndImageArray.add(new TextAndImageContainer(14, values[0]));
+
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -113,19 +119,14 @@ public class ResultListActivity extends AppCompatActivity {
             this.text = text;
         }
 
-        // Defined Array values to show in ListView
-        String[] values = new String[]{"Fiona", "Simba", "Homero", "Casandra", "Cleopatra"};
-
         @Override
         public int getId() {
-//            return id;
-            return 0; //TODO: cambiar url - new ImageUrlView(IpConfig.LOCAL_IP.url() + "/getstudentpicture/" + friendId, profilePricture).connect();
+            return id;
         }
 
         @Override
         public String getText() {
-//            return text;
-            return values[0]; //TODO: cambiar origen - mValues.get(position)
+            return text;
         }
     }
 

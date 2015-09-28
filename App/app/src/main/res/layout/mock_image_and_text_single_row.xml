@@ -19,7 +19,6 @@
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/rowimage"
-                android:src="@drawable/profile"
                 android:layout_gravity="center_vertical"
                 android:layout_width="@dimen/list_item_image"
                 android:layout_height="@dimen/list_item_image"

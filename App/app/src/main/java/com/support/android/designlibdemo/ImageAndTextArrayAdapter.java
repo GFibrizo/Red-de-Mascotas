@@ -8,7 +8,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
+import com.support.android.designlibdemo.data.communications.ImageUrlView;
 
 import java.util.ArrayList;
 
@@ -21,6 +21,7 @@ public class ImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
     protected final ArrayList<TextAndImage> elements;
     protected final int layout;
     protected String baseUrlForImage;
+    private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
     /**
      * @param layout   El layout que usara para mostrar cada fila
      * @param elements conjunto de elementos en los cuales se mostrara 1 por fila
@@ -43,15 +44,14 @@ public class ImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
         View rowView = inflater.inflate(this.layout, null, true);
 
         TextView text = (TextView) rowView.findViewById(R.id.rowtext);
+        //TODO: recuperar todos los otros datos.
         ImageView imageView = (ImageView) rowView.findViewById(R.id.rowimage);
 
         text.setText(element.getText());
-        Glide.with(imageView.getContext())
-                .load(Cheeses.getRandomCheeseDrawable()) // TODO: cambiar url - new ImageUrlView(IpConfig.LOCAL_IP.url() + "/getstudentpicture/" + friendId, profilePricture).connect();
-                .fitCenter()
-                .into(imageView);
-//                              new ImageUrlView(baseUrlForImage+element.getId(), imageView).connect();
 
+        int id = element.getId();
+        baseUrlForImage = IP_EMULADOR + "/mascota/imagen/" + String.valueOf(id) + ".jpg";
+        new ImageUrlView(baseUrlForImage, imageView).connect();
         return rowView;
     }
 }
