@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 
 /**
@@ -43,11 +45,19 @@ public class ImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
         final LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(this.layout, null, true);
 
-        TextView text = (TextView) rowView.findViewById(R.id.rowtext);
+        TextView nombre = (TextView) rowView.findViewById(R.id.rowtext);
+        TextView sexo = (TextView) rowView.findViewById(R.id.sexoAnimal);
+        TextView edad = (TextView) rowView.findViewById(R.id.edadAnimal);
+        TextView tamanio = (TextView) rowView.findViewById(R.id.tamanioAnimal);
+        TextView ubicacion = (TextView) rowView.findViewById(R.id.ubicacionAnimal);
         //TODO: recuperar todos los otros datos.
         ImageView imageView = (ImageView) rowView.findViewById(R.id.rowimage);
 
-        text.setText(element.getText());
+        nombre.setText(element.getNombre());
+        sexo.setText(sexo.getText()+" "+element.getSexo());
+        edad.setText(edad.getText()+" "+element.getEdad());
+        tamanio.setText(tamanio.getText()+" "+element.getTamanio());
+        ubicacion.setText(ubicacion.getText()+" "+element.getUbicacion());
 
         int id = element.getId();
         baseUrlForImage = IP_EMULADOR + "/mascota/imagen/" + String.valueOf(id) + ".jpg";
