@@ -19,13 +19,10 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
-    <!-- To auto-complete the email text field in the login form with the user's emails -->
-    <uses-permission android:name="android.permission.GET_ACCOUNTS" />
-    <uses-permission android:name="android.permission.READ_PROFILE" />
-    <uses-permission android:name="android.permission.READ_CONTACTS" />
 
     <application
         android:allowBackup="true"
+        android:largeHeap="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/Base.Theme.DesignDemo" >
@@ -65,20 +62,11 @@
                 android:value=".MainActivity" />
         </activity>
 
-        <activity
-            android:name=".SearchInAdoptionActivity"
+        <activity android:name=".SearchInAdoptionActivity"     
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
-        </activity>
-
-        <activity
-            android:name=".SearchInAdoptionActivity2"
-            android:parentActivityName=".SearchInAdoptionActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.support.android.designlibdemo.SearchInAdoptionActivity" />
         </activity>
         
         <activity android:name=".ResultListActivity"
@@ -114,6 +102,11 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.support.android.designlibdemo.PublishInAdoptionActivity2" />
+        </activity>
+        <activity
+            android:name=".LogoutActivity"
+            android:label="@string/title_activity_logout"
+            android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
     </application>
 

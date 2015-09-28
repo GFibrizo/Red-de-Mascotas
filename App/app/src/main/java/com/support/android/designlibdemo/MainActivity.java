@@ -160,6 +160,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.logout:
                         // ACA VA EL CODIGO PARA EL LOGOUT
+                        Toast.makeText(getApplicationContext(), "LOGOUT", Toast.LENGTH_LONG).show();
+                        intent = new Intent(getApplicationContext(), LogoutActivity.class);
                         break;
                     default:
                         mDrawerLayout.closeDrawers();
