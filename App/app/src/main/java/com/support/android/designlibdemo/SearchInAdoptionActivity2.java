@@ -102,7 +102,7 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         // TODO: Faltan validaciones
         try {
             JSONArray sizes = new JSONArray();
-            if (sizeSmall.isChecked()) sizes.put(sizeSmall.getText());
+            if (sizeSmall.isChecked()) sizes.put("Pequenio");
             if (sizeMedium.isChecked()) sizes.put(sizeMedium.getText());
             if (sizeLarge.isChecked()) sizes.put(sizeLarge.getText());
             object.put("tamanios", sizes);
@@ -111,7 +111,7 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
             if (colorWhite.isChecked()) colors.put(colorWhite.getText());
             if (colorGrey.isChecked()) colors.put(colorGrey.getText());
             if (colorBlack.isChecked()) colors.put(colorBlack.getText());
-            if (colorBrown.isChecked()) colors.put(colorBrown.getText());
+            if (colorBrown.isChecked()) colors.put("Marron");
             if (colorBeige.isChecked()) colors.put(colorBeige.getText());
             if (colorOrange.isChecked()) colors.put(colorOrange.getText());
             if (colorDun.isChecked()) colors.put(colorDun.getText());
@@ -120,15 +120,16 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
 
             JSONArray eyeColors = new JSONArray();
             if (eyeColorBlack.isChecked()) eyeColors.put(eyeColorBlack.getText());
-            if (eyeColorBrown.isChecked()) eyeColors.put(eyeColorBrown.getText());
+            if (eyeColorBrown.isChecked()) eyeColors.put("Marron");
             if (eyeColorGreen.isChecked()) eyeColors.put(eyeColorGreen.getText());
             if (eyeColorBlue.isChecked()) eyeColors.put(eyeColorBlue.getText());
             if (eyeColorYellow.isChecked()) eyeColors.put(eyeColorYellow.getText());
             if (eyeColorOther.isChecked()) eyeColors.put(eyeColorOther.getText());
             object.put("coloresDeOjos", eyeColors);
 
-            object.put("ciudad", city.getText().toString());
-            object.put("barrio", neighbourhood.getText().toString());
+            // TODO: Falta autocomplete de los dos
+            object.put("ciudad", city.getText().toString().replaceAll(" ", "_"));
+            object.put("barrio", neighbourhood.getText().toString().replaceAll(" ", "_"));
 
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());

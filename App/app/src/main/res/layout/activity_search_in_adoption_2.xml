@@ -150,7 +150,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e"
                         android:textSize="16sp"
-                        android:text="Marron" />
+                        android:text="Marrón" />
 
                 </TableRow>
 

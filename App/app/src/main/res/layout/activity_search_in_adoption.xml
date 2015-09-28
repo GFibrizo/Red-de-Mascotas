@@ -155,8 +155,8 @@
                     </TableRow>
 
                     <AutoCompleteTextView
-                        android:id="@+id/breed"
-                        android:layout_width="match_parent"
+                        android:id="@+id/autocomplete_breed"
+                        android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:hint="Raza"
