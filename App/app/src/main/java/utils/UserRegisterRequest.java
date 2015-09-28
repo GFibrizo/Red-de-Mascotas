@@ -24,7 +24,7 @@ public class UserRegisterRequest {
 
     public UserRegisterRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
-        requestHandler.setServerUrl("http://192.168.1.106:9000");
+//        requestHandler.setServerUrl("http://192.168.1.106:9000");
     }
 
 

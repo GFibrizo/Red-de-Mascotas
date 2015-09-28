@@ -20,8 +20,6 @@ public class LoginRequest {
     RequestHandler requestHandler;
     public LoginRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
-        //requestHandler.setServerUrl("http://10.0.2.2:9000");
-        requestHandler.setServerUrl("http://192.168.1.106:9000");
         this.salt= "";
     }
 
@@ -29,8 +27,9 @@ public class LoginRequest {
     //Sincronico
     public String getUserSalt(String user) {
         String path = buildSaltPath(user);
+
         RequestFuture<String> future = RequestFuture.newFuture();
-        StringRequest request = new StringRequest(Request.Method.GET, RequestHandler.getServerUrl() + path,future,future);
+        StringRequest request = new StringRequest(Request.Method.GET, path,future,future);
         requestHandler.addToRequestQueue(request);
         String salt = null; // this line will block
         try {

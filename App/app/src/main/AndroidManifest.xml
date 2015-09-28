@@ -19,6 +19,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
 
+
     <application
         android:allowBackup="true"
         android:largeHeap="true"
@@ -35,7 +36,6 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
@@ -61,20 +61,30 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-        <activity
-            android:name=".SearchInAdoptionActivity"
-            android:parentActivityName=".MainActivity" >
+
+        <activity android:name=".SearchInAdoptionActivity"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <activity
-            android:name=".ResultListActivity"
-            android:parentActivityName=".MainActivity" >
+            android:name=".SearchInAdoptionActivity2"
+            android:parentActivityName=".SearchInAdoptionActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.support.android.designlibdemo.SearchInAdoptionActivity" />
+        </activity>
+
+        <activity android:name=".ResultListActivity"
+            android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
@@ -105,18 +115,6 @@
             android:name=".LogoutActivity"
             android:label="@string/title_activity_logout"
             android:windowSoftInputMode="adjustResize|stateVisible" >
-        </activity>
-        <activity
-            android:name=".RegisterActivity"
-            android:label="@string/title_activity_register" >
-        </activity>
-        <activity
-            android:name=".Register2Activity"
-            android:label="@string/title_activity_register2"
-            android:parentActivityName=".RegisterActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.support.android.designlibdemo.RegisterActivity" />
         </activity>
     </application>
 

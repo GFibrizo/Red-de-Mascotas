@@ -1,6 +1,7 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -13,17 +14,20 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 
 import com.support.android.designlibdemo.model.FiltrosBusquedaAdopcion;
+import com.support.android.designlibdemo.model.Password;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utils.LoginRequest;
 import utils.SearchRequest;
+import utils.SecurityHandler;
 
 public class SearchInAdoptionActivity2 extends AppCompatActivity {
 
     private JSONObject object = null;
-
+    FiltrosBusquedaAdopcion filters;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -120,13 +124,50 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }
-        SearchRequest request = new SearchRequest(getApplicationContext());
-        FiltrosBusquedaAdopcion filters = new FiltrosBusquedaAdopcion(object);
-        JSONArray response = request.search(filters);
-        Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
-        intent.putExtra("data", response.toString());
-        if (intent != null)
-            startActivity(intent);
+
+
+        filters = new FiltrosBusquedaAdopcion(object);
+
+        //Llamado a la clase interna que realiza el request
+        QueryResultTask qTask = new QueryResultTask(filters);
+        qTask.execute((Void) null);
+
     }
+    public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
+
+        FiltrosBusquedaAdopcion filters;
+        JSONArray response;
+        QueryResultTask( FiltrosBusquedaAdopcion filters) {
+            this.filters = filters;
+        }
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            //Llamado al request
+            SearchRequest request = new SearchRequest(getApplicationContext());
+            response = request.search(filters);
+            return true;
+        }
+
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if(success){
+                Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
+                intent.putExtra("data", response.toString());
+                if (intent != null)
+                    startActivity(intent);
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+
+        }
+
+
+    }
+
 
 }

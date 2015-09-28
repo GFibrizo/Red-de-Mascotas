@@ -18,13 +18,11 @@ import java.util.HashMap;
 public final class RequestHandler {
     // Atributos
     private static RequestHandler singleton;
-    private static String serverUrl;
+    private static String serverUrl = "http://192.168.1.106:9000";
     private RequestQueue requestQueue;
     private static Context context;
 
-    public static void setServerUrl(String serverUrl) {
-        RequestHandler.serverUrl = serverUrl;
-    }
+
 
     private RequestHandler(Context context) {
         RequestHandler.context = context;
@@ -39,7 +37,7 @@ public final class RequestHandler {
     }
 
     public static String getServerUrl() {
-        return serverUrl;
+        return RequestHandler.serverUrl;
     }
 
     public RequestQueue getRequestQueue() {
@@ -48,7 +46,9 @@ public final class RequestHandler {
         }
         return requestQueue;
     }
-
+    public void setContext(Context context) {
+        RequestHandler.context= context;
+    }
     public void addToRequestQueue(Request req) {
         getRequestQueue().add(req);
     }
