@@ -1,6 +1,8 @@
 package services;
 
+import model.Domicilio;
 import model.MascotaAdopcion;
+import model.Usuario;
 import model.externo.FiltrosBusquedaAdopcion;
 import model.externo.MascotaAdopcionPublicacion;
 import org.springframework.stereotype.Service;
@@ -10,11 +12,14 @@ import java.util.List;
 @Service
 public class MascotaAdopcionServicio {
 
-    public void publicarMascota(MascotaAdopcionPublicacion mascotaPublicacion) {
+    public Boolean publicarMascota(MascotaAdopcionPublicacion mascotaPublicacion) {
+        Usuario duenio = Usuario.traerPorId(mascotaPublicacion.duenioId);
+        if (duenio == null)
+            return false;
         MascotaAdopcion mascota = new MascotaAdopcion(mascotaPublicacion.nombre,
                                                       mascotaPublicacion.tipo,
                                                       mascotaPublicacion.duenioId,
-                                                      mascotaPublicacion.domicilio,
+                                                      duenio.domicilio,
                                                       mascotaPublicacion.raza,
                                                       mascotaPublicacion.sexo,
                                                       mascotaPublicacion.edad,
@@ -29,6 +34,7 @@ public class MascotaAdopcionServicio {
                                                       mascotaPublicacion.tomaMedicinaCronica,
                                                       mascotaPublicacion.descripcion);
         MascotaAdopcion.crear(mascota);
+        return true;
     }
 
     public List<MascotaAdopcion> buscarMascotas(FiltrosBusquedaAdopcion filtros) {

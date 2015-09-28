@@ -12,8 +12,6 @@ public class MascotaAdopcionPublicacion {
 
     public String duenioId;
 
-    public Domicilio domicilio;
-
     public String raza;
 
     public String sexo;

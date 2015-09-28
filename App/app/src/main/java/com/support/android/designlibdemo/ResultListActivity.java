@@ -12,17 +12,22 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.support.android.designlibdemo.model.Domicilio;
+import com.support.android.designlibdemo.model.MascotaAdopcion;
+
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**  Esta clase se va a encargar de enviarle los resultados de las busquedas en tuplas de imagen
  *   y texto al adapter ImageAndTextArrayAdapter para que haga su display.
  */
 
 public class ResultListActivity extends AppCompatActivity {
-    private JSONObject object = null;
+    private JSONArray object = null;
     private ListView listView ;
 
     // Defined Array values to show in ListView
@@ -75,9 +80,9 @@ public class ResultListActivity extends AppCompatActivity {
         String nombre = "nombre";
 
         try {
-            object = new JSONObject(getIntent().getStringExtra("data"));
+            object = new JSONArray(getIntent().getStringExtra("data"));
             if (object != null){
-                nombre = object.getString("nombre");
+                List<MascotaAdopcion> mascotas = fromJSONArrayToListMascotas(object);
             }
         } catch (JSONException e) {
             Log.e("Error receiving intent", e.getMessage());
@@ -197,6 +202,51 @@ public class ResultListActivity extends AppCompatActivity {
         public void setUbicacion(String ubicacion) {
             this.ubicacion = ubicacion;
         }
+    }
+
+    private List<String> fromJSONArrayToList(JSONArray jsonArray) {
+        List<String> list = new ArrayList<String>();
+        try {
+            for (int i=0; i<jsonArray.length(); i++) {
+                list.add(jsonArray.getString(i));
+            }
+        } catch (JSONException e) {
+            Log.e("Error al crear el JSON", e.getMessage());
+        }
+        return list;
+    }
+
+    private List<MascotaAdopcion> fromJSONArrayToListMascotas(JSONArray jsonArray) {
+        List<MascotaAdopcion> list = new ArrayList<>();
+        try {
+            for (int i=0; i<jsonArray.length(); i++) {
+                JSONObject object = jsonArray.getJSONObject(i);
+                Domicilio domicilio = new Domicilio();
+                String barrio = ((JSONObject) object.get("domicilio")).getString("barrio");
+                domicilio.setBarrio(barrio);
+                MascotaAdopcion mascota = new MascotaAdopcion(object.getString("nombre"),
+                        "",
+                        "",
+                        domicilio,
+                        "",
+                        object.getString("sexo"),
+                        object.getString("edad"),
+                        object.getString("tamanio"),
+                        null,
+                        "",
+                        null,
+                        null,
+                        false,
+                        false,
+                        false,
+                        false,
+                        "");
+                list.add(mascota);
+            }
+        } catch (JSONException e) {
+            Log.e("Error al crear el JSON", e.getMessage());
+        }
+        return list;
     }
 
 }
