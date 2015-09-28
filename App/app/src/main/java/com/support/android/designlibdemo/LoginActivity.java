@@ -17,6 +17,8 @@ import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.ProfileTracker;
 import com.facebook.login.LoginManager;
@@ -25,7 +27,16 @@ import com.facebook.login.widget.LoginButton;
 import com.facebook.share.Sharer;
 import com.facebook.share.widget.ShareDialog;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+
+import utils.UserRegisterRequest;
+
+import static java.util.Arrays.*;
 
 public class LoginActivity extends FragmentActivity {
 
@@ -35,26 +46,42 @@ public class LoginActivity extends FragmentActivity {
     private AccessTokenTracker accessTokenTracker;
     private ProfileTracker profileTracker;
 
-    private FacebookCallback<LoginResult> callback = new FacebookCallback<LoginResult>() {
-        @Override
-        public void onSuccess(LoginResult loginResult) {
+    private FacebookCallback<LoginResult> callback;
+
+    {
+        callback = new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
             AccessToken accessToken = loginResult.getAccessToken();
-            Profile profile = Profile.getCurrentProfile();
-            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-            startActivity(intent);
-        }
+            GraphRequest.newMeRequest(
+                loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                    @Override
+                    public void onCompleted(JSONObject json, GraphResponse response) {
+                        if (response.getError() != null) {
+                            // handle error
+                            System.out.println("ERROR");
+                        } else {
+                            UserRegisterRequest userRegisterRequest = new UserRegisterRequest(getApplicationContext());
+                            userRegisterRequest.registerFacebookUser(json);
+                        }
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                    }
+                }).executeAsync();
+            }
 
-        @Override
-        public void onCancel() {
+            @Override
+            public void onCancel() {
+            }
 
-        }
+            @Override
+            public void onError(FacebookException e) {
+            }
 
-        @Override
-        public void onError(FacebookException e) {
+        };
+    }
 
-        }
 
-    };
 
 
     @Override
@@ -96,7 +123,8 @@ public class LoginActivity extends FragmentActivity {
             }
         });
         LoginButton loginButton = (LoginButton) findViewById(R.id.fb_login_button);
-        loginButton.setReadPermissions("user_friends");
+        List<String> permissions = Arrays.asList("email", "public_profile", "user_friends");
+        loginButton.setReadPermissions(permissions);
         loginButton.registerCallback(callbackManager, callback);
     }
 
@@ -126,6 +154,10 @@ public class LoginActivity extends FragmentActivity {
             intent.putExtra("PROFILE_FIRST_NAME", profile.getFirstName());
             startActivity(intent);
         }else{
+//            if (sesionUsuario != null){
+//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//                startActivity(intent);
+//            }
             //finish();
         }
     }
