@@ -27,18 +27,27 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         try {
             object = new JSONObject(getIntent().getStringExtra("data"));
         } catch (JSONException e) {
             Log.e("Error receiving intent", e.getMessage());
         }
+
         setContentView(R.layout.activity_search_in_adoption_2);
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_search);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_search_in_adoption, menu);
+        getMenuInflater().inflate(R.menu.menu_search_in_adoption_2, menu);
         return true;
     }
 
