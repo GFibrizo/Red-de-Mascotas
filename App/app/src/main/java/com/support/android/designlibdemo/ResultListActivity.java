@@ -77,32 +77,32 @@ public class ResultListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
 //        String data = getIntent().getExtras().getString("data");
         String data = getIntent().getStringExtra("data");
-        String nombre = "nombre";
+//        String nombre = "nombre";
+        List<MascotaAdopcion> mascotas = null;
 
         try {
             object = new JSONArray(getIntent().getStringExtra("data"));
             if (object != null){
-                List<MascotaAdopcion> mascotas = fromJSONArrayToListMascotas(object);
+                mascotas = fromJSONArrayToListMascotas(object);
             }
         } catch (JSONException e) {
             Log.e("Error receiving intent", e.getMessage());
         }
 
+
         ArrayList<TextAndImage> textAndImageArray = new ArrayList<TextAndImage>();
-        textAndImageArray.add(new TextAndImageContainer(1, values[0], data, "0 a 6 meses", "chico", "Belgrano, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(2, values[1], nombre, "1 a 3 años", "chico", "Flores, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(3, values[2], "hembra", "6 a 12 meses", "grande", "Palermo, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(4, values[3], "macho", "0 a 6 meses", "chico", "Paternal, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(5, values[4], "macho", "1 a 3 años", "chico", "Villa Urquiza, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(6, values[0], "hembra", "0 a 6 meses", "mediano", "Villa Crespo, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(7, values[1], "hembra", "0 a 6 meses", "chico", "San Telmo, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(8, values[2], "hembra", "0 a 6 meses", "chico", "Palermo, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(9, values[4], "hembra", "más de 7 años", "chico", "Flores, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(10, values[1],"macho", "0 a 6 meses", "mediano", "Palermo, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(11, values[2], "hembra", "0 a 6 meses", "chico", "Caballito, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(12, values[3], "hembra", "1 a 3 años", "chico", "San Telmo, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(13, values[4], "hembra", "0 a 6 meses", "chico", "Nuñez, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(14, values[0], "macho", "1 a 3 años", "grande", "Colegiales, Capital Federal"));
+
+        if (mascotas != null) {
+            for (int i = 0; i < mascotas.size(); i++) {
+                String nombre = mascotas.get(i).getNombre();
+                String sexo = mascotas.get(i).getSexo();
+                String edad = mascotas.get(i).getEdad();
+                String tam = mascotas.get(i).getTamanio();
+                String barrio = mascotas.get(i).getDomicilio().getBarrio();
+                textAndImageArray.add(new TextAndImageContainer(20+i, nombre, sexo, edad,tam, barrio));
+            }
+
+        }
 
 
         // ListView Item Click Listener
