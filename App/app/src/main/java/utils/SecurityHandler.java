@@ -1,5 +1,7 @@
 package utils;
 
+import com.support.android.designlibdemo.model.Password;
+
 import org.apache.commons.codec.digest.DigestUtils;
 
 import java.security.SecureRandom;

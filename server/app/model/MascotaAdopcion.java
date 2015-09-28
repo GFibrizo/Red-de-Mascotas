@@ -123,11 +123,11 @@ public class MascotaAdopcion {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         if (filtros.tipo != null) query.add("tipo", filtros.tipo);
         if (filtros.raza != null) query.add("raza", filtros.raza);
-        if (filtros.sexos != null) query.push("sexo").add("$in", filtros.sexos.toArray());
-        if (filtros.edades != null) query.push("edad").add("$in", filtros.edades.toArray());
-        if (filtros.tamanios != null) query.push("tamanio").add("$in", filtros.tamanios.toArray());
-        if (filtros.colores != null) query.push("colores").add("$in", filtros.colores.toArray());
-        if (filtros.coloresDeOjos != null) query.push("colorDeOjos").add("$in", filtros.coloresDeOjos.toArray());
+        if (filtros.sexos != null) query.push("sexo").add("$in", filtros.sexos.toArray()).pop();
+        if (filtros.edades != null) query.push("edad").add("$in", filtros.edades.toArray()).pop();
+        if (filtros.tamanios != null) query.push("tamanio").add("$in", filtros.tamanios.toArray()).pop();
+        if (filtros.colores != null) query.push("colores").add("$in", filtros.colores.toArray()).pop();
+        if (filtros.coloresDeOjos != null) query.push("colorDeOjos").add("$in", filtros.coloresDeOjos.toArray()).pop();
         if (filtros.barrio != null) query.add("barrio", filtros.barrio);
         if (filtros.ciudad != null) query.add("raza", filtros.ciudad);
         return query.get();

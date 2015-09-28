@@ -3,19 +3,14 @@ package utils;
 import android.content.Context;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
+import com.support.android.designlibdemo.model.Password;
 
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
 
 /**
  * Created by agu_k_000 on 27/09/2015.
@@ -25,7 +20,6 @@ public class LoginRequest {
     RequestHandler requestHandler;
     public LoginRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
-        requestHandler.setServerUrl("http://192.168.1.106:9000");
         this.salt= "";
     }
 
@@ -33,8 +27,9 @@ public class LoginRequest {
     //Sincronico
     public String getUserSalt(String user) {
         String path = buildSaltPath(user);
+
         RequestFuture<String> future = RequestFuture.newFuture();
-        StringRequest request = new StringRequest(Request.Method.GET, RequestHandler.getServerUrl() + path,future,future);
+        StringRequest request = new StringRequest(Request.Method.GET, path,future,future);
         requestHandler.addToRequestQueue(request);
         String salt = null; // this line will block
         try {

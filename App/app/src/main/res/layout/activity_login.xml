@@ -66,6 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="24dp"
             android:text="@string/crear_nueva_cuenta"
+            android:onClick="toRegister"
             android:gravity="center"
             android:textSize="16dip"/>
 
