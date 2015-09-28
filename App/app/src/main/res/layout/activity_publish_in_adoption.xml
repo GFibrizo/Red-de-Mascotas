@@ -5,7 +5,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity">
 
-    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/publish_layout"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
@@ -17,16 +18,24 @@
             android:layout_height="wrap_content"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_publish"
-            android:layout_width="match_parent"
-            android:subtitleTextColor="#ffffff"
-            android:elevation="3dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.DesignDemo"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            <android.support.design.widget.CollapsingToolbarLayout
+                android:id="@+id/publish_collapsing_toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                app:contentScrim="?attr/colorPrimary"
+                app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_publish"
+                android:layout_width="match_parent"
+                android:subtitleTextColor="#ffffff"
+                android:elevation="3dp"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/Theme.DesignDemo"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+            </android.support.design.widget.CollapsingToolbarLayout>
 
             <RelativeLayout
                 android:id="@+id/publish_subtitle_layout"
@@ -52,19 +61,20 @@
 
     </android.support.design.widget.AppBarLayout>
 
-    <ScrollView
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:layout_marginTop="120dp" >
 
-
-
-    </ScrollView>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="130dp"
         android:id="@+id/relativeLayout">
 
         <ImageView
@@ -87,13 +97,19 @@
             android:id="@+id/linearLayout1">
 
 
-            <EditText
-                android:id="@+id/published_pet_name"
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Nombre"
-                android:inputType="textPersonName"
-                android:layout_marginRight="10dp"/>
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/published_pet_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nombre"
+                    android:inputType="textPersonName"
+                    android:layout_marginRight="10dp"/>
+
+            </android.support.design.widget.TextInputLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -144,9 +160,12 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_below="@id/linearLayout1"
-            android:layout_marginTop="10dp"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp">
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
             <AutoCompleteTextView
                 android:id="@+id/breed"
@@ -155,10 +174,13 @@
                 android:hint="Raza"
                 android:inputType="textAutoComplete" />
 
+            </android.support.design.widget.TextInputLayout>
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
+                android:layout_marginTop="10dp"
                 android:textAlignment="gravity"
                 android:text="Edad" />
 
@@ -175,7 +197,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:text="0 años" />
+                    android:text="Cachorro" />
 
                 <SeekBar
                     android:layout_width="match_parent"
@@ -204,7 +226,7 @@
                     android:id="@+id/size_label"
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:text="Muy pequeño"
+                    android:text="Muy chico"
                     android:layout_marginLeft="20dp"/>
 
                 <SeekBar
@@ -223,7 +245,7 @@
             android:text="Siguiente"
             android:background="#2196F3"
             android:textColor="#ffffff"
-            android:textAllCaps="true"
+            android:textAllCaps="false"
             android:id="@+id/button_publish_1"
             android:onClick="nextPage"
             android:layout_marginRight="10dp"
@@ -234,5 +256,7 @@
             android:elevation="3dp"/>
 
     </RelativeLayout>
+    </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 
 </RelativeLayout>

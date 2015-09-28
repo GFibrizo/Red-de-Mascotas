@@ -47,7 +47,7 @@ public class ImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
 
         text.setText(element.getText());
         Glide.with(imageView.getContext())
-                .load(Cheeses.getRandomCheeseDrawable()) // TODO: cambiar url - new ImageUrlView(IpConfig.LOCAL_IP.url() + "/getstudentpicture/" + friendId, profilePricture).connect();
+                .load(Constants.getRandomCheeseDrawable()) // TODO: cambiar url - new ImageUrlView(IpConfig.LOCAL_IP.url() + "/getstudentpicture/" + friendId, profilePricture).connect();
                 .fitCenter()
                 .into(imageView);
 //                              new ImageUrlView(baseUrlForImage+element.getId(), imageView).connect();

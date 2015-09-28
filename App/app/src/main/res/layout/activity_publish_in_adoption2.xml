@@ -78,7 +78,7 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
             android:layout_alignParentStart="true"
             android:weightSum="1">
 
-
+            <!--
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -97,6 +97,41 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
                 android:layout_marginLeft="5dp"
                 android:layout_weight="0.5"/>
 
+            -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Color principal"
+                    android:textColorHint="@android:color/black"
+                    android:id="@+id/hair_color1"
+                    android:textAllCaps="false"
+                    android:layout_marginRight="5dp"
+                    android:inputType="textAutoComplete"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+                <AutoCompleteTextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Color secundario"
+                    android:textColorHint="@android:color/black"
+                    android:id="@+id/hair_color2"
+                    android:textAllCaps="false"
+                    android:layout_marginLeft="5dp"
+                    android:inputType="textAutoComplete"/>
+
+            </android.support.design.widget.TextInputLayout>
 
         </LinearLayout>
 
@@ -109,7 +144,7 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
             android:weightSum="1">
-
+            <!--
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -125,6 +160,22 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
                 android:id="@+id/eyes_color"
                 android:textAllCaps="false"
                 android:layout_weight="0.5"/>
+                -->
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.5">
+
+            <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Color de ojos"
+                android:id="@+id/eyes_color"
+                android:textColorHint="@android:color/black"
+                android:textAllCaps="false"
+                android:inputType="textAutoComplete"/>
+
+            </android.support.design.widget.TextInputLayout>
         </LinearLayout>
 
 
@@ -232,7 +283,7 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/pet_desc"
-            android:text="Descripción de la mascota"
+            android:hint="Descripción de la mascota"
             android:layout_marginTop="10dp"/>
 
 

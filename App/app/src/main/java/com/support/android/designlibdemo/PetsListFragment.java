@@ -53,7 +53,7 @@ public class PetsListFragment extends Fragment {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
-                getRandomSublist(Cheeses.sCheeseStrings, 30)));
+                getRandomSublist(Constants.sCheeseStrings, 30)));
     }
 
     /**********************************************************************************************/
@@ -140,7 +140,7 @@ public class PetsListFragment extends Fragment {
             });
 
             Glide.with(holder.mImageView.getContext())
-                    .load(Cheeses.getRandomCheeseDrawable())
+                    .load(Constants.getRandomCheeseDrawable())
                     .fitCenter()
                     .into(holder.mImageView);
         }
