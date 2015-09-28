@@ -19,11 +19,11 @@ import org.json.JSONObject;
 
 public class SearchInAdoptionActivity extends AppCompatActivity {
 
-    private static final String AGE_0_TO_6_MONTHS = "0 - 6 meses";
-    private static final String AGE_6_TO_12_MONTHS = "6 - 12 meses";
-    private static final String AGE_1_TO_3_YEARS = "1 - 3 años";
-    private static final String AGE_3_TO_7_YEARS = "3 - 7 años";
-    private static final String AGE_7_OR_MORE_YEARS = "más de 7 años";
+    private static final String AGE_0_TO_6_MONTHS = "0-6meses";
+    private static final String AGE_6_TO_12_MONTHS = "6-12meses";
+    private static final String AGE_1_TO_3_YEARS = "1-3anios";
+    private static final String AGE_3_TO_7_YEARS = "3-7anios";
+    private static final String AGE_7_OR_MORE_YEARS = "masDe7Anios";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,7 +94,7 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
             if (petGenderFemale.isChecked()) genders.put(petGenderFemale.getText());
             object.put("sexos", genders);
 
-            object.put("raza", breed.getText());
+            object.put("raza", breed.getText().toString());
 
             JSONArray ages = new JSONArray();
             if (age0to6m.isChecked()) ages.put(AGE_0_TO_6_MONTHS);
