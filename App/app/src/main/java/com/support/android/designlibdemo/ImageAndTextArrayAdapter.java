@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
+import com.support.android.designlibdemo.data.communications.TextUrlView;
 
 import org.w3c.dom.Text;
 
@@ -61,7 +62,9 @@ public class ImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
 
         int id = element.getId();
         baseUrlForImage = IP_EMULADOR + "/mascota/imagen/" + String.valueOf(id) + ".jpg";
+        String baseUrlForText = IP_EMULADOR + "/mascotas/adopcion?tipo=Perro";
         new ImageUrlView(baseUrlForImage, imageView).connect();
+        new TextUrlView(baseUrlForText, nombre).connect();
         return rowView;
     }
 }
