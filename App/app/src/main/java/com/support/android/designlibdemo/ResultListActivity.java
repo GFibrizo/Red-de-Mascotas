@@ -5,11 +5,15 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -18,7 +22,7 @@ import java.util.ArrayList;
  */
 
 public class ResultListActivity extends AppCompatActivity {
-
+    private JSONObject object = null;
     private ListView listView ;
 
     // Defined Array values to show in ListView
@@ -66,9 +70,22 @@ public class ResultListActivity extends AppCompatActivity {
     private void cargarResultados(){
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
+//        String data = getIntent().getExtras().getString("data");
+        String data = getIntent().getStringExtra("data");
+        String nombre = "nombre";
+
+        try {
+            object = new JSONObject(getIntent().getStringExtra("data"));
+            if (object != null){
+                nombre = object.getString("nombre");
+            }
+        } catch (JSONException e) {
+            Log.e("Error receiving intent", e.getMessage());
+        }
+
         ArrayList<TextAndImage> textAndImageArray = new ArrayList<TextAndImage>();
-        textAndImageArray.add(new TextAndImageContainer(1, values[0], "hembra", "0 a 6 meses", "chico", "Belgrano, Capital Federal"));
-        textAndImageArray.add(new TextAndImageContainer(2, values[1], "macho", "1 a 3 años", "chico", "Flores, Capital Federal"));
+        textAndImageArray.add(new TextAndImageContainer(1, values[0], data, "0 a 6 meses", "chico", "Belgrano, Capital Federal"));
+        textAndImageArray.add(new TextAndImageContainer(2, values[1], nombre, "1 a 3 años", "chico", "Flores, Capital Federal"));
         textAndImageArray.add(new TextAndImageContainer(3, values[2], "hembra", "6 a 12 meses", "grande", "Palermo, Capital Federal"));
         textAndImageArray.add(new TextAndImageContainer(4, values[3], "macho", "0 a 6 meses", "chico", "Paternal, Capital Federal"));
         textAndImageArray.add(new TextAndImageContainer(5, values[4], "macho", "1 a 3 años", "chico", "Villa Urquiza, Capital Federal"));

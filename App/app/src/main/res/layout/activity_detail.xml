@@ -152,12 +152,12 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Descripción"
-                        android:id="@+id/descripcion"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/descripcion"
                         android:text="@string/cheese_ipsum" />
 
                 </LinearLayout>
@@ -186,6 +186,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:id="@+id/caracteristicas"
                         android:text="Necesita un hogar de tránsito\nEsta castrada\nNecesita tomar alguna medicina de manera temporal \nNecesita tomar alguna medicina de manera permanente" />
 
 
@@ -214,6 +215,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:id="@+id/conducta"
                         android:text="Sociable\nSe lleva bien con otros animales\nSe lleva bien con niños\nCompañero\nJuguetón\nTranquilo\nGuardian\nAgresivo" />
 
                 </LinearLayout>

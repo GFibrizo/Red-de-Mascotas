@@ -62,9 +62,7 @@ public class ImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
 
         int id = element.getId();
         baseUrlForImage = IP_EMULADOR + "/mascota/imagen/" + String.valueOf(id) + ".jpg";
-        String baseUrlForText = IP_EMULADOR + "/mascotas/adopcion?tipo=Perro";
         new ImageUrlView(baseUrlForImage, imageView).connect();
-        new TextUrlView(baseUrlForText, nombre).connect();
         return rowView;
     }
 }
