@@ -1,4 +1,4 @@
-package utils;
+package com.support.android.designlibdemo.model;
 
 /**
  * Created by agu_k_000 on 26/09/2015.

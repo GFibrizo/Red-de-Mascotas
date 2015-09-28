@@ -17,4 +17,6 @@
     <string name="tamanioLabel">Tamaño:</string>
     <string name="ubicacionLabel">Ubicación:</string>
     <string name="logout_facebook">Desloguearse Facebook</string>
+    <string name="new_account">Nueva Cuenta</string>
+    <string name="register_next">Siguiente</string>
 </resources>

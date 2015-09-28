@@ -86,4 +86,8 @@
   <string name="ubicacionLabel">Ubicación:</string>
     <string name="title_activity_logout">LogoutActivity</string>
   <string name="logout_facebook">Desloguearse Facebook</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="title_activity_register2">Register2Activity</string>
+  <string name="new_account">Nueva Cuenta</string>
+  <string name="register_next">Siguiente</string>
 </resources>
