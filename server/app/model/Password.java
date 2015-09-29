@@ -1,6 +1,6 @@
 package model;
 
-public class Contrasenia {
+public class Password {
 
     public String encriptacion;
 

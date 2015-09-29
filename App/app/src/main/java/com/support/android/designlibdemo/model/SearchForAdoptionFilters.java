@@ -9,7 +9,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FiltrosBusquedaAdopcion {
+public class SearchForAdoptionFilters {
 
     public String tipo;
 
@@ -29,7 +29,7 @@ public class FiltrosBusquedaAdopcion {
 
     public String ciudad;
 
-    public FiltrosBusquedaAdopcion(JSONObject object) {
+    public SearchForAdoptionFilters(JSONObject object) {
         try {
             this.tipo = object.getString("tipo");
             this.raza = object.getString("raza");
@@ -38,8 +38,8 @@ public class FiltrosBusquedaAdopcion {
             this.tamanios = fromJSONArrayToList((JSONArray) object.get("tamanios"));
             this.colores = fromJSONArrayToList((JSONArray) object.get("colores"));
             this.coloresDeOjos = fromJSONArrayToList((JSONArray) object.get("coloresDeOjos"));
-            this.barrio = object.getString("barrio");
-            this.ciudad = object.getString("ciudad");
+            this.barrio = object.getString("neighbourhood");
+            this.ciudad = object.getString("city");
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

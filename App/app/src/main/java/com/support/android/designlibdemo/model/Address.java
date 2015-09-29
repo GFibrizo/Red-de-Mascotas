@@ -1,6 +1,6 @@
 package com.support.android.designlibdemo.model;
 
-public class Domicilio {
+public class Address {
 
     public String calle;
     public String numero;

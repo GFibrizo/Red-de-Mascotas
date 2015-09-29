@@ -2,13 +2,13 @@ package com.support.android.designlibdemo.model;
 
 import java.util.List;
 
-public class MascotaAdopcion {
+public class PetAdoption {
 
     public String id;
     public String nombre;
     public String tipo;
     public String duenioId;
-    public Domicilio domicilio;
+    public Address address;
     public String raza;
     public String sexo;
     public String edad;
@@ -28,16 +28,16 @@ public class MascotaAdopcion {
     public String fechaDePublicacion;
     private static final int MAX_ULTIMAS_PUBLICACIONES = 10;
 
-    public MascotaAdopcion() { }
+    public PetAdoption() { }
 
-    public MascotaAdopcion(String nombre, String tipo, String duenioId, Domicilio domicilio, String raza,
-                           String sexo, String edad, String tamanio, List<String> colores, String colorDeOjos,
-                           List<String> conducta, List<String> imagenes, Boolean necesitaHogarDeTransito,
-                           Boolean estaCastrada, Boolean tomaMedicinaTemporal, Boolean tomaMedicinaCronica, String descripcion) {
+    public PetAdoption(String nombre, String tipo, String duenioId, Address address, String raza,
+                       String sexo, String edad, String tamanio, List<String> colores, String colorDeOjos,
+                       List<String> conducta, List<String> imagenes, Boolean necesitaHogarDeTransito,
+                       Boolean estaCastrada, Boolean tomaMedicinaTemporal, Boolean tomaMedicinaCronica, String descripcion) {
         this.nombre = nombre;
         this.tipo = tipo;
         this.duenioId = duenioId;
-        this.domicilio = domicilio;
+        this.address = address;
         this.raza = raza;
         this.sexo = sexo;
         this.edad = edad;
@@ -85,12 +85,12 @@ public class MascotaAdopcion {
         this.duenioId = duenioId;
     }
 
-    public Domicilio getDomicilio() {
-        return domicilio;
+    public Address getAddress() {
+        return address;
     }
 
-    public void setDomicilio(Domicilio domicilio) {
-        this.domicilio = domicilio;
+    public void setAddress(Address address) {
+        this.address = address;
     }
 
     public String getRaza() {

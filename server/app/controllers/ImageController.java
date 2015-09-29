@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.UUID;
 
 @Controller
-public class ImagenControlador extends play.mvc.Controller {
+public class ImageController extends play.mvc.Controller {
 
     public Result subirImagenMascota() {
         Http.MultipartFormData body = request().body().asMultipartFormData();
