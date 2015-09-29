@@ -18,108 +18,103 @@ public class PetAdoption {
     @ObjectId
     public String id;
 
-    public String nombre;
+    public String name;
 
-    public String tipo;
+    public String type;
 
-    public String duenioId;
+    public String ownerId;
 
     public Address address;
 
-    public String raza;
+    public String breed;
 
-    public String sexo;
+    public String gender;
 
-    public String edad;
+    public String age;
 
-    public String tamanio;
+    public String size;
 
-    public List<String> colores;
+    public List<String> colors;
 
-    public String colorDeOjos;
+    public String eyeColor;
 
-    public List<String> conducta;
+    public List<String> behavior;
 
-    public List<String> imagenes;
+    public List<String> images;
 
     public List<String> videos;
 
-    public Boolean necesitaHogarDeTransito;
+    public Boolean needsTransitHome;
 
-    public String usuarioHogarDeTransito;
+    public String transitHomeUser;
 
-    public Boolean estaCastrada;
+    public Boolean isCastrated;
 
-    public Boolean tomaMedicinaTemporal;
+    public Boolean isOnTemporaryMedicine;
 
-    public Boolean tomaMedicinaCronica;
+    public Boolean isOnChronicMedicine;
 
-    public String descripcion;
+    public String description;
 
-    public String estadoPublicacion;
+    public String publicationStatus;
 
-    public String fechaDePublicacion;
+    public String publicationDate;
 
-    private static final int MAX_ULTIMAS_PUBLICACIONES = 10;
+    private static final int MAX_LAST_PUBLICATIONS = 10;
 
 
-    private static JacksonDBCollection<PetAdoption, String> coleccion = MongoDB.getCollection("mascotasEnAdopcion", PetAdoption.class, String.class);
+    private static JacksonDBCollection<PetAdoption, String> collection = MongoDB.getCollection("petsAdoption", PetAdoption.class, String.class);
 
 
     public PetAdoption() { }
 
-    public PetAdoption(String nombre, String tipo, String duenioId, Address address, String raza,
-                       String sexo, String edad, String tamanio, List<String> colores, String colorDeOjos,
-                       List<String> conducta, List<String> imagenes, Boolean necesitaHogarDeTransito,
-                       Boolean estaCastrada, Boolean tomaMedicinaTemporal, Boolean tomaMedicinaCronica, String descripcion) {
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.duenioId = duenioId;
+    public PetAdoption(String name, String type, String ownerId, Address address, String breed,
+                       String gender, String age, String size, List<String> colors, String eyeColor,
+                       List<String> behavior, List<String> images, Boolean needsTransitHome,
+                       Boolean isCastrated, Boolean isOnTemporaryMedicine, Boolean isOnChronicMedicine, String description) {
+        this.name = name;
+        this.type = type;
+        this.ownerId = ownerId;
         this.address = address;
-        this.raza = raza;
-        this.sexo = sexo;
-        this.edad = edad;
-        this.tamanio = tamanio;
-        this.colores = colores;
-        this.colorDeOjos = colorDeOjos;
-        this.conducta = conducta;
-        this.imagenes = imagenes;
-        this.necesitaHogarDeTransito = necesitaHogarDeTransito;
-        this.estaCastrada = estaCastrada;
-        this.tomaMedicinaTemporal = tomaMedicinaTemporal;
-        this.tomaMedicinaCronica = tomaMedicinaCronica;
-        this.descripcion = descripcion;
+        this.breed = breed;
+        this.gender = gender;
+        this.age = age;
+        this.size = size;
+        this.colors = colors;
+        this.eyeColor = eyeColor;
+        this.behavior = behavior;
+        this.images = images;
+        this.needsTransitHome = needsTransitHome;
+        this.isCastrated = isCastrated;
+        this.isOnTemporaryMedicine = isOnTemporaryMedicine;
+        this.isOnChronicMedicine = isOnChronicMedicine;
+        this.description = description;
     }
 
-    private void actualizarEstadoPublicado() {
-        this.estadoPublicacion = "PUBLICADO";
-        this.fechaDePublicacion = DateTime.now().toString("yyyy/MM/dd HH:mm:ss.SSS");
+    public static List<PetAdoption> getByOwnerId(String ownerId) {
+        return PetAdoption.collection.find(new BasicDBObject("ownerId", ownerId)).toArray();
     }
 
-    public static List<PetAdoption> traerPorDuenioId(String duenioId) {
-        return PetAdoption.coleccion.find(new BasicDBObject("ownerId", duenioId)).toArray();
+    public static List<PetAdoption> search(SearchForAdoptionFilters filters) {
+        return PetAdoption.collection.find(buildSearchFilters(filters)).toArray();
     }
 
-    public static List<PetAdoption> buscar(SearchForAdoptionFilters filtros) {
-        return PetAdoption.coleccion.find(construirFiltrosDeBusqueda(filtros)).toArray();
+    public static List<PetAdoption> getLastPublications() {
+        return PetAdoption.collection.find().sort(new BasicDBObject("publicationDate", -1)).limit(MAX_LAST_PUBLICATIONS).toArray();
     }
 
-    public static List<PetAdoption> traerUltimasPublicaciones() {
-        return PetAdoption.coleccion.find().sort(new BasicDBObject("fechaDePublicacion", -1)).limit(MAX_ULTIMAS_PUBLICACIONES).toArray();
+    public static void create(PetAdoption petAdoption) {
+        petAdoption.updatePublicationStatusToPublished();
+        PetAdoption.collection.save(petAdoption);
     }
 
-    public static void crear(PetAdoption petAdoption) {
-        petAdoption.actualizarEstadoPublicado();
-        PetAdoption.coleccion.save(petAdoption);
-    }
-
-    public static void eliminar(String id) {
-        PetAdoption petAdoption = PetAdoption.coleccion.findOneById(id);
+    public static void delete(String id) {
+        PetAdoption petAdoption = PetAdoption.collection.findOneById(id);
         if (petAdoption != null)
-            PetAdoption.coleccion.remove(petAdoption);
+            PetAdoption.collection.remove(petAdoption);
     }
 
-    private static DBObject construirFiltrosDeBusqueda(SearchForAdoptionFilters filtros) {
+    private static DBObject buildSearchFilters(SearchForAdoptionFilters filtros) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         if (filtros.type != null) query.add("type", filtros.type);
         if (filtros.breed != null) query.add("breed", filtros.breed);
@@ -131,6 +126,11 @@ public class PetAdoption {
         if (filtros.neighbourhood != null) query.add("neighbourhood", filtros.neighbourhood);
         if (filtros.city != null) query.add("breed", filtros.city);
         return query.get();
+    }
+
+    private void updatePublicationStatusToPublished() {
+        this.publicationStatus = "PUBLISHED";
+        this.publicationDate = DateTime.now().toString("yyyy/MM/dd HH:mm:ss.SSS");
     }
 
 }

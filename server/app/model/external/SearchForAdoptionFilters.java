@@ -1,5 +1,7 @@
 package model.external;
 
+import utils.Decoder;
+
 import java.util.List;
 
 public class SearchForAdoptionFilters {
@@ -22,8 +24,13 @@ public class SearchForAdoptionFilters {
 
     public String city;
 
-    public SearchForAdoptionFilters decodeFilters() {
-
+    public void decodeFilters() {
+        this.breed = Decoder.decode(this.breed);
+        this.ages = Decoder.decode(this.ages);
+        this.colors = Decoder.decode(this.colors);
+        this.eyeColors = Decoder.decode(this.eyeColors);
+        this.neighbourhood = Decoder.decode(this.neighbourhood);
+        this.city = Decoder.decode(this.city);
     }
 
 }

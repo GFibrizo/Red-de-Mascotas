@@ -46,7 +46,7 @@ public class LoginRequest {
 
 
     public boolean isValidUserPassword(String user, Password password) {
-        String path = this.buildValidateUserPath(user,password.getEncriptacion());
+        String path = this.buildValidateUserPath(user,password.getEncryption());
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestHandler.getServerUrl() + path, future, future);
         requestHandler.addToRequestQueue(request);
@@ -63,11 +63,11 @@ public class LoginRequest {
         return true;
     }
 
-    private String buildValidateUserPath(String user,String password){
-        return "/login/cuenta?nombreDeUsuario=" + user + "&contraseniaEncriptada=" + password;
+    private String buildValidateUserPath(String user, String password){
+        return "/login/account?userName=" + user + "&encryptedPassword=" + password;
     }
 
     private String buildSaltPath(String user){
-        return "/usuario/" + user + "/salt";
+        return "/user/" + user + "/salt";
     }
 }

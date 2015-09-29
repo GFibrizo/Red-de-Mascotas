@@ -1,7 +1,51 @@
 package utils;
 
-/**
- * Created by yglinsek on 29/09/15.
- */
-public class Constants {
+public final class Constants {
+
+    private Constants() { }
+
+    public static final String AGE_0_TO_6_MONTHS = "0 - 6 meses";
+    public static final String AGE_6_TO_12_MONTHS = "6 - 12 meses";
+    public static final String AGE_1_TO_3_YEARS = "1 - 3 años";
+    public static final String AGE_3_TO_7_YEARS = "3 - 7 años";
+    public static final String AGE_7_OR_MORE_YEARS = "más de 7 años";
+
+    public static final String[] BREEDS = new String[] {
+            //Dog breeds
+            "Affenpinscher", "Afgano", "Airedale Terrier", "Akita", "Alaskan Malamute", "American Foxhound", "American Staffordshire Terrier",
+            "Antiguo perro pastor inglés", "Basenji", "Basset Hound", "Beagle", "Beauceron", "Bedlington Terrier", "Bichon Frise", "Bichón habanero",
+            "Bichón maltés", "Bloodhound / Perro de San Huberto", "Bluetick Coonhound", "Border Collie", "Border Terrier", "Borzoi", "Boston Terrier",
+            "Boxer", "Boyero de Berna", "Boyero de Entlebuch", "Boyero de Flandes", "Boykin Spaniel", "Braco alemán de pelo corto / Kurzhaar",
+            "Braco alemán de pelo duro / Drahthaar", "Braco de Weimar / Weimaraner", "Buhund noruego", "Bull Terrier", "Bull Terrier Miniatura",
+            "Bulldog", "Bulldog francés", "Bullmastiff", "Cairn Terrier", "Cane Corso", "Caniche", "Cavalier King Charles Spaniel", "Cazador de alces noruego",
+            "Chihuahua", "Chinook", "Chow Chow", "Clumber Spaniel", "Cocker Spaniel", "Cocker spaniel inglés", "Collie", "Collie barbudo",
+            "Coonhound Inglés Americano", "Coonhound negro y bronce", "Corgi galés de Cardigan", "Corgi galés de Pembroke", "Crestado Chino", "Dachshund",
+            "Dandie Dinmont Terrier", "Doberman", "Dogo de Burdeos", "Dogo del Tíbet", "Dálmata", "Finnish Lapphund", "Finnish Spitz", "Fox terrier de pelo duro",
+            "Foxhound inglés", "Galgo inglés", "Glen of Imaal Terrier", "Golden Retriever", "Gordon Setter", "Gran boyero suizo", "Gran danés", "Grifón de Bruselas",
+            "Grifón Korthal", "Grifón vandeano basset pequeño", "Harrier", "Husky siberiano", "Jack Russell terrier", "Keeshond", "Kerry Blue Terrier",
+            "Komondor", "Kuvasz", "Labrador Retriever", "Lakeland Terrier", "Lebrel escocés", "Lebrel italiano", "Leonberger", "Lhasa Apso", "Lobero irlandés",
+            "Lundehund", "Manchester Terrier", "Mastín inglés", "Mastín napolitano", "Mestizo", "Montaña de los Pirineos / Gran Pirineo", "Otterhound", "Papillon",
+            "Parson Russell Terrier", "Pastor alemán / Overjero Alemán", "Pastor belga", "Pastor belga Malinois", "Pastor belga Tervuerense", "Pastor de Anatolia",
+            "Pastor de Brie", "Pastor de los Pirineos", "Pastor de Valée", "Pastor ganadero autraliano", "Pastor Islandés", "Pastor ovejero australiano", "Pekinés",
+            "Pequeño perro león", "Perro crestado rodesiano", "Perro de agua americano", "Perro de agua irlandés", "Perro de Agua Portugués", "Perro de Canaán",
+            "Perro esquimal americano", "Perro pastor de las islas Shetland", "Pharaoh Hound", "Pinscher alemán", "Pinscher miniatura", "Plott", "Podenco ibicenco",
+            "Podenco portugués", "Pointer", "Pomerania", "Pug", "Puli", "Redbone Coonhound", "Retriever de Chesapeake", "Retriever de Nueva Escocia",
+            "Retriever de Pelo Liso", "Retriever de pelo rizado", "Rottweiler", "Saluki", "Samoyedo", "San Bernardo", "Schipperke", "Schnauzer estándar",
+            "Schnauzer gigante", "Schnauzer miniatura", "Sealyham Terrier", "Setter inglés", "Setter irlandés", "Setter irlandés rojo y blanco", "Shar Pei",
+            "Shiba Inu", "Shih Tzu", "Skye Terrier", "Soft Coated Wheaten Terrier", "Spaniel bretón", "Spaniel de campo", "Spaniel japonés", "Spaniel tibetano",
+            "Spinone", "Springer spaniel galés", "Springer spaniel inglés", "Staffordshire Bull Terrier", "Sussex Spaniel", "Terranova", "Terrier australiano",
+            "Terrier checo", "Terrier de Australia", "Terrier de Norfolk", "Terrier de Norwich", "Terrier escocés", "Terrier galés", "Terrier irlandés",
+            "Terrier ruso negro", "Terrier tibetano", "Toy Fox Terrier", "Toy spaniel inglés", "Treeing Walker Coonhound", "Vallhund sueco", "Vizsla",
+            "West Highland White Terrier", "Whippet", "Xoloitzcuintli", "Yorkshire Terrier",
+
+            // Cat breeds
+            "Abisinio", "Aphrodite's Giants", "Australian Mist", "American Curl", "Azul ruso", "American shorthair", "American wirehair", "Angora turco",
+            "Africano doméstico", "Bengala", "Bobtail japonés", "Bombay", "Bosque de Noruega", "Brazilian Shorthair", "Brivon de pelo corto", "Brivon de pelo largo",
+            "British Shorthair", "Burmés", "Burmilla", "Cornish rexx", "California Spangled", "Ceylon", "Cymric", "Chartreux", "Deutsch Langhaar", "Devon rex",
+            "Dorado africano", "Don Sphynx", "Dragon Li", "Europeo Común", "Exótico de Pelo Corto", "FoldEx", "German Rex", "Habana brown", "Himalayo", "Korat",
+            "Khao Manee", "Lituli", "Maine Coon", "Manx", "Mau egipcio", "Munchkin", "Ocicat", "Oriental", "Oriental de pelo largo", "Ojos azules", "PerFold1",
+            "Persa Americano o Moderno", "Persa Clásico o Tradicional", "Peterbald", "Pixie Bob", "Ragdoll", "Sagrado de Birmania", "Scottish Fold", "Selkirk rex",
+            "Serengeti", "Seychellois", "Siamés", "Siamés Moderno", "Siamés Tradicional", "Siberiano", "Snowshoe", "Sphynx", "Tonkinés", "Van Turco"
+    };
+
 }

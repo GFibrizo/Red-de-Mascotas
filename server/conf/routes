@@ -3,24 +3,24 @@
 # ~~~~
 
 # LogIn
-GET         /login/cuenta                                @controllers.UsuarioControlador.logInCuenta
-GET         /login/facebook/:facebookId                  @controllers.UsuarioControlador.logInFacebook(facebookId)
-GET         /usuario/:nombreDeUsuario/salt               @controllers.UsuarioControlador.traerSaltDeUsuario(nombreDeUsuario)
+GET         /login/account                     @controllers.UserController.logInWithAccount
+GET         /login/facebook/:facebookId        @controllers.UserController.logInWithFacebook(facebookId)
+GET         /user/:userName/salt               @controllers.UserController.getUserSalt(userName)
 
 # Registro de usuario
-POST        /usuario                                     @controllers.UsuarioControlador.registrarUsuarioCuenta
-POST        /usuario/facebook                            @controllers.UsuarioControlador.registrarUsuarioFacebook
+POST        /user/account                      @controllers.UserController.registerAccountUser
+POST        /user/facebook                     @controllers.UserController.registerFacebookUser
 
 # Usuario
-GET         /usuario/:usuarioId/mascotas-adopcion        @controllers.UsuarioControlador.traerMascotasEnAdopcion(usuarioId)
+GET         /user/:userId/pet-adoption         @controllers.UserController.getPetsInAdoption(userId)
 
 # Publicacion de mascota en adopcion
-POST        /mascota/adopcion                            @controllers.MascotaAdopcionControlador.publicarMascota
+POST        /pet/adoption                      @controllers.PetAdoptionController.publishPet
 
 # Busqueda de mascotas en adopcion
-GET         /mascotas/adopcion                           @controllers.MascotaAdopcionControlador.buscarMascotas
-GET         /mascotas/ultimas                            @controllers.MascotaAdopcionControlador.traerUltimasPublicaciones
+GET         /pets/adoption                     @controllers.PetAdoptionController.searchPets
+GET         /pets/last                         @controllers.PetAdoptionController.getLastPublished
 
 # Media
-GET         /mascota/imagen/:imagenId                    @controllers.ImagenControlador.traerImagenMascota(imagenId)
-POST        /mascota/imagen                              @controllers.ImagenControlador.subirImagenMascota
+GET         /pet/image/:imageId                @controllers.ImageController.getPetImage(imageId)
+POST        /pet/image                         @controllers.ImageController.uploadPetImage

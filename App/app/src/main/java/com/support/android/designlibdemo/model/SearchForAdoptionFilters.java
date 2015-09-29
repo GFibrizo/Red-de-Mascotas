@@ -11,35 +11,35 @@ import java.util.List;
 
 public class SearchForAdoptionFilters {
 
-    public String tipo;
+    public String type;
 
-    public String raza;
+    public String breed;
 
-    public List<String> sexos;
+    public List<String> genders;
 
-    public List<String> edades;
+    public List<String> ages;
 
-    public List<String> tamanios;
+    public List<String> sizes;
 
-    public List<String> colores;
+    public List<String> colors;
 
-    public List<String> coloresDeOjos;
+    public List<String> eyeColors;
 
-    public String barrio;
+    public String neighbourhood;
 
-    public String ciudad;
+    public String city;
 
     public SearchForAdoptionFilters(JSONObject object) {
         try {
-            this.tipo = object.getString("tipo");
-            this.raza = object.getString("raza");
-            this.sexos = fromJSONArrayToList((JSONArray) object.get("sexos"));
-            this.edades = fromJSONArrayToList((JSONArray) object.get("edades"));
-            this.tamanios = fromJSONArrayToList((JSONArray) object.get("tamanios"));
-            this.colores = fromJSONArrayToList((JSONArray) object.get("colores"));
-            this.coloresDeOjos = fromJSONArrayToList((JSONArray) object.get("coloresDeOjos"));
-            this.barrio = object.getString("neighbourhood");
-            this.ciudad = object.getString("city");
+            this.type = object.getString("type");
+            this.breed = object.getString("breed");
+            this.genders = fromJSONArrayToList((JSONArray) object.get("genders"));
+            this.ages = fromJSONArrayToList((JSONArray) object.get("ages"));
+            this.sizes = fromJSONArrayToList((JSONArray) object.get("sizes"));
+            this.colors = fromJSONArrayToList((JSONArray) object.get("colors"));
+            this.eyeColors = fromJSONArrayToList((JSONArray) object.get("eyeColors"));
+            this.neighbourhood = object.getString("neighbourhood");
+            this.city = object.getString("city");
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

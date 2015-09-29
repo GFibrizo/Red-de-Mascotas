@@ -55,7 +55,7 @@ public class UserRegisterRequest {
     }
 
     private String buildRegisterFacebooUserPath(){
-        return "/usuario/facebook";
+        return "/user/facebook";
     }
 
     public void registerFacebookUser( JSONObject json) {
@@ -65,8 +65,8 @@ public class UserRegisterRequest {
             try {
                 //Ver como recuperar mas datos desde el api de facewbook
                 jsonRequest.put("facebookId", getJsonData(json,"id"));
-                jsonRequest.put("nombre", getJsonData(json,"name"));
-                jsonRequest.put("apellido", getJsonData(json,"last_name"));
+                jsonRequest.put("name", getJsonData(json,"name"));
+                jsonRequest.put("lastName", getJsonData(json,"last_name"));
                 this.createFacebookUser(jsonRequest);
             } catch (JSONException e) {
                 return;

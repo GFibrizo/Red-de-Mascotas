@@ -30,7 +30,7 @@ public class SecurityHandler {
     }
 
     public Boolean validPassword(String password, Password savePassword) {
-        return savePassword.getEncriptacion().equals(encryptionPassword(password, savePassword.getSalt()));
+        return savePassword.getEncryption().equals(encryptionPassword(password, savePassword.getSalt()));
     }
 
 }

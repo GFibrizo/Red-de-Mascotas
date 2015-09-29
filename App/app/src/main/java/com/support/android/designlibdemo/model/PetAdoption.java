@@ -5,52 +5,51 @@ import java.util.List;
 public class PetAdoption {
 
     public String id;
-    public String nombre;
-    public String tipo;
-    public String duenioId;
+    public String name;
+    public String type;
+    public String ownerId;
     public Address address;
-    public String raza;
-    public String sexo;
-    public String edad;
-    public String tamanio;
-    public List<String> colores;
-    public String colorDeOjos;
-    public List<String> conducta;
-    public List<String> imagenes;
+    public String breed;
+    public String gender;
+    public String age;
+    public String size;
+    public List<String> colors;
+    public String eyeColor;
+    public List<String> behavior;
+    public List<String> images;
     public List<String> videos;
-    public Boolean necesitaHogarDeTransito;
-    public String usuarioHogarDeTransito;
-    public Boolean estaCastrada;
-    public Boolean tomaMedicinaTemporal;
-    public Boolean tomaMedicinaCronica;
-    public String descripcion;
-    public String estadoPublicacion;
-    public String fechaDePublicacion;
-    private static final int MAX_ULTIMAS_PUBLICACIONES = 10;
+    public Boolean needsTransitHome;
+    public String transitHomeUser;
+    public Boolean isCastrated;
+    public Boolean isOnTemporaryMedicine;
+    public Boolean isOnChronicMedicine;
+    public String description;
+    public String publicationStatus;
+    public String publicationDate;
 
     public PetAdoption() { }
 
-    public PetAdoption(String nombre, String tipo, String duenioId, Address address, String raza,
-                       String sexo, String edad, String tamanio, List<String> colores, String colorDeOjos,
-                       List<String> conducta, List<String> imagenes, Boolean necesitaHogarDeTransito,
-                       Boolean estaCastrada, Boolean tomaMedicinaTemporal, Boolean tomaMedicinaCronica, String descripcion) {
-        this.nombre = nombre;
-        this.tipo = tipo;
-        this.duenioId = duenioId;
+    public PetAdoption(String name, String type, String ownerId, Address address, String breed,
+                       String gender, String age, String size, List<String> colors, String eyeColor,
+                       List<String> behavior, List<String> images, Boolean needsTransitHome,
+                       Boolean isCastrated, Boolean isOnTemporaryMedicine, Boolean isOnChronicMedicine, String description) {
+        this.name = name;
+        this.type = type;
+        this.ownerId = ownerId;
         this.address = address;
-        this.raza = raza;
-        this.sexo = sexo;
-        this.edad = edad;
-        this.tamanio = tamanio;
-        this.colores = colores;
-        this.colorDeOjos = colorDeOjos;
-        this.conducta = conducta;
-        this.imagenes = imagenes;
-        this.necesitaHogarDeTransito = necesitaHogarDeTransito;
-        this.estaCastrada = estaCastrada;
-        this.tomaMedicinaTemporal = tomaMedicinaTemporal;
-        this.tomaMedicinaCronica = tomaMedicinaCronica;
-        this.descripcion = descripcion;
+        this.breed = breed;
+        this.gender = gender;
+        this.age = age;
+        this.size = size;
+        this.colors = colors;
+        this.eyeColor = eyeColor;
+        this.behavior = behavior;
+        this.images = images;
+        this.needsTransitHome = needsTransitHome;
+        this.isCastrated = isCastrated;
+        this.isOnTemporaryMedicine = isOnTemporaryMedicine;
+        this.isOnChronicMedicine = isOnChronicMedicine;
+        this.description = description;
     }
 
     public String getId() {
@@ -61,28 +60,28 @@ public class PetAdoption {
         this.id = id;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getName() {
+        return name;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getTipo() {
-        return tipo;
+    public String getType() {
+        return type;
     }
 
-    public void setTipo(String tipo) {
-        this.tipo = tipo;
+    public void setType(String type) {
+        this.type = type;
     }
 
-    public String getDuenioId() {
-        return duenioId;
+    public String getOwnerId() {
+        return ownerId;
     }
 
-    public void setDuenioId(String duenioId) {
-        this.duenioId = duenioId;
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     public Address getAddress() {
@@ -93,68 +92,68 @@ public class PetAdoption {
         this.address = address;
     }
 
-    public String getRaza() {
-        return raza;
+    public String getBreed() {
+        return breed;
     }
 
-    public void setRaza(String raza) {
-        this.raza = raza;
+    public void setBreed(String breed) {
+        this.breed = breed;
     }
 
-    public String getSexo() {
-        return sexo;
+    public String getGender() {
+        return gender;
     }
 
-    public void setSexo(String sexo) {
-        this.sexo = sexo;
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
-    public String getEdad() {
-        return edad;
+    public String getAge() {
+        return age;
     }
 
-    public void setEdad(String edad) {
-        this.edad = edad;
+    public void setAge(String age) {
+        this.age = age;
     }
 
-    public String getTamanio() {
-        return tamanio;
+    public String getSize() {
+        return size;
     }
 
-    public void setTamanio(String tamanio) {
-        this.tamanio = tamanio;
+    public void setSize(String size) {
+        this.size = size;
     }
 
-    public List<String> getColores() {
-        return colores;
+    public List<String> getColors() {
+        return colors;
     }
 
-    public void setColores(List<String> colores) {
-        this.colores = colores;
+    public void setColors(List<String> colors) {
+        this.colors = colors;
     }
 
-    public String getColorDeOjos() {
-        return colorDeOjos;
+    public String getEyeColor() {
+        return eyeColor;
     }
 
-    public void setColorDeOjos(String colorDeOjos) {
-        this.colorDeOjos = colorDeOjos;
+    public void setEyeColor(String eyeColor) {
+        this.eyeColor = eyeColor;
     }
 
-    public List<String> getConducta() {
-        return conducta;
+    public List<String> getBehavior() {
+        return behavior;
     }
 
-    public void setConducta(List<String> conducta) {
-        this.conducta = conducta;
+    public void setBehavior(List<String> behavior) {
+        this.behavior = behavior;
     }
 
-    public List<String> getImagenes() {
-        return imagenes;
+    public List<String> getImages() {
+        return images;
     }
 
-    public void setImagenes(List<String> imagenes) {
-        this.imagenes = imagenes;
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     public List<String> getVideos() {
@@ -165,67 +164,67 @@ public class PetAdoption {
         this.videos = videos;
     }
 
-    public Boolean getNecesitaHogarDeTransito() {
-        return necesitaHogarDeTransito;
+    public Boolean getNeedsTransitHome() {
+        return needsTransitHome;
     }
 
-    public void setNecesitaHogarDeTransito(Boolean necesitaHogarDeTransito) {
-        this.necesitaHogarDeTransito = necesitaHogarDeTransito;
+    public void setNeedsTransitHome(Boolean needsTransitHome) {
+        this.needsTransitHome = needsTransitHome;
     }
 
-    public String getUsuarioHogarDeTransito() {
-        return usuarioHogarDeTransito;
+    public String getTransitHomeUser() {
+        return transitHomeUser;
     }
 
-    public void setUsuarioHogarDeTransito(String usuarioHogarDeTransito) {
-        this.usuarioHogarDeTransito = usuarioHogarDeTransito;
+    public void setTransitHomeUser(String transitHomeUser) {
+        this.transitHomeUser = transitHomeUser;
     }
 
-    public Boolean getEstaCastrada() {
-        return estaCastrada;
+    public Boolean getIsCastrated() {
+        return isCastrated;
     }
 
-    public void setEstaCastrada(Boolean estaCastrada) {
-        this.estaCastrada = estaCastrada;
+    public void setIsCastrated(Boolean isCastrated) {
+        this.isCastrated = isCastrated;
     }
 
-    public Boolean getTomaMedicinaTemporal() {
-        return tomaMedicinaTemporal;
+    public Boolean getIsOnTemporaryMedicine() {
+        return isOnTemporaryMedicine;
     }
 
-    public void setTomaMedicinaTemporal(Boolean tomaMedicinaTemporal) {
-        this.tomaMedicinaTemporal = tomaMedicinaTemporal;
+    public void setIsOnTemporaryMedicine(Boolean isOnTemporaryMedicine) {
+        this.isOnTemporaryMedicine = isOnTemporaryMedicine;
     }
 
-    public Boolean getTomaMedicinaCronica() {
-        return tomaMedicinaCronica;
+    public Boolean getIsOnChronicMedicine() {
+        return isOnChronicMedicine;
     }
 
-    public void setTomaMedicinaCronica(Boolean tomaMedicinaCronica) {
-        this.tomaMedicinaCronica = tomaMedicinaCronica;
+    public void setIsOnChronicMedicine(Boolean isOnChronicMedicine) {
+        this.isOnChronicMedicine = isOnChronicMedicine;
     }
 
-    public String getDescripcion() {
-        return descripcion;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public String getEstadoPublicacion() {
-        return estadoPublicacion;
+    public String getPublicationStatus() {
+        return publicationStatus;
     }
 
-    public void setEstadoPublicacion(String estadoPublicacion) {
-        this.estadoPublicacion = estadoPublicacion;
+    public void setPublicationStatus(String publicationStatus) {
+        this.publicationStatus = publicationStatus;
     }
 
-    public String getFechaDePublicacion() {
-        return fechaDePublicacion;
+    public String getPublicationDate() {
+        return publicationDate;
     }
 
-    public void setFechaDePublicacion(String fechaDePublicacion) {
-        this.fechaDePublicacion = fechaDePublicacion;
+    public void setPublicationDate(String publicationDate) {
+        this.publicationDate = publicationDate;
     }
 }

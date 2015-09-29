@@ -1,7 +1,7 @@
 package services;
 
-import model.MascotaAdopcion;
-import model.Usuario;
+import model.PetAdoption;
+import model.User;
 import model.external.SearchForAdoptionFilters;
 import model.external.PublishForAdoptionPet;
 import org.springframework.stereotype.Service;
@@ -11,37 +11,25 @@ import java.util.List;
 @Service
 public class PetAdoptionService {
 
-    public Boolean publishPet(PublishForAdoptionPet mascotaPublicacion) {
-        Usuario duenio = Usuario.traerPorId(mascotaPublicacion.ownerId);
-        if (duenio == null)
+    public Boolean publishPet(PublishForAdoptionPet pet) {
+        User owner = User.getById(pet.ownerId);
+        if (owner == null)
             return false;
-        MascotaAdopcion mascota = new MascotaAdopcion(mascotaPublicacion.name,
-                                                      mascotaPublicacion.type,
-                                                      mascotaPublicacion.ownerId,
-                                                      duenio.address,
-                                                      mascotaPublicacion.breed,
-                                                      mascotaPublicacion.gender,
-                                                      mascotaPublicacion.age,
-                                                      mascotaPublicacion.size,
-                                                      mascotaPublicacion.colors,
-                                                      mascotaPublicacion.eyeColor,
-                                                      mascotaPublicacion.behavior,
-                                                      mascotaPublicacion.images,
-                                                      mascotaPublicacion.needsTransitHome,
-                                                      mascotaPublicacion.isCastrated,
-                                                      mascotaPublicacion.isOnTemporaryMedicine,
-                                                      mascotaPublicacion.isOnChronicMedicine,
-                                                      mascotaPublicacion.description);
-        MascotaAdopcion.crear(mascota);
+        PetAdoption petAdoption = new PetAdoption(pet.name, pet.type, pet.ownerId, owner.address, pet.breed,
+                                                  pet.gender, pet.age, pet.size, pet.colors, pet.eyeColor,
+                                                  pet.behavior, pet.images, pet.needsTransitHome, pet.isCastrated,
+                                                  pet.isOnTemporaryMedicine, pet.isOnChronicMedicine, pet.description);
+        PetAdoption.create(petAdoption);
         return true;
     }
 
-    public List<MascotaAdopcion> searchPets(SearchForAdoptionFilters filtros) {
-        return MascotaAdopcion.buscar(filtros);
+    public List<PetAdoption> searchPets(SearchForAdoptionFilters filters) {
+        filters.decodeFilters();
+        return PetAdoption.search(filters);
     }
 
-    public List<MascotaAdopcion> getLastPublished() {
-        return MascotaAdopcion.traerUltimasPublicaciones();
+    public List<PetAdoption> getLastPublished() {
+        return PetAdoption.getLastPublications();
     }
 
 }

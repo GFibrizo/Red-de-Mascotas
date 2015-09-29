@@ -86,7 +86,7 @@
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e"
                         android:textSize="16sp"
-                        android:text="Pequeño" />
+                        android:text="Chico" />
 
                     <CheckBox
                         android:id="@+id/check_size_medium"

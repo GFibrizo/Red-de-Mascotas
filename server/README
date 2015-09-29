@@ -66,18 +66,18 @@ Para restaurar el backup de la base
 Comandos útiles dentro del shell de MongoDB
 ===========================================
 
-1.- Entrar a una base de datos: use <nombre de base de datos>
+1.- Entrar a una base de datos: use <name de base de datos>
 	Para mostrar las que hay: show databases
 2.- Una vez dentro de una base de datos, para mostrar las colecciones que tiene: show collections
 
-Para hacer queries: db.<nombre de la colección>.<lo que quieras hacer>
+Para hacer queries: db.<name de la colección>.<lo que quieras hacer>
 
 
 Ejemplos:
 
 db.usuarios.findOne() ---> Trae un usuario cualquiera
 
-db.usuarios.find({nombre: "Yamila"}) ---> Trae los usuarios con nombre Yamila
+db.usuarios.find({name: "Yamila"}) ---> Trae los usuarios con name Yamila
 
 
 
@@ -90,30 +90,30 @@ Probar grabar un usuario en el proyecto
 En Headers agregar:
 	Name: Content-Type
 	Value: application/json
-Siempre pegarle con este header porque si no no sabe qué tipo de dato viene.
+Siempre pegarle con este header porque si no no sabe qué type de dato viene.
 
 Method: POST
 
-URL: http://localhost:9000/usuario
+URL: http://localhost:9000/user/account
 
 Body:
 {
-"nombreDeUsuario": "GlinsekY",
+"userName": "GlinsekY",
 "email": "yamila.glinsek@gmail.com",
-"contrasenia": {
-"encriptacion": "password",
+"password": {
+"encryption": "password",
 "salt": "jfkdlajlga"
 },
-"nombre": "Yamila",
-"apellido": "Glinsek",
-"telefono": "01149576440",
-"domicilio": {
-"calle": "Pavón",
-"numero": "3100",
-"barrio": "San Cristóbal",
-"ciudad": "C.A.B.A",
-"provincia": "C.A.B.A",
-"pais": "Argentina"
+"name": "Yamila",
+"lastName": "Glinsek",
+"phone": "01149576440",
+"address": {
+"street": "Pavón",
+"number": "3100",
+"neighbourhood": "San Cristóbal",
+"city": "C.A.B.A",
+"province": "C.A.B.A",
+"country": "Argentina"
 }
 }
 
@@ -124,11 +124,11 @@ Probar probar subir una imagen
 
 Instalarse el plugin de Chrome Postman (no sé si está en Firefox también).
 
-Url: http://localhost:9000/mascota/imagen
+Url: http://localhost:9000/pet/image
 
 Method: POST
 
-En Key - Value, seleccionan "File" y le ponen en Key "imagen" y seleccionan el archivo.
+En Key - Value, seleccionan "File" y le ponen en Key "image" y seleccionan el archivo.
 
 
 
@@ -138,27 +138,27 @@ Estructuras para probar rápido:
 
 Mascota:
 {
-"nombre": "Nala",
-"tipo": "Perro",
-"duenioId": "242j3kl53j2l2tf",
-"domicilio": {
-"calle": "Pavón",
-"numero": "3100",
-"barrio": "San Cristóbal",
-"ciudad": "C.A.B.A",
-"provincia": "C.A.B.A",
-"pais": "Argentina"
+"name": "Nala",
+"type": "Perro",
+"ownerId": "560af25344aeb8e12aa73bc7",
+"address": {
+"street": "Pavón",
+"number": "3100",
+"neighbourhood": "San Cristóbal",
+"city": "C.A.B.A",
+"province": "C.A.B.A",
+"country": "Argentina"
 },
-"raza": "Golden Retriever",
-"sexo": "Hembra",
-"edad": "1 - 3 años",
-"tamanio": "Grande",
-"colores": ["Beige"],
-"colorDeOjos": "Marron",
-"conducta": ["Jugueton", "De compañía"],
-"necesitaHogarDeTransito": false,
-"estaCastrada": true,
-"tomaMedicinaTemporal": false,
-"tomaMedicinaCronica": false,
-"descripcion": "Nala es una hermosa perrita de compañía."
+"breed": "Golden Retriever",
+"gender": "Hembra",
+"age": "1 - 3 años",
+"size": "Grande",
+"colors": ["Beige"],
+"eyeColor": "Marrón",
+"behavior": ["Jugueton", "De compañía"],
+"needsTransitHome": false,
+"isCastrated": true,
+"isOnTemporaryMedicine": false,
+"isOnChronicMedicine": false,
+"description": "Nala es una hermosa perrita de compañía."
 }

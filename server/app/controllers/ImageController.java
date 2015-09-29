@@ -12,24 +12,24 @@ import java.util.UUID;
 @Controller
 public class ImageController extends play.mvc.Controller {
 
-    public Result subirImagenMascota() {
+    public Result uploadPetImage() {
         Http.MultipartFormData body = request().body().asMultipartFormData();
-        Http.MultipartFormData.FilePart imagen = body.getFile("imagen");
-        if (imagen == null) {
+        Http.MultipartFormData.FilePart image = body.getFile("image");
+        if (image == null) {
             return play.mvc.Controller.badRequest();
         }
         String fileName = UUID.randomUUID().toString();
-        File file = imagen.getFile();
+        File file = image.getFile();
         try {
-            FileUtils.moveFile(file, new File("public/images/mascotas", fileName));
+            FileUtils.moveFile(file, new File("public/images/pets", fileName));
             return play.mvc.Controller.ok(fileName);
         } catch (IOException exception) {
             return play.mvc.Controller.internalServerError(exception.getMessage());
         }
     }
 
-    public Result traerImagenMascota(String imagenId) {
-        File file = new File("public/images/mascotas", imagenId);
+    public Result getPetImage(String imageId) {
+        File file = new File("public/images/pets", imageId);
         return play.mvc.Controller.ok(file);
     }
 

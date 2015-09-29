@@ -81,12 +81,12 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
 
         try {
-            object.put("nombre", name.getText());
+            object.put("name", name.getText());
 
             if (petType.isChecked()) {
-                object.put("tipo", petType.getTextOn());
+                object.put("type", petType.getTextOn());
             } else {
-                object.put("tipo", petType.getTextOff());
+                object.put("type", petType.getTextOff());
             }
 
             if (petGender.isChecked()) {
@@ -95,10 +95,10 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 object.put("genero", petType.getTextOff());
             }
 
-            object.put("raza", breed.getText());
-            object.put("edad", age.getText());
+            object.put("breed", breed.getText());
+            object.put("age", age.getText());
             object.put("tamaño", size.getText());
-            object.put("nombre", name.getText());
+            object.put("name", name.getText());
 
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());

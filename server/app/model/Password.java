@@ -2,7 +2,7 @@ package model;
 
 public class Password {
 
-    public String encriptacion;
+    public String encryption;
 
     public String salt;
 

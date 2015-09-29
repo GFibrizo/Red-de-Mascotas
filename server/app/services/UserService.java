@@ -1,7 +1,7 @@
 package services;
 
-import model.MascotaAdopcion;
-import model.Usuario;
+import model.PetAdoption;
+import model.User;
 import model.external.LogInUser;
 import model.external.AccountRegistrationUser;
 import model.external.FacebookRegistrationUser;
@@ -9,83 +9,53 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-// TODO: Pasar a Android
-/*
-import model.Contrasenia;
-import org.apache.commons.codec.digest.DigestUtils;
-import java.security.SecureRandom;
-*/
-
 @Service
 public class UserService {
 
-    // TODO: Pasar a Android
-    /*
-    private SecureRandom secureRandom = new SecureRandom();
-    */
-
-    public Usuario logIn(LogInUser logInUser) {
-        Usuario usuario = Usuario.traerPorNombreDeUsuario(logInUser.userName);
-        if (usuario != null && logInUser.encryptedPassword.equals(usuario.password.encryption)) {
-            return usuario;
+    public User logInWithAccount(LogInUser logInUser) {
+        User user = User.getByUserName(logInUser.userName);
+        if (user != null && logInUser.encryptedPassword.equals(user.password.encryption)) {
+            return user;
         } else return null;
     }
 
-    public String traerSalt(String nombreDeUsuario) {
-        Usuario usuario = Usuario.traerPorNombreDeUsuario(nombreDeUsuario);
-        if (usuario != null) {
-            return usuario.password.salt;
+    public String getUserSalt(String nombreDeUsuario) {
+        User user = User.getByUserName(nombreDeUsuario);
+        if (user != null) {
+            return user.password.salt;
         } else return null;
     }
 
-    public Usuario logInFacebook(String facebookId) {
-        return Usuario.traerPorFacebookId(facebookId);
+    public User logInWithFacebook(String facebookId) {
+        return User.getByFacebookId(facebookId);
     }
 
-    public Usuario registrarUsuarioCuenta(AccountRegistrationUser usuarioRegistro) {
-        if (Usuario.existente(usuarioRegistro.userName, usuarioRegistro.email))
+    public User registerAccountUser(AccountRegistrationUser usuarioRegistro) {
+        if (User.exists(usuarioRegistro.userName, usuarioRegistro.email))
             return null;
-        Usuario usuario = new Usuario(usuarioRegistro.userName,
+        User user = new User(usuarioRegistro.userName,
                                       usuarioRegistro.name,
                                       usuarioRegistro.lastName,
                                       usuarioRegistro.email,
                                       usuarioRegistro.password,
                                       usuarioRegistro.phone,
                                       usuarioRegistro.address);
-        Usuario.crear(usuario);
-        return usuario;
+        User.create(user);
+        return user;
     }
 
-    public void registrarUsuarioFacebook(FacebookRegistrationUser usuarioRegistro) {
-        Usuario usuario = new Usuario(usuarioRegistro.name,
+    public void registerFacebookUser(FacebookRegistrationUser usuarioRegistro) {
+        User user = new User(usuarioRegistro.name,
                                       usuarioRegistro.lastName,
                                       usuarioRegistro.email,
                                       usuarioRegistro.facebookId,
                                       usuarioRegistro.phone,
                                       usuarioRegistro.address);
-        Usuario.crear(usuario);
+        User.create(user);
     }
 
-    public List<MascotaAdopcion> traerMascotasEnAdopcion(String usuarioId) {
-        return MascotaAdopcion.traerPorDuenioId(usuarioId);
+    public List<PetAdoption> getPetsInAdoption(String usuarioId) {
+        return PetAdoption.getByOwnerId(usuarioId);
     }
-
-    // TODO: Pasar a Android
-    /*
-    private Contrasenia crearContrasenia(String password) {
-        byte[] salt = new byte[20];
-        secureRandom.nextBytes(salt);
-        String saltStr = salt.toString();
-        return new Contrasenia(encriptarContraseña(password, saltStr), saltStr);
-    }
-    private String encriptarContraseña(String password, String salt) {
-        return DigestUtils.sha1Hex(salt + password);
-    }
-
-    private Boolean contraseniaValida(String password, Contrasenia contraseniaGuardada) {
-        return contraseniaGuardada.encryption.equals(encriptarContraseña(password, contraseniaGuardada.salt));
-    }
-    */
-
 
 }

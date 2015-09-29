@@ -2,58 +2,58 @@ package com.support.android.designlibdemo.model;
 
 public class Address {
 
-    public String calle;
-    public String numero;
-    public String barrio;
-    public String ciudad;
-    public String provincia;
-    public String pais;
+    public String street;
+    public String number;
+    public String neighbourhood;
+    public String city;
+    public String province;
+    public String country;
 
-    public String getCalle() {
-        return calle;
+    public String getStreet() {
+        return street;
     }
 
-    public void setCalle(String calle) {
-        this.calle = calle;
+    public void setStreet(String street) {
+        this.street = street;
     }
 
-    public String getNumero() {
-        return numero;
+    public String getNumber() {
+        return number;
     }
 
-    public void setNumero(String numero) {
-        this.numero = numero;
+    public void setNumber(String number) {
+        this.number = number;
     }
 
-    public String getBarrio() {
-        return barrio;
+    public String getNeighbourhood() {
+        return neighbourhood;
     }
 
-    public void setBarrio(String barrio) {
-        this.barrio = barrio;
+    public void setNeighbourhood(String neighbourhood) {
+        this.neighbourhood = neighbourhood;
     }
 
-    public String getCiudad() {
-        return ciudad;
+    public String getCity() {
+        return city;
     }
 
-    public void setCiudad(String ciudad) {
-        this.ciudad = ciudad;
+    public void setCity(String city) {
+        this.city = city;
     }
 
-    public String getProvincia() {
-        return provincia;
+    public String getProvince() {
+        return province;
     }
 
-    public void setProvincia(String provincia) {
-        this.provincia = provincia;
+    public void setProvince(String province) {
+        this.province = province;
     }
 
-    public String getPais() {
-        return pais;
+    public String getCountry() {
+        return country;
     }
 
-    public void setPais(String pais) {
-        this.pais = pais;
+    public void setCountry(String country) {
+        this.country = country;
     }
 }

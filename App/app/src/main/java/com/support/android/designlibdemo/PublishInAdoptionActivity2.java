@@ -68,7 +68,7 @@ public class PublishInAdoptionActivity2 extends AppCompatActivity {
             object.put("necesita_hogar_transito", needs_transit_home.isChecked());
             object.put("medicamentos_temporales", temp_meds.isChecked());
             object.put("medicamentos_cronicos", cron_meds.isChecked());
-            object.put("descripcion", desc.getText());
+            object.put("description", desc.getText());
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

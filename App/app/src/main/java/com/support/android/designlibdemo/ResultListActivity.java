@@ -12,8 +12,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
-import com.support.android.designlibdemo.model.Domicilio;
-import com.support.android.designlibdemo.model.MascotaAdopcion;
+import com.support.android.designlibdemo.model.Address;
+import com.support.android.designlibdemo.model.PetAdoption;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -77,8 +77,8 @@ public class ResultListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
 //        String data = getIntent().getExtras().getString("data");
         String data = getIntent().getStringExtra("data");
-//        String nombre = "nombre";
-        List<MascotaAdopcion> mascotas = null;
+//        String name = "name";
+        List<PetAdoption> mascotas = null;
 
         try {
             object = new JSONArray(getIntent().getStringExtra("data"));
@@ -94,11 +94,11 @@ public class ResultListActivity extends AppCompatActivity {
 
         if (mascotas != null) {
             for (int i = 0; i < mascotas.size(); i++) {
-                String nombre = mascotas.get(i).getNombre();
-                String sexo = mascotas.get(i).getSexo();
-                String edad = mascotas.get(i).getEdad();
-                String tam = mascotas.get(i).getTamanio();
-                String barrio = mascotas.get(i).getDomicilio().getBarrio();
+                String nombre = mascotas.get(i).getName();
+                String sexo = mascotas.get(i).getGender();
+                String edad = mascotas.get(i).getAge();
+                String tam = mascotas.get(i).getSize();
+                String barrio = mascotas.get(i).getAddress().getNeighbourhood();
                 textAndImageArray.add(new TextAndImageContainer(20+i, nombre, sexo, edad,tam, barrio));
             }
 
@@ -216,22 +216,22 @@ public class ResultListActivity extends AppCompatActivity {
         return list;
     }
 
-    private List<MascotaAdopcion> fromJSONArrayToListMascotas(JSONArray jsonArray) {
-        List<MascotaAdopcion> list = new ArrayList<>();
+    private List<PetAdoption> fromJSONArrayToListMascotas(JSONArray jsonArray) {
+        List<PetAdoption> list = new ArrayList<>();
         try {
             for (int i=0; i<jsonArray.length(); i++) {
                 JSONObject object = jsonArray.getJSONObject(i);
-                Domicilio domicilio = new Domicilio();
-                String barrio = ((JSONObject) object.get("domicilio")).getString("barrio");
-                domicilio.setBarrio(barrio);
-                MascotaAdopcion mascota = new MascotaAdopcion(object.getString("nombre"),
+                Address address = new Address();
+                String barrio = ((JSONObject) object.get("address")).getString("neighbourhood");
+                address.setNeighbourhood(barrio);
+                PetAdoption mascota = new PetAdoption(object.getString("name"),
                         "",
                         "",
-                        domicilio,
+                        address,
                         "",
-                        object.getString("sexo"),
-                        object.getString("edad"),
-                        object.getString("tamanio"),
+                        object.getString("gender"),
+                        object.getString("age"),
+                        object.getString("size"),
                         null,
                         "",
                         null,

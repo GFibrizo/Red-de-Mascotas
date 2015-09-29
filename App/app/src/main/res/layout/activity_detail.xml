@@ -157,7 +157,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/descripcion"
+                        android:id="@+id/description"
                         android:text="@string/cheese_ipsum" />
 
                 </LinearLayout>
@@ -215,7 +215,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/conducta"
+                        android:id="@+id/behavior"
                         android:text="Sociable\nSe lleva bien con otros animales\nSe lleva bien con niños\nCompañero\nJuguetón\nTranquilo\nGuardian\nAgresivo" />
 
                 </LinearLayout>

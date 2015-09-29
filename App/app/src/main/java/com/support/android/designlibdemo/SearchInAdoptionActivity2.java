@@ -13,12 +13,13 @@ import android.view.View;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 
-import com.support.android.designlibdemo.model.FiltrosBusquedaAdopcion;
+import com.support.android.designlibdemo.model.SearchForAdoptionFilters;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utils.Encoder;
 import utils.SearchRequest;
 
 public class SearchInAdoptionActivity2 extends AppCompatActivity {
@@ -59,7 +60,6 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
             return true;
         }
@@ -96,43 +96,40 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         // TODO: Faltan validaciones
         try {
             JSONArray sizes = new JSONArray();
-            if (sizeSmall.isChecked()) sizes.put("Pequenio");
+            if (sizeSmall.isChecked()) sizes.put(sizeSmall.getText());
             if (sizeMedium.isChecked()) sizes.put(sizeMedium.getText());
             if (sizeLarge.isChecked()) sizes.put(sizeLarge.getText());
-            object.put("tamanios", sizes);
+            object.put("sizes", sizes);
 
             JSONArray colors = new JSONArray();
-            if (colorWhite.isChecked()) colors.put(colorWhite.getText());
-            if (colorGrey.isChecked()) colors.put(colorGrey.getText());
-            if (colorBlack.isChecked()) colors.put(colorBlack.getText());
-            if (colorBrown.isChecked()) colors.put("Marron");
-            if (colorBeige.isChecked()) colors.put(colorBeige.getText());
-            if (colorOrange.isChecked()) colors.put(colorOrange.getText());
-            if (colorDun.isChecked()) colors.put(colorDun.getText());
-            if (colorOther.isChecked()) colors.put(colorOther.getText());
-            object.put("colores", colors);
+            if (colorWhite.isChecked()) colors.put(Encoder.encode(colorWhite.getText().toString()));
+            if (colorGrey.isChecked()) colors.put(Encoder.encode(colorGrey.getText().toString()));
+            if (colorBlack.isChecked()) colors.put(Encoder.encode(colorBlack.getText().toString()));
+            if (colorBrown.isChecked()) colors.put(Encoder.encode(colorBrown.getText().toString()));
+            if (colorBeige.isChecked()) colors.put(Encoder.encode(colorBeige.getText().toString()));
+            if (colorOrange.isChecked()) colors.put(Encoder.encode(colorOrange.getText().toString()));
+            if (colorDun.isChecked()) colors.put(Encoder.encode(colorDun.getText().toString()));
+            if (colorOther.isChecked()) colors.put(Encoder.encode(colorOther.getText().toString()));
+            object.put("colors", colors);
 
             JSONArray eyeColors = new JSONArray();
-            if (eyeColorBlack.isChecked()) eyeColors.put(eyeColorBlack.getText());
-            if (eyeColorBrown.isChecked()) eyeColors.put("Marron");
-            if (eyeColorGreen.isChecked()) eyeColors.put(eyeColorGreen.getText());
-            if (eyeColorBlue.isChecked()) eyeColors.put(eyeColorBlue.getText());
-            if (eyeColorYellow.isChecked()) eyeColors.put(eyeColorYellow.getText());
-            if (eyeColorOther.isChecked()) eyeColors.put(eyeColorOther.getText());
-            object.put("coloresDeOjos", eyeColors);
+            if (eyeColorBlack.isChecked()) eyeColors.put(Encoder.encode(eyeColorBlack.getText().toString()));
+            if (eyeColorBrown.isChecked()) eyeColors.put(Encoder.encode(eyeColorBrown.getText().toString()));
+            if (eyeColorGreen.isChecked()) eyeColors.put(Encoder.encode(eyeColorGreen.getText().toString()));
+            if (eyeColorBlue.isChecked()) eyeColors.put(Encoder.encode(eyeColorBlue.getText().toString()));
+            if (eyeColorYellow.isChecked()) eyeColors.put(Encoder.encode(eyeColorYellow.getText().toString()));
+            if (eyeColorOther.isChecked()) eyeColors.put(Encoder.encode(eyeColorOther.getText().toString()));
+            object.put("eyeColors", eyeColors);
 
             // TODO: Falta autocomplete de los dos
-            object.put("ciudad", city.getText().toString().replaceAll(" ", "_"));
-            object.put("barrio", neighbourhood.getText().toString().replaceAll(" ", "_"));
+            object.put("city", Encoder.encode(city.getText().toString()));
+            object.put("neighbourhood", Encoder.encode(neighbourhood.getText().toString()));
 
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }
 
-
-        FiltrosBusquedaAdopcion filters = new FiltrosBusquedaAdopcion(object);
-
-        //Llamado a la clase interna que realiza el request
+        SearchForAdoptionFilters filters = new SearchForAdoptionFilters(object);
         QueryResultTask qTask = new QueryResultTask(filters);
         qTask.execute((Void) null);
     }
@@ -140,16 +137,15 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
 
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
 
-        FiltrosBusquedaAdopcion filters;
+        SearchForAdoptionFilters filters;
         JSONArray response;
 
-        QueryResultTask( FiltrosBusquedaAdopcion filters) {
+        QueryResultTask( SearchForAdoptionFilters filters) {
             this.filters = filters;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            //Llamado al request
             SearchRequest request = new SearchRequest(getApplicationContext());
             response = request.search(filters);
             return true;

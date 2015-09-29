@@ -2,16 +2,16 @@ package model;
 
 public class Address {
 
-    public String calle;
+    public String street;
 
-    public String numero;
+    public String number;
 
-    public String barrio;
+    public String neighbourhood;
 
-    public String ciudad;
+    public String city;
 
-    public String provincia;
+    public String province;
 
-    public String pais;
+    public String country;
 
 }

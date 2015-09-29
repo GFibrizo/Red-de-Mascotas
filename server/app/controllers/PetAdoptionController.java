@@ -1,6 +1,6 @@
 package controllers;
 
-import model.MascotaAdopcion;
+import model.PetAdoption;
 import model.external.SearchForAdoptionFilters;
 import model.external.PublishForAdoptionPet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +8,7 @@ import org.springframework.stereotype.Controller;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Result;
-import services.PetForAdoptionService;
+import services.PetAdoptionService;
 
 import java.util.List;
 
@@ -16,26 +16,26 @@ import java.util.List;
 public class PetAdoptionController {
 
     @Autowired
-    private PetForAdoptionService servicio;
+    private PetAdoptionService service;
 
-    public Result publicarMascota() {
+    public Result publishPet() {
         Form<PublishForAdoptionPet> form = Form.form(PublishForAdoptionPet.class).bindFromRequest();
-        PublishForAdoptionPet mascota = form.get();
-        if (servicio.publishPet(mascota))
+        PublishForAdoptionPet pet = form.get();
+        if (service.publishPet(pet))
             return play.mvc.Controller.ok();
         return play.mvc.Controller.badRequest();
     }
 
-    public Result buscarMascotas() {
+    public Result searchPets() {
         Form<SearchForAdoptionFilters> form = Form.form(SearchForAdoptionFilters.class).bindFromRequest();
-        SearchForAdoptionFilters filtros = form.get();
-        List<MascotaAdopcion> mascotas = servicio.searchPets(filtros);
-        return play.mvc.Controller.ok(Json.toJson(mascotas));
+        SearchForAdoptionFilters filters = form.get();
+        List<PetAdoption> pets = service.searchPets(filters);
+        return play.mvc.Controller.ok(Json.toJson(pets));
     }
 
-    public Result traerUltimasPublicaciones() {
-        List<MascotaAdopcion> mascotas = servicio.getLastPublished();
-        return play.mvc.Controller.ok(Json.toJson(mascotas));
+    public Result getLastPublished() {
+        List<PetAdoption> pets = service.getLastPublished();
+        return play.mvc.Controller.ok(Json.toJson(pets));
     }
 
 }
