@@ -21,8 +21,9 @@ public class MascotaAdopcionControlador {
     public Result publicarMascota() {
         Form<MascotaAdopcionPublicacion> form = Form.form(MascotaAdopcionPublicacion.class).bindFromRequest();
         MascotaAdopcionPublicacion mascota = form.get();
-        servicio.publicarMascota(mascota);
-        return play.mvc.Controller.ok();
+        if (servicio.publicarMascota(mascota))
+            return play.mvc.Controller.ok();
+        return play.mvc.Controller.badRequest();
     }
 
     public Result buscarMascotas() {

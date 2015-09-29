@@ -57,6 +57,10 @@ public class Usuario {
     }
 
 
+    public static Usuario traerPorId(String id) {
+        return Usuario.coleccion.findOne(new BasicDBObject("_id", id));
+    }
+
     public static Usuario traerPorFacebookId(String facebookId) {
         return Usuario.coleccion.findOne(new BasicDBObject("facebookId", facebookId));
     }

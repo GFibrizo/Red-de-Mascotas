@@ -112,8 +112,7 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
 
         Intent intent = new Intent(getApplicationContext(), SearchInAdoptionActivity2.class);
         intent.putExtra("data", object.toString());
-        if (intent != null)
-            startActivity(intent);
+        startActivity(intent);
     }
 
     static final String[] BREEDS = new String[] {

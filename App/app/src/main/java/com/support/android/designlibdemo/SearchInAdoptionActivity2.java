@@ -157,11 +157,10 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if(success){
+            if (success) {
                 Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
                 intent.putExtra("data", response.toString());
-                if (intent != null)
-                    startActivity(intent);
+                startActivity(intent);
             }
         }
 
