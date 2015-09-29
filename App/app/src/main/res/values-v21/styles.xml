@@ -19,6 +19,7 @@
 
     <style name="Theme.DesignDemo" parent="Base.Theme.DesignDemo">
         <item name="android:windowDrawsSystemBarBackgrounds">true</item>
+        <item name="android:colorButtonNormal">#2196f3</item>
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
