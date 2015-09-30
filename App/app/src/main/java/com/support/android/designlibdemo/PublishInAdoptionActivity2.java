@@ -8,18 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ScrollView;
-import android.widget.SeekBar;
-import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
+import android.widget.Spinner;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
+
+import utils.SpinnerArrayAdapter;
 
 public class PublishInAdoptionActivity2 extends AppCompatActivity {
 
@@ -36,17 +32,20 @@ public class PublishInAdoptionActivity2 extends AppCompatActivity {
         }
         setContentView(R.layout.activity_publish_in_adoption2);
 
-        AutoCompleteTextView hairColor1 = (AutoCompleteTextView) findViewById(R.id.hair_color1);
-        ArrayAdapter<String> adapter1 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, Constants.hairColors);
-        hairColor1.setAdapter(adapter1);
+        Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
+        ArrayAdapter<CharSequence> hairColor1Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, "Color principal");
+        hairColor1Spinner.setAdapter(hairColor1Adapter);
+        hairColor1Spinner.setSelection(hairColor1Adapter.getCount());
 
-        AutoCompleteTextView hairColor2 = (AutoCompleteTextView) findViewById(R.id.hair_color2);
-        ArrayAdapter<String> adapter2 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, Constants.hairColors);
-        hairColor2.setAdapter(adapter2);
+        Spinner hairColor2Spinner = (Spinner) findViewById(R.id.spinner_hair_color2);
+        ArrayAdapter<CharSequence> hairColor2Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, "Color secundario");
+        hairColor2Spinner.setAdapter(hairColor2Adapter);
+        hairColor2Spinner.setSelection(hairColor2Adapter.getCount());
 
-        AutoCompleteTextView eyes = (AutoCompleteTextView) findViewById(R.id.eyes_color);
-        ArrayAdapter<String> adapter3 = new ArrayAdapter<String>(getApplicationContext(), android.R.layout.simple_dropdown_item_1line, Constants.eyesColors);
-        eyes.setAdapter(adapter3);
+        Spinner eyeColorSpinner = (Spinner) findViewById(R.id.spinner_eye_color);
+        ArrayAdapter<CharSequence> eyeColorAdapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.EYE_COLORS, "Color de ojos");
+        eyeColorSpinner.setAdapter(eyeColorAdapter);
+        eyeColorSpinner.setSelection(eyeColorAdapter.getCount());
     }
 
     /**********************************************************************************************/
@@ -87,9 +86,9 @@ public class PublishInAdoptionActivity2 extends AppCompatActivity {
         CheckBox temp_meds = (CheckBox)findViewById(R.id.temp_meds_check);
         CheckBox cron_meds = (CheckBox)findViewById(R.id.cron_meds_check);
         EditText desc = (EditText) findViewById(R.id.pet_desc);
-        AutoCompleteTextView hairColor1 = (AutoCompleteTextView) findViewById(R.id.hair_color1);
-        AutoCompleteTextView hairColor2 = (AutoCompleteTextView) findViewById(R.id.hair_color2);
-        AutoCompleteTextView eyesColor = (AutoCompleteTextView) findViewById(R.id.eyes_color);
+        Spinner hairColor1 = (Spinner) findViewById(R.id.spinner_hair_color1);
+        Spinner hairColor2 = (Spinner) findViewById(R.id.spinner_hair_color2);
+        Spinner eyesColor = (Spinner) findViewById(R.id.spinner_eye_color);
 
         try {
             object.put("castrado", castrated.isChecked());
@@ -97,9 +96,9 @@ public class PublishInAdoptionActivity2 extends AppCompatActivity {
             object.put("medicamentos_temporales", temp_meds.isChecked());
             object.put("medicamentos_cronicos", cron_meds.isChecked());
             object.put("descripcion", desc.getText());
-            object.put("color_principal", hairColor1);
-            object.put("color_secundario", hairColor2);
-            object.put("color_de_ojos", eyesColor);
+            object.put("color_principal", hairColor1.getSelectedItem().toString());
+            object.put("color_secundario", hairColor2.getSelectedItem().toString());
+            object.put("color_de_ojos", eyesColor.getSelectedItem().toString());
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

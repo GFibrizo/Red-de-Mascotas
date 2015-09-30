@@ -36,6 +36,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import static utils.Constants.CHEESE;
+import static utils.Constants.getRandomCheeseDrawable;
+
 public class PetsListFragment extends Fragment {
 
     @Nullable
@@ -53,7 +56,7 @@ public class PetsListFragment extends Fragment {
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
-                getRandomSublist(Constants.sCheeseStrings, 30)));
+                getRandomSublist(CHEESE, 30)));
     }
 
     /**********************************************************************************************/
@@ -140,7 +143,7 @@ public class PetsListFragment extends Fragment {
             });
 
             Glide.with(holder.mImageView.getContext())
-                    .load(Constants.getRandomCheeseDrawable())
+                    .load(getRandomCheeseDrawable())
                     .fitCenter()
                     .into(holder.mImageView);
         }

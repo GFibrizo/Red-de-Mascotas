@@ -26,6 +26,8 @@ import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
 
+import static utils.Constants.getRandomCheeseDrawable;
+
 public class CheeseDetailActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME = "cheese_name";
@@ -51,7 +53,7 @@ public class CheeseDetailActivity extends AppCompatActivity {
 
     private void loadBackdrop() {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(this).load(Constants.getRandomCheeseDrawable()).centerCrop().into(imageView);
+        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
     }
 
     @Override

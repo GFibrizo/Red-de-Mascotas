@@ -73,25 +73,25 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
     }
 
     public void search(View view) {
-        CheckBox sizeSmall = (CheckBox)findViewById(R.id.check_size_small);
-        CheckBox sizeMedium = (CheckBox)findViewById(R.id.check_size_medium);
-        CheckBox sizeLarge = (CheckBox)findViewById(R.id.check_size_large);
-        CheckBox colorWhite = (CheckBox)findViewById(R.id.check_color_white);
-        CheckBox colorGrey = (CheckBox)findViewById(R.id.check_color_grey);
-        CheckBox colorBlack = (CheckBox)findViewById(R.id.check_color_black);
-        CheckBox colorBrown = (CheckBox)findViewById(R.id.check_color_brown);
-        CheckBox colorBeige = (CheckBox)findViewById(R.id.check_color_beige);
-        CheckBox colorOrange = (CheckBox)findViewById(R.id.check_color_orange);
-        CheckBox colorDun = (CheckBox)findViewById(R.id.check_color_dun);
-        CheckBox colorOther = (CheckBox)findViewById(R.id.check_color_other);
-        CheckBox eyeColorBlack = (CheckBox)findViewById(R.id.check_eye_color_black);
-        CheckBox eyeColorBrown = (CheckBox)findViewById(R.id.check_eye_color_brown);
-        CheckBox eyeColorGreen = (CheckBox)findViewById(R.id.check_eye_color_green);
-        CheckBox eyeColorBlue = (CheckBox)findViewById(R.id.check_eye_color_blue);
-        CheckBox eyeColorYellow = (CheckBox)findViewById(R.id.check_eye_color_yellow);
-        CheckBox eyeColorOther = (CheckBox)findViewById(R.id.check_eye_color_other);
-        AutoCompleteTextView city = (AutoCompleteTextView)findViewById(R.id.city);
-        AutoCompleteTextView neighbourhood = (AutoCompleteTextView)findViewById(R.id.neighbourhood);
+        CheckBox sizeSmall = (CheckBox) findViewById(R.id.check_size_small);
+        CheckBox sizeMedium = (CheckBox) findViewById(R.id.check_size_medium);
+        CheckBox sizeLarge = (CheckBox) findViewById(R.id.check_size_large);
+        CheckBox colorWhite = (CheckBox) findViewById(R.id.check_color_white);
+        CheckBox colorGrey = (CheckBox) findViewById(R.id.check_color_grey);
+        CheckBox colorBlack = (CheckBox) findViewById(R.id.check_color_black);
+        CheckBox colorBrown = (CheckBox) findViewById(R.id.check_color_brown);
+        CheckBox colorBeige = (CheckBox) findViewById(R.id.check_color_beige);
+        CheckBox colorOrange = (CheckBox) findViewById(R.id.check_color_orange);
+        CheckBox colorDun = (CheckBox) findViewById(R.id.check_color_dun);
+        CheckBox colorOther = (CheckBox) findViewById(R.id.check_color_other);
+        CheckBox eyeColorBlack = (CheckBox) findViewById(R.id.check_eye_color_black);
+        CheckBox eyeColorBrown = (CheckBox) findViewById(R.id.check_eye_color_brown);
+        CheckBox eyeColorGreen = (CheckBox) findViewById(R.id.check_eye_color_green);
+        CheckBox eyeColorBlue = (CheckBox) findViewById(R.id.check_eye_color_blue);
+        CheckBox eyeColorYellow = (CheckBox) findViewById(R.id.check_eye_color_yellow);
+        CheckBox eyeColorOther = (CheckBox) findViewById(R.id.check_eye_color_other);
+        AutoCompleteTextView city = (AutoCompleteTextView) findViewById(R.id.city);
+        AutoCompleteTextView neighbourhood = (AutoCompleteTextView) findViewById(R.id.neighbourhood);
 
         // TODO: Faltan validaciones
         try {

@@ -1,16 +1,11 @@
 package com.support.android.designlibdemo;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.provider.SyncStateContract;
-import android.support.design.widget.TabLayout;
-import android.support.v4.view.ViewPager;
-import android.support.design.widget.TabLayout.Tab;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,9 +31,13 @@ import org.json.JSONObject;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
+import static utils.Constants.AGES;
+import static utils.Constants.CATS;
+import static utils.Constants.DOGS;
+import static utils.Constants.SIZES;
+
 public class PublishInAdoptionActivity extends AppCompatActivity {
 
-    private TabLayout mTabLayout;
     JSONObject object = new JSONObject();
     Activity activity = null;
 
@@ -71,7 +70,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
         activity = this;
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
-        breed.setAdapter(new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, Constants.cats));
+        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
 
         Switch type = (Switch) findViewById(R.id.switch_pet_type);
         type.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -82,9 +81,9 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 ArrayAdapter<String> adapter = null;
 
                 if (isChecked) {
-                    adapter = new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, Constants.dogs);
+                    adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS);
                 } else {
-                    adapter =  new ArrayAdapter<String>(activity, android.R.layout.simple_dropdown_item_1line, Constants.cats);
+                    adapter =  new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
                 }
                 breed.setAdapter(adapter);
             }
@@ -97,12 +96,16 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
             TextView ageLabel = (TextView) findViewById(R.id.age_label);
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress < 33) {
-                    ageLabel.setText(Constants.ages[0]);
-                } else if ((progress >= 33) && (progress < 66)) {
-                    ageLabel.setText(Constants.ages[1]);
+                if (progress < 20) {
+                    ageLabel.setText(AGES[0]);
+                } else if ((progress >= 20) && (progress < 40)) {
+                    ageLabel.setText(AGES[1]);
+                } else if ((progress >= 40) && (progress < 60)) {
+                    ageLabel.setText(AGES[2]);
+                } else if ((progress >= 60) && (progress < 80)) {
+                    ageLabel.setText(AGES[3]);
                 } else {
-                    ageLabel.setText(Constants.ages[2]);
+                    ageLabel.setText(AGES[4]);
                 }
                 ageLabel.invalidate();
             }
@@ -121,14 +124,12 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress < 25) {
-                    sizeLabel.setText(Constants.sizes[0]);
-                } else if ((progress >= 25) && (progress < 50)) {
-                    sizeLabel.setText(Constants.sizes[1]);
-                } else if ((progress >= 50) && (progress < 75)) {
-                    sizeLabel.setText(Constants.sizes[2]);
+                if (progress < 33) {
+                    sizeLabel.setText(SIZES[0]);
+                } else if ((progress >= 33) && (progress < 66)) {
+                    sizeLabel.setText(SIZES[1]);
                 } else {
-                    sizeLabel.setText(Constants.sizes[3]);
+                    sizeLabel.setText(SIZES[2]);
                 }
                 sizeLabel.invalidate();
             }
@@ -276,7 +277,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                     if (i == 0) view.setImageBitmap(bitmap);
                 }
             }
-            Toast.makeText(getApplicationContext(), "Imagenes cargadas", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "Imágenes cargadas", Toast.LENGTH_SHORT).show();
         }
     }
 }

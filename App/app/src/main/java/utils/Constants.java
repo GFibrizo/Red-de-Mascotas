@@ -1,17 +1,16 @@
 package utils;
 
+import com.support.android.designlibdemo.R;
+
+import java.util.Random;
+
 public final class Constants {
 
     private Constants() { }
 
-    public static final String AGE_0_TO_6_MONTHS = "0 - 6 meses";
-    public static final String AGE_6_TO_12_MONTHS = "6 - 12 meses";
-    public static final String AGE_1_TO_3_YEARS = "1 - 3 años";
-    public static final String AGE_3_TO_7_YEARS = "3 - 7 años";
-    public static final String AGE_7_OR_MORE_YEARS = "más de 7 años";
+    public static final String[] AGES = {"0 - 6 meses", "6 - 12 meses", "1 - 3 años", "3 - 7 años", "más de 7 años"};
 
-    public static final String[] BREEDS = new String[] {
-            //Dog breeds
+    public static final String[] DOGS = new String[] {
             "Affenpinscher", "Afgano", "Airedale Terrier", "Akita", "Alaskan Malamute", "American Foxhound", "American Staffordshire Terrier",
             "Antiguo perro pastor inglés", "Basenji", "Basset Hound", "Beagle", "Beauceron", "Bedlington Terrier", "Bichon Frise", "Bichón habanero",
             "Bichón maltés", "Bloodhound / Perro de San Huberto", "Bluetick Coonhound", "Border Collie", "Border Terrier", "Borzoi", "Boston Terrier",
@@ -36,16 +35,46 @@ public final class Constants {
             "Spinone", "Springer spaniel galés", "Springer spaniel inglés", "Staffordshire Bull Terrier", "Sussex Spaniel", "Terranova", "Terrier australiano",
             "Terrier checo", "Terrier de Australia", "Terrier de Norfolk", "Terrier de Norwich", "Terrier escocés", "Terrier galés", "Terrier irlandés",
             "Terrier ruso negro", "Terrier tibetano", "Toy Fox Terrier", "Toy spaniel inglés", "Treeing Walker Coonhound", "Vallhund sueco", "Vizsla",
-            "West Highland White Terrier", "Whippet", "Xoloitzcuintli", "Yorkshire Terrier",
+            "West Highland White Terrier", "Whippet", "Xoloitzcuintli", "Yorkshire Terrier"};
 
-            // Cat breeds
+    public static final String[] CATS = new String[] {
             "Abisinio", "Aphrodite's Giants", "Australian Mist", "American Curl", "Azul ruso", "American shorthair", "American wirehair", "Angora turco",
             "Africano doméstico", "Bengala", "Bobtail japonés", "Bombay", "Bosque de Noruega", "Brazilian Shorthair", "Brivon de pelo corto", "Brivon de pelo largo",
             "British Shorthair", "Burmés", "Burmilla", "Cornish rexx", "California Spangled", "Ceylon", "Cymric", "Chartreux", "Deutsch Langhaar", "Devon rex",
             "Dorado africano", "Don Sphynx", "Dragon Li", "Europeo Común", "Exótico de Pelo Corto", "FoldEx", "German Rex", "Habana brown", "Himalayo", "Korat",
             "Khao Manee", "Lituli", "Maine Coon", "Manx", "Mau egipcio", "Munchkin", "Ocicat", "Oriental", "Oriental de pelo largo", "Ojos azules", "PerFold1",
             "Persa Americano o Moderno", "Persa Clásico o Tradicional", "Peterbald", "Pixie Bob", "Ragdoll", "Sagrado de Birmania", "Scottish Fold", "Selkirk rex",
-            "Serengeti", "Seychellois", "Siamés", "Siamés Moderno", "Siamés Tradicional", "Siberiano", "Snowshoe", "Sphynx", "Tonkinés", "Van Turco"
+            "Serengeti", "Seychellois", "Siamés", "Siamés Moderno", "Siamés Tradicional", "Siberiano", "Snowshoe", "Sphynx", "Tonkinés", "Van Turco"};
+
+    public static final String[] EYE_COLORS = {"Amarillo", "Celeste", "Marrón", "Negro", "Verde", "Otro"};
+
+    public static final String[] HAIR_COLORS = {"Beige", "Blanco", "Gris", "Marrón", "Naranja", "Negro", "Pardo", "Otro"};
+
+    public static String[] SIZES = {"Chico", "Mediano", "Grande"};
+
+
+
+    public static final String[] CHEESE = {
+            "Tito", "Simba", "Fiona", "Kiara", "Lucky", "Melba", "Nala", "Pumba", "Rubi",
+            "Canela", "Ambar", "Cleopatra", "Casandra", "Luna", "Fuego"
     };
+
+    private static final Random RANDOM = new Random();
+
+    public static int getRandomCheeseDrawable() {
+        switch (RANDOM.nextInt(5)) {
+            default:
+            case 0:
+                return R.drawable.orange_kitten;
+            case 1:
+                return R.drawable.grey_cat;
+            case 2:
+                return R.drawable.pardo_cat;
+            case 3:
+                return R.drawable.grey_white_kitten;
+            case 4:
+                return R.drawable.black_cat;
+        }
+    }
 
 }

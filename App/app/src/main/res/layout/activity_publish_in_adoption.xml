@@ -197,7 +197,7 @@
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
                     android:layout_marginLeft="20dp"
-                    android:text="Cachorro" />
+                    android:text="0 - 6 meses" />
 
                 <SeekBar
                     android:layout_width="match_parent"
@@ -226,7 +226,7 @@
                     android:id="@+id/size_label"
                     android:layout_width="80dp"
                     android:layout_height="match_parent"
-                    android:text="Muy chico"
+                    android:text="Chico"
                     android:layout_marginLeft="20dp"/>
 
                 <SeekBar
