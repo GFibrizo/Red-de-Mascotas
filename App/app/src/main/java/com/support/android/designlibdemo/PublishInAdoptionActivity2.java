@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Spinner;
 
 import org.json.JSONException;
@@ -83,8 +84,8 @@ public class PublishInAdoptionActivity2 extends AppCompatActivity {
 
         CheckBox castrated = (CheckBox)findViewById(R.id.castrated_check);
         CheckBox needs_transit_home = (CheckBox)findViewById(R.id.transit_home_check);
-        CheckBox temp_meds = (CheckBox)findViewById(R.id.temp_meds_check);
-        CheckBox cron_meds = (CheckBox)findViewById(R.id.cron_meds_check);
+        RadioButton temp_meds = (RadioButton)findViewById(R.id.radio_temporary_medicine);
+        RadioButton cron_meds = (RadioButton)findViewById(R.id.radio_chronic_medicine);
         EditText desc = (EditText) findViewById(R.id.pet_desc);
         Spinner hairColor1 = (Spinner) findViewById(R.id.spinner_hair_color1);
         Spinner hairColor2 = (Spinner) findViewById(R.id.spinner_hair_color2);

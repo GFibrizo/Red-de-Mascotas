@@ -73,7 +73,7 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/layout_publish_2"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:weightSum="1">
@@ -111,7 +111,7 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:weightSum="1">
 
             <android.support.design.widget.TextInputLayout
@@ -135,7 +135,7 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
             android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="20dp"
             android:weightSum="1">
 
             <TextView
@@ -160,7 +160,7 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
             android:id="@+id/layout_publish_24"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:weightSum="1">
 
             <TextView
@@ -179,55 +179,38 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
                 android:layout_weight="0.5"/>
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Toma medicación"
+            android:id="@+id/medicine" />
 
-        <RelativeLayout
-            android:id="@+id/layout_publish_25"
+        <RadioGroup
+            android:id="@+id/radio_pet_type"
             android:orientation="horizontal"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:weightSum="1">
+            android:layout_height="wrap_content" >
 
-            <TextView
+            <RadioButton
+                android:id="@+id/radio_temporary_medicine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Necesita tomar alguna medicina de manera temporal"
-                android:id="@+id/temp_meds_label"
-                android:layout_weight="0.5"/>
+                android:textColor="#767676"
+                android:textSize="16sp"
+                android:text="Temporal" />
 
-            <CheckBox
+            <RadioButton
+                android:id="@+id/radio_chronic_medicine"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:id="@+id/temp_meds_check"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
+                android:layout_marginLeft="5dp"
+                android:textColor="#767676"
+                android:textSize="16sp"
+                android:text="Crónica" />
 
-
-        <RelativeLayout
-            android:id="@+id/layout_publish_26"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Necesita tomar alguna medicina de manera crónica"
-                android:id="@+id/cron_meds_label"
-                android:layout_weight="0.5"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/cron_meds_check"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
-
+        </RadioGroup>
 
         <EditText
             android:layout_width="match_parent"
@@ -235,8 +218,6 @@ tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity2">
             android:id="@+id/pet_desc"
             android:hint="Descripción de la mascota"
             android:layout_marginTop="10dp"/>
-
-
 
         <Button
             android:layout_width="wrap_content"
