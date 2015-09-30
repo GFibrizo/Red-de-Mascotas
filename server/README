@@ -66,18 +66,18 @@ Para restaurar el backup de la base
 Comandos útiles dentro del shell de MongoDB
 ===========================================
 
-1.- Entrar a una base de datos: use <name de base de datos>
+1.- Entrar a una base de datos: use <nombre de la base de datos>
 	Para mostrar las que hay: show databases
 2.- Una vez dentro de una base de datos, para mostrar las colecciones que tiene: show collections
 
-Para hacer queries: db.<name de la colección>.<lo que quieras hacer>
+Para hacer queries: db.<nombre de la colección>.<lo que quieras hacer>
 
 
 Ejemplos:
 
 db.usuarios.findOne() ---> Trae un usuario cualquiera
 
-db.usuarios.find({name: "Yamila"}) ---> Trae los usuarios con name Yamila
+db.usuarios.find({name: "Yamila"}) ---> Trae los usuarios con nombre Yamila
 
 
 
@@ -111,8 +111,8 @@ Body:
 "street": "Pavón",
 "number": "3100",
 "neighbourhood": "San Cristóbal",
-"city": "C.A.B.A",
-"province": "C.A.B.A",
+"city": "Ciudad Autónoma de Buenos Aires",
+"province": "Ciudad Autónoma de Buenos Aires",
 "country": "Argentina"
 }
 }

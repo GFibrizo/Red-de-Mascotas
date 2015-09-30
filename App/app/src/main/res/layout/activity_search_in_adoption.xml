@@ -109,6 +109,7 @@
                             android:id="@+id/radio_dog"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:checked="true"
                             android:textColor="#7e7e7e"
                             android:textSize="18sp"
                             android:text="Perro" />

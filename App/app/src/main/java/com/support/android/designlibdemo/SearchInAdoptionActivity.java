@@ -15,7 +15,6 @@ import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
-import android.widget.Switch;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,7 +44,7 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
         petTypeCat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.autocomplete_breed);
-                ArrayAdapter<String> adapter = null;
+                ArrayAdapter<String> adapter;
                 if (isChecked) {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
                 } else {
@@ -103,7 +102,6 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
         CheckBox age3to7y = (CheckBox) findViewById(R.id.check_3to7y_age);
         CheckBox age7toMorey = (CheckBox) findViewById(R.id.check_7toMorey_age);
 
-        // TODO: Faltan validaciones
         try {
             if (petTypeDog.isChecked()) {
                 object.put("type", petTypeDog.getText());

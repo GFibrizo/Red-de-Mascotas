@@ -283,7 +283,7 @@
                             android:orientation="vertical">
 
                             <AutoCompleteTextView
-                                android:id="@+id/city"
+                                android:id="@+id/autocomplete_city"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
@@ -291,7 +291,7 @@
                                 android:inputType="textAutoComplete" />
 
                             <AutoCompleteTextView
-                                android:id="@+id/neighbourhood"
+                                android:id="@+id/autocomplete_neighbourhood"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="10dp"
