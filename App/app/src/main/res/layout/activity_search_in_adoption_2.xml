@@ -273,7 +273,7 @@
                     <RelativeLayout
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1">
+                        android:layout_weight="1.7">
 
                         <LinearLayout
                             android:focusable="true"
@@ -312,7 +312,8 @@
                             android:layout_height="90dp"
                             android:src="@drawable/dog_prints"
                             android:layout_marginTop="10dp"
-                            android:layout_marginRight="40dp"
+                            android:layout_marginLeft="10dp"
+                            android:layout_marginRight="30dp"
                             android:layout_alignParentRight="true" />
 
                     </RelativeLayout>

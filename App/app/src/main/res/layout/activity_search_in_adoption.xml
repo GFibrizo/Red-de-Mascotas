@@ -62,7 +62,8 @@
                 android:id="@+id/load_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/load"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/perro_gato_search"
                 android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true" />
 
