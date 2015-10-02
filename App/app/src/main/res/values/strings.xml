@@ -69,6 +69,7 @@
   <string name="login_button_text">Ingresar con Facebook</string>
   <string name="offer_in_adoption">Ofrecer en adopción</string>
   <string name="search_result_list">Resultados de la Búsqueda</string>
+  <string name="notification">Notificaciones</string>
   <string name="search_in_adoption">Búsqueda de mascotas en adopcion</string>
   <string name="adopt">Adoptar</string>
   <string name="report_missing">Reportar extravío</string>
@@ -80,6 +81,7 @@
   <string name="logout_msg">Salir</string>
     <string name="title_activity_publish_in_adoption2">PublishInAdoptionActivity2</string>
     <string name="title_activity_publish_in_adoption3">PublishInAdoptionActivity3</string>
+  <string name="razaLabel">Raza:</string>
   <string name="sexoLabel">Sexo:</string>
   <string name="edadLabel">Edad:</string>
   <string name="tamanioLabel">Tamaño:</string>
@@ -92,4 +94,6 @@
     <string name="title_activity_register2">Register2Activity</string>
   <string name="new_account">Nueva Cuenta</string>
   <string name="register_next">Siguiente</string>
+  <string name="quiereAdoptar">Quieren adoptar a </string>
+  <string name="contactoLabel">Contacto: </string>
 </resources>

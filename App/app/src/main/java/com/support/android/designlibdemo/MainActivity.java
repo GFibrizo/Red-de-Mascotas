@@ -142,8 +142,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.offer_in_adoption:
                         intent = new Intent(getApplicationContext(), PublishInAdoptionActivity.class);
                         break;
-                    case R.id.search_result:
-                        intent = new Intent(getApplicationContext(), ResultListActivity.class);
+                    case R.id.notification:
+                        intent = new Intent(getApplicationContext(), NotificationActivity.class);
                         break;
                     case R.id.report_missing:
                         break;

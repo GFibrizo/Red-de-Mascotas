@@ -29,9 +29,9 @@
             android:icon="@drawable/ic_favorite_black_24dp"
             android:title="@string/offer_in_adoption" />
         <item
-            android:id="@+id/search_result"
+            android:id="@+id/notification"
             android:icon="@drawable/ic_favorite_black_24dp"
-            android:title="@string/search_result_list" />
+            android:title="@string/notification" />
         <item
             android:id="@+id/report_missing"
             android:icon="@drawable/ic_report_black_24dp"
