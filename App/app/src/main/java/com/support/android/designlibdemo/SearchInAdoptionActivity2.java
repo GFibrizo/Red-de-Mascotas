@@ -155,8 +155,10 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             if (success) {
                 Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
-                intent.putExtra("data", response.toString());
-                startActivity(intent);
+                if (response != null) {
+                    intent.putExtra("data", response.toString());
+                    startActivity(intent);
+                }
             }
         }
 
