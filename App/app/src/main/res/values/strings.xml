@@ -33,7 +33,7 @@
     <string name="action_settings">Settings</string>
 
   <string name="facebook_app_name">HelloFBSample</string>
-  <string name="cancelled">Cancelled</string>
+  <string name="cancelled">Cancelar</string>
   <string name="permission_not_granted">Unable to perform selected action because permissions were not granted.</string>
   <string name="ok">OK</string>
   <string name="hello_user">Hello %1$s!</string>
@@ -92,4 +92,8 @@
     <string name="title_activity_register2">Register2Activity</string>
   <string name="new_account">Nueva Cuenta</string>
   <string name="register_next">Siguiente</string>
+  <string name="register_end">Finalizar</string>
+  <string name="address">Direccion</string>
+  <string name="telephone">Teléfono</string>
+  <string name="firstAndLastName">Nombre y Apellido</string>
 </resources>

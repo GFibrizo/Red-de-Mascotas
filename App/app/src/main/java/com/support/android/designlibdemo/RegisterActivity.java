@@ -1,9 +1,17 @@
 package com.support.android.designlibdemo;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.EditText;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -11,6 +19,8 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
+        setSupportActionBar(toolbar);
     }
 
     @Override
@@ -33,5 +43,29 @@ public class RegisterActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void nextPage(View view) {
+        JSONObject object = new JSONObject();
+        EditText name = (EditText)findViewById(R.id.input_name);
+        EditText mail = (EditText)findViewById(R.id.input_email);
+        EditText password = (EditText)findViewById(R.id.input_password);
+        EditText rePassword = (EditText)findViewById(R.id.input_re_password);
+
+        try {
+            object.put("nombre", name.getText());
+            object.put("mail", mail.getText());
+            object.put("password", password.getText());
+            object.put("rePassword", rePassword.getText());
+
+
+
+        } catch (JSONException e) {
+            Log.e("Error al crear el JSON", e.getMessage());
+        }
+        Intent intent = new Intent(getApplicationContext(), Register2Activity.class);
+        intent.putExtra("data", object.toString());
+        if (intent != null)
+            startActivity(intent);
     }
 }

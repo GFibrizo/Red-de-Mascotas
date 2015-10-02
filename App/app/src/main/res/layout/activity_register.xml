@@ -72,7 +72,7 @@
         android:background="?attr/colorPrimary">
 
         <LinearLayout
-            android:id="@+id/linearLayout2"
+            android:id="@+id/fieldsLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -82,7 +82,9 @@
             android:layout_marginRight="10dp">
 
             <!--  Name Label -->
-            <LinearLayout android:id="@+id/user_register_name" android:layout_width="match_parent"
+            <LinearLayout
+                android:id="@+id/user_register_userName"
+                android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp">
@@ -95,12 +97,12 @@
                     android:layout_gravity="center_vertical|left" />
 
                 <EditText android:id="@+id/input_name"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:inputType="textCapWords"
-                android:hint="Name"
-                android:textColor="#fefdff"
-                android:textColorHighlight="#ffffff" />
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="textCapWords"
+                    android:hint="Name"
+                    android:textColor="#fefdff"
+                    android:textColorHighlight="#ffffff" />
             </LinearLayout>
 
             <!-- Email Label -->
@@ -168,38 +170,40 @@
 
         </LinearLayout>
 
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/btn_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="12dp"
-            android:textStyle="bold"
-            android:text="@string/cancelled"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:alpha="0.75"
-            android:layout_alignTop="@+id/button_publish_1"
-            android:layout_alignLeft="@+id/linearLayout2"
-            android:layout_alignStart="@+id/linearLayout2" />
-        
-        <android.support.v7.widget.AppCompatButton
-            android:id="@+id/button_publish_1"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="56dp"
-            android:padding="12dp"
-            android:background="#2196F3"
-            android:textColor="#ffffff"
-            android:textAllCaps="true"
-            android:text="@string/register_next"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:alpha="0.75"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_alignRight="@+id/linearLayout2"
-            android:layout_alignEnd="@+id/linearLayout2"
-            android:layout_marginRight="48dp"
-            android:layout_marginEnd="48dp" />
+        <RelativeLayout
+            android:id="@+id/user_register_button"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_below="@id/fieldsLayout"
+            android:gravity="center">
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.75"
+                android:padding="12dp"
+                android:text="@string/cancelled"
+                android:layout_marginRight="20dp"
+                android:textStyle="bold" />
+
+            <android.support.v7.widget.AppCompatButton
+                android:id="@+id/button_publish_1"
+                android:layout_toRightOf="@id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:alpha="0.75"
+                android:background="#2196F3"
+                android:padding="12dp"
+                android:text="@string/register_next"
+                android:textAllCaps="true"
+                android:layout_marginLeft="20dp"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
 
 
     </RelativeLayout>
