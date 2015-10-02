@@ -10,6 +10,15 @@ public final class Constants {
 
     public static final String[] AGES = {"0 - 6 meses", "6 - 12 meses", "1 - 3 años", "3 - 7 años", "más de 7 años"};
 
+    public static final String[] CITIES = {"Ciudad Autónoma de Buenos Aires"};
+
+    public static final String[] NEIGHBOURHOODS = {
+            "Agronomía", "Almagro", "Balvanera", "Barracas", "Belgrano", "Boedo", "Caballito", "Chacarita", "Coghlan", "Colegiales", "Constitución",
+            "Flores", "Floresta", "La Boca", "La Paternal", "Liniers", "Mataderos", "Monte Castro", "Monserrat", "Nueva Pompeya", "Núñez", "Palermo",
+            "Parque Avellaneda", "Parque Chacabuco", "Parque Chas", "Parque Patricios", "Puerto Madero", "Recoleta", "Retiro", "Saavedra", "San Cristóbal",
+            "San Nicolás", "San Telmo", "Vélez Sársfield", "Versalles", "Villa Crespo", "Villa del Parque", "Villa Devoto", "Villa General Mitre", "Villa Lugano",
+            "Villa Luro", "Villa Ortúzar", "Villa Pueyrredón", "Villa Riachuelo", "Villa Santa Rita", "Villa Soldati", "Villa Urquiza"};
+
     public static final String[] DOGS = new String[] {
             "Affenpinscher", "Afgano", "Airedale Terrier", "Akita", "Alaskan Malamute", "American Foxhound", "American Staffordshire Terrier",
             "Antiguo perro pastor inglés", "Basenji", "Basset Hound", "Beagle", "Beauceron", "Bedlington Terrier", "Bichon Frise", "Bichón habanero",

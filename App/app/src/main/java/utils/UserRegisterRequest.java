@@ -9,6 +9,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -54,19 +55,54 @@ public class UserRegisterRequest {
 
     }
 
-    private String buildRegisterFacebooUserPath(){
+    private void createUser(JSONObject user) {
+
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                RequestHandler.getServerUrl() + buildRegisterFacebooUserPath(),
+                user,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Manejo de la respuesta
+                        System.out.println(response);
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejo de errores
+
+                    }
+                });
+        requestHandler.addToRequestQueue(request);
+
+    }
+
+    private String buildRegisterFacebooUserPath() {
         return "/user/facebook";
     }
 
-    public void registerFacebookUser( JSONObject json) {
-        if (json != null){
+    private String getJsonData(JSONObject json, String key) {
+        String data;
+        try {
+            data = json.getString(key);
+        } catch (JSONException e) {
+            data = "";
+        }
+        return data;
+    }
+
+    public void registerFacebookUser(JSONObject json) {
+        if (json != null) {
 
             JSONObject jsonRequest = new JSONObject();
             try {
                 //Ver como recuperar mas datos desde el api de facewbook
-                jsonRequest.put("facebookId", getJsonData(json,"id"));
-                jsonRequest.put("name", getJsonData(json,"name"));
-                jsonRequest.put("lastName", getJsonData(json,"last_name"));
+                jsonRequest.put("facebookId", getJsonData(json, "id"));
+                jsonRequest.put("name", getJsonData(json, "name"));
+                jsonRequest.put("lastName", getJsonData(json, "last_name"));
                 this.createFacebookUser(jsonRequest);
             } catch (JSONException e) {
                 return;
@@ -75,15 +111,14 @@ public class UserRegisterRequest {
         }
     }
 
+    public JSONObject registerUser(JSONObject json) {
+        if (json != null) {
 
-    private String getJsonData(JSONObject json,String key){
-        String data;
-        try {
-            data = json.getString(key);
-        } catch (JSONException e) {
-            data = "";
+            JSONObject jsonRequest = new JSONObject();
+            this.createUser(json);
+
         }
-        return  data;
+        return null;
     }
 
 }

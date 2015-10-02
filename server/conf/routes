@@ -3,24 +3,31 @@
 # ~~~~
 
 # LogIn
-GET         /login/account                     @controllers.UserController.logInWithAccount
-GET         /login/facebook/:facebookId        @controllers.UserController.logInWithFacebook(facebookId)
-GET         /user/:userName/salt               @controllers.UserController.getUserSalt(userName)
+GET         /login/account                             @controllers.UserController.logInWithAccount
+GET         /login/facebook/:facebookId                @controllers.UserController.logInWithFacebook(facebookId)
+GET         /user/:userName/salt                       @controllers.UserController.getUserSalt(userName)
 
 # Registro de usuario
-POST        /user/account                      @controllers.UserController.registerAccountUser
-POST        /user/facebook                     @controllers.UserController.registerFacebookUser
+POST        /user/account                              @controllers.UserController.registerAccountUser
+POST        /user/facebook                             @controllers.UserController.registerFacebookUser
 
 # Usuario
-GET         /user/:userId/pet-adoption         @controllers.UserController.getPetsInAdoption(userId)
+GET         /user/:userId/pet-adoption                 @controllers.UserController.getPetsInAdoption(userId)
+GET         /user/:userId/notifications                @controllers.UserController.getAdoptionNotifications(userId)
+GET         /user/:userId/pending-notifications        @controllers.UserController.userHasPendingNotifications(userId)
+PUT         /user/:userId/notifications                @controllers.UserController.updateLastSeenNotifications(userId)
 
 # Publicacion de mascota en adopcion
-POST        /pet/adoption                      @controllers.PetAdoptionController.publishPet
+POST        /pet/adoption                              @controllers.PetAdoptionController.publishPet
 
 # Busqueda de mascotas en adopcion
-GET         /pets/adoption                     @controllers.PetAdoptionController.searchPets
-GET         /pets/last                         @controllers.PetAdoptionController.getLastPublished
+GET         /pets/adoption                             @controllers.PetAdoptionController.searchPets
+GET         /pets/last                                 @controllers.PetAdoptionController.getLastPublished
+
+# Adopcion de mascota
+GET         /pet/:petId/adopted                        @controllers.PetAdoptionController.userHasAdoptedPet(petId)
+POST        /pet/:petId/adoption                       @controllers.PetAdoptionController.adoptPet(petId)
 
 # Media
-GET         /pet/image/:imageId                @controllers.ImageController.getPetImage(imageId)
-POST        /pet/image                         @controllers.ImageController.uploadPetImage
+GET         /pet/image/:imageId                        @controllers.ImageController.getPetImage(imageId)
+POST        /pet/image                                 @controllers.ImageController.uploadPetImage

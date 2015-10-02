@@ -1,7 +1,9 @@
 package services;
 
+import model.Adoption;
 import model.PetAdoption;
 import model.User;
+import model.external.AdoptionRequest;
 import model.external.SearchForAdoptionFilters;
 import model.external.PublishForAdoptionPet;
 import org.springframework.stereotype.Service;
@@ -30,6 +32,22 @@ public class PetAdoptionService {
 
     public List<PetAdoption> getLastPublished() {
         return PetAdoption.getLastPublications();
+    }
+
+    public boolean userHasAdoptedPet(AdoptionRequest request) {
+        PetAdoption pet = PetAdoption.getById(request.petId);
+        if (pet.adoptionRequests != null) {
+            for (Adoption adoptionRequest : pet.adoptionRequests) {
+                if (adoptionRequest.adopterId.equals(request.adopterId)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public void adoptPet(AdoptionRequest request) {
+        PetAdoption.addAdoptionRequest(request);
     }
 
 }

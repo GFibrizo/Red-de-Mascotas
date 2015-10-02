@@ -62,7 +62,8 @@
                 android:id="@+id/load_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
-                android:src="@drawable/load"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/perro_gato_search"
                 android:layout_marginRight="10dp"
                 android:layout_alignParentRight="true" />
 
@@ -109,6 +110,7 @@
                             android:id="@+id/radio_dog"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
+                            android:checked="true"
                             android:textColor="#7e7e7e"
                             android:textSize="18sp"
                             android:text="Perro" />

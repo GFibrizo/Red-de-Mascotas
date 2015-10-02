@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.CheckBox;
 
@@ -21,6 +22,9 @@ import org.json.JSONObject;
 
 import utils.Encoder;
 import utils.SearchRequest;
+
+import static utils.Constants.CITIES;
+import static utils.Constants.NEIGHBOURHOODS;
 
 public class SearchInAdoptionActivity2 extends AppCompatActivity {
 
@@ -37,6 +41,14 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_search_in_adoption_2);
+
+        AutoCompleteTextView cityTextView = (AutoCompleteTextView) findViewById(R.id.autocomplete_city);
+        ArrayAdapter<String> cityAdapter = new ArrayAdapter<>(this, R.layout.autocomplete_list_item, CITIES);
+        cityTextView.setAdapter(cityAdapter);
+
+        AutoCompleteTextView neighbourhoodTextView = (AutoCompleteTextView) findViewById(R.id.autocomplete_neighbourhood);
+        ArrayAdapter<String> neighbourhoodAdapter = new ArrayAdapter<>(this, R.layout.autocomplete_list_item, NEIGHBOURHOODS);
+        neighbourhoodTextView.setAdapter(neighbourhoodAdapter);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_search);
         setSupportActionBar(toolbar);
@@ -90,10 +102,9 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         CheckBox eyeColorBlue = (CheckBox) findViewById(R.id.check_eye_color_blue);
         CheckBox eyeColorYellow = (CheckBox) findViewById(R.id.check_eye_color_yellow);
         CheckBox eyeColorOther = (CheckBox) findViewById(R.id.check_eye_color_other);
-        AutoCompleteTextView city = (AutoCompleteTextView) findViewById(R.id.city);
-        AutoCompleteTextView neighbourhood = (AutoCompleteTextView) findViewById(R.id.neighbourhood);
+        AutoCompleteTextView city = (AutoCompleteTextView) findViewById(R.id.autocomplete_city);
+        AutoCompleteTextView neighbourhood = (AutoCompleteTextView) findViewById(R.id.autocomplete_neighbourhood);
 
-        // TODO: Faltan validaciones
         try {
             JSONArray sizes = new JSONArray();
             if (sizeSmall.isChecked()) sizes.put(sizeSmall.getText());
@@ -121,7 +132,6 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
             if (eyeColorOther.isChecked()) eyeColors.put(Encoder.encode(eyeColorOther.getText().toString()));
             object.put("eyeColors", eyeColors);
 
-            // TODO: Falta autocomplete de los dos
             object.put("city", Encoder.encode(city.getText().toString()));
             object.put("neighbourhood", Encoder.encode(neighbourhood.getText().toString()));
 
