@@ -89,6 +89,20 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/nombreLabel"
+                        android:id="@+id/nombreAnimal" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/razaLabel"
+                        android:id="@+id/razaAnimal" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/sexoLabel"
                         android:id="@+id/sexoAnimal" />
 

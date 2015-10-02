@@ -19,7 +19,7 @@ import java.util.ArrayList;
  * Clase que servira para mostrar en un listView algo que tenga un texto y una imagen
  *
  */
-public class ImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
+public class ResultImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
     protected final Activity context;
     protected final ArrayList<TextAndImage> elements;
     protected final int layout;
@@ -29,7 +29,7 @@ public class ImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
      * @param layout   El layout que usara para mostrar cada fila
      * @param elements conjunto de elementos en los cuales se mostrara 1 por fila
      */
-    public ImageAndTextArrayAdapter(Activity context, int layout, String baseUrlForImage ,ArrayList<TextAndImage> elements) {
+    public ResultImageAndTextArrayAdapter(Activity context, int layout, String baseUrlForImage, ArrayList<TextAndImage> elements) {
         super(context, layout, elements);
         this.layout = layout;
         this.context = context;
@@ -47,21 +47,23 @@ public class ImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
         View rowView = inflater.inflate(this.layout, null, true);
 
         TextView nombre = (TextView) rowView.findViewById(R.id.rowtext);
+        TextView raza = (TextView) rowView.findViewById(R.id.razaAnimal);
         TextView sexo = (TextView) rowView.findViewById(R.id.sexoAnimal);
         TextView edad = (TextView) rowView.findViewById(R.id.edadAnimal);
         TextView tamanio = (TextView) rowView.findViewById(R.id.tamanioAnimal);
         TextView ubicacion = (TextView) rowView.findViewById(R.id.ubicacionAnimal);
-        //TODO: recuperar todos los otros datos.
+
         ImageView imageView = (ImageView) rowView.findViewById(R.id.rowimage);
 
         nombre.setText(element.getNombre());
+        raza.setText(raza.getText()+" "+element.getRaza());
         sexo.setText(sexo.getText()+" "+element.getSexo());
         edad.setText(edad.getText()+" "+element.getEdad());
         tamanio.setText(tamanio.getText()+" "+element.getTamanio());
-        ubicacion.setText(ubicacion.getText()+" "+element.getUbicacion());
+        ubicacion.setText(ubicacion.getText()+" "+element.getBarrio());
 
-        int id = element.getId();
-        baseUrlForImage = IP_EMULADOR + "/mascota/imagen/" + String.valueOf(id) + ".jpg";
+        int id = element.getId(); //String.valueOf(id)
+        baseUrlForImage = IP_EMULADOR + "/pet/image/" + String.valueOf(id) + ".jpg";
         new ImageUrlView(baseUrlForImage, imageView).connect();
         return rowView;
     }

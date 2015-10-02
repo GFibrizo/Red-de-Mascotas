@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.support.android.designlibdemo.model.Address;
 import com.support.android.designlibdemo.model.PetAdoption;
+import com.support.android.designlibdemo.model.TextAndImagePetContainer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,12 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**  Esta clase se va a encargar de enviarle los resultados de las busquedas en tuplas de imagen
- *   y texto al adapter ImageAndTextArrayAdapter para que haga su display.
+ *   y texto al adapter ResultImageAndTextArrayAdapter para que haga su display.
  */
 
 public class ResultListActivity extends AppCompatActivity {
     private JSONArray object = null;
     private ListView listView ;
+    private List<PetAdoption> mascotas = null;
 
     // Defined Array values to show in ListView
     String[] values = new String[]{"Fiona", "Simba", "Homero", "Casandra", "Cleopatra"};
@@ -77,8 +79,7 @@ public class ResultListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
 //        String data = getIntent().getExtras().getString("data");
         String data = getIntent().getStringExtra("data");
-//        String name = "name";
-        List<PetAdoption> mascotas = null;
+//        List<PetAdoption> mascotas = null;
 
         try {
             object = new JSONArray(getIntent().getStringExtra("data"));
@@ -94,115 +95,40 @@ public class ResultListActivity extends AppCompatActivity {
 
         if (mascotas != null) {
             for (int i = 0; i < mascotas.size(); i++) {
-                String nombre = mascotas.get(i).getName();
-                String sexo = mascotas.get(i).getGender();
-                String edad = mascotas.get(i).getAge();
-                String tam = mascotas.get(i).getSize();
-                String barrio = mascotas.get(i).getAddress().getNeighbourhood();
-                textAndImageArray.add(new TextAndImageContainer(20+i, nombre, sexo, edad,tam, barrio));
+                textAndImageArray.add(new TextAndImagePetContainer(mascotas.get(i)));
             }
-
         }
-
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                    Intent intent = new Intent(getApplicationContext(), PetsDetailActivity.class);
-                   intent.putExtra("id", id);
-//                    intent.putExtra("ownProfile", false);
-//                    int friendId = friends.get(position).getId();
-//                    intent.putExtra("friend_id", friendId);
-                    startActivity(intent);
+//                   intent.putExtra("id", id);
+                   TextAndImagePetContainer petContainer = new TextAndImagePetContainer(mascotas.get(position));
+                   intent.putExtra("nombre", petContainer.getNombre());
+                   intent.putExtra("raza", petContainer.getRaza());
+                   intent.putExtra("sexo", petContainer.getSexo());
+                   intent.putExtra("edad", petContainer.getEdad());
+                   intent.putExtra("tamanio", petContainer.getTamanio());
+                   intent.putExtra("colorPelaje", petContainer.getColorPelaje());
+                   intent.putExtra("colorOjos", petContainer.getColorOjos());
+                   intent.putExtra("ubicacion", petContainer.getBarrio());
+                   intent.putExtra("caracteristicas", petContainer.getCaracteristicas());
+                   intent.putExtra("descripcion", petContainer.getDescripcion());
+                   intent.putExtra("conducta", petContainer.getConducta());
+                   startActivity(intent);
                 }
 
         });
 
-//                            String urlBaseForImage = IpConfig.LOCAL_IP.url() + "/getstudentpicture/";
-
-        ImageAndTextArrayAdapter adapter = new ImageAndTextArrayAdapter(this, R.layout.mock_image_and_text_single_row ,
+        ResultImageAndTextArrayAdapter adapter = new ResultImageAndTextArrayAdapter(this, R.layout.mock_image_and_text_single_row ,
                     null, (ArrayList<TextAndImage>) textAndImageArray);
         listView.setAdapter(adapter);
 
     }
 
 
-    public class TextAndImageContainer implements TextAndImage {
-        private int id;
-        private String nombre;
-        private String sexo;
-        private String edad;
-        private String tamanio;
-        private String ubicacion;
-
-        TextAndImageContainer(){
-
-        }
-
-        TextAndImageContainer(int id, String nombre, String sexo, String edad, String tamanio, String ubicacion){
-            this.id = id;
-            this.nombre = nombre;
-            this.sexo = sexo;
-            this.edad = edad;
-            this.tamanio = tamanio;
-            this.ubicacion = ubicacion;
-        }
-
-        @Override
-        public int getId() {
-            return id;
-        }
-
-        @Override
-        public String getText(){
-            return "";
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public String getSexo() {
-            return sexo;
-        }
-
-        public String getEdad() {
-            return edad;
-        }
-
-        public String getTamanio() {
-            return tamanio;
-        }
-
-        public String getUbicacion() {
-            return ubicacion;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public void setNombre(String nombre) {
-            this.nombre = nombre;
-        }
-
-        public void setSexo(String sexo) {
-            this.sexo = sexo;
-        }
-
-        public void setEdad(String edad) {
-            this.edad = edad;
-        }
-
-        public void setTamanio(String tamanio) {
-            this.tamanio = tamanio;
-        }
-
-        public void setUbicacion(String ubicacion) {
-            this.ubicacion = ubicacion;
-        }
-    }
 
     private List<String> fromJSONArrayToList(JSONArray jsonArray) {
         List<String> list = new ArrayList<String>();
