@@ -1,5 +1,7 @@
 package services;
 
+import model.Adoption;
+import model.AdoptionNotification;
 import model.PetAdoption;
 import model.User;
 import model.external.LogInUser;
@@ -7,6 +9,8 @@ import model.external.AccountRegistrationUser;
 import model.external.FacebookRegistrationUser;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -19,8 +23,8 @@ public class UserService {
         } else return null;
     }
 
-    public String getUserSalt(String nombreDeUsuario) {
-        User user = User.getByUserName(nombreDeUsuario);
+    public String getUserSalt(String userName) {
+        User user = User.getByUserName(userName);
         if (user != null) {
             return user.password.salt;
         } else return null;
@@ -30,32 +34,76 @@ public class UserService {
         return User.getByFacebookId(facebookId);
     }
 
-    public User registerAccountUser(AccountRegistrationUser usuarioRegistro) {
-        if (User.exists(usuarioRegistro.userName, usuarioRegistro.email))
+    public User registerAccountUser(AccountRegistrationUser userRegister) {
+        if (User.exists(userRegister.userName, userRegister.email))
             return null;
-        User user = new User(usuarioRegistro.userName,
-                                      usuarioRegistro.name,
-                                      usuarioRegistro.lastName,
-                                      usuarioRegistro.email,
-                                      usuarioRegistro.password,
-                                      usuarioRegistro.phone,
-                                      usuarioRegistro.address);
+        User user = new User(userRegister.userName,
+                             userRegister.name,
+                             userRegister.lastName,
+                             userRegister.email,
+                             userRegister.password,
+                             userRegister.phone,
+                             userRegister.address);
         User.create(user);
         return user;
     }
 
-    public void registerFacebookUser(FacebookRegistrationUser usuarioRegistro) {
-        User user = new User(usuarioRegistro.name,
-                                      usuarioRegistro.lastName,
-                                      usuarioRegistro.email,
-                                      usuarioRegistro.facebookId,
-                                      usuarioRegistro.phone,
-                                      usuarioRegistro.address);
+    public void registerFacebookUser(FacebookRegistrationUser userRegister) {
+        User user = new User(userRegister.name,
+                             userRegister.lastName,
+                             userRegister.email,
+                             userRegister.facebookId,
+                             userRegister.phone,
+                             userRegister.address);
         User.create(user);
     }
 
-    public List<PetAdoption> getPetsInAdoption(String usuarioId) {
-        return PetAdoption.getByOwnerId(usuarioId);
+    public List<PetAdoption> getPetsInAdoption(String userId) {
+        return PetAdoption.getByOwnerId(userId);
+    }
+
+    public List<AdoptionNotification> getAdoptionNotifications(String userId) {
+        List<AdoptionNotification> adoptionNotifications = new ArrayList<>();
+        List<PetAdoption> pets = PetAdoption.getByOwnerId(userId);
+        for (PetAdoption pet : pets) {
+            if (pet.adoptionRequests != null) {
+                for (Adoption adoptionRequest : pet.adoptionRequests) {
+                    User adopter = User.getById(adoptionRequest.adopterId);
+                    // TODO: Cambiar cuando este lista la publicacion ---> pet.images.get(0)
+                    String image;
+                    if (pet.images != null) {
+                        image = pet.images.get(0);
+                    } else {
+                        image = "";
+                    }
+                    /////////////////////////
+                    AdoptionNotification adoptionNotification = new AdoptionNotification(adopter.email,
+                            adoptionRequest.requestDate,
+                            pet.name,
+                            image);
+                    adoptionNotifications.add(adoptionNotification);
+                }
+            }
+        }
+        Collections.reverse(adoptionNotifications);
+        return adoptionNotifications;
+    }
+
+    public Boolean userHasPendingNotifications(String userId) {
+        List<PetAdoption> pets = PetAdoption.getByOwnerId(userId);
+        for (PetAdoption pet : pets) {
+            if (pet.hasAdoptionRequestsNotSeen()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void updateLastSeenNotifications(String userId) {
+        List<PetAdoption> pets = PetAdoption.getByOwnerId(userId);
+        for (PetAdoption pet : pets) {
+            PetAdoption.updateLastSeenAdoptionRequests(pet.id);
+        }
     }
 
 }
