@@ -142,9 +142,6 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.offer_in_adoption:
                         intent = new Intent(getApplicationContext(), PublishInAdoptionActivity.class);
                         break;
-                    case R.id.search_result:
-                        intent = new Intent(getApplicationContext(), ResultListActivity.class);
-                        break;
                     case R.id.report_missing:
                         break;
                     case R.id.report_found:
@@ -166,8 +163,10 @@ public class MainActivity extends AppCompatActivity {
                 }
                 menuItem.setChecked(true);
                 mDrawerLayout.closeDrawers();
-                if (intent != null)
+                if (intent != null) {
                     startActivity(intent);
+                    overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_in);
+                }
                 return true;
 
             }

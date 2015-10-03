@@ -5,7 +5,60 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity">
 
-    <android.support.design.widget.CoordinatorLayout
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/pubish_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_publish"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_publish"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+        <RelativeLayout
+            android:id="@+id/search_subtitle_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#263238">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/search_in_adoption"
+                android:textSize="17dp"
+                android:gravity="bottom"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="20dp"/>
+
+        </RelativeLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+
+
+
+   <!-- <android.support.v4.widget.DrawerLayout
+        android:id="@+id/publish_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent"
+        android:fitsSystemWindows="true">
+
+    <include layout="@layout/include_list_viewpager"/>
+    </android.support.v4.widget.DrawerLayout> -->
+
+   <!-- <android.support.design.widget.CoordinatorLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/publish_layout"
         android:layout_height="match_parent"
@@ -37,35 +90,14 @@
 
             </android.support.design.widget.CollapsingToolbarLayout>
 
-            <RelativeLayout
-                android:id="@+id/publish_subtitle_layout"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:minHeight="?attr/actionBarSize"
-                android:background="#263238">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/offer_in_adoption"
-                    android:textAppearance="@style/TabTextStyle"
-                    android:gravity="bottom"
-                    android:textAllCaps="false"
-                    android:layout_centerVertical="true"
-                    android:layout_alignParentLeft="true"
-                    android:paddingLeft="20dp"/>
-
-            </RelativeLayout>
-
-
 
     </android.support.design.widget.AppBarLayout>
 
+-->
     <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior"
-        android:layout_marginTop="120dp" >
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -258,5 +290,6 @@
     </RelativeLayout>
     </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
+    </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>
