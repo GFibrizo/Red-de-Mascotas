@@ -1,5 +1,6 @@
 package controllers;
 
+import model.AdoptionNotification;
 import model.PetAdoption;
 import model.User;
 import model.external.LogInUser;
@@ -18,14 +19,14 @@ import java.util.List;
 public class UserController {
 
     @Autowired
-    private UserService servicio;
+    private UserService service;
 
     // Devuelve el usuario en caso de ser la misma password encriptada, sino devuelve BadRequest.
     // Si no encuentra el usuario devuelve BadRequest.
     public Result logInWithAccount() {
         Form<LogInUser> form = Form.form(LogInUser.class).bindFromRequest();
         LogInUser logInUser = form.get();
-        User user = servicio.logInWithAccount(logInUser);
+        User user = service.logInWithAccount(logInUser);
         if (user == null)
             return play.mvc.Controller.badRequest();
         return play.mvc.Controller.ok(Json.toJson(user));
@@ -33,7 +34,7 @@ public class UserController {
 
     // Devuelve el salt del usuario, si existe el usuario, sino devuelve BadRequest.
     public Result getUserSalt(String userName) {
-        String salt = servicio.getUserSalt(userName);
+        String salt = service.getUserSalt(userName);
         if (salt == null)
             return play.mvc.Controller.badRequest();
         return play.mvc.Controller.ok(salt);
@@ -41,7 +42,7 @@ public class UserController {
 
     // Devuelve el usuario segun el id de Facebook. Si no lo encuentra devuelve BadRequest.
     public Result logInWithFacebook(String facebookId) {
-        User user = servicio.logInWithFacebook(facebookId);
+        User user = service.logInWithFacebook(facebookId);
         if (user == null)
             return play.mvc.Controller.badRequest();
         return play.mvc.Controller.ok(Json.toJson(user));
@@ -52,7 +53,7 @@ public class UserController {
     public Result registerAccountUser() {
         Form<AccountRegistrationUser> form = Form.form(AccountRegistrationUser.class).bindFromRequest();
         AccountRegistrationUser user = form.get();
-        if (servicio.registerAccountUser(user) == null)
+        if (service.registerAccountUser(user) == null)
             return play.mvc.Controller.badRequest();
         else return play.mvc.Controller.ok();
     }
@@ -60,13 +61,28 @@ public class UserController {
     public Result registerFacebookUser() {
         Form<FacebookRegistrationUser> form = Form.form(FacebookRegistrationUser.class).bindFromRequest();
         FacebookRegistrationUser user = form.get();
-        servicio.registerFacebookUser(user);
+        service.registerFacebookUser(user);
         return play.mvc.Controller.ok();
     }
 
     public Result getPetsInAdoption(String userId) {
-        List<PetAdoption> pets = servicio.getPetsInAdoption(userId);
+        List<PetAdoption> pets = service.getPetsInAdoption(userId);
         return play.mvc.Controller.ok(Json.toJson(pets));
+    }
+
+    public Result getAdoptionNotifications(String userId) {
+        List<AdoptionNotification> adoptionNotifications = service.getAdoptionNotifications(userId);
+        return play.mvc.Controller.ok(Json.toJson(adoptionNotifications));
+    }
+
+    public Result userHasPendingNotifications(String userId) {
+        Boolean userHasPendingNotifications = service.userHasPendingNotifications(userId);
+        return play.mvc.Controller.ok(Json.toJson(userHasPendingNotifications));
+    }
+
+    public Result updateLastSeenNotifications(String userId) {
+        service.updateLastSeenNotifications(userId);
+        return play.mvc.Controller.ok();
     }
 
 }

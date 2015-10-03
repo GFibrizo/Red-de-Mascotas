@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.support.android.designlibdemo.model.Address;
 import com.support.android.designlibdemo.model.PetAdoption;
+import com.support.android.designlibdemo.model.TextAndImagePetContainer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,12 +24,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**  Esta clase se va a encargar de enviarle los resultados de las busquedas en tuplas de imagen
- *   y texto al adapter ImageAndTextArrayAdapter para que haga su display.
+ *   y texto al adapter ResultImageAndTextArrayAdapter para que haga su display.
  */
 
 public class ResultListActivity extends AppCompatActivity {
     private JSONArray object = null;
     private ListView listView ;
+    private List<PetAdoption> mascotas = null;
 
     // Defined Array values to show in ListView
     String[] values = new String[]{"Fiona", "Simba", "Homero", "Casandra", "Cleopatra"};
@@ -75,10 +77,6 @@ public class ResultListActivity extends AppCompatActivity {
     private void cargarResultados(){
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
-//        String data = getIntent().getExtras().getString("data");
-        String data = getIntent().getStringExtra("data");
-//        String name = "name";
-        List<PetAdoption> mascotas = null;
 
         try {
             object = new JSONArray(getIntent().getStringExtra("data"));
@@ -89,120 +87,44 @@ public class ResultListActivity extends AppCompatActivity {
             Log.e("Error receiving intent", e.getMessage());
         }
 
-
         ArrayList<TextAndImage> textAndImageArray = new ArrayList<TextAndImage>();
 
         if (mascotas != null) {
             for (int i = 0; i < mascotas.size(); i++) {
-                String nombre = mascotas.get(i).getName();
-                String sexo = mascotas.get(i).getGender();
-                String edad = mascotas.get(i).getAge();
-                String tam = mascotas.get(i).getSize();
-                String barrio = mascotas.get(i).getAddress().getNeighbourhood();
-                textAndImageArray.add(new TextAndImageContainer(20+i, nombre, sexo, edad,tam, barrio));
+                textAndImageArray.add(new TextAndImagePetContainer(mascotas.get(i)));
             }
-
         }
-
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                    Intent intent = new Intent(getApplicationContext(), PetsDetailActivity.class);
-                   intent.putExtra("id", id);
-//                    intent.putExtra("ownProfile", false);
-//                    int friendId = friends.get(position).getId();
-//                    intent.putExtra("friend_id", friendId);
-                    startActivity(intent);
+//                   intent.putExtra("id", id);
+                   TextAndImagePetContainer petContainer = new TextAndImagePetContainer(mascotas.get(position));
+                   intent.putExtra("nombre", petContainer.getNombre());
+                   intent.putExtra("raza", petContainer.getRaza());
+                   intent.putExtra("sexo", petContainer.getSexo());
+                   intent.putExtra("edad", petContainer.getEdad());
+                   intent.putExtra("tamanio", petContainer.getTamanio());
+                   intent.putExtra("colorPelaje", petContainer.getColorPelaje());
+                   intent.putExtra("colorOjos", petContainer.getColorOjos());
+                   intent.putExtra("ubicacion", petContainer.getBarrio());
+                   intent.putExtra("caracteristicas", petContainer.getCaracteristicas());
+                   intent.putExtra("descripcion", petContainer.getDescripcion());
+                   intent.putExtra("conducta", petContainer.getConducta());
+                   startActivity(intent);
                 }
 
         });
 
-//                            String urlBaseForImage = IpConfig.LOCAL_IP.url() + "/getstudentpicture/";
-
-        ImageAndTextArrayAdapter adapter = new ImageAndTextArrayAdapter(this, R.layout.mock_image_and_text_single_row ,
+        ResultImageAndTextArrayAdapter adapter = new ResultImageAndTextArrayAdapter(this, R.layout.mock_image_and_text_single_row ,
                     null, (ArrayList<TextAndImage>) textAndImageArray);
         listView.setAdapter(adapter);
 
     }
 
 
-    public class TextAndImageContainer implements TextAndImage {
-        private int id;
-        private String nombre;
-        private String sexo;
-        private String edad;
-        private String tamanio;
-        private String ubicacion;
-
-        TextAndImageContainer(){
-
-        }
-
-        TextAndImageContainer(int id, String nombre, String sexo, String edad, String tamanio, String ubicacion){
-            this.id = id;
-            this.nombre = nombre;
-            this.sexo = sexo;
-            this.edad = edad;
-            this.tamanio = tamanio;
-            this.ubicacion = ubicacion;
-        }
-
-        @Override
-        public int getId() {
-            return id;
-        }
-
-        @Override
-        public String getText(){
-            return "";
-        }
-
-        public String getNombre() {
-            return nombre;
-        }
-
-        public String getSexo() {
-            return sexo;
-        }
-
-        public String getEdad() {
-            return edad;
-        }
-
-        public String getTamanio() {
-            return tamanio;
-        }
-
-        public String getUbicacion() {
-            return ubicacion;
-        }
-
-        public void setId(int id) {
-            this.id = id;
-        }
-
-        public void setNombre(String nombre) {
-            this.nombre = nombre;
-        }
-
-        public void setSexo(String sexo) {
-            this.sexo = sexo;
-        }
-
-        public void setEdad(String edad) {
-            this.edad = edad;
-        }
-
-        public void setTamanio(String tamanio) {
-            this.tamanio = tamanio;
-        }
-
-        public void setUbicacion(String ubicacion) {
-            this.ubicacion = ubicacion;
-        }
-    }
 
     private List<String> fromJSONArrayToList(JSONArray jsonArray) {
         List<String> list = new ArrayList<String>();
@@ -216,6 +138,10 @@ public class ResultListActivity extends AppCompatActivity {
         return list;
     }
 
+//    public PetAdoption(String name, String type, String ownerId, Address address, String breed,
+//                       String gender, String age, String size, List<String> colors, String eyeColor,
+//                       List<String> behavior, List<String> images, Boolean needsTransitHome,
+//                       Boolean isCastrated, Boolean isOnTemporaryMedicine, Boolean isOnChronicMedicine, String description) {
     private List<PetAdoption> fromJSONArrayToListMascotas(JSONArray jsonArray) {
         List<PetAdoption> list = new ArrayList<>();
         try {
@@ -224,23 +150,41 @@ public class ResultListActivity extends AppCompatActivity {
                 Address address = new Address();
                 String barrio = ((JSONObject) object.get("address")).getString("neighbourhood");
                 address.setNeighbourhood(barrio);
+                List<String> colors = new ArrayList<>();
+                List<String> behavior = new ArrayList<>();
+                List<String> images = new ArrayList<>();
+                if (!object.get("colors").toString().equals("null")) {
+                    for (int j = 0; j < object.getJSONArray("colors").length(); j++) {
+                        colors.add((String) object.getJSONArray("colors").get(j));
+                    }
+                }
+                if (!object.get("behavior").toString().equals("null")) {
+                    for (int j = 0; j < object.getJSONArray("behavior").length(); j++) {
+                        behavior.add((String) object.getJSONArray("behavior").get(j));
+                    }
+                }
+                if (!object.get("images").toString().equals("null")) {
+                    for (int j = 0; j < object.getJSONArray("images").length(); j++) {
+                        images.add((String) object.getJSONArray("images").get(j));
+                    }
+                }
                 PetAdoption mascota = new PetAdoption(object.getString("name"),
-                        "",
-                        "",
+                        object.getString("type"),
+                        object.getString("ownerId"),
                         address,
-                        "",
+                        object.getString("breed"),
                         object.getString("gender"),
                         object.getString("age"),
                         object.getString("size"),
-                        null,
-                        "",
-                        null,
-                        null,
-                        false,
-                        false,
-                        false,
-                        false,
-                        "");
+                        colors,
+                        object.getString("eyeColor"),
+                        behavior,
+                        images,
+                        object.getBoolean("needsTransitHome"),
+                        object.getBoolean("isCastrated"),
+                        object.getBoolean("isOnTemporaryMedicine"),
+                        object.getBoolean("isOnChronicMedicine"),
+                        object.getString("description"));
                 list.add(mascota);
             }
         } catch (JSONException e) {

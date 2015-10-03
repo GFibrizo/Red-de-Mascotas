@@ -1,6 +1,7 @@
 package controllers;
 
 import model.PetAdoption;
+import model.external.AdoptionRequest;
 import model.external.SearchForAdoptionFilters;
 import model.external.PublishForAdoptionPet;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,20 @@ public class PetAdoptionController {
     public Result getLastPublished() {
         List<PetAdoption> pets = service.getLastPublished();
         return play.mvc.Controller.ok(Json.toJson(pets));
+    }
+
+    public Result userHasAdoptedPet(String petId) {
+        Form<AdoptionRequest> form = Form.form(AdoptionRequest.class).bindFromRequest();
+        AdoptionRequest request = form.get();
+        Boolean userHasAdoptedPet = service.userHasAdoptedPet(request);
+        return play.mvc.Controller.ok(Json.toJson(userHasAdoptedPet));
+    }
+
+    public Result adoptPet(String petId) {
+        Form<AdoptionRequest> form = Form.form(AdoptionRequest.class).bindFromRequest();
+        AdoptionRequest request = form.get();
+        service.adoptPet(request);
+        return play.mvc.Controller.ok();
     }
 
 }

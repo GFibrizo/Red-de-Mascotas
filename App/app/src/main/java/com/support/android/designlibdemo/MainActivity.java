@@ -37,6 +37,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import com.facebook.login.LoginManager;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -142,6 +144,9 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.offer_in_adoption:
                         intent = new Intent(getApplicationContext(), PublishInAdoptionActivity.class);
                         break;
+                    case R.id.notification:
+                        intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                        break;
                     case R.id.report_missing:
                         break;
                     case R.id.report_found:
@@ -154,8 +159,8 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     case R.id.logout:
                         // ACA VA EL CODIGO PARA EL LOGOUT
-                        Toast.makeText(getApplicationContext(), "LOGOUT", Toast.LENGTH_LONG).show();
-                        intent = new Intent(getApplicationContext(), LogoutActivity.class);
+                        LoginManager.getInstance().logOut();
+                        finish();
                         break;
                     default:
                         mDrawerLayout.closeDrawers();
