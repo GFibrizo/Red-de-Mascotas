@@ -77,9 +77,6 @@ public class ResultListActivity extends AppCompatActivity {
     private void cargarResultados(){
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
-//        String data = getIntent().getExtras().getString("data");
-        String data = getIntent().getStringExtra("data");
-//        List<PetAdoption> mascotas = null;
 
         try {
             object = new JSONArray(getIntent().getStringExtra("data"));
@@ -89,7 +86,6 @@ public class ResultListActivity extends AppCompatActivity {
         } catch (JSONException e) {
             Log.e("Error receiving intent", e.getMessage());
         }
-
 
         ArrayList<TextAndImage> textAndImageArray = new ArrayList<TextAndImage>();
 
@@ -142,6 +138,10 @@ public class ResultListActivity extends AppCompatActivity {
         return list;
     }
 
+//    public PetAdoption(String name, String type, String ownerId, Address address, String breed,
+//                       String gender, String age, String size, List<String> colors, String eyeColor,
+//                       List<String> behavior, List<String> images, Boolean needsTransitHome,
+//                       Boolean isCastrated, Boolean isOnTemporaryMedicine, Boolean isOnChronicMedicine, String description) {
     private List<PetAdoption> fromJSONArrayToListMascotas(JSONArray jsonArray) {
         List<PetAdoption> list = new ArrayList<>();
         try {
@@ -150,23 +150,41 @@ public class ResultListActivity extends AppCompatActivity {
                 Address address = new Address();
                 String barrio = ((JSONObject) object.get("address")).getString("neighbourhood");
                 address.setNeighbourhood(barrio);
+                List<String> colors = new ArrayList<>();
+                List<String> behavior = new ArrayList<>();
+                List<String> images = new ArrayList<>();
+                if (!object.get("colors").toString().equals("null")) {
+                    for (int j = 0; j < object.getJSONArray("colors").length(); j++) {
+                        colors.add((String) object.getJSONArray("colors").get(j));
+                    }
+                }
+                if (!object.get("behavior").toString().equals("null")) {
+                    for (int j = 0; j < object.getJSONArray("behavior").length(); j++) {
+                        behavior.add((String) object.getJSONArray("behavior").get(j));
+                    }
+                }
+                if (!object.get("images").toString().equals("null")) {
+                    for (int j = 0; j < object.getJSONArray("images").length(); j++) {
+                        images.add((String) object.getJSONArray("images").get(j));
+                    }
+                }
                 PetAdoption mascota = new PetAdoption(object.getString("name"),
-                        "",
-                        "",
+                        object.getString("type"),
+                        object.getString("ownerId"),
                         address,
-                        "",
+                        object.getString("breed"),
                         object.getString("gender"),
                         object.getString("age"),
                         object.getString("size"),
-                        null,
-                        "",
-                        null,
-                        null,
-                        false,
-                        false,
-                        false,
-                        false,
-                        "");
+                        colors,
+                        object.getString("eyeColor"),
+                        behavior,
+                        images,
+                        object.getBoolean("needsTransitHome"),
+                        object.getBoolean("isCastrated"),
+                        object.getBoolean("isOnTemporaryMedicine"),
+                        object.getBoolean("isOnChronicMedicine"),
+                        object.getString("description"));
                 list.add(mascota);
             }
         } catch (JSONException e) {

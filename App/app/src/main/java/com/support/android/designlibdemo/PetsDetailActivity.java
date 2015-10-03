@@ -94,8 +94,6 @@ public class PetsDetailActivity extends AppCompatActivity {
     }
 
     private void cargarResultados(){
-//        String data = getIntent().getExtras().getString("data");
-//        String data = getIntent().getStringExtra("data");
         String nombreItem = getIntent().getStringExtra("nombre");
         String razaItem = getIntent().getStringExtra("raza");
         String sexoItem = getIntent().getStringExtra("sexo");
@@ -127,42 +125,13 @@ public class PetsDetailActivity extends AppCompatActivity {
         ubicacion.setText(ubicacion.getText()+" "+ubicacionItem);
         colorPelaje.setText(colorPelaje.getText() + " " + colorPelajeItem);
         colorOjos.setText(colorOjos.getText()+" "+colorOjosItem);
-        caracteristicas.setText(caracteristicas.getText() + " " + caracteristicasItem);
-        descripcion.setText(descripcion.getText()+" "+descripcionItem);
-        conducta.setText(conducta.getText() + " " + conductaItem);
+        caracteristicas.setText(caracteristicasItem);
+        descripcion.setText(descripcionItem);
+        conducta.setText(conductaItem);
 
     }
 
-    private List<PetAdoption> fromJSONArrayToListMascotas(JSONArray jsonArray) {
-        List<PetAdoption> list = new ArrayList<>();
-        try {
-            for (int i=0; i<jsonArray.length(); i++) {
-                JSONObject object = jsonArray.getJSONObject(i);
-                Address address = new Address();
-                String barrio = ((JSONObject) object.get("address")).getString("neighbourhood");
-                address.setNeighbourhood(barrio);
-                PetAdoption mascota = new PetAdoption(object.getString("name"),
-                        "",
-                        "",
-                        address,
-                        "",
-                        object.getString("gender"),
-                        object.getString("age"),
-                        object.getString("size"),
-                        null,
-                        "",
-                        null,
-                        null,
-                        false,
-                        false,
-                        false,
-                        false,
-                        "");
-                list.add(mascota);
-            }
-        } catch (JSONException e) {
-            Log.e("Error al crear el JSON", e.getMessage());
-        }
-        return list;
+    public void nextPage(View view) {
+        //Aca llama a la actividad siguiente: donde adopta la mascota o se le da el mail.
     }
 }

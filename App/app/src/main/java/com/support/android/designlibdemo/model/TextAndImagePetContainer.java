@@ -52,11 +52,13 @@ public class TextAndImagePetContainer implements TextAndImage {
         this.chronicMedicine = mascotas.getIsOnChronicMedicine();
         this.publicationStatus = mascotas.getPublicationStatus();
         this.publicationDate = mascotas.getPublicationDate();
-        this.colorPelaje = "";
+        this.conducta = "";
         if (mascotas.getBehavior() != null) {
             for (int i = 0; i < mascotas.getBehavior().size(); i++) {
-                this.colorPelaje += mascotas.getBehavior().get(i);
-                this.colorPelaje += " ";
+                this.conducta += mascotas.getBehavior().get(i);
+                if (i != mascotas.getBehavior().size() - 1) {
+                    this.conducta += "\n";
+                }
             }
         }
         this.transitHomeUser = mascotas.getTransitHomeUser();
