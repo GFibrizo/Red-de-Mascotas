@@ -12,8 +12,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.support.android.designlibdemo.model.Password;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import utils.SecurityHandler;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -24,6 +28,8 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mRePasswordView;
     private Button mNextButton;
     private Button mCancelButton;
+
+    private Password password;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +98,8 @@ public class RegisterActivity extends AppCompatActivity {
             focusView = mRePasswordView;
             cancel = true;
         }
-
+        SecurityHandler securityHandler = new SecurityHandler();
+        this.password = securityHandler.createPassword(mPasswordView.getText().toString());
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
@@ -133,7 +140,7 @@ public class RegisterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void cancel(){
+     public void cancel(){
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
@@ -142,10 +149,10 @@ public class RegisterActivity extends AppCompatActivity {
         JSONObject object = new JSONObject();
 
         try {
-            object.put("nombre", mUserNameView.getText());
-            object.put("mail", mEmailView.getText());
-            object.put("password", mPasswordView.getText());
-            object.put("rePassword", mRePasswordView.getText());
+            object.put("userName", mUserNameView.getText());
+            object.put("email", mEmailView.getText());
+            object.put("password", password.toJson());
+
 
 
 

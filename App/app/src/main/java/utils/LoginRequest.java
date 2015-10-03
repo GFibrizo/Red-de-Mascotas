@@ -26,7 +26,7 @@ public class LoginRequest {
 
     //Sincronico
     public String getUserSalt(String user) {
-        String path = buildSaltPath(user);
+        String path =   RequestHandler.getServerUrl() + buildSaltPath(user);
 
         RequestFuture<String> future = RequestFuture.newFuture();
         StringRequest request = new StringRequest(Request.Method.GET, path,future,future);

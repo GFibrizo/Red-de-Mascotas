@@ -23,6 +23,9 @@ import android.widget.TextView;
 import utils.LoginRequest;
 import com.support.android.designlibdemo.model.Password;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import utils.SecurityHandler;
 
 /**
@@ -129,7 +132,7 @@ public class LoginUserActivity extends Activity {
     private boolean isUserValid(String user) {
         //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
         //return ((user.length() >= 6 && user.length() <= 12) && user.matches("[a-zA-Z][0-9]+"));
-        return ((user.length() >= 6 && user.length() <= 12));
+        return ((user.length() >= 5 && user.length() <= 12));
     }
 
     private boolean isPasswordValid(String password) {
@@ -188,8 +191,8 @@ public class LoginUserActivity extends Activity {
         private boolean mStatus;
         private boolean userValid;
         private boolean passValid;
-        UserLoginTask(String email, String password) {
-            mUser = email;
+        UserLoginTask(String user, String password) {
+            mUser = user;
             mPassword = password;
             mStatus = false;
             userValid = false;
@@ -202,12 +205,11 @@ public class LoginUserActivity extends Activity {
             // TODO: attempt authentication against a network service.
 
             SecurityHandler securityHandler = new SecurityHandler();
-            Password encryptedPassword= securityHandler.createPassword(mPassword.toString());
             LoginRequest loginRequest = new LoginRequest(getApplicationContext());
             String salt = loginRequest.getUserSalt(mUser);
             userValid = (salt != null);
             if (userValid ){
-                encryptedPassword.setSalt(salt);
+                Password encryptedPassword= securityHandler.createPassword(mPassword,salt);
                 userValid = true;
                 mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
                 passValid = mStatus;
@@ -226,6 +228,13 @@ public class LoginUserActivity extends Activity {
 
             if (success) {
                 Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
+                JSONObject dataMain = new JSONObject();
+                try {
+                    dataMain.put("userName",mUser);
+                    dataMain.put("address","");//TODO: recuperar del server
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 startActivity(intent);
                 finish();
             } else {

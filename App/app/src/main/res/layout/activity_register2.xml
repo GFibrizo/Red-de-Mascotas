@@ -124,7 +124,7 @@
                     android:src="@drawable/ic_report_white_48dp" />
 
                 <EditText
-                    android:id="@+id/input_telephone"
+                    android:id="@+id/input_phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/telephone"

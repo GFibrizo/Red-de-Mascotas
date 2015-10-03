@@ -25,8 +25,13 @@ public class SecurityHandler {
         String saltStr = salt.toString();
         return new Password(encryptionPassword(password, saltStr), saltStr);
     }
-    private String encryptionPassword(String contrasenia, String salt) {
-        return DigestUtils.sha1(salt + contrasenia).toString();
+    public Password createPassword(String password,String salt) {
+        return new Password(encryptionPassword(password, salt), salt);
+    }
+    private String encryptionPassword(String password, String salt) {
+        //return DigestUtils.sha1(salt + password).toString();
+        String encryptedPass = salt + password;//TODO: ver porque el sha1 cambia "aleatoriamente"
+        return encryptedPass;
     }
 
     public Boolean validPassword(String password, Password savePassword) {

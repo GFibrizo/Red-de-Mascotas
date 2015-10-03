@@ -18,7 +18,8 @@ import java.util.HashMap;
 public final class RequestHandler {
     // Atributos
     private static RequestHandler singleton;
-    private static String serverUrl = "http://10.0.2.2:9000";
+    private static String serverUrl = "http://192.168.1.106:9000";
+    //private static String serverUrl = "http://10.0.2.2:9000";
     private RequestQueue requestQueue;
     private static Context context;
 

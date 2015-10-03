@@ -1,5 +1,8 @@
 package com.support.android.designlibdemo.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class Address {
 
     public String street;
@@ -55,5 +58,20 @@ public class Address {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public JSONObject toJson() {
+        JSONObject  jsonObject = new JSONObject();
+        try {
+            jsonObject.put("street",this.street);
+            jsonObject.put("number",this.number);
+            jsonObject.put("neighbourhood",this.neighbourhood);
+            jsonObject.put("city",this.city);
+            jsonObject.put("province",this.province);
+            jsonObject.put("country",this.country);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }
