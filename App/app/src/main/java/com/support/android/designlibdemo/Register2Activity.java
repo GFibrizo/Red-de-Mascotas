@@ -9,6 +9,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,10 +23,14 @@ import org.json.JSONObject;
 
 import utils.UserRegisterRequest;
 
+import static utils.Constants.NEIGHBOURHOODS;
+
 public class Register2Activity extends AppCompatActivity {
 
     private EditText mNameView;
+    private EditText mAddressNumView;
     private EditText mAddressView;
+    AutoCompleteTextView neighbourhoodTextView;
     private EditText mPhoneView;
 
     private Button mNextButton;
@@ -51,8 +57,14 @@ public class Register2Activity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
         setSupportActionBar(toolbar);
         mNameView = (EditText)findViewById(R.id.input_name);
+        mAddressNumView = (EditText)findViewById(R.id.input_addressNum);
         mAddressView = (EditText)findViewById(R.id.input_address);
         mPhoneView = (EditText)findViewById(R.id.input_phone);
+
+        neighbourhoodTextView = (AutoCompleteTextView) findViewById(R.id.input_neighbourhood);
+        ArrayAdapter<String> neighbourhoodAdapter = new ArrayAdapter<>(this, R.layout.autocomplete_list_item, NEIGHBOURHOODS);
+        neighbourhoodTextView.setAdapter(neighbourhoodAdapter);
+
         mNextButton = (Button) findViewById(R.id.button_finish);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,7 +111,12 @@ public class Register2Activity extends AppCompatActivity {
     public void attemptFinish() {
 
         Address address = new Address();
+        address.setNumber(mAddressNumView.getText().toString());
         address.setStreet(mAddressView.getText().toString());
+        address.setNeighbourhood(neighbourhoodTextView.getText().toString());
+        address.setCity("Ciudad Autónoma de Buenos Aires");
+        address.setProvince("Ciudad Autónoma de Buenos Aires");
+        address.setCountry("Argentina");
         //Validate
         user.setAddress(address);
 

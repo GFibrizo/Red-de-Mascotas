@@ -95,29 +95,27 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/user_register_image_name"
-                    android:src="@drawable/ic_report_white_48dp"
+                    android:src="@drawable/persona_48dp"
                     android:layout_gravity="center_vertical|left" />
 
                 <EditText android:id="@+id/input_userName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:inputType="textCapWords"
-                    android:hint="Usuario"
-                    android:textColor="#fefdff"
-                    android:textColorHighlight="#ffffff" />
+                    android:hint="Usuario" />
             </LinearLayout>
 
             <!-- Email Label -->
             <LinearLayout android:id="@+id/user_register_mail" android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp">
+                android:layout_marginBottom="8dp"
                 android:layout_gravity="center_vertical">
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/user_register_image_mail"
-                    android:src="@drawable/ic_report_white_48dp"
+                    android:src="@drawable/cartita_48dp"
                     android:layout_gravity="center_vertical|left" />
 
                 <EditText android:id="@+id/input_email"
@@ -137,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/user_register_image_pass"
-                    android:src="@drawable/ic_report_white_48dp"
+                    android:src="@drawable/candado_48dp"
                     android:layout_gravity="center_vertical|left" />
 
                 <EditText android:id="@+id/input_password"
@@ -158,7 +156,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/user_register_image_re_pass"
-                    android:src="@drawable/ic_report_white_48dp"
+                    android:src="@drawable/candado_48dp"
                     android:layout_gravity="center_vertical|left" />
 
                 <EditText android:id="@+id/input_re_password"
