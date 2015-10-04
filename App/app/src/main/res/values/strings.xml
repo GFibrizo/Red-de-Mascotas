@@ -58,13 +58,14 @@
     <string name="prompt_password">Contraseña</string>
     <string name="action_sign_in">Sign in or register</string>
     <string name="action_sign_in_short">Ingresar</string>
-    <string name="crear_nueva_cuenta">¿Aun no tenes cuenta? Registrate</string>
+    <string name="crear_nueva_cuenta">¿Aun no tenes cuenta?</string>
+    <string name="registrate">Registrate</string>
 
     <string name="error_invalid_user">Usuario invalido</string>
-    <string name="error_invalid_email">This email address is invalid</string>
-    <string name="error_invalid_password">This password is too short</string>
+    <string name="error_invalid_email">Email no es valido</string>
+    <string name="error_invalid_password">Contraseña invalida</string>
     <string name="error_incorrect_password">This password is incorrect</string>
-    <string name="error_field_required">This field is required</string>
+    <string name="error_field_required">Este campo es requerido</string>
     <string name="login_button_text">Ingresar con Facebook</string>
     <string name="offer_in_adoption">Ofrecer en adopción</string>
     <string name="search_result_list">Resultados de la Búsqueda</string>

@@ -18,6 +18,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import utils.SecurityHandler;
+import utils.Validators;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -72,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         boolean cancel = false;
         View focusView = null;
-
+        Validators validator = new Validators();
         // Check for a valid userName.
         if (TextUtils.isEmpty(userName)) {
             mUserNameView.setError(getString(R.string.error_field_required));
@@ -80,14 +81,20 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
+
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
+        }else {
+            if (!validator.validateEmail(email)){
+                mEmailView.setError(getString(R.string.error_invalid_email));
+                focusView = mEmailView;
+                cancel = true;
+            }
         }
-
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !validator.isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
@@ -111,12 +118,7 @@ public class RegisterActivity extends AppCompatActivity {
     }
 
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
-        //*return ((password.length() >= 6 && password.length() <= 12) && password.matches("[a-zA-Z][0-9]+"));
-        return ((password.length() >= 6 && password.length() <= 12));
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

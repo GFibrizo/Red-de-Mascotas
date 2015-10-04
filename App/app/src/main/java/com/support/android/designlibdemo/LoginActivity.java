@@ -182,7 +182,7 @@ public class LoginActivity extends FragmentActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             LoginRequest loginRequest = new LoginRequest(getApplicationContext());
-            response= loginRequest.getFacebookUser(profile.getId());
+            response = loginRequest.getFacebookUser(profile.getId());
             return true;
         }
 
@@ -190,7 +190,9 @@ public class LoginActivity extends FragmentActivity {
         protected void onPostExecute(final Boolean success) {
             if (success) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("user", response.toString());
+                if (response != null){
+                    intent.putExtra("user", response.toString());
+                }
                 startActivity(intent);
             }
         }
