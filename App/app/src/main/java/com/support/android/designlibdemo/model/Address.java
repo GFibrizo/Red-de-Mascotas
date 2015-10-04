@@ -12,6 +12,23 @@ public class Address {
     public String province;
     public String country;
 
+    public Address() {
+
+    }
+
+    public Address(JSONObject address) {
+        try {
+            this.street = address.getString("street");
+            this.number = address.getString("number");
+            this.neighbourhood = address.getString("neighbourhood");
+            this.city = address.getString("city");
+            this.province = address.getString("province");
+            this.country = address.getString("country");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getStreet() {
         return street;
     }
@@ -61,14 +78,14 @@ public class Address {
     }
 
     public JSONObject toJson() {
-        JSONObject  jsonObject = new JSONObject();
+        JSONObject jsonObject = new JSONObject();
         try {
-            jsonObject.put("street",this.street);
-            jsonObject.put("number",this.number);
-            jsonObject.put("neighbourhood",this.neighbourhood);
-            jsonObject.put("city",this.city);
-            jsonObject.put("province",this.province);
-            jsonObject.put("country",this.country);
+            jsonObject.put("street", this.street);
+            jsonObject.put("number", this.number);
+            jsonObject.put("neighbourhood", this.neighbourhood);
+            jsonObject.put("city", this.city);
+            jsonObject.put("province", this.province);
+            jsonObject.put("country", this.country);
         } catch (JSONException e) {
             e.printStackTrace();
         }

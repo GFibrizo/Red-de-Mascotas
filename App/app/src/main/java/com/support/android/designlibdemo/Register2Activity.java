@@ -134,15 +134,8 @@ public class Register2Activity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                JSONObject dataMain = new JSONObject();
-                try {
-                    dataMain.put("userName",this.user.getUserName().toString());
-                    dataMain.put("address",this.user.getAddress().toJson().toString());
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("data", dataMain.toString());
+                intent.putExtra("user", user.toJson().toString());
                 Toast.makeText(getApplicationContext(), "Usuario creado", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }

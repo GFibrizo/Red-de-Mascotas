@@ -52,6 +52,20 @@ public class User {
         this.address = address;
     }
 
+    public User(JSONObject object) {
+        try {
+            this.userName = object.getString("userName");
+            this.name = object.getString("name");
+            this.lastName = object.getString("lastName");
+            this.email = object.getString("email");
+            this.password = new Password(object.getJSONObject("password"));
+            this.phone = object.getString("phone");
+            this.address = new Address(object.getJSONObject("address"));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public JSONObject toJson() {
         JSONObject  jsonObject = new JSONObject();

@@ -191,6 +191,7 @@ public class LoginUserActivity extends Activity {
         private boolean mStatus;
         private boolean userValid;
         private boolean passValid;
+        JSONObject responseUserLogin;
         UserLoginTask(String user, String password) {
             mUser = user;
             mPassword = password;
@@ -211,7 +212,10 @@ public class LoginUserActivity extends Activity {
             if (userValid ){
                 Password encryptedPassword= securityHandler.createPassword(mPassword,salt);
                 userValid = true;
-                mStatus =  loginRequest.isValidUserPassword(mUser,encryptedPassword);
+                responseUserLogin = loginRequest.isValidUserPassword(mUser,encryptedPassword);
+                if( responseUserLogin != null){
+                    mStatus = true;
+                }
                 passValid = mStatus;
             }else{
                 userValid = false;
@@ -228,13 +232,7 @@ public class LoginUserActivity extends Activity {
 
             if (success) {
                 Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
-                JSONObject dataMain = new JSONObject();
-                try {
-                    dataMain.put("userName",mUser);
-                    dataMain.put("address","");//TODO: recuperar del server
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+                intent.putExtra("user", responseUserLogin.toString());
                 startActivity(intent);
                 finish();
             } else {

@@ -38,6 +38,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
+import com.support.android.designlibdemo.model.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private TabLayout mTabLayout;
     private FragmentManager fragmentManager;
-
+    User loginUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +94,13 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         if (viewPager != null)
             mTabLayout.setupWithViewPager(viewPager);
+
+        try {
+            JSONObject object = new JSONObject(getIntent().getStringExtra("user"));
+            this.loginUser = new User(object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
 

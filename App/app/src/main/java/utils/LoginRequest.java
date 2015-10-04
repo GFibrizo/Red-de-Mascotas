@@ -24,7 +24,7 @@ public class LoginRequest {
     }
 
 
-    //Sincronico
+
     public String getUserSalt(String user) {
         String path =   RequestHandler.getServerUrl() + buildSaltPath(user);
 
@@ -44,9 +44,7 @@ public class LoginRequest {
     }
 
 
-
-    public boolean isValidUserPassword(String user, Password password) {
-        String path = this.buildValidateUserPath(user,password.getEncryption());
+    private JSONObject userValidation(String path){
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestHandler.getServerUrl() + path, future, future);
         requestHandler.addToRequestQueue(request);
@@ -55,12 +53,22 @@ public class LoginRequest {
             response = future.get();
         } catch (InterruptedException e) {
             // exception handling
-            return false;
+            return response;
         } catch (ExecutionException e) {
             // exception handling
-            return false;
+            return response;
         }
-        return true;
+        return response;
+    }
+
+    public JSONObject isValidUserPassword(String user, Password password) {
+        String path = this.buildValidateUserPath(user, password.getEncryption());
+        return userValidation(path);
+    }
+
+    public JSONObject getFacebookUser(String facebookId) {
+        String path = this.buildValidateUserFacebookPath(facebookId);
+        return userValidation(path);
     }
 
     private String buildValidateUserPath(String user, String password){
@@ -69,5 +77,9 @@ public class LoginRequest {
 
     private String buildSaltPath(String user){
         return "/user/" + user + "/salt";
+    }
+
+    private String buildValidateUserFacebookPath(String facebookId){
+        return "/login/facebook/" + facebookId;
     }
 }

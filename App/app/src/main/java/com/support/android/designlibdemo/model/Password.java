@@ -10,6 +10,16 @@ public class Password {
     private String encryption;
     private String salt;
 
+
+    public Password(JSONObject password) {
+        try {
+            this.encryption =  password.getString("encryption");
+            this.salt =  password.getString("salt");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getEncryption() {
         return encryption;
     }

@@ -73,7 +73,9 @@ public class UserRegisterRequest {
 
     }
 
-    private String buildRegisterUserPath() { return "/user/account";  }
+    private String buildRegisterUserPath() {
+        return "/user/account";
+    }
 
     private String buildRegisterFacebookUserPath() {
         return "/user/facebook";
@@ -89,29 +91,38 @@ public class UserRegisterRequest {
         return data;
     }
 
-    public void registerFacebookUser(JSONObject json) {
-        if (json != null) {
+    public JSONObject registerFacebookUser(JSONObject json) {
 
-            JSONObject jsonRequest = new JSONObject();
-            try {
-                //Ver como recuperar mas datos desde el api de facewbook
-                jsonRequest.put("facebookId", getJsonData(json, "id"));
-                jsonRequest.put("name", getJsonData(json, "name"));
-                jsonRequest.put("lastName", getJsonData(json, "last_name"));
-                this.createFacebookUser(jsonRequest);
-            } catch (JSONException e) {
-                return;
-
-            }
+        if (json == null){
+            return null;
         }
+        JSONObject jsonRequest = new JSONObject();
+        try {
+            //TODO: Ver como recuperar mas datos desde el api de facewbook
+            jsonRequest.put("facebookId", getJsonData(json, "id"));
+            jsonRequest.put("name", getJsonData(json, "name"));
+            jsonRequest.put("lastName", getJsonData(json, "last_name"));
+
+        } catch (JSONException e) {
+            return null;
+
+        }
+        //TODO: Primero verificar si existe ya ese usuario
+        LoginRequest loginRequest = new LoginRequest(requestHandler.getContext());
+        JSONObject facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
+        if (facebookUser == null) {
+            //Lo creo y lo recupero
+            this.createFacebookUser(jsonRequest);
+            facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
+        }
+        return facebookUser;
     }
+
 
     public JSONObject registerUser(JSONObject json) {
         if (json != null) {
-
             JSONObject jsonRequest = new JSONObject();
             this.createUser(json);
-
         }
         return null;
     }

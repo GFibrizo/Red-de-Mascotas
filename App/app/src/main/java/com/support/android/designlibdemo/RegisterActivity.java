@@ -37,10 +37,10 @@ public class RegisterActivity extends AppCompatActivity {
         setContentView(R.layout.activity_register);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
         setSupportActionBar(toolbar);
-        mUserNameView = (EditText)findViewById(R.id.input_userName);
-        mEmailView = (EditText)findViewById(R.id.input_email);
-        mPasswordView = (EditText)findViewById(R.id.input_password);
-        mRePasswordView = (EditText)findViewById(R.id.input_re_password);
+        mUserNameView = (EditText) findViewById(R.id.input_userName);
+        mEmailView = (EditText) findViewById(R.id.input_email);
+        mPasswordView = (EditText) findViewById(R.id.input_password);
+        mRePasswordView = (EditText) findViewById(R.id.input_re_password);
         mNextButton = (Button) findViewById(R.id.button_next);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
                 attemptNext();
             }
         });
-        mCancelButton= (Button) findViewById(R.id.button_cancel);
+        mCancelButton = (Button) findViewById(R.id.button_cancel);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -93,7 +93,7 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
         // Check for a valid repassword
-        if (TextUtils.isEmpty(password) || !password.equals(rePassword)){
+        if (TextUtils.isEmpty(password) || !password.equals(rePassword)) {
             mRePasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mRePasswordView;
             cancel = true;
@@ -105,7 +105,7 @@ public class RegisterActivity extends AppCompatActivity {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
-        }else{
+        } else {
             nextPage();
         }
     }
@@ -140,22 +140,17 @@ public class RegisterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-     public void cancel(){
+    public void cancel() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
 
     public void nextPage() {
         JSONObject object = new JSONObject();
-
         try {
             object.put("userName", mUserNameView.getText());
             object.put("email", mEmailView.getText());
             object.put("password", password.toJson());
-
-
-
-
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }
