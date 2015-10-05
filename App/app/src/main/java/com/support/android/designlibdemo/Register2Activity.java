@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ import static utils.Constants.NEIGHBOURHOODS;
 public class Register2Activity extends AppCompatActivity {
 
     private EditText mNameView;
+    private EditText mLastNameView;
     private EditText mAddressNumView;
     private EditText mAddressView;
     AutoCompleteTextView neighbourhoodTextView;
@@ -57,6 +59,7 @@ public class Register2Activity extends AppCompatActivity {
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
         setSupportActionBar(toolbar);
         mNameView = (EditText)findViewById(R.id.input_name);
+        mLastNameView = (EditText)findViewById(R.id.input_lastName);
         mAddressNumView = (EditText)findViewById(R.id.input_addressNum);
         mAddressView = (EditText)findViewById(R.id.input_address);
         mPhoneView = (EditText)findViewById(R.id.input_phone);
@@ -110,25 +113,72 @@ public class Register2Activity extends AppCompatActivity {
 
     public void attemptFinish() {
 
-        Address address = new Address();
-        address.setNumber(mAddressNumView.getText().toString());
-        address.setStreet(mAddressView.getText().toString());
-        address.setNeighbourhood(neighbourhoodTextView.getText().toString());
-        address.setCity("Ciudad Autónoma de Buenos Aires");
-        address.setProvince("Ciudad Autónoma de Buenos Aires");
-        address.setCountry("Argentina");
-        //Validate
-        user.setAddress(address);
+        View focusView = null;
+        boolean cancel = false;
 
-        user.setName(mNameView.getText().toString());
-        user.setLastName(mNameView.getText().toString());
-        user.setPhone(mPhoneView.getText().toString());
+        mAddressNumView.setError(null);
+        mAddressView.setError(null);
+        neighbourhoodTextView.setError(null);
+        mNameView.setError(null);
+        mLastNameView.setError(null);
+        mPhoneView.setError(null);
+
+        if (TextUtils.isEmpty(mAddressNumView.getText())) {
+            mAddressNumView.setError(getString(R.string.error_field_required));
+            focusView = mAddressNumView;
+            cancel = true;
+        }
+        if (TextUtils.isEmpty(mAddressView.getText())) {
+            mAddressView.setError(getString(R.string.error_field_required));
+            focusView = mAddressView;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(neighbourhoodTextView.getText())) {
+            neighbourhoodTextView.setError(getString(R.string.error_field_required));
+            focusView = neighbourhoodTextView;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(mNameView.getText())) {
+            mNameView.setError(getString(R.string.error_field_required));
+            focusView = mNameView;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(mLastNameView.getText())) {
+            mLastNameView.setError(getString(R.string.error_field_required));
+            focusView = mLastNameView;
+            cancel = true;
+        }
+
+        if (TextUtils.isEmpty(mPhoneView.getText())) {
+            mPhoneView.setError(getString(R.string.error_field_required));
+            focusView = mPhoneView;
+            cancel = true;
+        }
 
 
-        //User user = new User();
-        userTask = new UserTask(user);
-        userTask.execute((Void) null);
 
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+            Address address = new Address();
+            address.setNumber(mAddressNumView.getText().toString());
+            address.setStreet(mAddressView.getText().toString());
+            address.setNeighbourhood(neighbourhoodTextView.getText().toString());
+            address.setCity("Ciudad Autónoma de Buenos Aires");
+            address.setProvince("Ciudad Autónoma de Buenos Aires");
+            address.setCountry("Argentina");
+            //Validate
+            user.setAddress(address);
+
+            user.setName(mNameView.getText().toString());
+            user.setLastName(mLastNameView.getText().toString());
+            user.setPhone(mPhoneView.getText().toString());
+            userTask = new UserTask(user);
+            userTask.execute((Void) null);
+        }
     }
 
 
@@ -145,6 +195,7 @@ public class Register2Activity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             UserRegisterRequest request = new UserRegisterRequest(getApplicationContext());
             response = request.registerUser(user.toJson());
+
             return true;
         }
 
@@ -155,6 +206,8 @@ public class Register2Activity extends AppCompatActivity {
                 intent.putExtra("user", user.toJson().toString());
                 Toast.makeText(getApplicationContext(), "Usuario creado", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
+            }else{
+                Toast.makeText(getApplicationContext(), "Error de conexion", Toast.LENGTH_SHORT).show();
             }
         }
 

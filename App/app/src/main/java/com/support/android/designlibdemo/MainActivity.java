@@ -81,15 +81,7 @@ public class MainActivity extends AppCompatActivity {
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        
 
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         if (viewPager != null)
@@ -149,48 +141,46 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                Intent intent = null;
-                switch (menuItem.getItemId()) {
-                    case R.id.adopt:
-                        intent = new Intent(getApplicationContext(), SearchInAdoptionActivity.class);
-                        break;
-                    case R.id.offer_in_adoption:
-                        intent = new Intent(getApplicationContext(), PublishInAdoptionActivity.class);
-                        break;
-                    case R.id.notification:
-                        intent = new Intent(getApplicationContext(), NotificationActivity.class);
-                        break;
-                    case R.id.report_missing:
-                        break;
-                    case R.id.report_found:
-                        break;
-                    case R.id.invite_a_friend:
-                        break;
-                    case R.id.config:
-                        break;
-                    case R.id.about:
-                        break;
-                    case R.id.logout:
-                        // ACA VA EL CODIGO PARA EL LOGOUT
-                        LoginManager.getInstance().logOut();
-                        finish();
-                        break;
-                    default:
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        Intent intent = null;
+                        switch (menuItem.getItemId()) {
+                            case R.id.adopt:
+                                intent = new Intent(getApplicationContext(), SearchInAdoptionActivity.class);
+                                break;
+                            case R.id.offer_in_adoption:
+                                intent = new Intent(getApplicationContext(), PublishInAdoptionActivity.class);
+                                break;
+                            case R.id.notification:
+                                intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                                break;
+                            case R.id.report_missing:
+                                break;
+                            case R.id.report_found:
+                                break;
+                            case R.id.invite_a_friend:
+                                break;
+                            case R.id.config:
+                                break;
+                            case R.id.about:
+                                break;
+                            case R.id.logout:
+                                LoginManager.getInstance().logOut();
+                                finish();
+                                System.exit(0);
+                                break;
+                            default:
+                                mDrawerLayout.closeDrawers();
+                                return true;
+                        }
+                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
+                        if (intent != null)
+                            startActivity(intent);
                         return true;
-                }
-                menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
-                if (intent != null) {
-                    startActivity(intent);
-                    overridePendingTransition(R.anim.abc_fade_in, R.anim.abc_fade_in);
-                }
-                return true;
 
-            }
-        });
+                    }
+                });
     }
 
     /**********************************************************************************************/

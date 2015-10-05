@@ -41,6 +41,8 @@ import org.json.JSONObject;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 import utils.LoginRequest;
 import utils.UserRegisterRequest;
@@ -69,12 +71,19 @@ public class LoginActivity extends FragmentActivity {
                         Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         if (response.getError() != null) {
                             // handle error
-                            System.out.println("ERROR");
+                            Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
                         } else {
                             UserRegisterRequest userRegisterRequest = new UserRegisterRequest(getApplicationContext());
-                            JSONObject jUser = userRegisterRequest.registerFacebookUser(json);
-                            User user = new User(jUser);
-                            intent.putExtra("user", user.toJson().toString());
+                            JSONObject jUser = null;
+                            try {
+                                jUser = userRegisterRequest.registerFacebookUser(json);
+                            }catch (TimeoutException | ExecutionException | InterruptedException e) {
+                                Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
+                            }
+                            if (jUser!= null){
+                                User user = new User(jUser);
+                                intent.putExtra("user", user.toJson().toString());
+                            }
                         }
                         startActivity(intent);
                     }
@@ -182,7 +191,11 @@ public class LoginActivity extends FragmentActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             LoginRequest loginRequest = new LoginRequest(getApplicationContext());
-            response = loginRequest.getFacebookUser(profile.getId());
+            try {
+                response = loginRequest.getFacebookUser(profile.getId());
+            } catch (TimeoutException | ExecutionException | InterruptedException e) {
+                return false;
+            }
             return true;
         }
 
@@ -192,6 +205,8 @@ public class LoginActivity extends FragmentActivity {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 if (response != null){
                     intent.putExtra("user", response.toString());
+                }else{
+                    Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
                 }
                 startActivity(intent);
             }

@@ -11,6 +11,8 @@ import com.support.android.designlibdemo.model.Password;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by agu_k_000 on 27/09/2015.
@@ -25,7 +27,7 @@ public class LoginRequest {
 
 
 
-    public String getUserSalt(String user) {
+    public String getUserSalt(String user) throws TimeoutException, ExecutionException, InterruptedException {
         String path =   RequestHandler.getServerUrl() + buildSaltPath(user);
 
         RequestFuture<String> future = RequestFuture.newFuture();
@@ -33,40 +35,35 @@ public class LoginRequest {
         requestHandler.addToRequestQueue(request);
         String salt = null; // this line will block
         try {
-            salt = future.get();
-        } catch (InterruptedException e) {
+            salt = future.get(10, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
             // exception handling
-        } catch (ExecutionException e) {
-            // exception handling
+            throw e;
         }
-        // exception handling
         return salt;
     }
 
 
-    private JSONObject userValidation(String path){
+    private JSONObject userValidation(String path) throws InterruptedException, ExecutionException, TimeoutException {
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, RequestHandler.getServerUrl() + path, future, future);
+
         requestHandler.addToRequestQueue(request);
         JSONObject response = null;
         try {
-            response = future.get();
-        } catch (InterruptedException e) {
-            // exception handling
-            return response;
-        } catch (ExecutionException e) {
-            // exception handling
-            return response;
+            response = future.get(10, TimeUnit.SECONDS);
+        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+            throw e;
         }
         return response;
     }
 
-    public JSONObject isValidUserPassword(String user, Password password) {
+    public JSONObject isValidUserPassword(String user, Password password) throws InterruptedException, ExecutionException, TimeoutException {
         String path = this.buildValidateUserPath(user, password.getEncryption());
         return userValidation(path);
     }
 
-    public JSONObject getFacebookUser(String facebookId) {
+    public JSONObject getFacebookUser(String facebookId) throws InterruptedException, ExecutionException, TimeoutException {
         String path = this.buildValidateUserFacebookPath(facebookId);
         return userValidation(path);
     }
