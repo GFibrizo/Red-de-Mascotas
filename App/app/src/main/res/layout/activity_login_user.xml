@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.support.android.designlibdemo.LoginUserActivity">
@@ -11,20 +11,19 @@
         android:id="@+id/appbar2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-        android:alpha="0.85">
+        android:alpha="0.85"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:subtitleTextColor="#ffffff"
-            android:elevation="3dp"
-            android:title="@string/Title"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.DesignDemo"
-            app:layout_scrollFlags="scroll|enterAlways" />
-
+            android:elevation="3dp"
+            android:subtitleTextColor="#ffffff"
+            android:title="@string/Title"
+            app:layout_scrollFlags="scroll|enterAlways"
+            app:popupTheme="@style/Theme.DesignDemo" />
 
 
     </android.support.design.widget.AppBarLayout>
@@ -37,6 +36,7 @@
         android:layout_marginBottom="8dp"
         android:visibility="gone" />
 
+
     <RelativeLayout
         android:id="@+id/login_form"
         android:layout_width="match_parent"
@@ -46,60 +46,69 @@
         <LinearLayout
             android:id="@+id/email_login_form"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_alignParentTop="false"
+            android:layout_height="match_parent"
             android:layout_alignParentLeft="false"
             android:layout_alignParentStart="true"
-            android:layout_marginTop="149dp"
-            android:gravity="center"
+            android:layout_alignParentTop="false"
             android:layout_centerHorizontal="true"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:gravity="center"
+            android:orientation="vertical">
 
-            <RelativeLayout android:id="@+id/user_field"
+
+            <ImageView
+                android:id="@+id/imageView1"
+                android:layout_width="134dp"
+                android:layout_height="134dp"
+                android:src="@drawable/logo_pata"
+                android:layout_gravity="center_horizontal" />
+
+            <RelativeLayout
+                android:id="@+id/user_field"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center" >
+                android:layout_gravity="center">
 
 
-                <AutoCompleteTextView android:id="@+id/user"
+                <AutoCompleteTextView
+                    android:id="@+id/user"
                     android:layout_width="250dp"
                     android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
                     android:hint="@string/prompt_user"
                     android:inputType="textEmailAddress"
                     android:maxLines="1"
                     android:singleLine="true"
-                    android:layout_centerHorizontal="true"
-                    android:textColor="@color/material_grey_50" />
+                    android:textColor="#878787" />
 
 
             </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/pass_field"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-
-            <EditText
-                android:id="@+id/password"
-                android:layout_width="250dp"
+            <RelativeLayout
+                android:id="@+id/pass_field"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/prompt_password"
-                android:imeActionId="@+id/login"
-                android:imeActionLabel="@string/action_sign_in_short"
-                android:imeOptions="actionUnspecified"
-                android:inputType="textPassword"
-                android:maxLines="1"
-                android:singleLine="true"
-                android:textColor="@color/material_grey_50"
-                android:layout_centerHorizontal="true"/>
+                android:layout_gravity="center">
 
 
-        </RelativeLayout>
+                <EditText
+                    android:id="@+id/password"
+                    android:layout_width="250dp"
+                    android:layout_height="wrap_content"
+                    android:layout_centerHorizontal="true"
+                    android:hint="@string/prompt_password"
+                    android:imeActionId="@+id/login"
+                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeOptions="actionUnspecified"
+                    android:inputType="textPassword"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:textColor="#878787"
+                    android:textColorHighlight="#b9b8b8"
+                    android:textIsSelectable="false" />
 
 
+            </RelativeLayout>
 
 
             <Button
@@ -108,9 +117,9 @@
                 android:layout_width="105dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
+                android:background="@color/button_login"
                 android:text="@string/action_sign_in_short"
-                android:textStyle="bold"
-                android:background="@color/button_login" />
+                android:textStyle="bold" />
 
         </LinearLayout>
     </RelativeLayout>

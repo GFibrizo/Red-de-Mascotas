@@ -12,8 +12,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.support.android.designlibdemo.model.Password;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import utils.SecurityHandler;
+import utils.Validators;
 
 public class RegisterActivity extends AppCompatActivity {
 
@@ -25,16 +30,18 @@ public class RegisterActivity extends AppCompatActivity {
     private Button mNextButton;
     private Button mCancelButton;
 
+    private Password password;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
         setSupportActionBar(toolbar);
-        mUserNameView = (EditText)findViewById(R.id.input_userName);
-        mEmailView = (EditText)findViewById(R.id.input_email);
-        mPasswordView = (EditText)findViewById(R.id.input_password);
-        mRePasswordView = (EditText)findViewById(R.id.input_re_password);
+        mUserNameView = (EditText) findViewById(R.id.input_userName);
+        mEmailView = (EditText) findViewById(R.id.input_email);
+        mPasswordView = (EditText) findViewById(R.id.input_password);
+        mRePasswordView = (EditText) findViewById(R.id.input_re_password);
         mNextButton = (Button) findViewById(R.id.button_next);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,7 +49,7 @@ public class RegisterActivity extends AppCompatActivity {
                 attemptNext();
             }
         });
-        mCancelButton= (Button) findViewById(R.id.button_cancel);
+        mCancelButton = (Button) findViewById(R.id.button_cancel);
         mCancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -66,7 +73,7 @@ public class RegisterActivity extends AppCompatActivity {
 
         boolean cancel = false;
         View focusView = null;
-
+        Validators validator = new Validators();
         // Check for a valid userName.
         if (TextUtils.isEmpty(userName)) {
             mUserNameView.setError(getString(R.string.error_field_required));
@@ -74,42 +81,44 @@ public class RegisterActivity extends AppCompatActivity {
             cancel = true;
         }
 
+
         if (TextUtils.isEmpty(email)) {
             mEmailView.setError(getString(R.string.error_field_required));
             focusView = mEmailView;
             cancel = true;
+        }else {
+            if (!validator.validateEmail(email)){
+                mEmailView.setError(getString(R.string.error_invalid_email));
+                focusView = mEmailView;
+                cancel = true;
+            }
         }
-
         // Check for a valid password, if the user entered one.
-        if (TextUtils.isEmpty(password) || !isPasswordValid(password)) {
+        if (TextUtils.isEmpty(password) || !validator.isPasswordValid(password)) {
             mPasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mPasswordView;
             cancel = true;
         }
         // Check for a valid repassword
-        if (TextUtils.isEmpty(password) || !password.equals(rePassword)){
+        if (TextUtils.isEmpty(password) || !password.equals(rePassword)) {
             mRePasswordView.setError(getString(R.string.error_invalid_password));
             focusView = mRePasswordView;
             cancel = true;
         }
-
+        SecurityHandler securityHandler = new SecurityHandler();
+        this.password = securityHandler.createPassword(mPasswordView.getText().toString());
 
         if (cancel) {
             // There was an error; don't attempt login and focus the first
             // form field with an error.
             focusView.requestFocus();
-        }else{
+        } else {
             nextPage();
         }
     }
 
 
-    private boolean isPasswordValid(String password) {
-        //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
-        //*return ((password.length() >= 6 && password.length() <= 12) && password.matches("[a-zA-Z][0-9]+"));
-        return ((password.length() >= 6 && password.length() <= 12));
 
-    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,22 +142,17 @@ public class RegisterActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void cancel(){
+    public void cancel() {
         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
         startActivity(intent);
     }
 
     public void nextPage() {
         JSONObject object = new JSONObject();
-
         try {
-            object.put("nombre", mUserNameView.getText());
-            object.put("mail", mEmailView.getText());
-            object.put("password", mPasswordView.getText());
-            object.put("rePassword", mRePasswordView.getText());
-
-
-
+            object.put("userName", mUserNameView.getText());
+            object.put("email", mEmailView.getText());
+            object.put("password", password.toJson());
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

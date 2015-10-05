@@ -9,10 +9,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.support.android.designlibdemo.model.Address;
 import com.support.android.designlibdemo.model.User;
 
 import org.json.JSONException;
@@ -20,31 +23,48 @@ import org.json.JSONObject;
 
 import utils.UserRegisterRequest;
 
+import static utils.Constants.NEIGHBOURHOODS;
+
 public class Register2Activity extends AppCompatActivity {
-    private JSONObject object = null;
+
     private EditText mNameView;
+    private EditText mAddressNumView;
     private EditText mAddressView;
-    private EditText mTelephonedView;
+    AutoCompleteTextView neighbourhoodTextView;
+    private EditText mPhoneView;
 
     private Button mNextButton;
     private Button mBackButton;
 
     private UserTask userTask  = null;
+    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
         try {
-            object = new JSONObject(getIntent().getStringExtra("data"));
+            JSONObject object = new JSONObject(getIntent().getStringExtra("data"));
+            this.user = new User();
+            this.user.setUserName(object.getString("userName"));
+            this.user.setPassword(object.getJSONObject("password"));
+            this.user.setEmail(object.getString("email"));
         } catch (JSONException e) {
             Log.e("Error receiving intent", e.getMessage());
         }
+
+
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
         setSupportActionBar(toolbar);
         mNameView = (EditText)findViewById(R.id.input_name);
+        mAddressNumView = (EditText)findViewById(R.id.input_addressNum);
         mAddressView = (EditText)findViewById(R.id.input_address);
-        mTelephonedView = (EditText)findViewById(R.id.input_telephone);
+        mPhoneView = (EditText)findViewById(R.id.input_phone);
+
+        neighbourhoodTextView = (AutoCompleteTextView) findViewById(R.id.input_neighbourhood);
+        ArrayAdapter<String> neighbourhoodAdapter = new ArrayAdapter<>(this, R.layout.autocomplete_list_item, NEIGHBOURHOODS);
+        neighbourhoodTextView.setAdapter(neighbourhoodAdapter);
+
         mNextButton = (Button) findViewById(R.id.button_finish);
         mNextButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -90,19 +110,22 @@ public class Register2Activity extends AppCompatActivity {
 
     public void attemptFinish() {
 
+        Address address = new Address();
+        address.setNumber(mAddressNumView.getText().toString());
+        address.setStreet(mAddressView.getText().toString());
+        address.setNeighbourhood(neighbourhoodTextView.getText().toString());
+        address.setCity("Ciudad Autónoma de Buenos Aires");
+        address.setProvince("Ciudad Autónoma de Buenos Aires");
+        address.setCountry("Argentina");
+        //Validate
+        user.setAddress(address);
 
-        try {
-            object.put("nombre", mNameView.getText());
-            object.put("direccion", mAddressView.getText());
-            object.put("telefono", mTelephonedView.getText());
+        user.setName(mNameView.getText().toString());
+        user.setLastName(mNameView.getText().toString());
+        user.setPhone(mPhoneView.getText().toString());
 
 
-
-        } catch (JSONException e) {
-            Log.e("Error al crear el JSON", e.getMessage());
-        }
-
-        User user = new User(object);
+        //User user = new User();
         userTask = new UserTask(user);
         userTask.execute((Void) null);
 
@@ -129,6 +152,7 @@ public class Register2Activity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             if (success) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("user", user.toJson().toString());
                 Toast.makeText(getApplicationContext(), "Usuario creado", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
