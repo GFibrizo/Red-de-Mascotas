@@ -39,13 +39,12 @@
             app:expandedTitleMarginStart="48dp"
             app:expandedTitleMarginEnd="64dp">
 
-            <ImageView
-                android:id="@+id/backdrop"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:scaleType="centerCrop"
-                android:fitsSystemWindows="false"
-                app:layout_collapseMode="parallax" />
+            <android.support.v4.view.ViewPager
+                android:id="@+id/pager"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+            </android.support.v4.view.ViewPager>
+
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
@@ -239,7 +238,7 @@
                 android:layout_marginBottom="@dimen/card_margin"
                 android:layout_marginLeft="@dimen/card_margin"
                 android:layout_marginRight="@dimen/card_margin"
-                android:id="@+id/cardImagenes" >
+                android:id="@+id/cardContacto">
 
                 <LinearLayout
                     style="@style/Widget.CardContent"
@@ -249,13 +248,14 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Imágenes"
+                        android:text="Contacto"
                         android:textAppearance="@style/TextAppearance.AppCompat.Title" />
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/imagenes" />
+                        android:id="@+id/contacto"
+                        android:text="juan.perez@gmail.com"/>
 
                 </LinearLayout>
 

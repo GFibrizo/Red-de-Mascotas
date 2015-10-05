@@ -48,13 +48,13 @@ public class CheeseDetailActivity extends AppCompatActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(cheeseName);
 
-        loadBackdrop();
+//        loadBackdrop();
     }
 
-    private void loadBackdrop() {
-        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
-    }
+//    private void loadBackdrop() {
+//        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+//        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
