@@ -63,7 +63,7 @@ public class ResultImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
         ubicacion.setText(ubicacion.getText()+" "+element.getBarrio());
 
         int id = element.getId(); //String.valueOf(id)
-        baseUrlForImage = IP_EMULADOR + "/pet/image/" + String.valueOf(id) + ".jpg";
+        baseUrlForImage = IP_EMULADOR + "/pet/image/" + String.valueOf(id);
         new ImageUrlView(baseUrlForImage, imageView).connect();
         return rowView;
     }
