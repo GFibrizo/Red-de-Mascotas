@@ -19,39 +19,50 @@ package com.support.android.designlibdemo;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
+import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.support.android.designlibdemo.model.Address;
-import com.support.android.designlibdemo.model.PetAdoption;
-import com.support.android.designlibdemo.model.TextAndImagePetContainer;
 
 import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
-import java.util.ArrayList;
-import java.util.List;
 
-import static utils.Constants.getRandomCheeseDrawable;
-
-public class PetsDetailActivity extends AppCompatActivity {
+public class PetsDetailActivity extends AppCompatActivity implements View.OnClickListener{
     private JSONArray object = null;
     public static final String EXTRA_NAME = "cheese_name";
+    static final int NUM_ITEMS = 6;
+    ImageFragmentPagerAdapter imageFragmentPagerAdapter;
+    ViewPager viewPager;
+    private Button button;
+    private CardView contacto;
+    public static final String[] IMAGE_NAME = {"orange_kitten", "black_cat", "grey_cat",  "pardo_cat", "tiger_cat", "tiger_kitten"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+
+        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager());
+
+        viewPager = (ViewPager) findViewById(R.id.pager);
+        viewPager.setAdapter(imageFragmentPagerAdapter);
+
+        button = (Button) findViewById(R.id.botonAdoptar);
+        button.setOnClickListener(this);
+        contacto = (CardView) findViewById(R.id.cardContacto);
+        contacto.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         final String cheeseName = intent.getStringExtra(EXTRA_NAME);
@@ -64,14 +75,21 @@ public class PetsDetailActivity extends AppCompatActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(cheeseName);
 
-        loadBackdrop();
+//        loadBackdrop();
         cargarResultados();
+
     }
 
-    private void loadBackdrop() {
-        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
+    @Override
+    public void onClick(View button) {
+        contacto.setVisibility(View.VISIBLE);
+        button.setVisibility(View.GONE);
     }
+
+//    private void loadBackdrop() {
+//        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+//        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
+//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -133,5 +151,48 @@ public class PetsDetailActivity extends AppCompatActivity {
 
     public void nextPage(View view) {
         //Aca llama a la actividad siguiente: donde adopta la mascota o se le da el mail.
+    }
+
+
+    public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
+        public ImageFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return NUM_ITEMS;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            SwipeFragment fragment = new SwipeFragment();
+            return SwipeFragment.newInstance(position);
+        }
+    }
+
+    public static class SwipeFragment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View swipeView = inflater.inflate(R.layout.swipe_fragment, container, false);
+            ImageView imageView = (ImageView) swipeView.findViewById(R.id.imageView);
+
+            Bundle bundle = getArguments();
+            int position = bundle.getInt("position");
+            String imageFileName = IMAGE_NAME[position];
+            int imgResId = getResources().getIdentifier(imageFileName, "drawable", "com.support.android.designlibdemo");
+            imageView.setImageResource(imgResId);
+            return swipeView;
+
+        }
+
+        static SwipeFragment newInstance(int position) {
+            SwipeFragment swipeFragment = new SwipeFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
+            swipeFragment.setArguments(bundle);
+            return swipeFragment;
+        }
     }
 }
