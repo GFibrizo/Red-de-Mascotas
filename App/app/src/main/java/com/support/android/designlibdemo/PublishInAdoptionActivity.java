@@ -8,7 +8,6 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBar;
@@ -30,29 +29,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.NetworkResponse;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.Volley;
-import com.support.android.designlibdemo.data.communications.SendImage;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.locks.Lock;
@@ -70,8 +55,6 @@ import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
 import cz.msebera.android.httpclient.protocol.BasicHttpContext;
 import cz.msebera.android.httpclient.protocol.HttpContext;
 */
-
-import utils.UploadTask;
 
 import static utils.Constants.AGES;
 import static utils.Constants.CATS;
@@ -287,42 +270,6 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
     /**********************************************************************************************/
     /**********************************************************************************************/
 
-    private void sendImage(Uri uri, Bitmap image, List<String> list) {
-        Lock lock = new ReentrantLock();
-        SendImage task = new SendImage(uri, image, getApplicationContext(), list, lock);
-        task.execute();
-    }
-
-
-
-
-    public void uploadFile(String sourceFileUri, final String upLoadServerUri) {
-
-        UploadTask task = new UploadTask(this, sourceFileUri,upLoadServerUri);
-        task.execute();
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     private Bitmap loadImage(Uri uri) {
         Bitmap bitmap = null;
 
@@ -343,44 +290,6 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
     }
 
 
-
-
-    public String getRealPathFromURI(Context context, Uri contentUri) {
-        Cursor cursor = null;
-        try {
-            String[] proj = { MediaStore.Images.Media.DATA };
-            cursor = context.getContentResolver().query(contentUri, proj, null,
-                    null, null);
-            int column_index = cursor
-                    .getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
-            cursor.moveToFirst();
-            return cursor.getString(column_index);
-        } finally {
-            if (cursor != null) {
-                cursor.close();
-            }
-        }
-    }
-
-    public String saveImage(Bitmap bitmap) throws IOException {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.JPEG, 40, bytes);
-
-        //you can create a new file name "test.jpg" in sdcard folder.
-        File f = new File(Environment.getExternalStorageDirectory()
-                + File.separator + "test.jpg");
-        f.createNewFile();
-        //write the bytes in file
-        FileOutputStream fo = new FileOutputStream(f);
-        fo.write(bytes.toByteArray());
-
-        // remember close de FileOutput
-        fo.close();
-        return Environment.getExternalStorageDirectory()
-                + File.separator + "test.jpg";
-    }
-
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -395,14 +304,6 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
             if (clipData == null) {
                 Uri uri = data.getData();
                 Bitmap bitmap = loadImage(uri);
-                String path = null;
-                try {
-                    path = saveImage(bitmap);
-                } catch (IOException e) {
-                    Log.e("Error saving", e.getMessage());
-                }
-                //sendImage(uri, bitmap, imageList);
-                uploadFile(path, "http://10.0.2.2:9000/pet/image");
                 view.setImageBitmap(bitmap);
             } else {
                 for (int i = 0; i < clipData.getItemCount(); i++) {

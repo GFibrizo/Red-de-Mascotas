@@ -17,6 +17,7 @@ android {
         targetSdkVersion 23
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -47,5 +48,5 @@ dependencies {
     compile 'commons-codec:commons-codec:1.9'
     compile 'com.github.florent37:materialtextfield:1.0.1@aar'
     compile 'com.nineoldandroids:library:2.4.0'
-
 }
+
