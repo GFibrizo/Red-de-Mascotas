@@ -278,9 +278,9 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
     }
 
 
-    private void sendImage(Bitmap bitmap) {
+    private void sendImage(Bitmap bitmap, int index) {
         try {
-            File f = new File(this.getCacheDir(), "tmp");
+            File f = new File(this.getCacheDir(), "tmp-" + Integer.toString(index));
             f.createNewFile();
 
             ByteArrayOutputStream bos = new ByteArrayOutputStream();
@@ -310,13 +310,14 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 Uri uri = data.getData();
                 Bitmap bitmap = loadImage(uri);
                 view.setImageBitmap(bitmap);
-                sendImage(bitmap);
+                sendImage(bitmap, 0);
 
             } else {
                 for (int i = 0; i < clipData.getItemCount(); i++) {
                     Bitmap bitmap = loadImage(clipData.getItemAt(i).getUri());
+                    Log.e("Uri", clipData.getItemAt(i).getUri().getPath());
                     if (i == 0) view.setImageBitmap(bitmap);
-                    sendImage(bitmap);
+                    sendImage(bitmap, i);
                 }
             }
             Toast.makeText(getApplicationContext(), "Imágenes cargadas", Toast.LENGTH_SHORT).show();
