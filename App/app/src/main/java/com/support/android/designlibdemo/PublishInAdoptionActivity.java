@@ -2,14 +2,11 @@ package com.support.android.designlibdemo;
 
 import android.app.Activity;
 import android.content.ClipData;
-import android.content.Context;
 import android.content.Intent;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.os.Environment;
-import android.provider.MediaStore;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -33,28 +30,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
-import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
-
-/*import cz.msebera.android.httpclient.HttpResponse;
-import cz.msebera.android.httpclient.NameValuePair;
-import cz.msebera.android.httpclient.client.HttpClient;
-import cz.msebera.android.httpclient.client.methods.HttpPost;
-//import cz.msebera.android.httpclient.entity.mime.HttpMultipartMode;
-//import cz.msebera.android.httpclient.entity.mime.content.FileBody;
-//import cz.msebera.android.httpclient.entity.mime.content.StringBody;
-import cz.msebera.android.httpclient.impl.client.DefaultHttpClient;
-import cz.msebera.android.httpclient.protocol.BasicHttpContext;
-import cz.msebera.android.httpclient.protocol.HttpContext;
-*/
+import utils.ImageRequest;
 
 import static utils.Constants.AGES;
 import static utils.Constants.CATS;
@@ -65,15 +47,6 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
     JSONObject object = new JSONObject();
     Activity activity = null;
-    final Context mContext = this;
-    String mimeType;
-    DataOutputStream dos = null;
-    String lineEnd = "\r\n";
-    String boundary = "apiclient-" + System.currentTimeMillis();
-    String twoHyphens = "--";
-    int bytesRead, bytesAvailable, bufferSize;
-    byte[] buffer;
-    int maxBufferSize = 1024 * 1024;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -270,6 +243,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
     /**********************************************************************************************/
     /**********************************************************************************************/
 
+
     private Bitmap loadImage(Uri uri) {
         Bitmap bitmap = null;
 
@@ -297,7 +271,6 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
             object.put("imagenes", new ArrayList<String>());
         } catch (JSONException e) { Log.e("Error JSON", e.getMessage());}
 
-        List<String> imageList = new ArrayList<>();
         ImageView view = (ImageView) findViewById(R.id.load_image);
         if (resultCode == RESULT_OK) {
             ClipData clipData = data.getClipData();
@@ -305,6 +278,23 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 Uri uri = data.getData();
                 Bitmap bitmap = loadImage(uri);
                 view.setImageBitmap(bitmap);
+
+                try {
+                    File f = new File(this.getCacheDir(), "tmp");
+                    f.createNewFile();
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 10, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+                    FileOutputStream fos = new FileOutputStream(f);
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+
+                    QueryResultTask qTask = new QueryResultTask(f);
+                    qTask.execute((Void) null);
+                } catch (IOException ioe) { }
             } else {
                 for (int i = 0; i < clipData.getItemCount(); i++) {
                     Bitmap bitmap = loadImage(clipData.getItemAt(i).getUri());
@@ -314,5 +304,37 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Imágenes cargadas", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
+        File image;
+        String response;
+
+        QueryResultTask(File image) {
+            this.image = image;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ImageRequest request = new ImageRequest(getApplicationContext());
+            response = request.upload(image);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
+                if (response != null) {
+                    intent.putExtra("data", response);
+                    startActivity(intent);
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() { }
+
+    }
+
 }
 
