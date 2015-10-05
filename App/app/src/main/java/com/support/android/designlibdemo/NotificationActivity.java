@@ -8,12 +8,15 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
 import com.support.android.designlibdemo.model.Address;
 import com.support.android.designlibdemo.model.PetAdoption;
+import com.support.android.designlibdemo.model.TextAndImagePetContainer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -71,10 +74,28 @@ public class NotificationActivity extends AppCompatActivity {
 
 
     private void cargarResultados(){
-        int id = 1;
-        ImageView imageView = (ImageView) findViewById(R.id.rowimage);
-        baseUrlForImage = IP_EMULADOR + "/pet/image/" + "coco" + ".jpg";
-        new ImageUrlView(baseUrlForImage, imageView).connect();
+        // Get ListView object from xml
+        listView = (ListView) findViewById(R.id.list);
+        ArrayList<TextAndImage> textAndImageArray = new ArrayList<TextAndImage>();
+
+
+        for (int i = 0; i < 3; i++) {
+            textAndImageArray.add(new TextAndImagePetContainer());
+        }
+
+
+        // ListView Item Click Listener
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+            }
+
+        });
+
+        NotificationImageAndTextArrayAdapter adapter = new NotificationImageAndTextArrayAdapter(this, R.layout.notification_image_and_text ,
+                null, (ArrayList<TextAndImage>) textAndImageArray);
+        listView.setAdapter(adapter);
 
     }
 
