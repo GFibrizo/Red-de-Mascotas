@@ -38,6 +38,10 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
+import com.support.android.designlibdemo.model.User;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private DrawerLayout mDrawerLayout;
     private TabLayout mTabLayout;
     private FragmentManager fragmentManager;
-
+    User loginUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +94,17 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         if (viewPager != null)
             mTabLayout.setupWithViewPager(viewPager);
+
+
+            if ((getIntent().getExtras() != null) && (getIntent().getStringExtra("user") != null)){
+                try {
+                    JSONObject object = new JSONObject(getIntent().getStringExtra("user"));
+                    this.loginUser = new User(object);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
     }
 
 
@@ -134,46 +149,46 @@ public class MainActivity extends AppCompatActivity {
     private void setupDrawerContent(NavigationView navigationView) {
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem menuItem) {
-                Intent intent = null;
-                switch (menuItem.getItemId()) {
-                    case R.id.adopt:
-                        intent = new Intent(getApplicationContext(), SearchInAdoptionActivity.class);
-                        break;
-                    case R.id.offer_in_adoption:
-                        intent = new Intent(getApplicationContext(), PublishInAdoptionActivity.class);
-                        break;
-                    case R.id.notification:
-                        intent = new Intent(getApplicationContext(), NotificationActivity.class);
-                        break;
-                    case R.id.report_missing:
-                        break;
-                    case R.id.report_found:
-                        break;
-                    case R.id.invite_a_friend:
-                        break;
-                    case R.id.config:
-                        break;
-                    case R.id.about:
-                        break;
-                    case R.id.logout:
-                        // ACA VA EL CODIGO PARA EL LOGOUT
-                        LoginManager.getInstance().logOut();
-                        finish();
-                        break;
-                    default:
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        Intent intent = null;
+                        switch (menuItem.getItemId()) {
+                            case R.id.adopt:
+                                intent = new Intent(getApplicationContext(), SearchInAdoptionActivity.class);
+                                break;
+                            case R.id.offer_in_adoption:
+                                intent = new Intent(getApplicationContext(), PublishInAdoptionActivity.class);
+                                break;
+                            case R.id.notification:
+                                intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                                break;
+                            case R.id.report_missing:
+                                break;
+                            case R.id.report_found:
+                                break;
+                            case R.id.invite_a_friend:
+                                break;
+                            case R.id.config:
+                                break;
+                            case R.id.about:
+                                break;
+                            case R.id.logout:
+                                // ACA VA EL CODIGO PARA EL LOGOUT
+                                LoginManager.getInstance().logOut();
+                                finish();
+                                break;
+                            default:
+                                mDrawerLayout.closeDrawers();
+                                return true;
+                        }
+                        menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
+                        if (intent != null)
+                            startActivity(intent);
                         return true;
-                }
-                menuItem.setChecked(true);
-                mDrawerLayout.closeDrawers();
-                if (intent != null)
-                    startActivity(intent);
-                return true;
 
-            }
-        });
+                    }
+                });
     }
 
     /**********************************************************************************************/

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -28,8 +29,14 @@ import android.widget.Toast;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
+
+import utils.ImageRequest;
 
 import static utils.Constants.AGES;
 import static utils.Constants.CATS;
@@ -271,6 +278,23 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 Uri uri = data.getData();
                 Bitmap bitmap = loadImage(uri);
                 view.setImageBitmap(bitmap);
+
+                try {
+                    File f = new File(this.getCacheDir(), "tmp");
+                    f.createNewFile();
+
+                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 10, bos);
+                    byte[] bitmapdata = bos.toByteArray();
+
+                    FileOutputStream fos = new FileOutputStream(f);
+                    fos.write(bitmapdata);
+                    fos.flush();
+                    fos.close();
+
+                    QueryResultTask qTask = new QueryResultTask(f);
+                    qTask.execute((Void) null);
+                } catch (IOException ioe) { }
             } else {
                 for (int i = 0; i < clipData.getItemCount(); i++) {
                     Bitmap bitmap = loadImage(clipData.getItemAt(i).getUri());
@@ -280,5 +304,37 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Imágenes cargadas", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
+        File image;
+        String response;
+
+        QueryResultTask(File image) {
+            this.image = image;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ImageRequest request = new ImageRequest(getApplicationContext());
+            response = request.upload(image);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
+                if (response != null) {
+                    intent.putExtra("data", response);
+                    startActivity(intent);
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() { }
+
+    }
+
 }
 

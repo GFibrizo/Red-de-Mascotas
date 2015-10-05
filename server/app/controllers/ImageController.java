@@ -14,14 +14,13 @@ public class ImageController extends play.mvc.Controller {
 
     public Result uploadPetImage() {
         Http.MultipartFormData body = request().body().asMultipartFormData();
-        Http.MultipartFormData.FilePart image = body.getFile("image");
+       Http.MultipartFormData.FilePart image = body.getFile("file");
         if (image == null) {
             return play.mvc.Controller.badRequest();
-        }
-        String fileName = UUID.randomUUID().toString();
+        }        String fileName = UUID.randomUUID().toString();
         File file = image.getFile();
         try {
-            FileUtils.moveFile(file, new File("public/images/pets", fileName));
+            FileUtils.moveFile(file, new File("public/images/pets", fileName + ".jpg"));
             return play.mvc.Controller.ok(fileName);
         } catch (IOException exception) {
             return play.mvc.Controller.internalServerError(exception.getMessage());
@@ -29,7 +28,7 @@ public class ImageController extends play.mvc.Controller {
     }
 
     public Result getPetImage(String imageId) {
-        File file = new File("public/images/pets", imageId);
+        File file = new File("public/images/pets", imageId + ".jpg");
         return play.mvc.Controller.ok(file);
     }
 
