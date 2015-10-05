@@ -8,11 +8,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Map;
 
-import org.apache.http.HttpEntity;
+
+/*import org.apache.http.HttpEntity;
 import org.apache.http.entity.mime.HttpMultipartMode;
 import org.apache.http.entity.mime.MultipartEntityBuilder;
 import org.apache.http.entity.mime.content.FileBody;
-
+*/
 import com.android.volley.AuthFailureError;
 import com.android.volley.NetworkResponse;
 import com.android.volley.Request;
@@ -23,10 +24,10 @@ public class MultipartRequest extends Request<String> {
 
 // private MultipartEntity entity = new MultipartEntity();
 
-    MultipartEntityBuilder entity = MultipartEntityBuilder.create();
+  /*  MultipartEntityBuilder entity = MultipartEntityBuilder.create();
     HttpEntity httpentity;
     private static final String FILE_PART_NAME = "file";
-
+*/
     private final Response.Listener<String> mListener;
     private final File mFilePart;
     private final Map<String, String> mStringPart;
@@ -39,7 +40,7 @@ public class MultipartRequest extends Request<String> {
         mListener = listener;
         mFilePart = file;
         this.mStringPart = mStringPart;
-        entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
+  //      entity.setMode(HttpMultipartMode.BROWSER_COMPATIBLE);
         buildMultipartEntity();
     }
 
@@ -48,27 +49,29 @@ public class MultipartRequest extends Request<String> {
     }
 
     private void buildMultipartEntity() {
-        entity.addPart(FILE_PART_NAME, new FileBody(mFilePart));
+    //    entity.addPart(FILE_PART_NAME, new FileBody(mFilePart));
         for (Map.Entry<String, String> entry : mStringPart.entrySet()) {
-            entity.addTextBody(entry.getKey(), entry.getValue());
+      //      entity.addTextBody(entry.getKey(), entry.getValue());
         }
     }
 
     @Override
     public String getBodyContentType() {
-        return httpentity.getContentType().getValue();
+        //return httpentity.getContentType().getValue();
+        return null;
     }
 
     @Override
     public byte[] getBody() throws AuthFailureError {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        /*ByteArrayOutputStream bos = new ByteArrayOutputStream();
         try {
             httpentity = entity.build();
             httpentity.writeTo(bos);
         } catch (IOException e) {
             VolleyLog.e("IOException writing to ByteArrayOutputStream");
         }
-        return bos.toByteArray();
+        return bos.toByteArray();*/
+        return null;
     }
 
     @Override

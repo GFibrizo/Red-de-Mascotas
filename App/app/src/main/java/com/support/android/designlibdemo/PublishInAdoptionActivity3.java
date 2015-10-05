@@ -11,6 +11,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -66,15 +67,17 @@ public class PublishInAdoptionActivity3 extends AppCompatActivity {
 
 
         try {
-            object.put("sociable", sociable.isChecked());
-            object.put("bueno_con_mascotas", good_to_others.isChecked());
-            object.put("bueno_con_niños", good_with_kids.isChecked());
-            object.put("de_compañia", companion.isChecked());
-            object.put("jugueton", funny.isChecked());
-            object.put("tranquilo", quiet.isChecked());
-            object.put("guardian", guardian.isChecked());
-            object.put("agresivo", agressive.isChecked());
-
+            JSONArray behavior = new JSONArray();
+            behavior.put(sociable.isChecked());
+            behavior.put(good_to_others.isChecked());
+            behavior.put(good_with_kids.isChecked());
+            behavior.put(companion.isChecked());
+            behavior.put(funny.isChecked());
+            behavior.put(quiet.isChecked());
+            behavior.put(guardian.isChecked());
+            behavior.put(agressive.isChecked());
+            object.put("behavior", behavior);
+            Log.e("Objeto a enviar", object.toString());
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

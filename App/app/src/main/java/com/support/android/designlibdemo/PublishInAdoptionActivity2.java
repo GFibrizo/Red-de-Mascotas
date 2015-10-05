@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -92,14 +93,16 @@ public class PublishInAdoptionActivity2 extends AppCompatActivity {
         Spinner eyesColor = (Spinner) findViewById(R.id.spinner_eye_color);
 
         try {
-            object.put("castrado", castrated.isChecked());
-            object.put("necesita_hogar_transito", needs_transit_home.isChecked());
-            object.put("medicamentos_temporales", temp_meds.isChecked());
-            object.put("medicamentos_cronicos", cron_meds.isChecked());
-            object.put("descripcion", desc.getText());
-            object.put("color_principal", hairColor1.getSelectedItem().toString());
-            object.put("color_secundario", hairColor2.getSelectedItem().toString());
-            object.put("color_de_ojos", eyesColor.getSelectedItem().toString());
+            object.put("isCastrated", castrated.isChecked());
+            object.put("needsTransitHome", needs_transit_home.isChecked());
+            object.put("isOnTemporaryMedicine", temp_meds.isChecked());
+            object.put("isOnChronicMedicine", cron_meds.isChecked());
+            object.put("description", desc.getText());
+            JSONArray colors = new JSONArray();
+            colors.put(hairColor1.getSelectedItem().toString());
+            colors.put(hairColor2.getSelectedItem().toString());
+            object.put("colors", colors);
+            object.put("eyeColor", eyesColor.getSelectedItem().toString());
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }
