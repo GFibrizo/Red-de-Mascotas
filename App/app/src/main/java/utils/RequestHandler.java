@@ -19,8 +19,8 @@ public final class RequestHandler {
     // Atributos
     private static RequestHandler singleton;
     //TODO: @agrojas - La comento porq es la de mi notebook y uso esa
-    //private static String serverUrl = "http://10.0.2.2:9000";
-    private static String serverUrl = "http://192.168.1.106:9000";
+    private static String serverUrl = "http://10.0.2.2:9000";
+    //private static String serverUrl = "http://192.168.1.106:9000";
     private RequestQueue requestQueue;
     private static Context context;
 

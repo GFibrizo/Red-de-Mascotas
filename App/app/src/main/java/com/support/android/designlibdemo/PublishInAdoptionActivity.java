@@ -26,6 +26,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +36,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 import utils.ImageRequest;
 
@@ -45,8 +47,10 @@ import static utils.Constants.SIZES;
 
 public class PublishInAdoptionActivity extends AppCompatActivity {
 
-    JSONObject object = new JSONObject();
+    JSONObject object = null;
     Activity activity = null;
+    List<String> images = new ArrayList<>();
+    JSONObject userData = null;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -55,6 +59,12 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_publish_in_adoption);
+
+        try {
+            object = new JSONObject(getIntent().getStringExtra("data"));
+        } catch (JSONException e) {
+            Log.e("Error receiving intent", e.getMessage());
+        }
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
         setSupportActionBar(toolbar);
@@ -231,9 +241,20 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
             object.put("size", size.getText());
             object.put("name", name.getText());
 
+            JSONArray imgs = new JSONArray();
+            for (String img : images) {
+                imgs.put(img);
+            }
+
+            object.put("images", images);
+
+
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }
+
+
+
         Intent intent = new Intent(getApplicationContext(), PublishInAdoptionActivity2.class);
         intent.putExtra("data", object.toString());
         if (intent != null)
@@ -249,13 +270,6 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
         try {
             bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-            try {
-                ArrayList<String> arrayList = (ArrayList) object.get("imagenes");
-                arrayList.add(uri.toString());
-            } catch (JSONException e) {
-                Log.e("Error loading images", e.getMessage());
-                return null;
-            }
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             return null;
@@ -264,12 +278,30 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
     }
 
 
+    private void sendImage(Bitmap bitmap) {
+        try {
+            File f = new File(this.getCacheDir(), "tmp");
+            f.createNewFile();
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+
+            QueryResultTask qTask = new QueryResultTask(f);
+            qTask.execute((Void) null);
+        } catch (IOException ioe) { }
+    }
+
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        try {
-            object.put("imagenes", new ArrayList<String>());
-        } catch (JSONException e) { Log.e("Error JSON", e.getMessage());}
 
         ImageView view = (ImageView) findViewById(R.id.load_image);
         if (resultCode == RESULT_OK) {
@@ -278,27 +310,13 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 Uri uri = data.getData();
                 Bitmap bitmap = loadImage(uri);
                 view.setImageBitmap(bitmap);
+                sendImage(bitmap);
 
-                try {
-                    File f = new File(this.getCacheDir(), "tmp");
-                    f.createNewFile();
-
-                    ByteArrayOutputStream bos = new ByteArrayOutputStream();
-                    bitmap.compress(Bitmap.CompressFormat.JPEG, 10, bos);
-                    byte[] bitmapdata = bos.toByteArray();
-
-                    FileOutputStream fos = new FileOutputStream(f);
-                    fos.write(bitmapdata);
-                    fos.flush();
-                    fos.close();
-
-                    QueryResultTask qTask = new QueryResultTask(f);
-                    qTask.execute((Void) null);
-                } catch (IOException ioe) { }
             } else {
                 for (int i = 0; i < clipData.getItemCount(); i++) {
                     Bitmap bitmap = loadImage(clipData.getItemAt(i).getUri());
                     if (i == 0) view.setImageBitmap(bitmap);
+                    sendImage(bitmap);
                 }
             }
             Toast.makeText(getApplicationContext(), "Imágenes cargadas", Toast.LENGTH_SHORT).show();
@@ -317,17 +335,19 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             ImageRequest request = new ImageRequest(getApplicationContext());
             response = request.upload(image);
+            Log.e("Response", response);
+            images.add(response);
             return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
+                /*Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
                 if (response != null) {
                     intent.putExtra("data", response);
                     startActivity(intent);
-                }
+                }*/
             }
         }
 

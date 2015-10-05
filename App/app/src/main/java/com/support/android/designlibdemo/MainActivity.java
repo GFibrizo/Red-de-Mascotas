@@ -38,6 +38,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
+import com.support.android.designlibdemo.model.Address;
 import com.support.android.designlibdemo.model.User;
 
 import org.json.JSONException;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
     private TabLayout mTabLayout;
     private FragmentManager fragmentManager;
     User loginUser;
+    private JSONObject userData = new JSONObject();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,14 +90,26 @@ public class MainActivity extends AppCompatActivity {
             mTabLayout.setupWithViewPager(viewPager);
 
 
-            if ((getIntent().getExtras() != null) && (getIntent().getStringExtra("user") != null)){
-                try {
-                    JSONObject object = new JSONObject(getIntent().getStringExtra("user"));
-                    this.loginUser = new User(object);
-                } catch (JSONException e) {
-                    e.printStackTrace();
+        if ((getIntent().getExtras() != null) && (getIntent().getStringExtra("user") != null)){
+            try {
+                JSONObject object = new JSONObject(getIntent().getStringExtra("user"));
+                this.loginUser = new User(object);
+                userData.put("ownerId", loginUser.getId());
+                Address addr = loginUser.getAddress();
+                if (addr != null) {
+                    JSONObject address = new JSONObject();
+                    address.put("street", addr.getStreet());
+                    address.put("number", addr.getNumber());
+                    address.put("neighbourhood", addr.getNeighbourhood());
+                    address.put("city", addr.getCity());
+                    address.put("province", addr.getProvince());
+                    address.put("country", addr.getCountry());
+                    userData.put("address", address);
                 }
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
+        }
 
     }
 
@@ -175,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
+                        intent.putExtra("data", userData.toString());
                         if (intent != null)
                             startActivity(intent);
                         return true;

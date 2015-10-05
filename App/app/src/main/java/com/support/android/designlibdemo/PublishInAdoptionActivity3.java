@@ -9,11 +9,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import utils.RequestHandler;
 
 public class PublishInAdoptionActivity3 extends AppCompatActivity {
 
@@ -52,6 +60,32 @@ public class PublishInAdoptionActivity3 extends AppCompatActivity {
     }
 
 
+    public void request() {
+        RequestHandler requestHandler = RequestHandler.getInstance(this);
+        JsonObjectRequest request = new JsonObjectRequest(
+            Request.Method.POST,
+            RequestHandler.getServerUrl() + "/pet/adoption",
+            object,
+            new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
+                    // Manejo de la respuesta
+                    System.out.println(response);
+                }
+            },
+            new Response.ErrorListener() {
+
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    // Manejo de errores
+
+                }
+            });
+        requestHandler.addToRequestQueue(request);
+    }
+
+
+
     public void finish(View view) {
 
 
@@ -65,17 +99,33 @@ public class PublishInAdoptionActivity3 extends AppCompatActivity {
         CheckBox guardian = (CheckBox)findViewById(R.id.guardian_check);
         CheckBox agressive = (CheckBox)findViewById(R.id.agressive_check);
 
+        TextView sociableText = (TextView)findViewById(R.id.sociable_label);
+        TextView good_to_othersText = (TextView)findViewById(R.id.other_animals_label);
+        TextView good_with_kidsText = (TextView)findViewById(R.id.with_kids_label);
+        TextView companionText = (TextView)findViewById(R.id.companion_label);
+        TextView funnyText = (TextView)findViewById(R.id.plays_label);
+        TextView quietText = (TextView)findViewById(R.id.quiet_label);
+        TextView guardianText = (TextView)findViewById(R.id.guardian_label);
+        TextView agressiveText = (TextView)findViewById(R.id.agressive_label);
 
         try {
             JSONArray behavior = new JSONArray();
-            behavior.put(sociable.isChecked());
-            behavior.put(good_to_others.isChecked());
-            behavior.put(good_with_kids.isChecked());
-            behavior.put(companion.isChecked());
-            behavior.put(funny.isChecked());
-            behavior.put(quiet.isChecked());
-            behavior.put(guardian.isChecked());
-            behavior.put(agressive.isChecked());
+            if (sociable.isChecked())
+                behavior.put(sociableText.getText());
+            if (good_to_others.isChecked())
+                behavior.put(good_to_othersText.getText());
+            if (good_with_kids.isChecked())
+                behavior.put(good_with_kidsText.getText());
+            if (companion.isChecked())
+                behavior.put(companionText.getText());
+            if (funny.isChecked())
+                behavior.put(funnyText.getText());
+            if (quiet.isChecked())
+                behavior.put(funnyText.getText());
+            if (guardian.isChecked())
+                behavior.put(guardianText.getText());
+            if (agressive.isChecked())
+                behavior.put(agressiveText.getText());
             object.put("behavior", behavior);
             Log.e("Objeto a enviar", object.toString());
         } catch (JSONException e) {
