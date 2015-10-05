@@ -103,5 +103,7 @@
     <string name="telephone">Teléfono</string>
     <string name="firstAndLastName">Nombre y Apellido</string>
     <string name="back">Volver</string>
+  <string name="firstName">Nombre</string>
+  <string name="lastName">Apellido</string>
 
 </resources>

@@ -98,10 +98,18 @@
 
                 <EditText
                     android:id="@+id/input_name"
-                    android:layout_width="match_parent"
+                    android:layout_width="112dp"
                     android:layout_height="wrap_content"
-                    android:hint="@string/firstAndLastName"
+                    android:hint="@string/firstName"
                     android:inputType="textPersonName" />
+
+                <EditText
+                    android:id="@+id/input_lastName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:hint="@string/lastName"
+                    android:inputType="textPersonName"
+                    android:layout_weight="1" />
             </LinearLayout>
 
             <!-- Telephone Label -->

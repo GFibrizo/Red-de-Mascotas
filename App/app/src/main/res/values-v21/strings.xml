@@ -29,4 +29,5 @@
     <string name="address">Calle</string>
     <string name="telephone">Teléfono</string>
     <string name="firstAndLastName">Nombre y Apellido</string>
+    <string name="firstName">Nombre</string>
 </resources>

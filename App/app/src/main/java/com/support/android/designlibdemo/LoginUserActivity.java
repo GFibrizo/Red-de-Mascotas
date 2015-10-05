@@ -18,13 +18,17 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import utils.LoginRequest;
+
 import com.support.android.designlibdemo.model.Password;
 
-import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 import utils.SecurityHandler;
 
@@ -64,7 +68,7 @@ public class LoginUserActivity extends Activity {
             }
         });
 
-        Button mEmailSignInButton = (Button) findViewById(R.id.email_sign_in_button);
+        Button mEmailSignInButton = (Button) findViewById(R.id.sign_in_button);
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -179,25 +183,27 @@ public class LoginUserActivity extends Activity {
     }
 
 
-
     /**
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean>{
+    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
         private final String mUser;
         private final String mPassword;
         private boolean mStatus;
         private boolean userValid;
         private boolean passValid;
+        private boolean apiError;
         JSONObject responseUserLogin;
+
         UserLoginTask(String user, String password) {
             mUser = user;
             mPassword = password;
             mStatus = false;
             userValid = false;
             passValid = false;
+            apiError = false;
         }
 
 
@@ -207,19 +213,25 @@ public class LoginUserActivity extends Activity {
 
             SecurityHandler securityHandler = new SecurityHandler();
             LoginRequest loginRequest = new LoginRequest(getApplicationContext());
-            String salt = loginRequest.getUserSalt(mUser);
-            userValid = (salt != null);
-            if (userValid ){
-                Password encryptedPassword= securityHandler.createPassword(mPassword,salt);
-                userValid = true;
-                responseUserLogin = loginRequest.isValidUserPassword(mUser,encryptedPassword);
-                if( responseUserLogin != null){
-                    mStatus = true;
+            String salt = null;
+            try {
+                salt = loginRequest.getUserSalt(mUser);
+                userValid = (salt != null);
+                if (userValid) {
+                    Password encryptedPassword = securityHandler.createPassword(mPassword, salt);
+                    userValid = true;
+                    responseUserLogin = loginRequest.isValidUserPassword(mUser, encryptedPassword);
+                    if (responseUserLogin != null) {
+                        mStatus = true;
+                    }
+                    passValid = mStatus;
+                } else {
+                    userValid = false;
+                    mStatus = userValid;
                 }
-                passValid = mStatus;
-            }else{
-                userValid = false;
-                mStatus = userValid;
+            } catch (TimeoutException | ExecutionException | InterruptedException e) {
+                apiError = true;
+                return false;
             }
             return mStatus;
         }
@@ -236,11 +248,16 @@ public class LoginUserActivity extends Activity {
                 startActivity(intent);
                 finish();
             } else {
-                if (!userValid){
+
+                if (apiError){
+                    Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!userValid) {
                     userView.setError(getString(R.string.error_incorrect_password));
                     userView.requestFocus();
                 }
-                if (!passValid){
+                if (!passValid) {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
                 }

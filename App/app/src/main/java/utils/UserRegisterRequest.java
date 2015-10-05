@@ -1,6 +1,7 @@
 package utils;
 
 import android.content.Context;
+import android.widget.Toast;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -9,6 +10,9 @@ import com.android.volley.toolbox.JsonObjectRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
 /**
  * Created by agu_k_000 on 27/09/2015.
@@ -91,9 +95,9 @@ public class UserRegisterRequest {
         return data;
     }
 
-    public JSONObject registerFacebookUser(JSONObject json) {
+    public JSONObject registerFacebookUser(JSONObject json) throws InterruptedException, ExecutionException, TimeoutException {
 
-        if (json == null){
+        if (json == null) {
             return null;
         }
         JSONObject jsonRequest = new JSONObject();
@@ -109,11 +113,16 @@ public class UserRegisterRequest {
         }
         //TODO: Primero verificar si existe ya ese usuario
         LoginRequest loginRequest = new LoginRequest(requestHandler.getContext());
-        JSONObject facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
-        if (facebookUser == null) {
-            //Lo creo y lo recupero
-            this.createFacebookUser(jsonRequest);
+        JSONObject facebookUser = null;
+        try {
             facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
+            if (facebookUser == null) {
+                //Lo creo y lo recupero
+                this.createFacebookUser(jsonRequest);
+                facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
+            }
+        } catch (TimeoutException | ExecutionException | InterruptedException e) {
+            throw e;
         }
         return facebookUser;
     }
