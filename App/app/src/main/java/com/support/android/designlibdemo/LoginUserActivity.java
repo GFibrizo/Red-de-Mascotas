@@ -5,10 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.KeyEvent;
@@ -49,12 +51,14 @@ public class LoginUserActivity extends Activity {
     private EditText mPasswordView;
     private View mProgressView;
     private View mLoginFormView;
+    SharedPreferences preferences = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_user);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         // Set up the login form.
         userView = (AutoCompleteTextView) findViewById(R.id.user);
         mPasswordView = (EditText) findViewById(R.id.password);
@@ -245,7 +249,8 @@ public class LoginUserActivity extends Activity {
 
             if (success) {
                 Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
-                intent.putExtra("user", responseUserLogin.toString());
+                //intent.putExtra("user", responseUserLogin.toString());
+                preferences.edit().putString("userData", responseUserLogin.toString()).commit();
                 startActivity(intent);
                 finish();
             } else {

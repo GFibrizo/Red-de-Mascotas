@@ -17,7 +17,9 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -57,11 +59,13 @@ public class MainActivity extends AppCompatActivity {
     private FragmentManager fragmentManager;
     User loginUser;
     private JSONObject userData = new JSONObject();
+    SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -90,12 +94,18 @@ public class MainActivity extends AppCompatActivity {
             mTabLayout.setupWithViewPager(viewPager);
 
 
-        if ((getIntent().getExtras() != null) && (getIntent().getStringExtra("user") != null)){
+        //if ((getIntent().getExtras() != null) && (getIntent().getStringExtra("user") != null)){
             try {
-                JSONObject object = new JSONObject(getIntent().getStringExtra("user"));
+                JSONObject object = new JSONObject(prefs.getString("userData", "{}")); //getIntent().getStringExtra("user")
+                Log.e("USER DATA", prefs.getString("userData", "{}"));
+
+                if (object.length() == 0) {
+                    Toast.makeText(getApplicationContext(), "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
+                    return;
+                 }
                 this.loginUser = new User(object);
-                userData.put("ownerId", loginUser.id);
-                Log.e("ID",loginUser.id);
+                userData.put("ownerId", loginUser.getId());
+                Log.e("ID",loginUser.getId());
                 Address addr = loginUser.getAddress();
                 if (addr != null) {
                     JSONObject address = new JSONObject();
@@ -110,9 +120,9 @@ public class MainActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
-
     }
+
+    //}
 
 
     /**********************************************************************************************/
