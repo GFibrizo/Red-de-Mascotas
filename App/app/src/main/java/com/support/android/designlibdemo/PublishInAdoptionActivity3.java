@@ -65,7 +65,7 @@ public class PublishInAdoptionActivity3 extends AppCompatActivity {
         JsonObjectRequest request = new JsonObjectRequest(
             Request.Method.POST,
             RequestHandler.getServerUrl() + "/pet/adoption",
-            object,
+            object.toString(),
             new Response.Listener<JSONObject>() {
                 @Override
                 public void onResponse(JSONObject response) {
@@ -78,7 +78,6 @@ public class PublishInAdoptionActivity3 extends AppCompatActivity {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     // Manejo de errores
-
                 }
             });
         requestHandler.addToRequestQueue(request);
@@ -133,8 +132,7 @@ public class PublishInAdoptionActivity3 extends AppCompatActivity {
         }
 
 
-
-
+        request();
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
         if (intent != null)

@@ -61,6 +61,7 @@ public class User {
             this.password = new Password(object.getJSONObject("password"));
             this.phone = object.getString("phone");
             this.address = new Address(object.getJSONObject("address"));
+            this.id = object.getString("id");
         } catch (JSONException e) {
             e.printStackTrace();
         }

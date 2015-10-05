@@ -94,7 +94,8 @@ public class MainActivity extends AppCompatActivity {
             try {
                 JSONObject object = new JSONObject(getIntent().getStringExtra("user"));
                 this.loginUser = new User(object);
-                userData.put("ownerId", loginUser.getId());
+                userData.put("ownerId", loginUser.id);
+                Log.e("ID",loginUser.id);
                 Address addr = loginUser.getAddress();
                 if (addr != null) {
                     JSONObject address = new JSONObject();
