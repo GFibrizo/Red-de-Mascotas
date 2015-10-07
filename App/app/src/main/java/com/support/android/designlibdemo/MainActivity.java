@@ -180,8 +180,10 @@ public class MainActivity extends AppCompatActivity {
                                 intent = new Intent(getApplicationContext(), NotificationActivity.class);
                                 break;
                             case R.id.report_missing:
+                                intent = new Intent(getApplicationContext(), LostPetActivity.class);
                                 break;
                             case R.id.report_found:
+                                intent = new Intent(getApplicationContext(), FoundPetActivity.class);
                                 break;
                             case R.id.invite_a_friend:
                                 break;
