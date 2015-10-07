@@ -44,18 +44,21 @@ public class UserService {
                              userRegister.password,
                              userRegister.phone,
                              userRegister.address);
-        User.create(user);
+        String id = User.create(user);
+        user.setId(id);
         return user;
     }
 
-    public void registerFacebookUser(FacebookRegistrationUser userRegister) {
+    public User registerFacebookUser(FacebookRegistrationUser userRegister) {
         User user = new User(userRegister.name,
                              userRegister.lastName,
                              userRegister.email,
                              userRegister.facebookId,
                              userRegister.phone,
                              userRegister.address);
-        User.create(user);
+        String id = User.create(user);
+        user.setId(id);
+        return user;
     }
 
     public List<PetAdoption> getPetsInAdoption(String userId) {
