@@ -113,6 +113,7 @@ public class ResultListActivity extends AppCompatActivity {
                    intent.putExtra("caracteristicas", petContainer.getCaracteristicas());
                    intent.putExtra("descripcion", petContainer.getDescripcion());
                    intent.putExtra("conducta", petContainer.getConducta());
+                   intent.putExtra("images", petContainer.getImages());
                    startActivity(intent);
                 }
 

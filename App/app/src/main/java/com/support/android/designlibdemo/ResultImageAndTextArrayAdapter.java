@@ -61,10 +61,17 @@ public class ResultImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
         edad.setText(edad.getText()+" "+element.getEdad());
         tamanio.setText(tamanio.getText()+" "+element.getTamanio());
         ubicacion.setText(ubicacion.getText()+" "+element.getBarrio());
-
-        int id = element.getId(); //String.valueOf(id)
-        baseUrlForImage = IP_EMULADOR + "/pet/image/" + String.valueOf(id);
+        String id;
+//        String id = element.getId(); //TODO: ojo que no debe ser el mismo id de imagen
+        String images[] = element.getImages().split(" ");
+        if (images.length != 0) {
+            id = images[0];
+        }else{
+            id = "2";
+        }
+        baseUrlForImage = IP_EMULADOR + "/pet/image/" + id;
         new ImageUrlView(baseUrlForImage, imageView).connect();
+
         return rowView;
     }
 }

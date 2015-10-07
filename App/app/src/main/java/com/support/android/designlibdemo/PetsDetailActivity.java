@@ -47,6 +47,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
     ViewPager viewPager;
     private Button button;
     private CardView contacto;
+    public static  String imagesItem[] = {};
     public static final String[] IMAGE_NAME = {"orange_kitten", "black_cat", "grey_cat",  "pardo_cat", "tiger_cat", "tiger_kitten"};
 
     @Override
@@ -123,6 +124,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
         String caracteristicasItem = getIntent().getStringExtra("caracteristicas");
         String descripcionItem = getIntent().getStringExtra("descripcion");
         String conductaItem = getIntent().getStringExtra("conducta");
+        imagesItem = getIntent().getStringExtra("images").split(" ");
 
         TextView nombre = (TextView) findViewById(R.id.nombreAnimal);
         TextView raza = (TextView) findViewById(R.id.razaAnimal);

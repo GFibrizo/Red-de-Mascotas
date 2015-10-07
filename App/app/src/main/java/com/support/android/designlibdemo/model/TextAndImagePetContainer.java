@@ -3,8 +3,10 @@ package com.support.android.designlibdemo.model;
 
 import com.support.android.designlibdemo.TextAndImage;
 
+import java.util.List;
+
 public class TextAndImagePetContainer implements TextAndImage {
-    private int id;
+    private String id;
     private String nombre;
     private String raza;
     private String sexo;
@@ -23,13 +25,14 @@ public class TextAndImagePetContainer implements TextAndImage {
     private String publicationDate;
     private String conducta;
     private String caracteristicas;
+    private List<String> images;
 
     public TextAndImagePetContainer(){
 
     }
 
     public TextAndImagePetContainer(PetAdoption mascotas){
-        this.id = 1;
+        this.id = mascotas.getOwnerId();
         this.nombre = mascotas.getName();
         this.raza = mascotas.getBreed();
         this.sexo = mascotas.getGender();
@@ -62,10 +65,11 @@ public class TextAndImagePetContainer implements TextAndImage {
             }
         }
         this.transitHomeUser = mascotas.getTransitHomeUser();
+        this.images = mascotas.getImages();
     }
 
     @Override
-    public int getId() {
+    public String getId() {
         return id;
     }
 
@@ -90,7 +94,7 @@ public class TextAndImagePetContainer implements TextAndImage {
         return tamanio;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -237,4 +241,14 @@ public class TextAndImagePetContainer implements TextAndImage {
     public void setCaracteristicas(String caracteristicas) {
         this.caracteristicas = caracteristicas;
     }
+
+    public String getImages() {
+        String imagenes = "";
+        for (int i = 0; i < this.images.size(); i++){
+            imagenes += this.images.get(i);
+            imagenes += " ";
+        }
+        return imagenes;
+    }
+
 }

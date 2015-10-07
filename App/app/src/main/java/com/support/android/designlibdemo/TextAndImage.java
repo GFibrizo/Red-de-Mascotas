@@ -3,7 +3,7 @@ package com.support.android.designlibdemo;
 public interface TextAndImage {
 
     String getText();
-    int getId();
+    String getId();
     String getNombre();
     String getRaza();
     String getSexo();
@@ -20,5 +20,6 @@ public interface TextAndImage {
     Boolean getChronicMedicine();
     String getPublicationStatus();
     String getPublicationDate();
+    String getImages();
 
 }
