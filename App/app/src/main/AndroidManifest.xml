@@ -119,7 +119,6 @@
             android:windowSoftInputMode="adjustResize|stateVisible"></activity>
         <activity
             android:name=".PublishInAdoptionActivity2"
-            android:label="@string/title_activity_publish_in_adoption2"
             android:parentActivityName=".PublishInAdoptionActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -127,7 +126,6 @@
         </activity>
         <activity
             android:name=".PublishInAdoptionActivity3"
-            android:label="@string/title_activity_publish_in_adoption3"
             android:parentActivityName=".PublishInAdoptionActivity2">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

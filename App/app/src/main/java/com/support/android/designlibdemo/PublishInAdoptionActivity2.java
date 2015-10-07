@@ -1,8 +1,10 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -48,6 +50,13 @@ public class PublishInAdoptionActivity2 extends AppCompatActivity {
         ArrayAdapter<CharSequence> eyeColorAdapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.EYE_COLORS, "Color de ojos");
         eyeColorSpinner.setAdapter(eyeColorAdapter);
         eyeColorSpinner.setSelection(eyeColorAdapter.getCount());
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     /**********************************************************************************************/
