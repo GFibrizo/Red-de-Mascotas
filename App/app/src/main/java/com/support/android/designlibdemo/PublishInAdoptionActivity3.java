@@ -1,14 +1,15 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -35,6 +36,13 @@ public class PublishInAdoptionActivity3 extends AppCompatActivity {
             Log.e("Error receiving intent", e.getMessage());
         }
         setContentView(R.layout.activity_publish_in_adoption3);
+
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
+        setSupportActionBar(toolbar);
+
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
     @Override

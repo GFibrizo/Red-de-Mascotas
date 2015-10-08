@@ -36,45 +36,17 @@
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
             android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
-        </activity>
-        <activity
-            android:name=".PetsDetailActivity"
-            android:parentActivityName=".ResultListActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
-            android:name=".LostPetActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
-            android:name=".FoundPetActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
-        </activity>
-        <activity
-            android:name=".PublishInAdoptionActivity"
-            android:parentActivityName=".MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity" />
         </activity>
 
         <activity
@@ -90,7 +62,7 @@
             android:parentActivityName=".SearchInAdoptionActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.support.android.designlibdemo.SearchInAdoptionActivity" />
+                android:value=".SearchInAdoptionActivity" />
         </activity>
 
         <activity
@@ -101,7 +73,55 @@
                 android:value=".MainActivity" />
         </activity>
 
+        <activity
+            android:name=".PetsDetailActivity"
+            android:parentActivityName=".ResultListActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ResultListActivity" />
+        </activity>
+
+        <activity
+            android:name=".PublishInAdoptionActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".PublishInAdoptionActivity2"
+            android:parentActivityName=".PublishInAdoptionActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PublishInAdoptionActivity" />
+        </activity>
+
+        <activity
+            android:name=".PublishInAdoptionActivity3"
+            android:parentActivityName=".PublishInAdoptionActivity2">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".PublishInAdoptionActivity2" />
+        </activity>
+
         <activity android:name=".NotificationActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".LostPetActivity"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".FoundPetActivity"
             android:parentActivityName=".MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -112,35 +132,25 @@
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+        </activity>
+
         <activity
             android:name=".LoginUserActivity"
             android:label="@string/title_activity_login_user"
-            android:windowSoftInputMode="adjustResize|stateVisible"></activity>
-        <activity
-            android:name=".PublishInAdoptionActivity2"
-            android:label="@string/title_activity_publish_in_adoption2"
-            android:parentActivityName=".PublishInAdoptionActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.support.android.designlibdemo.PublishInAdoptionActivity" />
+            android:windowSoftInputMode="adjustResize|stateVisible">
         </activity>
-        <activity
-            android:name=".PublishInAdoptionActivity3"
-            android:label="@string/title_activity_publish_in_adoption3"
-            android:parentActivityName=".PublishInAdoptionActivity2">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.support.android.designlibdemo.PublishInAdoptionActivity2" />
-        </activity>
+
         <activity
             android:name=".RegisterActivity"
-            android:label="RegisterActivity">
+            android:label="@string/title_activity_register">
         </activity>
+
         <activity
             android:name=".Register2Activity"
-            android:label="RegisterActivity">
+            android:label="@string/title_activity_register2">
         </activity>
+
     </application>
 
 </manifest>
