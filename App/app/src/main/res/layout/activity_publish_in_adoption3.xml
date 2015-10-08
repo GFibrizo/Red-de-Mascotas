@@ -1,281 +1,288 @@
-
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-xmlns:app="http://schemas.android.com/apk/res-auto"
-tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity3">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.support.android.designlibdemo.PublishInAdoptionActivity3">
 
-    <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/publish_layout"
-        android:layout_height="match_parent"
+    <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/main_content"
         android:layout_width="match_parent"
-        android:fitsSystemWindows="true" />
+        android:layout_height="match_parent">
 
-    <android.support.design.widget.AppBarLayout
-        android:id="@+id/appbar_publish"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/toolbar_publish"
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appbar_publish"
             android:layout_width="match_parent"
-            android:subtitleTextColor="#ffffff"
-            android:elevation="3dp"
-            android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.DesignDemo"
-            app:layout_scrollFlags="scroll|enterAlways" />
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar_publish"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+                app:layout_scrollFlags="scroll|enterAlways" />
+
+            <RelativeLayout
+                android:id="@+id/publish_subtitle_layout"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="#263238">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/offer_in_adoption"
+                    android:textSize="17dp"
+                    android:gravity="bottom"
+                    android:layout_centerVertical="true"
+                    android:layout_alignParentLeft="true"
+                    android:paddingLeft="20dp"/>
+
+            </RelativeLayout>
+
+
+        </android.support.design.widget.AppBarLayout>
 
         <RelativeLayout
-            android:id="@+id/publish_subtitle_layout"
             android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:background="#263238">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="130dp"
+            android:id="@+id/relativeLayout">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/offer_in_adoption"
-                android:textSize="17dp"
-                android:gravity="bottom"
-                android:layout_centerVertical="true"
+            <LinearLayout
+                android:id="@+id/layout_publish_3"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_alignParentLeft="true"
-                android:paddingLeft="20dp"/>
+                android:layout_alignParentStart="true">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="Conducta"
+                    android:layout_marginTop="10dp" />
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_publish_31"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:weightSum="1"
+                    android:layout_marginTop="20dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Sociable"
+                        android:id="@+id/sociable_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/sociable_check"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_publish_32"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Se lleva bien con otros animales"
+                        android:id="@+id/other_animals_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/other_animals_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_publish_33"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Se lleva bien con los niños"
+                        android:id="@+id/with_kids_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/with_kids_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_publish_34"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="De compañía"
+                        android:id="@+id/companion_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/companion_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_publish_35"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Juguetón"
+                        android:id="@+id/plays_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/plays_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_publish_36"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Tranquilo"
+                        android:id="@+id/quiet_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/quiet_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_publish_37"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Guardián"
+                        android:id="@+id/guardian_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/guardian_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:id="@+id/layout_publish_38"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Agresivo"
+                        android:id="@+id/agressive_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/agressive_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <Button
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Finalizar"
+                    android:background="#2196F3"
+                    android:textColor="#ffffff"
+                    android:textAllCaps="false"
+                    android:onClick="finish"
+                    android:id="@+id/button_publish_2"
+                    android:layout_marginRight="10dp"
+                    android:layout_marginEnd="20dp"
+                    android:layout_marginTop="30dp"
+                    android:layout_gravity="right" />
+
+            </LinearLayout>
 
         </RelativeLayout>
 
-
-    </android.support.design.widget.AppBarLayout>
-
-    <LinearLayout
-        android:id="@+id/layout_publish_3"
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@id/appbar_publish"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Conducta"
-            android:layout_marginTop="10dp" />
-
-
-
-        <RelativeLayout
-            android:id="@+id/layout_publish_31"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:weightSum="1"
-            android:layout_marginTop="20dp">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Sociable"
-                android:id="@+id/sociable_label"
-                android:layout_weight="0.5"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentRight="true"
-                android:id="@+id/sociable_check"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
-
-
-
-        <RelativeLayout
-            android:id="@+id/layout_publish_32"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Se lleva bien con otros animales"
-                android:id="@+id/other_animals_label"
-                android:layout_weight="0.5"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/other_animals_check"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/layout_publish_33"
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Se lleva bien con los niños"
-                android:id="@+id/with_kids_label"
-                android:layout_weight="0.5"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/with_kids_check"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/layout_publish_34"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="De compañia"
-                android:id="@+id/companion_label"
-                android:layout_weight="0.5"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/companion_check"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/layout_publish_35"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Jugueton"
-                android:id="@+id/plays_label"
-                android:layout_weight="0.5"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/plays_check"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
-
-
-        <RelativeLayout
-            android:id="@+id/layout_publish_36"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Tranquilo"
-                android:id="@+id/quiet_label"
-                android:layout_weight="0.5"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/quiet_check"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_publish_37"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Guardian"
-                android:id="@+id/guardian_label"
-                android:layout_weight="0.5"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/guardian_check"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/layout_publish_38"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:weightSum="1">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:text="Agresivo"
-                android:id="@+id/agressive_label"
-                android:layout_weight="0.5"/>
-
-            <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/agressive_check"
-                android:layout_alignParentRight="true"
-                android:layout_weight="0.5"/>
-        </RelativeLayout>
-
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Finalizar"
-            android:background="#2196F3"
-            android:textColor="#ffffff"
-            android:textAllCaps="false"
-            android:onClick="finish"
-            android:id="@+id/button_publish_2"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="20dp"
-            android:layout_marginTop="30dp"
-            android:layout_gravity="right" />
-
-    </LinearLayout>
+    </android.support.design.widget.CoordinatorLayout>
 
 </RelativeLayout>

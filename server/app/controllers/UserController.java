@@ -53,16 +53,17 @@ public class UserController {
     public Result registerAccountUser() {
         Form<AccountRegistrationUser> form = Form.form(AccountRegistrationUser.class).bindFromRequest();
         AccountRegistrationUser user = form.get();
-        if (service.registerAccountUser(user) == null)
+        User registeredUser = service.registerAccountUser(user);
+        if (registeredUser == null)
             return play.mvc.Controller.badRequest();
-        else return play.mvc.Controller.ok();
+        else return play.mvc.Controller.ok(Json.toJson(registeredUser));
     }
 
     public Result registerFacebookUser() {
         Form<FacebookRegistrationUser> form = Form.form(FacebookRegistrationUser.class).bindFromRequest();
         FacebookRegistrationUser user = form.get();
-        service.registerFacebookUser(user);
-        return play.mvc.Controller.ok();
+        User registeredUser = service.registerFacebookUser(user);
+        return play.mvc.Controller.ok(Json.toJson(registeredUser));
     }
 
     public Result getPetsInAdoption(String userId) {

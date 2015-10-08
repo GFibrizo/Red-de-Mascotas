@@ -56,6 +56,10 @@ public class User {
         this.address = address;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
 
     public static User getById(String id) {
         return User.collection.findOneById(id);
@@ -69,8 +73,8 @@ public class User {
         return User.collection.findOne(new BasicDBObject("userName", userName));
     }
 
-    public static void create(User user) {
-        User.collection.save(user);
+    public static String create(User user) {
+        return User.collection.save(user).getSavedId();
     }
 
     public static Boolean exists(String userName, String email) {

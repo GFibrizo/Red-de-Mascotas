@@ -34,7 +34,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/search_in_adoption"
+                android:text="@string/offer_in_adoption"
                 android:textSize="17dp"
                 android:gravity="bottom"
                 android:layout_centerVertical="true"
