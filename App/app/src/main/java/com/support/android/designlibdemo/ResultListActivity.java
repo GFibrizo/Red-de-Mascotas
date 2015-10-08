@@ -100,8 +100,9 @@ public class ResultListActivity extends AppCompatActivity {
                @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                    Intent intent = new Intent(getApplicationContext(), PetsDetailActivity.class);
-//                   intent.putExtra("id", id);
                    TextAndImagePetContainer petContainer = new TextAndImagePetContainer(mascotas.get(position));
+                   intent.putExtra("id", petContainer.getId());
+                   intent.putExtra("ownerId", petContainer.getOwnerId());
                    intent.putExtra("nombre", petContainer.getNombre());
                    intent.putExtra("raza", petContainer.getRaza());
                    intent.putExtra("sexo", petContainer.getSexo());
@@ -125,19 +126,6 @@ public class ResultListActivity extends AppCompatActivity {
 
     }
 
-
-
-    private List<String> fromJSONArrayToList(JSONArray jsonArray) {
-        List<String> list = new ArrayList<String>();
-        try {
-            for (int i=0; i<jsonArray.length(); i++) {
-                list.add(jsonArray.getString(i));
-            }
-        } catch (JSONException e) {
-            Log.e("Error al crear el JSON", e.getMessage());
-        }
-        return list;
-    }
 
 //    public PetAdoption(String name, String type, String ownerId, Address address, String breed,
 //                       String gender, String age, String size, List<String> colors, String eyeColor,
@@ -169,7 +157,8 @@ public class ResultListActivity extends AppCompatActivity {
                         images.add((String) object.getJSONArray("images").get(j));
                     }
                 }
-                PetAdoption mascota = new PetAdoption(object.getString("name"),
+                PetAdoption mascota = new PetAdoption(object.getString("id"),
+                        object.getString("name"),
                         object.getString("type"),
                         object.getString("ownerId"),
                         address,

@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
+import com.support.android.designlibdemo.model.AdoptionNotification;
 
 import java.util.ArrayList;
 
@@ -16,9 +17,9 @@ import java.util.ArrayList;
  * Clase que servira para mostrar en un listView algo que tenga un texto y una imagen
  *
  */
-public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
+public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionNotification> {
     protected final Activity context;
-    protected final ArrayList<TextAndImage> elements;
+    protected final ArrayList<AdoptionNotification> elements;
     protected final int layout;
     protected String baseUrlForImage;
     private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
@@ -26,7 +27,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<TextAndIm
      * @param layout   El layout que usara para mostrar cada fila
      * @param elements conjunto de elementos en los cuales se mostrara 1 por fila
      */
-    public NotificationImageAndTextArrayAdapter(Activity context, int layout, String baseUrlForImage, ArrayList<TextAndImage> elements) {
+    public NotificationImageAndTextArrayAdapter(Activity context, int layout, String baseUrlForImage, ArrayList<AdoptionNotification> elements) {
         super(context, layout, elements);
         this.layout = layout;
         this.context = context;
@@ -38,7 +39,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<TextAndIm
 //        if (elements.size() == 0) {
 //            return new View(getContext());
 //        }
-//        final TextAndImage element = elements.get(position);
+//        final AdoptionNotification element = elements.get(position);
 
         final LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(this.layout, null, true);
@@ -53,10 +54,14 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<TextAndIm
         quiereAdoptar.setText(quiereAdoptar.getText());
         contacto.setText(contacto.getText());
 
+        //TODO:descomentar
+//        fecha.setText(fecha.getText()+" "+element.getRequestDate());
+//        quiereAdoptar.setText(quiereAdoptar.getText()+" "+element.getPetName());
+//        contacto.setText(contacto.getText()+" "+element.getAdopterEmail());
+//        String id = element.getPetImageId();
 
-//        int id = element.getId(); //String.valueOf(id)
-        int id = 2;
-        baseUrlForImage = IP_EMULADOR + "/pet/image/" + String.valueOf(id);
+        String id = "2";
+        baseUrlForImage = IP_EMULADOR + "/pet/image/" + id;
         new ImageUrlView(baseUrlForImage, imageView).connect();
         return rowView;
     }

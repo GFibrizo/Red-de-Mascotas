@@ -29,10 +29,11 @@ public class PetAdoption {
 
     public PetAdoption() { }
 
-    public PetAdoption(String name, String type, String ownerId, Address address, String breed,
+    public PetAdoption(String id, String name, String type, String ownerId, Address address, String breed,
                        String gender, String age, String size, List<String> colors, String eyeColor,
                        List<String> behavior, List<String> images, Boolean needsTransitHome,
                        Boolean isCastrated, Boolean isOnTemporaryMedicine, Boolean isOnChronicMedicine, String description) {
+        this.id = id;
         this.name = name;
         this.type = type;
         this.ownerId = ownerId;

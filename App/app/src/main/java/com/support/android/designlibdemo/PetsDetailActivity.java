@@ -17,6 +17,7 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
@@ -37,6 +38,8 @@ import android.widget.TextView;
 
 
 import org.json.JSONArray;
+
+import utils.AdoptionRequest;
 
 
 public class PetsDetailActivity extends AppCompatActivity implements View.OnClickListener{
@@ -83,6 +86,9 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View button) {
+        String petId = getIntent().getStringExtra("id");
+        QueryResultTask qTask = new QueryResultTask(petId);
+        qTask.execute((Void) null);
         contacto.setVisibility(View.VISIBLE);
         button.setVisibility(View.GONE);
     }
@@ -148,11 +154,14 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
         caracteristicas.setText(caracteristicasItem);
         descripcion.setText(descripcionItem);
         conducta.setText(conductaItem);
+//
+//        Button botonAdoptar = (Button) findViewById(R.id.botonAdoptar);
 
     }
 
     public void nextPage(View view) {
         //Aca llama a la actividad siguiente: donde adopta la mascota o se le da el mail.
+        //TODO: dialog de pedido de confirmacion.
     }
 
 
@@ -196,5 +205,34 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
             swipeFragment.setArguments(bundle);
             return swipeFragment;
         }
+    }
+
+    public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
+        String petId;
+        JSONArray response;
+
+        QueryResultTask(String petId) {
+            this.petId = petId;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            AdoptionRequest request = new AdoptionRequest(getApplicationContext());
+            response = request.send(petId);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                if (response != null) {
+                    //TODO: poner algun dialog de confirmación
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() { }
+
     }
 }

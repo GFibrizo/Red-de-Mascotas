@@ -1,6 +1,7 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -15,7 +16,9 @@ import android.widget.ListView;
 
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
 import com.support.android.designlibdemo.model.Address;
+import com.support.android.designlibdemo.model.AdoptionNotification;
 import com.support.android.designlibdemo.model.PetAdoption;
+import com.support.android.designlibdemo.model.SearchForAdoptionFilters;
 import com.support.android.designlibdemo.model.TextAndImagePetContainer;
 
 import org.json.JSONArray;
@@ -25,11 +28,16 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.NotificationRequest;
+import utils.SearchRequest;
+
 
 public class NotificationActivity extends AppCompatActivity {
     private JSONArray object = null;
     private ListView listView ;
-    private List<PetAdoption> mascotas = null;
+    private String dataServer;
+    private ArrayList<AdoptionNotification> textAndImageArray;
+    private List<AdoptionNotification> notifications = null;
     protected String baseUrlForImage;
     private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
 
@@ -72,39 +80,92 @@ public class NotificationActivity extends AppCompatActivity {
     }
 
 
-
     private void cargarResultados(){
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
-        ArrayList<TextAndImage> textAndImageArray = new ArrayList<TextAndImage>();
-
-
-        for (int i = 0; i < 3; i++) {
-            textAndImageArray.add(new TextAndImagePetContainer());
-        }
-
+        textAndImageArray = new ArrayList<AdoptionNotification>();
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
             }
 
         });
 
+        //TODO: buscar datos correctos para el request
+        String userId = "560c3c36e4b0f72a8aac466a";
+        QueryResultTask qTask = new QueryResultTask(userId);
+        qTask.execute((Void) null);
+
+        try {
+            if (dataServer != null) {
+                object = new JSONArray(dataServer);
+            }
+            if (object != null){
+                notifications = fromJSONArrayToListNotifications(object);
+            }
+        } catch (JSONException e) {
+            Log.e("Error receiving intent", e.getMessage());
+        }
+
+
+        if (notifications != null) {
+            for (int i = 0; i < notifications.size(); i++) {
+                textAndImageArray.add(notifications.get(i));
+            }
+        }
+
         NotificationImageAndTextArrayAdapter adapter = new NotificationImageAndTextArrayAdapter(this, R.layout.notification_image_and_text ,
-                null, (ArrayList<TextAndImage>) textAndImageArray);
+                null, (ArrayList<AdoptionNotification>) textAndImageArray);
         listView.setAdapter(adapter);
 
     }
 
 
-    private List<String> fromJSONArrayToList(JSONArray jsonArray) {
-        List<String> list = new ArrayList<String>();
+    public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
+        String userId;
+        JSONArray response;
+
+        QueryResultTask(String userId) {
+            this.userId = userId;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            NotificationRequest request = new NotificationRequest(getApplicationContext());
+            response = request.search(userId);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                if (response != null) {
+                    dataServer = response.toString();
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() { }
+
+    }
+
+    private List<AdoptionNotification> fromJSONArrayToListNotifications(JSONArray jsonArray) {
+        List<AdoptionNotification> list = new ArrayList<>();
         try {
-            for (int i=0; i<jsonArray.length(); i++) {
-                list.add(jsonArray.getString(i));
+            if (jsonArray != null) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject object = jsonArray.getJSONObject(i);
+                    AdoptionNotification notification = new AdoptionNotification(
+                            object.getString("adopterEmail"),
+                            object.getString("requestDate"),
+                            object.getString("petName"),
+                            object.getString("petImageId")
+                    );
+                    list.add(notification);
+                }
             }
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
@@ -112,37 +173,5 @@ public class NotificationActivity extends AppCompatActivity {
         return list;
     }
 
-    private List<PetAdoption> fromJSONArrayToListMascotas(JSONArray jsonArray) {
-        List<PetAdoption> list = new ArrayList<>();
-        try {
-            for (int i=0; i<jsonArray.length(); i++) {
-                JSONObject object = jsonArray.getJSONObject(i);
-                Address address = new Address();
-                String barrio = ((JSONObject) object.get("address")).getString("neighbourhood");
-                address.setNeighbourhood(barrio);
-                PetAdoption mascota = new PetAdoption(object.getString("name"),
-                        "",
-                        "",
-                        address,
-                        "",
-                        object.getString("gender"),
-                        object.getString("age"),
-                        object.getString("size"),
-                        null,
-                        "",
-                        null,
-                        null,
-                        false,
-                        false,
-                        false,
-                        false,
-                        "");
-                list.add(mascota);
-            }
-        } catch (JSONException e) {
-            Log.e("Error al crear el JSON", e.getMessage());
-        }
-        return list;
-    }
 
 }
