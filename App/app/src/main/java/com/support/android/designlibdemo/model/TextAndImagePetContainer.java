@@ -7,6 +7,7 @@ import java.util.List;
 
 public class TextAndImagePetContainer implements TextAndImage {
     private String id;
+    private String ownerId;
     private String nombre;
     private String raza;
     private String sexo;
@@ -32,7 +33,8 @@ public class TextAndImagePetContainer implements TextAndImage {
     }
 
     public TextAndImagePetContainer(PetAdoption mascotas){
-        this.id = mascotas.getOwnerId();
+        this.id = mascotas.getId();
+        this.ownerId = mascotas.getOwnerId();
         this.nombre = mascotas.getName();
         this.raza = mascotas.getBreed();
         this.sexo = mascotas.getGender();
@@ -66,6 +68,14 @@ public class TextAndImagePetContainer implements TextAndImage {
         }
         this.transitHomeUser = mascotas.getTransitHomeUser();
         this.images = mascotas.getImages();
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
 
     @Override
