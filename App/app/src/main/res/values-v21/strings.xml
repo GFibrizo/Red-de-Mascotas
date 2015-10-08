@@ -17,10 +17,10 @@
     <string name="edadLabel">Edad:</string>
     <string name="tamanioLabel">Tamaño:</string>
     <string name="ubicacionLabel">Ubicación:</string>
-    <string name="colorPelajeLabel">Color de Pelaje:</string>
+    <string name="colorPelajeLabel">Color de pelaje:</string>
     <string name="colorOjosLabel">Color de ojos:</string>
     <string name="logout_facebook">Desloguearse Facebook</string>
-    <string name="new_account">Nueva Cuenta</string>
+    <string name="new_account">Nueva cuenta</string>
     <string name="register_next">Siguiente</string>
     <string name="quiereAdoptar">Quieren adoptar a Coco </string>
     <string name="contactoLabel">Contacto: roberto.gomez@gmail.com </string>
@@ -28,6 +28,6 @@
     <string name="register_end">Finalizar</string>
     <string name="address">Calle</string>
     <string name="telephone">Teléfono</string>
-    <string name="firstAndLastName">Nombre y Apellido</string>
+    <string name="firstAndLastName">Nombre y apellido</string>
     <string name="firstName">Nombre</string>
 </resources>

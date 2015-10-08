@@ -60,11 +60,11 @@
 
             <ImageView
                 android:id="@+id/load_image"
-                android:layout_width="150dp"
-                android:layout_height="150dp"
-                android:layout_marginTop="30dp"
-                android:src="@drawable/perro_gato_search"
-                android:layout_marginRight="10dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="20dp"
+                android:src="@drawable/print_search"
+                android:layout_marginRight="30dp"
                 android:layout_alignParentRight="true" />
 
             <ImageView
@@ -72,7 +72,7 @@
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:src="@drawable/dog_prints"
-                android:layout_marginTop="230dp"
+                android:layout_marginTop="220dp"
                 android:layout_marginRight="40dp"
                 android:layout_alignParentRight="true" />
 

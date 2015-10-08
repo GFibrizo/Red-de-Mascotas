@@ -156,7 +156,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="De compañia"
+                        android:text="De compañía"
                         android:id="@+id/companion_label"
                         android:layout_weight="0.5"/>
 
@@ -180,7 +180,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Jugueton"
+                        android:text="Juguetón"
                         android:id="@+id/plays_label"
                         android:layout_weight="0.5"/>
 
@@ -228,7 +228,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
-                        android:text="Guardian"
+                        android:text="Guardián"
                         android:id="@+id/guardian_label"
                         android:layout_weight="0.5"/>
 
