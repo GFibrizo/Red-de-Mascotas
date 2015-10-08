@@ -1,7 +1,9 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -31,6 +33,7 @@ public class ResultListActivity extends AppCompatActivity {
     private JSONArray object = null;
     private ListView listView ;
     private List<PetAdoption> mascotas = null;
+    SharedPreferences prefs = null;
 
     // Defined Array values to show in ListView
     String[] values = new String[]{"Fiona", "Simba", "Homero", "Casandra", "Cleopatra"};
@@ -39,6 +42,7 @@ public class ResultListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_result_list_view);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_result);
         setSupportActionBar(toolbar);
@@ -79,8 +83,9 @@ public class ResultListActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
 
         try {
-            object = new JSONArray(getIntent().getStringExtra("data"));
-            if (object != null){
+            //object = new JSONArray(getIntent().getStringExtra("data"));
+            object = new JSONArray(prefs.getString("searchResponse", "[]"));
+            if (object.length() != 0){
                 mascotas = fromJSONArrayToListMascotas(object);
             }
         } catch (JSONException e) {

@@ -49,14 +49,16 @@ public class SearchRequest {
 
     private String buildSearchPetPath(SearchForAdoptionFilters filters) {
         String queryString = "type=" + filters.type + "&";
-        if (filters.genders != null) queryString += fromListToString("&genders", filters.genders);
+        if (filters.genders != null) queryString += fromListToString("gender", filters.genders);
         if (filters.breed != null && !filters.breed.isEmpty()) queryString += "breed=" + filters.breed + "&";
-        if (filters.ages != null) queryString += fromListToString("ages", filters.ages);
-        if (filters.sizes != null) queryString += fromListToString("sizes", filters.sizes);
+        if (filters.ages != null) queryString += fromListToString("age", filters.ages);
+        if (filters.sizes != null) queryString += fromListToString("size", filters.sizes);
         if (filters.colors != null) queryString += fromListToString("colors", filters.colors);
-        if (filters.eyeColors != null) queryString += fromListToString("eyeColors", filters.eyeColors);
+        if (filters.eyeColors != null) queryString += fromListToString("eyeColor", filters.eyeColors);
         if (filters.city != null && !filters.city.isEmpty()) queryString += "city=" + filters.city + "&";
         if (filters.neighbourhood != null && !filters.neighbourhood.isEmpty()) queryString += "neighbourhood=" + filters.neighbourhood;
+        Log.e("Search Request", "/pets/adoption?" + queryString);
+        queryString = queryString.substring(0, queryString.length()-1);
         return "/pets/adoption?" + queryString;
     }
 

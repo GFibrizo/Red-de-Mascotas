@@ -1,8 +1,10 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,11 +31,13 @@ import static utils.Constants.NEIGHBOURHOODS;
 public class SearchInAdoptionActivity2 extends AppCompatActivity {
 
     private JSONObject object = null;
+    SharedPreferences prefs = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         try {
             object = new JSONObject(getIntent().getStringExtra("data"));
         } catch (JSONException e) {
@@ -166,7 +170,8 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
             if (success) {
                 Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
                 if (response != null) {
-                    intent.putExtra("data", response.toString());
+                    //intent.putExtra("data", response.toString());
+                    prefs.edit().putString("searchResponse", response.toString()).commit();
                     startActivity(intent);
                 }
             }
