@@ -66,7 +66,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
         contacto.setVisibility(View.GONE);
 
         Intent intent = getIntent();
-        final String cheeseName = intent.getStringExtra(EXTRA_NAME);
+        final String cheeseName = intent.getStringExtra("nombre");
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
