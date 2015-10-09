@@ -17,6 +17,7 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -87,7 +88,8 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
     @Override
     public void onClick(View button) {
         String petId = getIntent().getStringExtra("id");
-        QueryResultTask qTask = new QueryResultTask(petId);
+        String adopterId = "561735e244ae0289f12d2391"; //TODO: conectar con singleton que tenga mi id de sesion.SharedPreferences
+        QueryResultTask qTask = new QueryResultTask(petId, adopterId);
         qTask.execute((Void) null);
         contacto.setVisibility(View.VISIBLE);
         button.setVisibility(View.GONE);
@@ -209,16 +211,18 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
         String petId;
+        String adopterId;
         JSONArray response;
 
-        QueryResultTask(String petId) {
+        QueryResultTask(String petId, String adopterId) {
             this.petId = petId;
+            this.adopterId = adopterId;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             AdoptionRequest request = new AdoptionRequest(getApplicationContext());
-            response = request.send(petId);
+            request.send(petId, adopterId);
             return true;
         }
 

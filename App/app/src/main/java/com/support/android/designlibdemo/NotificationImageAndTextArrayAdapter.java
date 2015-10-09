@@ -19,7 +19,7 @@ import java.util.ArrayList;
  */
 public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionNotification> {
     protected final Activity context;
-    protected final ArrayList<AdoptionNotification> elements;
+    protected ArrayList<AdoptionNotification> elements;
     protected final int layout;
     protected String baseUrlForImage;
     private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
@@ -36,10 +36,10 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
     }
 
     public View getView(final int position, final View view, final ViewGroup parent) {
-//        if (elements.size() == 0) {
-//            return new View(getContext());
-//        }
-//        final AdoptionNotification element = elements.get(position);
+        if (elements.size() == 0) {
+            return new View(getContext());
+        }
+        final AdoptionNotification element = elements.get(position);
 
         final LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(this.layout, null, true);
@@ -50,19 +50,19 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.rowimage);
 
-        fecha.setText(fecha.getText());
-        quiereAdoptar.setText(quiereAdoptar.getText());
-        contacto.setText(contacto.getText());
+        fecha.setText(fecha.getText()+" "+(element.getRequestDate().split(" "))[0]);
+        quiereAdoptar.setText(quiereAdoptar.getText()+" "+element.getPetName());
+        contacto.setText(contacto.getText()+" "+element.getAdopterEmail());
+        String id = element.getPetImageId();
 
-        //TODO:descomentar
-//        fecha.setText(fecha.getText()+" "+element.getRequestDate());
-//        quiereAdoptar.setText(quiereAdoptar.getText()+" "+element.getPetName());
-//        contacto.setText(contacto.getText()+" "+element.getAdopterEmail());
-//        String id = element.getPetImageId();
-
-        String id = "2";
         baseUrlForImage = IP_EMULADOR + "/pet/image/" + id;
         new ImageUrlView(baseUrlForImage, imageView).connect();
         return rowView;
     }
+
+    public void setElements(ArrayList<AdoptionNotification> elements){
+        this.elements = elements;
+    }
+
+
 }

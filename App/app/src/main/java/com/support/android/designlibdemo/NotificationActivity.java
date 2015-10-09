@@ -38,6 +38,7 @@ public class NotificationActivity extends AppCompatActivity {
     private String dataServer;
     private ArrayList<AdoptionNotification> textAndImageArray;
     private List<AdoptionNotification> notifications = null;
+    private NotificationImageAndTextArrayAdapter adapter;
     protected String baseUrlForImage;
     private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
 
@@ -84,6 +85,8 @@ public class NotificationActivity extends AppCompatActivity {
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
         textAndImageArray = new ArrayList<AdoptionNotification>();
+        adapter = new NotificationImageAndTextArrayAdapter(this, R.layout.notification_image_and_text ,
+                null, (ArrayList<AdoptionNotification>) textAndImageArray);
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -94,31 +97,9 @@ public class NotificationActivity extends AppCompatActivity {
         });
 
         //TODO: buscar datos correctos para el request
-        String userId = "560c3c36e4b0f72a8aac466a";
+        String userId = "561735e244ae0289f12d2391";
         QueryResultTask qTask = new QueryResultTask(userId);
         qTask.execute((Void) null);
-
-        try {
-            if (dataServer != null) {
-                object = new JSONArray(dataServer);
-            }
-            if (object != null){
-                notifications = fromJSONArrayToListNotifications(object);
-            }
-        } catch (JSONException e) {
-            Log.e("Error receiving intent", e.getMessage());
-        }
-
-
-        if (notifications != null) {
-            for (int i = 0; i < notifications.size(); i++) {
-                textAndImageArray.add(notifications.get(i));
-            }
-        }
-
-        NotificationImageAndTextArrayAdapter adapter = new NotificationImageAndTextArrayAdapter(this, R.layout.notification_image_and_text ,
-                null, (ArrayList<AdoptionNotification>) textAndImageArray);
-        listView.setAdapter(adapter);
 
     }
 
@@ -143,6 +124,26 @@ public class NotificationActivity extends AppCompatActivity {
             if (success) {
                 if (response != null) {
                     dataServer = response.toString();
+                    try {
+                        if (dataServer != null) {
+                            object = new JSONArray(dataServer);
+                        }
+                        if (object != null){
+                            notifications = fromJSONArrayToListNotifications(object);
+                        }
+                    } catch (JSONException e) {
+                        Log.e("Error receiving intent", e.getMessage());
+                    }
+
+
+                    if (notifications != null) {
+                        for (int i = 0; i < notifications.size(); i++) {
+                            textAndImageArray.add(notifications.get(i));
+                        }
+                    }
+
+                    adapter.setElements(textAndImageArray);
+                    listView.setAdapter(adapter);
                 }
             }
         }
