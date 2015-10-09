@@ -231,9 +231,9 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
             }
 
             if (petGender.isChecked()) {
-                object.put("gender", petType.getTextOn());
+                object.put("gender", petGender.getTextOn());
             } else {
-                object.put("gender", petType.getTextOff());
+                object.put("gender", petGender.getTextOff());
             }
 
             object.put("breed", breed.getText());
