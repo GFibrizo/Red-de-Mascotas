@@ -35,7 +35,7 @@ public class LoginRequest {
         requestHandler.addToRequestQueue(request);
         String salt = null; // this line will block
         try {
-            salt = future.get(10, TimeUnit.SECONDS);
+            salt = future.get(20, TimeUnit.SECONDS);
         } catch (InterruptedException | ExecutionException  | TimeoutException e) {
             // exception handling
             throw e;

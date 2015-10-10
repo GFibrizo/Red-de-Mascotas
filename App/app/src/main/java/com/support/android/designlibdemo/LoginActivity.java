@@ -3,7 +3,9 @@ package com.support.android.designlibdemo;
 
 import android.content.Intent;
 
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v4.app.FragmentActivity;
 
 import android.os.Bundle;
@@ -55,8 +57,8 @@ public class LoginActivity extends FragmentActivity {
     private ShareDialog shareDialog;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
-    private ProfileTracker profileTracker;
-
+    //private ProfileTracker profileTracker;
+    SharedPreferences preferences = null;
     private FacebookCallback<LoginResult> callback;
 
     {
@@ -111,30 +113,25 @@ public class LoginActivity extends FragmentActivity {
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_login);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        JSONObject object = null;
+        try {
+            object = new JSONObject(preferences.getString("userData", "{}")); //getIntent().getStringExtra("user")
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error en datos de usuario", Toast.LENGTH_SHORT).show();
+        }
+        if (object.length() != 0) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            startActivity(intent);
+        }
 
         callbackManager = CallbackManager.Factory.create();
-
-
         accessTokenTracker= new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
-
             }
         };
-
-        profileTracker = new ProfileTracker() {
-            @Override
-            protected void onCurrentProfileChanged(Profile oldProfile, Profile newProfile) {
-//                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                startActivity(intent);
-                //showResult(newProfile.getFirstName(),newProfile.getLastName());
-            }
-        };
-
         accessTokenTracker.startTracking();
-        profileTracker.startTracking();
-
-
         final Button button = (Button) findViewById(R.id.btn_login);
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -146,6 +143,8 @@ public class LoginActivity extends FragmentActivity {
         List<String> permissions = Arrays.asList("email", "public_profile", "user_friends");
         loginButton.setReadPermissions(permissions);
         loginButton.registerCallback(callbackManager, callback);
+
+
     }
 
     @Override
@@ -159,7 +158,7 @@ public class LoginActivity extends FragmentActivity {
     public void onStop() {
         super.onStop();
         accessTokenTracker.stopTracking();
-        profileTracker.stopTracking();
+        //profileTracker.stopTracking();
     }
 
     @Override
@@ -204,7 +203,8 @@ public class LoginActivity extends FragmentActivity {
             if (success) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 if (response != null){
-                    intent.putExtra("user", response.toString());
+                    //intent.putExtra("user", response.toString());
+                    preferences.edit().putString("userData", response.toString()).commit();
                 }else{
                     Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
                 }
