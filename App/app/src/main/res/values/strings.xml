@@ -108,5 +108,7 @@
   <string name="dialogTitle">Alerta</string>
   <string name="confirmacionAdopcion">¿Desea adoptar esta mascota?</string>
   <string name="agree">Acepto</string>
+  <string name="dialogSi"> Sí </string>
+  <string name="dialogNo"> No </string>
 
 </resources>
