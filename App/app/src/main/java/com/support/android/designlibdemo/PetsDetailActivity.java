@@ -22,6 +22,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -30,6 +31,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -38,9 +40,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
+import android.widget.Toast;
+import com.support.android.designlibdemo.model.User;
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import utils.AdoptionRequest;
 
@@ -53,6 +58,8 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
     ViewPager viewPager;
     private Button button;
     private CardView contacto;
+    private SharedPreferences prefs;
+    private User loginUser;
     public static  String imagesItem[] = {};
     public static final String[] IMAGE_NAME = {"orange_kitten", "black_cat", "grey_cat",  "pardo_cat", "tiger_cat", "tiger_kitten"};
 
@@ -60,6 +67,18 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        try {
+            JSONObject object = new JSONObject(prefs.getString("userData", "{}"));
+            Log.e("USER DATA DETAIL", prefs.getString("userData", "{}"));
+            if (object.length() == 0) {
+                Toast.makeText(getApplicationContext(), "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            this.loginUser = new User(object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager());
 
@@ -102,7 +121,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     private void adoptar(){
         String petId = getIntent().getStringExtra("id");
-        String adopterId = "561735e244ae0289f12d2391"; //TODO: conectar con singleton que tenga mi id de sesion.SharedPreferences
+        String adopterId = loginUser.getId();
         QueryResultTask qTask = new QueryResultTask(petId, adopterId);
         qTask.execute((Void) null);
         contacto.setVisibility(View.VISIBLE);
