@@ -16,6 +16,8 @@
 
 package com.support.android.designlibdemo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -87,6 +89,18 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View button) {
+        //show dialog
+        AlertDialog dialogo = crearDialogo("Confirmar Adopción",
+                "Se le enviará una notificación al dueño de esta publicación, ¿Está seguro de que desea adoptarlo?");
+        dialogo.show();
+    }
+
+//    private void loadBackdrop() {
+//        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+//        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
+//    }
+
+    private void adoptar(){
         String petId = getIntent().getStringExtra("id");
         String adopterId = "561735e244ae0289f12d2391"; //TODO: conectar con singleton que tenga mi id de sesion.SharedPreferences
         QueryResultTask qTask = new QueryResultTask(petId, adopterId);
@@ -95,10 +109,37 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
         button.setVisibility(View.GONE);
     }
 
-//    private void loadBackdrop() {
-//        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-//        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
-//    }
+    private AlertDialog crearDialogo(String titulo, String mensaje) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(mensaje);
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                adoptar();
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton(R.string.dialogNo, listenerCancelar);
+        alertDialogBuilder.setNegativeButton(R.string.dialogSi, listenerOk);
+
+        return alertDialogBuilder.create();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

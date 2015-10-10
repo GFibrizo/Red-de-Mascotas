@@ -105,5 +105,7 @@
     <string name="back">Volver</string>
   <string name="firstName">Nombre</string>
   <string name="lastName">Apellido</string>
+  <string name="dialogSi"> Sí </string>
+  <string name="dialogNo"> No </string>
 
 </resources>
