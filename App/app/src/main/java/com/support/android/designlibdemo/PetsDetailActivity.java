@@ -38,8 +38,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+
+
 import org.json.JSONArray;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import utils.AdoptionRequest;
 
 
@@ -164,6 +167,9 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
     public void nextPage(View view) {
         //Aca llama a la actividad siguiente: donde adopta la mascota o se le da el mail.
         //TODO: dialog de pedido de confirmacion.
+        new SweetAlertDialog(this)
+                .setTitleText("Here's a message!")
+                .show();
     }
 
 

@@ -7,12 +7,17 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.StringRequest;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
+
+import static com.android.volley.Request.*;
 
 /**
  * Created by agu_k_000 on 27/09/2015.
@@ -20,61 +25,65 @@ import java.util.concurrent.TimeoutException;
 public class UserRegisterRequest {
 
     RequestHandler requestHandler;
-
     public UserRegisterRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
     }
 
 
     //Sincronico
-    private void createFacebookUser(JSONObject user) {
-
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
-                RequestHandler.getServerUrl() + buildRegisterFacebookUserPath(),
-                user,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // Manejo de la respuesta
-                        System.out.println(response);
-                    }
-                },
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Manejo de errores
-
-                    }
-                });
+    private JSONObject createFacebookUser(JSONObject user) throws InterruptedException, ExecutionException, TimeoutException{
+        String path =   RequestHandler.getServerUrl() + buildRegisterFacebookUserPath();
+        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+        JsonObjectRequest request = new JsonObjectRequest(Method.POST, path,  user, future, future);
         requestHandler.addToRequestQueue(request);
+        JSONObject response = null;
+        try {
+            response = future.get(10, TimeUnit.SECONDS);
+
+        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+            // exception handling
+            throw e;
+        }
+
+        return response;
+//        JsonObjectRequest request = new JsonObjectRequest(
+//                Method.POST,
+//                RequestHandler.getServerUrl() + buildRegisterFacebookUserPath(),
+//                user,
+//                new Response.Listener<JSONObject>() {
+//                    @Override
+//                    public void onResponse(JSONObject response) {
+//                        // Manejo de la respuesta
+//                        System.out.println(response);
+//                    }
+//                },
+//                new Response.ErrorListener() {
+//
+//                    @Override
+//                    public void onErrorResponse(VolleyError error) {
+//                        // Manejo de errores
+//
+//                    }
+//                });
+//        requestHandler.addToRequestQueue(request);
 
     }
 
-    private void createUser(JSONObject user) {
-
-        JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.POST,
-                RequestHandler.getServerUrl() + buildRegisterUserPath(),
-                user,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // Manejo de la respuesta
-                        System.out.println(response);
-                    }
-                },
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Manejo de errores
-
-                    }
-                });
+    private JSONObject createUser(JSONObject user) throws InterruptedException, ExecutionException, TimeoutException{
+        String path =   RequestHandler.getServerUrl() + buildRegisterUserPath();
+        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+        JsonObjectRequest request = new JsonObjectRequest(Method.POST, path,  user, future, future);
         requestHandler.addToRequestQueue(request);
+        JSONObject response = null;
+        try {
+            response = future.get(10, TimeUnit.SECONDS);
 
+        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+            // exception handling
+            throw e;
+        }
+
+        return response;
     }
 
     private String buildRegisterUserPath() {
@@ -118,8 +127,8 @@ public class UserRegisterRequest {
             facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
             if (facebookUser == null) {
                 //Lo creo y lo recupero
-                this.createFacebookUser(jsonRequest);
-                facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
+                facebookUser  = this.createFacebookUser(jsonRequest);
+                //facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
             }
         } catch (TimeoutException | ExecutionException | InterruptedException e) {
             throw e;
@@ -129,11 +138,18 @@ public class UserRegisterRequest {
 
 
     public JSONObject registerUser(JSONObject json) {
+        JSONObject response = null;
         if (json != null) {
             JSONObject jsonRequest = new JSONObject();
-            this.createUser(json);
+            try {
+                response = this.createUser(json);
+            } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+                // exception handling
+                return response;
+            }
+
         }
-        return null;
+        return response;
     }
 
 }

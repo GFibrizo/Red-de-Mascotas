@@ -105,5 +105,8 @@
     <string name="back">Volver</string>
   <string name="firstName">Nombre</string>
   <string name="lastName">Apellido</string>
+  <string name="dialogTitle">Alerta</string>
+  <string name="confirmacionAdopcion">¿Desea adoptar esta mascota?</string>
+  <string name="agree">Acepto</string>
 
 </resources>

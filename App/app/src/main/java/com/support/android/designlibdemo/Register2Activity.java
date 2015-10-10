@@ -1,7 +1,9 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -41,10 +43,14 @@ public class Register2Activity extends AppCompatActivity {
     private UserTask userTask  = null;
     private User user;
 
+    SharedPreferences preferences = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register2);
+
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         try {
             JSONObject object = new JSONObject(getIntent().getStringExtra("data"));
             this.user = new User();
@@ -195,6 +201,8 @@ public class Register2Activity extends AppCompatActivity {
         protected Boolean doInBackground(Void... params) {
             UserRegisterRequest request = new UserRegisterRequest(getApplicationContext());
             response = request.registerUser(user.toJson());
+            if (response == null)
+                return false;
 
             return true;
         }
@@ -203,7 +211,8 @@ public class Register2Activity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             if (success) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                intent.putExtra("user", user.toJson().toString());
+                //intent.putExtra("user", user.toJson().toString());
+                preferences.edit().putString("userData", response.toString()).commit();
                 Toast.makeText(getApplicationContext(), "Usuario creado", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }else{
