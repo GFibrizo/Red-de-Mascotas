@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="utf-8"?><!--
+<?xml version="1.0" encoding="utf-8"?>
+<!--
   ~ Copyright (C) 2015 The Android Open Source Project
   ~
   ~ Licensed under the Apache License, Version 2.0 (the "License");
@@ -14,143 +15,153 @@
   ~ limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.support.android.designlibdemo">
+    package="com.support.android.designlibdemo" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
-        android:theme="@style/Base.Theme.DesignDemo">
+        android:theme="@style/Base.Theme.DesignDemo" >
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/app_id" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+
+        <meta-data
+            android:name="com.google.android.maps.v2.API_KEY"
+            android:value="@string/map_api_key" />
 
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:parentActivityName=".LoginActivity">
+            android:parentActivityName=".LoginActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
-
         <activity
             android:name=".SearchInAdoptionActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".SearchInAdoptionActivity2"
-            android:parentActivityName=".SearchInAdoptionActivity">
+            android:parentActivityName=".SearchInAdoptionActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SearchInAdoptionActivity" />
         </activity>
-
         <activity
             android:name=".ResultListActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".PetsDetailActivity"
-            android:parentActivityName=".ResultListActivity">
+            android:parentActivityName=".ResultListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ResultListActivity" />
         </activity>
-
         <activity
             android:name=".PublishInAdoptionActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".PublishInAdoptionActivity2"
-            android:parentActivityName=".PublishInAdoptionActivity">
+            android:parentActivityName=".PublishInAdoptionActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PublishInAdoptionActivity" />
         </activity>
-
         <activity
             android:name=".PublishInAdoptionActivity3"
-            android:parentActivityName=".PublishInAdoptionActivity2">
+            android:parentActivityName=".PublishInAdoptionActivity2" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PublishInAdoptionActivity2" />
         </activity>
-
-        <activity android:name=".NotificationActivity"
-            android:parentActivityName=".MainActivity">
+        <activity
+            android:name=".NotificationActivity"
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".LostPetActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name=".FoundPetActivity"
-            android:parentActivityName=".MainActivity">
+            android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
-
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar">
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
-
         <activity
             android:name=".LoginUserActivity"
             android:label="@string/title_activity_login_user"
-            android:windowSoftInputMode="adjustResize|stateVisible">
+            android:windowSoftInputMode="adjustResize|stateVisible" >
         </activity>
-
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register">
+            android:label="@string/title_activity_register" >
+        </activity>
+        <activity
+            android:name=".Register2Activity"
+            android:label="@string/title_activity_register2" >
+        </activity>
+        <activity
+            android:name=".model.ReportLostPet"
+            android:label="@string/title_activity_report_lost_pet"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.support.android.designlibdemo.MainActivity" />
         </activity>
 
         <activity
-            android:name=".Register2Activity"
-            android:label="@string/title_activity_register2">
+            android:name=".data.maps.MapActivity"
+            android:label="@string/title_activity_map" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".model.ReportLostPet" />
         </activity>
-
     </application>
 
 </manifest>

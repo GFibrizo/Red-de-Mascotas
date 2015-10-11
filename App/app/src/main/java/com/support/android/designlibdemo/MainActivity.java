@@ -41,6 +41,7 @@ import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
 import com.support.android.designlibdemo.model.Address;
+import com.support.android.designlibdemo.model.ReportLostPet;
 import com.support.android.designlibdemo.model.User;
 
 import org.json.JSONException;
@@ -102,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
                 if (object.length() == 0) {
                     Toast.makeText(getApplicationContext(), "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
                     return;
-                 }
+                }
                 this.loginUser = new User(object);
                 userData.put("ownerId", loginUser.getId());
                 Log.e("ID",loginUser.getId());
@@ -180,7 +181,7 @@ public class MainActivity extends AppCompatActivity {
                                 intent = new Intent(getApplicationContext(), NotificationActivity.class);
                                 break;
                             case R.id.report_missing:
-                                intent = new Intent(getApplicationContext(), LostPetActivity.class);
+                                intent = new Intent(getApplicationContext(), ReportLostPet.class);
                                 break;
                             case R.id.report_found:
                                 intent = new Intent(getApplicationContext(), FoundPetActivity.class);
@@ -200,7 +201,7 @@ public class MainActivity extends AppCompatActivity {
                                 mDrawerLayout.closeDrawers();
                                 return true;
                         }
-                        menuItem.setChecked(true);
+                        //      menuItem.setChecked(true);
                         mDrawerLayout.closeDrawers();
                         intent.putExtra("data", userData.toString());
                         if (intent != null)

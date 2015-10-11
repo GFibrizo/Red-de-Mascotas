@@ -26,7 +26,7 @@
             app:layout_scrollFlags="scroll|enterAlways" />
 
         <RelativeLayout
-            android:id="@+id/search_subtitle_layout"
+            android:id="@+id/publish_subtitle_layout"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="#263238">
