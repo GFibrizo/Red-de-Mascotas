@@ -1,0 +1,543 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context="com.support.android.designlibdemo.model.ReportLostPet">
+
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/report_lost_pet_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar_report_lost_pet"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar_report_lost_pet"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+            app:layout_scrollFlags="scroll|enterAlways" />
+
+        <RelativeLayout
+            android:id="@+id/report_lost_pet_subtitle_layout"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="#263238">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/report_missing"
+                android:textSize="17dp"
+                android:gravity="bottom"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:paddingLeft="20dp"/>
+
+        </RelativeLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Fotos y videos"
+                        android:layout_margin="5dp"
+                        android:gravity="center_horizontal"/>
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cargar imagenes"
+                        android:id="@+id/load_missing_images_button"
+                        android:visibility="visible"/>
+
+                    <android.support.v4.view.ViewPager
+                        android:id="@+id/missing_pager"
+                        android:layout_width="wrap_content"
+                        android:layout_height="200dp"
+                        android:visibility="gone">
+                    </android.support.v4.view.ViewPager>
+
+
+                    <Button
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Cargar videos"
+                        android:visibility="visible"/>
+
+                    <VideoView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/video_report_missing"
+                        android:visibility="gone"/>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Datos generales"
+                        android:layout_margin="5dp"
+                        android:gravity="center_horizontal" />
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <EditText
+                            android:id="@+id/published_pet_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Nombre"
+                            android:inputType="textPersonName" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="0.3">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:text="Tipo de mascota"
+                                android:id="@+id/pet_type"
+                                android:layout_marginTop="10dp" />
+
+
+                            <Switch
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textOn="Perro"
+                                android:textOff="Gato"
+                                android:id="@+id/switch_pet_type"
+                                android:layout_marginTop="5dp" />
+
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="0.7">
+
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textAppearance="?android:attr/textAppearanceSmall"
+                                android:text="Género"
+                                android:id="@+id/pet_gender"
+                                android:layout_marginTop="10dp" />
+
+                            <Switch
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:textOn="Hembra"
+                                android:textOff="Macho"
+                                android:id="@+id/switch_pet_gender"
+                                android:layout_marginTop="5dp" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+
+                        <AutoCompleteTextView
+                            android:id="@+id/breed"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:hint="Raza"
+                            android:inputType="textAutoComplete" />
+
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="0.5">
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:orientation="horizontal" >
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:text="Edad:"
+                                    android:id="@+id/age_string"/>
+
+
+                                <TextView
+                                    android:id="@+id/age_label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="0 - 6 meses"
+                                    android:layout_toRightOf="@id/age_string"/>
+
+                            </RelativeLayout>
+
+                            <SeekBar
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/pet_age"
+                                android:layout_margin="5dp"
+                                android:layout_toRightOf="@id/age_label" />
+
+
+                        </LinearLayout>
+
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_weight="0.5">
+
+
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:orientation="horizontal">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_gravity="center_horizontal"
+                                    android:textAlignment="gravity"
+                                    android:layout_height="wrap_content"
+                                    android:id="@+id/size_string"
+                                    android:text="Tamaño:" />
+
+                                <TextView
+                                    android:id="@+id/size_label"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="match_parent"
+                                    android:layout_marginLeft="10dp"
+                                    android:text="Chico"
+                                    android:layout_toRightOf="@id/size_string"/>
+
+                            </RelativeLayout>
+
+                            <SeekBar
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="5dp"
+                                android:id="@+id/pet_size" />
+
+                        </LinearLayout>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin">
+
+                <LinearLayout
+                    android:id="@+id/layout_publish_2"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_margin="5dp"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Colores de la mascota"
+                        android:layout_margin="5dp"
+                        android:gravity="center_horizontal" />
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <Spinner
+                            android:id="@+id/spinner_hair_color1"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <Spinner
+                            android:id="@+id/spinner_hair_color2"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+                    <android.support.design.widget.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp">
+
+                        <Spinner
+                            android:id="@+id/spinner_eye_color"
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="#7e7e7e" />
+                    </android.support.design.widget.TextInputLayout>
+
+
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="10dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Salud y observaciones"
+                        android:layout_margin="5dp"
+                        android:gravity="center_horizontal" />
+
+
+
+                    <RelativeLayout
+                        android:id="@+id/layout_publish_23"
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Está castrada"
+                            android:id="@+id/is_castrated"
+                            android:layout_weight="0.5"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentRight="true"
+                            android:id="@+id/castrated_check"
+                            android:layout_weight="0.5"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:id="@+id/layout_publish_24"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:weightSum="1">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textAppearance="?android:attr/textAppearanceMedium"
+                            android:text="Necesita un hogar de tránsito"
+                            android:id="@+id/transit_home_label"
+                            android:layout_weight="0.5"/>
+
+                        <CheckBox
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/transit_home_check"
+                            android:layout_alignParentRight="true"
+                            android:layout_weight="0.5"/>
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center_horizontal"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="Toma medicación"
+                        android:id="@+id/medicine" />
+
+                    <RadioGroup
+                        android:id="@+id/radio_pet_type"
+                        android:orientation="horizontal"
+                        android:layout_marginTop="10dp"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" >
+
+                        <RadioButton
+                            android:id="@+id/radio_temporary_medicine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:textColor="#767676"
+                            android:textSize="16sp"
+                            android:gravity="center_horizontal"
+                            android:layout_weight="0.5"
+                            android:text="Temporal" />
+
+                        <RadioButton
+                            android:id="@+id/radio_chronic_medicine"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:textColor="#767676"
+                            android:layout_weight="0.5"
+                            android:gravity="center_horizontal"
+                            android:textSize="16sp"
+                            android:text="Crónica" />
+                    </RadioGroup>
+
+                    <EditText
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/pet_desc"
+                        android:hint="Descripción de la mascota"
+                        android:layout_marginTop="10dp"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/card_margin"
+            android:id="@+id/card_map_view" >
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/map_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Ultima vez visto"
+                    android:layout_margin="5dp"
+                    android:layout_centerHorizontal="true"
+                    android:textAppearance="?android:attr/textAppearanceSmall" />
+
+                <com.google.android.gms.maps.MapView
+                    xmlns:map="http://schemas.android.com/apk/res-auto"
+                    android:name="com.google.android.gms.maps.SupportMapFragment"
+                    android:id="@+id/map"
+                    android:layout_width="match_parent"
+                    android:layout_margin="10dp"
+                    android:layout_height="150dp"
+                    android:layout_below="@id/map_title"
+                    map:liteMode="true"
+                    android:clickable="true" />
+
+                <TextView
+                    android:id="@+id/description"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/map"
+                    android:text=""
+                    style="@style/MapCardDescription" />
+
+            </RelativeLayout>
+        </android.support.v7.widget.CardView>
+
+
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Listo"
+            android:background="#2196F3"
+            android:textColor="#ffffff"
+            android:textAllCaps="false"
+            android:id="@+id/button_publish_1"
+            android:onClick="nextPage"
+            android:layout_margin="10dp"
+            android:layout_gravity="right"
+            android:elevation="3dp"/>
+
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+</android.support.design.widget.CoordinatorLayout>
+
+</RelativeLayout>
