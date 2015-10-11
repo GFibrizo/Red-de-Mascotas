@@ -16,9 +16,13 @@
 
 package com.support.android.designlibdemo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -27,6 +31,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,10 +40,16 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+import com.support.android.designlibdemo.model.User;
+
 
 
 import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import utils.AdoptionRequest;
 
 
@@ -50,6 +61,8 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
     ViewPager viewPager;
     private Button button;
     private CardView contacto;
+    private SharedPreferences prefs;
+    private User loginUser;
     public static  String imagesItem[] = {};
     public static final String[] IMAGE_NAME = {"orange_kitten", "black_cat", "grey_cat",  "pardo_cat", "tiger_cat", "tiger_kitten"};
 
@@ -57,6 +70,18 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        try {
+            JSONObject object = new JSONObject(prefs.getString("userData", "{}"));
+            Log.e("USER DATA DETAIL", prefs.getString("userData", "{}"));
+            if (object.length() == 0) {
+                Toast.makeText(getApplicationContext(), "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            this.loginUser = new User(object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager());
 
@@ -86,17 +111,57 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     @Override
     public void onClick(View button) {
-        String petId = getIntent().getStringExtra("id");
-        QueryResultTask qTask = new QueryResultTask(petId);
-        qTask.execute((Void) null);
-        contacto.setVisibility(View.VISIBLE);
-        button.setVisibility(View.GONE);
+        //show dialog
+        AlertDialog dialogo = crearDialogo("Confirmar Adopción",
+                "Se le enviará una notificación al dueño de esta publicación, ¿Está seguro de que desea adoptarlo?");
+        dialogo.show();
     }
 
 //    private void loadBackdrop() {
 //        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
 //        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
 //    }
+
+    private void adoptar(){
+        String petId = getIntent().getStringExtra("id");
+        String adopterId = loginUser.getId();
+        QueryResultTask qTask = new QueryResultTask(petId, adopterId);
+        qTask.execute((Void) null);
+        contacto.setVisibility(View.VISIBLE);
+        button.setVisibility(View.GONE);
+    }
+
+    private AlertDialog crearDialogo(String titulo, String mensaje) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(mensaje);
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                adoptar();
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton(R.string.dialogNo, listenerCancelar);
+        alertDialogBuilder.setNegativeButton(R.string.dialogSi, listenerOk);
+
+        return alertDialogBuilder.create();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -162,6 +227,9 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
     public void nextPage(View view) {
         //Aca llama a la actividad siguiente: donde adopta la mascota o se le da el mail.
         //TODO: dialog de pedido de confirmacion.
+        new SweetAlertDialog(this)
+                .setTitleText("Here's a message!")
+                .show();
     }
 
 
@@ -209,16 +277,18 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
         String petId;
+        String adopterId;
         JSONArray response;
 
-        QueryResultTask(String petId) {
+        QueryResultTask(String petId, String adopterId) {
             this.petId = petId;
+            this.adopterId = adopterId;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             AdoptionRequest request = new AdoptionRequest(getApplicationContext());
-            response = request.send(petId);
+            request.send(petId, adopterId);
             return true;
         }
 

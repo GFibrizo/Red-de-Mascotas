@@ -22,9 +22,9 @@
     <string name="logout_facebook">Desloguearse Facebook</string>
     <string name="new_account">Nueva cuenta</string>
     <string name="register_next">Siguiente</string>
-    <string name="quiereAdoptar">Quieren adoptar a Coco </string>
-    <string name="contactoLabel">Contacto: roberto.gomez@gmail.com </string>
-    <string name="fechaLabel">Fecha: 30/09/15 </string>
+    <string name="quiereAdoptar">Quieren adoptar a </string>
+    <string name="contactoLabel">Contacto: </string>
+    <string name="fechaLabel">Fecha: </string>
     <string name="register_end">Finalizar</string>
     <string name="address">Calle</string>
     <string name="telephone">Teléfono</string>

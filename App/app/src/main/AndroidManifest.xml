@@ -24,7 +24,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
         android:theme="@style/Base.Theme.DesignDemo" >
@@ -45,18 +45,19 @@
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
             android:name=".MainActivity"
-            android:parentActivityName=".LoginActivity" >
+            android:parentActivityName=".LoginActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".LoginActivity" />
         </activity>
+
         <activity
             android:name=".SearchInAdoptionActivity"
             android:parentActivityName=".MainActivity" >
@@ -64,6 +65,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <activity
             android:name=".SearchInAdoptionActivity2"
             android:parentActivityName=".SearchInAdoptionActivity" >
@@ -71,6 +73,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".SearchInAdoptionActivity" />
         </activity>
+
         <activity
             android:name=".ResultListActivity"
             android:parentActivityName=".MainActivity" >
@@ -78,6 +81,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <activity
             android:name=".PetsDetailActivity"
             android:parentActivityName=".ResultListActivity" >
@@ -85,6 +89,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ResultListActivity" />
         </activity>
+
         <activity
             android:name=".PublishInAdoptionActivity"
             android:parentActivityName=".MainActivity" >
@@ -92,6 +97,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <activity
             android:name=".PublishInAdoptionActivity2"
             android:parentActivityName=".PublishInAdoptionActivity" >
@@ -99,6 +105,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PublishInAdoptionActivity" />
         </activity>
+
         <activity
             android:name=".PublishInAdoptionActivity3"
             android:parentActivityName=".PublishInAdoptionActivity2" >
@@ -106,6 +113,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PublishInAdoptionActivity2" />
         </activity>
+        
         <activity
             android:name=".NotificationActivity"
             android:parentActivityName=".MainActivity" >
@@ -113,6 +121,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <activity
             android:name=".LostPetActivity"
             android:parentActivityName=".MainActivity" >
@@ -120,6 +129,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <activity
             android:name=".FoundPetActivity"
             android:parentActivityName=".MainActivity" >
@@ -127,24 +137,40 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".MainActivity" />
         </activity>
+
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" >
         </activity>
+
         <activity
             android:name=".LoginUserActivity"
+            android:parentActivityName=".LoginActivity"
             android:label="@string/title_activity_login_user"
-            android:windowSoftInputMode="adjustResize|stateVisible" >
+            android:windowSoftInputMode="adjustResize|stateVisible">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />
         </activity>
+
         <activity
             android:name=".RegisterActivity"
-            android:label="@string/title_activity_register" >
+            android:parentActivityName=".LoginActivity"
+            android:label="@string/title_activity_register">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginActivity" />
         </activity>
+
         <activity
             android:name=".Register2Activity"
-            android:label="@string/title_activity_register2" >
+            android:parentActivityName=".RegisterActivity"
+            android:label="@string/title_activity_register2">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RegisterActivity" />
         </activity>
         <activity
             android:name=".model.ReportLostPet"

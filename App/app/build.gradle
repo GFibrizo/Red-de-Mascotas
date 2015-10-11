@@ -34,6 +34,7 @@ android {
 
 repositories {
     jcenter()
+    mavenCentral()
 }
 
 dependencies {
@@ -55,6 +56,7 @@ dependencies {
     compile 'com.hkm.loyalslider:library:1.3.2@aar'
     compile 'com.github.florent37:materialtextfield:1.0.1@aar'
     compile 'com.nineoldandroids:library:2.4.0'
+    compile 'cn.pedant.sweetalert:library:1.3'
     compile files('./libs/httpcore-4.3.1.jar')
     compile files('./libs/httpmime-4.3.1.jar')
     compile 'com.marvinlabs:android-slideshow-widget:0.4.+@aar'
