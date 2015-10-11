@@ -63,7 +63,7 @@ public class ResultImageAndTextArrayAdapter extends ArrayAdapter<TextAndImage> {
         ubicacion.setText(ubicacion.getText()+" "+element.getBarrio());
         String id;
 //        String id = element.getId(); //TODO: ojo que no debe ser el mismo id de imagen
-        String images[] = element.getImages().split(" ");
+        String images[] = element.getImages().split(", ");
         if (images.length != 0) {
             id = images[0];
         }else{
