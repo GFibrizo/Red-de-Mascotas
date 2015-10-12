@@ -60,15 +60,17 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        objName = getIntent().getStringExtra("objectName");
-        if (objName != null) {
-            Log.e("Object received", objName.toString());
+        String strObj = getIntent().getStringExtra("missing");
+        if (strObj != null) {
             try {
-                object = new JSONObject(getIntent().getStringExtra(objName));
+                object = new JSONObject(getIntent().getStringExtra("missing"));
                 Log.e("Object received", object.toString());
             } catch (JSONException e) {
                 Log.e("Error receiving intent", e.getMessage());
+                object = new JSONObject();
             }
+        } else {
+            object = new JSONObject();
         }
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_map);
@@ -146,8 +148,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         } catch (JSONException e) {
             Log.e("Error put latlng", e.getMessage());
         }
-        intent.putExtra("objectName", objName);
-        intent.putExtra(objName, object.toString());
+        intent.putExtra("missing", object.toString());
     }
 
     /**********************************************************************************************/

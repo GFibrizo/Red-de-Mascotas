@@ -94,17 +94,17 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_lost_pet);
 
-        objName = getIntent().getStringExtra("objectName");
-        if (objName != null) {
+        String strObj = getIntent().getStringExtra("missing");
+        if (strObj != null) {
             try {
-                object = new JSONObject(getIntent().getStringExtra(objName));
+                object = new JSONObject(strObj);
                 Log.e("Object received", object.toString());
             } catch (JSONException e) {
                 Log.e("Error receiving intent", e.getMessage());
+                object = new JSONObject();
             }
         } else {
             object = new JSONObject();
-            Log.e("NULL RECEIVED", "NULL HAS BEEN RECEIVED");
         }
 
         initializeImagesData();
@@ -240,8 +240,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
 
     public void showMapDetails() {
         Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-        intent.putExtra("objectName", "missing_data");
-        intent.putExtra("missing_data", object.toString());
+        intent.putExtra("missing", object.toString());
         startActivity(intent);
     }
 
