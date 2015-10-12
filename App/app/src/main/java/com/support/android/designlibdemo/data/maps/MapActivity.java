@@ -17,13 +17,16 @@ package com.support.android.designlibdemo.data.maps;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.NavUtils;
 import android.support.v4.app.TaskStackBuilder;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -36,16 +39,37 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.support.android.designlibdemo.R;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MapActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleMap.OnMapClickListener{
 
     private double lat = -34.603620;
     private double lng = -58.381598;
     GoogleMap googleMap = null;
+    SharedPreferences preferences = null;
+    JSONObject object = null;
+    String objName = null;
+    LatLng myLatLng = null;
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
+
+        objName = getIntent().getStringExtra("objectName");
+        if (objName != null) {
+            Log.e("Object received", objName.toString());
+            try {
+                object = new JSONObject(getIntent().getStringExtra(objName));
+                Log.e("Object received", object.toString());
+            } catch (JSONException e) {
+                Log.e("Error receiving intent", e.getMessage());
+            }
+        }
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_map);
         setSupportActionBar(toolbar);
@@ -60,11 +84,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         mapFragment.getMapAsync(this);
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     @Override
     protected void onResume() {
         super.onResume();
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,13 +101,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return true;
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         Intent upIntent = null;
         switch (item.getItemId()) {
             case android.R.id.home:
                 upIntent = NavUtils.getParentActivityIntent(this);
-
                 if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
                     TaskStackBuilder.create(this)
                             .addNextIntentWithParentStack(upIntent)
@@ -89,7 +120,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 break;
             case 0:
                 upIntent = NavUtils.getParentActivityIntent(this);
-
+                setCoordsToReturn(upIntent);
                 if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
                     TaskStackBuilder.create(this)
                             .addNextIntentWithParentStack(upIntent)
@@ -102,6 +133,26 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         return super.onOptionsItemSelected(item);
     }
 
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private void setCoordsToReturn(Intent intent) {
+        String lat = Double.toString(myLatLng.latitude);
+        String lng = Double.toString(myLatLng.longitude);
+        try {
+            object.put("latitude", lat);
+            object.put("longitude", lng);
+        } catch (JSONException e) {
+            Log.e("Error put latlng", e.getMessage());
+        }
+        intent.putExtra("objectName", objName);
+        intent.putExtra(objName, object.toString());
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     @Override
     public void onMapReady(GoogleMap map) {
         //googleMap = map;
@@ -113,9 +164,13 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         googleMap.setOnMapClickListener(this);
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     @Override
     public void onMapClick(LatLng latLng) {
         googleMap.clear();
+        myLatLng = latLng;
         googleMap.addMarker(new MarkerOptions().position(latLng));
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, googleMap.getCameraPosition().zoom);
         googleMap.animateCamera(cameraUpdate);

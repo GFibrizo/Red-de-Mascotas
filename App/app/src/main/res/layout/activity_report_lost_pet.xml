@@ -157,7 +157,7 @@
                         android:layout_height="wrap_content">
 
                         <EditText
-                            android:id="@+id/published_pet_name"
+                            android:id="@+id/missing_pet_name"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Nombre"
@@ -192,7 +192,7 @@
                                 android:layout_height="wrap_content"
                                 android:textOn="Perro"
                                 android:textOff="Gato"
-                                android:id="@+id/switch_pet_type"
+                                android:id="@+id/switch_pet_type_missing"
                                 android:layout_marginTop="5dp" />
 
                         </LinearLayout>
@@ -218,7 +218,7 @@
                                 android:layout_height="wrap_content"
                                 android:textOn="Hembra"
                                 android:textOff="Macho"
-                                android:id="@+id/switch_pet_gender"
+                                android:id="@+id/switch_pet_gender_missing"
                                 android:layout_marginTop="5dp" />
 
                         </LinearLayout>
@@ -229,7 +229,7 @@
                         android:layout_height="wrap_content">
 
                         <AutoCompleteTextView
-                            android:id="@+id/breed"
+                            android:id="@+id/missing_pet_breed"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:hint="Raza"
@@ -261,25 +261,25 @@
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="center_horizontal"
                                     android:text="Edad:"
-                                    android:id="@+id/age_string"/>
+                                    android:id="@+id/age_string_missing"/>
 
 
                                 <TextView
-                                    android:id="@+id/age_label"
+                                    android:id="@+id/age_label_missing"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_marginLeft="10dp"
                                     android:text="0 - 6 meses"
-                                    android:layout_toRightOf="@id/age_string"/>
+                                    android:layout_toRightOf="@id/age_string_missing"/>
 
                             </RelativeLayout>
 
                             <SeekBar
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/pet_age"
+                                android:id="@+id/pet_age_missing"
                                 android:layout_margin="5dp"
-                                android:layout_toRightOf="@id/age_label" />
+                                android:layout_toRightOf="@id/age_label_missing" />
 
 
                         </LinearLayout>
@@ -303,16 +303,16 @@
                                     android:layout_gravity="center_horizontal"
                                     android:textAlignment="gravity"
                                     android:layout_height="wrap_content"
-                                    android:id="@+id/size_string"
+                                    android:id="@+id/size_string_missing"
                                     android:text="Tamaño:" />
 
                                 <TextView
-                                    android:id="@+id/size_label"
+                                    android:id="@+id/size_label_missing"
                                     android:layout_width="wrap_content"
                                     android:layout_height="match_parent"
                                     android:layout_marginLeft="10dp"
                                     android:text="Chico"
-                                    android:layout_toRightOf="@id/size_string"/>
+                                    android:layout_toRightOf="@id/size_string_missing"/>
 
                             </RelativeLayout>
 
@@ -320,7 +320,7 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:layout_margin="5dp"
-                                android:id="@+id/pet_size" />
+                                android:id="@+id/pet_size_missing" />
 
                         </LinearLayout>
                     </LinearLayout>
@@ -335,7 +335,7 @@
                 android:layout_margin="@dimen/card_margin">
 
                 <LinearLayout
-                    android:id="@+id/layout_publish_2"
+                    android:id="@+id/layout_missing_2"
                     android:orientation="vertical"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -357,7 +357,7 @@
                         android:layout_marginTop="10dp">
 
                         <Spinner
-                            android:id="@+id/spinner_hair_color1"
+                            android:id="@+id/spinner_hair_color1_missing"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content" />
                     </android.support.design.widget.TextInputLayout>
@@ -368,7 +368,7 @@
                         android:layout_marginTop="10dp">
 
                         <Spinner
-                            android:id="@+id/spinner_hair_color2"
+                            android:id="@+id/spinner_hair_color2_missing"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content" />
                     </android.support.design.widget.TextInputLayout>
@@ -380,7 +380,7 @@
                         android:layout_marginTop="10dp">
 
                         <Spinner
-                            android:id="@+id/spinner_eye_color"
+                            android:id="@+id/spinner_eye_color_missing"
                             android:layout_width="fill_parent"
                             android:layout_height="wrap_content"
                             android:textColor="#7e7e7e" />
@@ -412,7 +412,7 @@
 
 
                     <RelativeLayout
-                        android:id="@+id/layout_publish_23"
+                        android:id="@+id/layout_missing_23"
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -424,19 +424,19 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Está castrada"
-                            android:id="@+id/is_castrated"
+                            android:id="@+id/is_castrated_missing"
                             android:layout_weight="0.5"/>
 
                         <CheckBox
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
-                            android:id="@+id/castrated_check"
+                            android:id="@+id/castrated_check_missing"
                             android:layout_weight="0.5"/>
                     </RelativeLayout>
 
                     <RelativeLayout
-                        android:id="@+id/layout_publish_24"
+                        android:id="@+id/layout_missing_24"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
@@ -447,7 +447,7 @@
                             android:layout_height="wrap_content"
                             android:textAppearance="?android:attr/textAppearanceMedium"
                             android:text="Necesita un hogar de tránsito"
-                            android:id="@+id/transit_home_label"
+                            android:id="@+id/transit_home_missing_label"
                             android:layout_weight="0.5"/>
 
                         <CheckBox
@@ -465,17 +465,17 @@
                         android:gravity="center_horizontal"
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="Toma medicación"
-                        android:id="@+id/medicine" />
+                        android:id="@+id/medicine_missing" />
 
                     <RadioGroup
-                        android:id="@+id/radio_pet_type"
+                        android:id="@+id/radio_pet_type_missing"
                         android:orientation="horizontal"
                         android:layout_marginTop="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content" >
 
                         <RadioButton
-                            android:id="@+id/radio_temporary_medicine"
+                            android:id="@+id/radio_temporary_medicine_missing"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:textColor="#767676"
@@ -485,7 +485,7 @@
                             android:text="Temporal" />
 
                         <RadioButton
-                            android:id="@+id/radio_chronic_medicine"
+                            android:id="@+id/radio_chronic_medicine_missing"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginLeft="5dp"
@@ -499,12 +499,65 @@
                     <EditText
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:id="@+id/pet_desc"
+                        android:id="@+id/pet_desc_missing"
                         android:hint="Descripción de la mascota"
                         android:layout_marginTop="10dp"/>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
+
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/card_margin">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="5dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ultima vez visto "
+                    android:layout_margin="5dp"
+                    android:gravity="center_horizontal"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date_missing"
+                    android:textSize="16dp"
+                    android:autoLink="web"
+                    android:visibility="gone"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/time_missing"
+                    android:textSize="16dp"
+                    android:autoLink="web"
+                    android:visibility="gone"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_weight="1"/>
+
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cargar fecha y hora"
+                    android:id="@+id/date_missing_button"
+                    android:textColor="@android:color/white"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+
+
 
 
         <android.support.v7.widget.CardView
@@ -558,7 +611,7 @@
             android:textColor="#ffffff"
             android:textAllCaps="false"
             android:id="@+id/button_publish_1"
-            android:onClick="nextPage"
+            android:onClick="finish"
             android:layout_margin="10dp"
             android:layout_gravity="right"
             android:elevation="3dp"/>
