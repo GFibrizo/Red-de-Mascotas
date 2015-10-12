@@ -41,7 +41,6 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.support.android.designlibdemo.data.maps.MapActivity;
-import com.support.android.designlibdemo.model.User;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -64,7 +63,6 @@ import java.util.concurrent.TimeoutException;
 import utils.FoundPetRequest;
 import utils.ImageRequest;
 import utils.SpinnerArrayAdapter;
-import utils.UserRegisterRequest;
 
 import static utils.Constants.CATS;
 import static utils.Constants.DOGS;
@@ -95,6 +93,77 @@ public class FoundPetActivity extends AppCompatActivity implements
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_found_pet);
 
+        activity = this;
+        initObject();
+        initSpinners();
+        initUserData();
+        initToolBar();
+        initActionBar();
+        initImage();
+        initBreed();
+        initType();
+        initSize();
+        // Show a timepicker when the timeButton is clicked
+        initDateTime();
+        // Mapa
+        initMap();
+    }
+
+    private void initObject() {
+        String strObj = getIntent().getStringExtra("missing");
+        if (strObj != null) {
+            try {
+                object = new JSONObject();
+                object.put("foundLocation",new JSONObject(strObj));
+                Log.e("Object received", object.toString());
+            } catch (JSONException e) {
+                Log.e("Error receiving intent", e.getMessage());
+                object = new JSONObject();
+            }
+        } else {
+            object = new JSONObject();
+        }
+    }
+
+    private void initToolBar() {
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
+        setSupportActionBar(toolbar);
+    }
+
+    private void initUserData() {
+        try {
+            userData = new JSONObject(getIntent().getStringExtra("data"));
+        } catch (JSONException e) {
+            Log.e("Error receiving intent", e.getMessage());
+        }
+    }
+
+    private void initActionBar() {
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null)
+            actionBar.setDisplayHomeAsUpEnabled(true);
+    }
+
+    private void initImage() {
+        ImageView image = (ImageView) findViewById(R.id.load_image);
+        image.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View arg0) {
+                takePictureFromGallery();
+               /* Intent intent = new Intent(Intent.ACTION_PICK,
+                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(intent, 0);*/
+            }
+        });
+    }
+
+    private void initBreed() {
+        AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
+        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
+    }
+
+    private void initSpinners() {
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
         ArrayAdapter<CharSequence> hairColor1Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, "Color principal");
         hairColor1Spinner.setAdapter(hairColor1Adapter);
@@ -109,36 +178,9 @@ public class FoundPetActivity extends AppCompatActivity implements
         ArrayAdapter<CharSequence> eyeColorAdapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.EYE_COLORS, "Color de ojos");
         eyeColorSpinner.setAdapter(eyeColorAdapter);
         eyeColorSpinner.setSelection(eyeColorAdapter.getCount());
+    }
 
-        try {
-            userData = new JSONObject(getIntent().getStringExtra("data"));
-        } catch (JSONException e) {
-            Log.e("Error receiving intent", e.getMessage());
-        }
-
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
-        setSupportActionBar(toolbar);
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null)
-            actionBar.setDisplayHomeAsUpEnabled(true);
-
-        ImageView image = (ImageView) findViewById(R.id.load_image);
-        image.setOnClickListener(new Button.OnClickListener() {
-
-            @Override
-            public void onClick(View arg0) {
-                takePictureFromGallery();
-               /* Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(intent, 0);*/
-            }
-        });
-
-        activity = this;
-        AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
-        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
-
+    private void initType() {
         Switch type = (Switch) findViewById(R.id.switch_pet_type);
         type.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -155,8 +197,9 @@ public class FoundPetActivity extends AppCompatActivity implements
                 breed.setAdapter(adapter);
             }
         });
+    }
 
-
+    private void initSize() {
         SeekBar size = (SeekBar) findViewById(R.id.pet_size);
 
         size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -182,11 +225,12 @@ public class FoundPetActivity extends AppCompatActivity implements
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+    }
+
+    private void initDateTime() {
         timeTextView = (EditText) findViewById(R.id.horaEncuentro);
         dateTextView = (EditText) findViewById(R.id.fechaEncuentro);
-//        Button timeButton = (Button) findViewById(R.id.time_button);
-//        Button dateButton = (Button) findViewById(R.id.date_button);
-        // Show a timepicker when the timeButton is clicked
+
         timeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -206,6 +250,7 @@ public class FoundPetActivity extends AppCompatActivity implements
                 tpd.show(getFragmentManager(), "Timepickerdialog");
             }
         });
+
         dateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -220,8 +265,9 @@ public class FoundPetActivity extends AppCompatActivity implements
                 dpd.show(getFragmentManager(), "Datepickerdialog");
             }
         });
+    }
 
-        // Mapa
+    private void initMap() {
         mapView = (MapView) findViewById(R.id.map);
         mapView.onCreate(null);
         mapView.getMapAsync(new OnMapReadyCallback() {
@@ -242,9 +288,6 @@ public class FoundPetActivity extends AppCompatActivity implements
                 showMapDetails();
             }
         });
-
-
-
     }
 
 /**********************************************************************************************/
@@ -252,6 +295,7 @@ public class FoundPetActivity extends AppCompatActivity implements
 
     public void showMapDetails() {
         Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        intent.putExtra("missing", object.toString());
         startActivity(intent);
     }
 
@@ -325,13 +369,13 @@ public class FoundPetActivity extends AppCompatActivity implements
         SharedPreferences preferences;
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         JSONObject userData;
-        JSONObject foundLocation = new JSONObject();
-        try {
-            foundLocation.put("latitude", "-34.630661");
-            foundLocation.put("longitude","-58.413056");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+//        JSONObject foundLocation = new JSONObject();
+//        try {
+//            foundLocation.put("latitude", "-34.630661");
+//            foundLocation.put("longitude","-58.413056");
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+//        }
         String finderId = "";
 
         try {
@@ -341,7 +385,7 @@ public class FoundPetActivity extends AppCompatActivity implements
             Toast.makeText(getApplicationContext(), "Error en datos de usuario", Toast.LENGTH_SHORT).show();
         }
 
-        object = new JSONObject();
+
 
         // Reset errors.
         petTypeLabel.setError(null);
@@ -429,7 +473,7 @@ public class FoundPetActivity extends AppCompatActivity implements
                 object.put("foundHour", timeTextView.getText());
                 object.put("foundDate", dateTextView.getText());
                 object.put("size", size.getText());
-                object.put("foundLocation",foundLocation);
+//                object.put("foundLocation",foundLocation);
                 object.put("description",description.getText());
 
 
