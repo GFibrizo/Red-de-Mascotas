@@ -2,7 +2,6 @@ package com.support.android.designlibdemo.model;
 
 import android.content.ClipData;
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -15,7 +14,6 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,10 +23,11 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
-
+import android.widget.VideoView;
 
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -37,14 +36,8 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
-import com.marvinlabs.widget.slideshow.SlideShowView;
-import com.marvinlabs.widget.slideshow.adapter.RemoteBitmapAdapter;
-import com.marvinlabs.widget.slideshow.adapter.ResourceBitmapAdapter;
-import com.support.android.designlibdemo.PetsDetailActivity;
 import com.support.android.designlibdemo.R;
 import com.support.android.designlibdemo.data.maps.MapActivity;
-
-import org.json.JSONArray;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -52,12 +45,9 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import java.util.ListIterator;
 import java.util.Vector;
 
-import utils.AdoptionRequest;
 import utils.ImageRequest;
 import utils.SpinnerArrayAdapter;
 
@@ -70,7 +60,6 @@ public class ReportLostPet extends AppCompatActivity {
     private static List<String> images = new ArrayList<>();
     private static List<String> imagesPaths = new ArrayList<>();
     private static Vector<Bitmap> bitmapList = new Vector<>();
-    //SliderLayout sliderShow = null;
     static int NUM_ITEMS = 5;
     ViewPager viewPager = null;
     ImageFragmentPagerAdapter imageFragmentPagerAdapter = null;
@@ -83,7 +72,7 @@ public class ReportLostPet extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_lost_pet);
 
-
+        initializeImagesData();
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
         ArrayAdapter<CharSequence> hairColor1Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, "Color de pelaje principal");
         hairColor1Spinner.setAdapter(hairColor1Adapter);
@@ -136,14 +125,34 @@ public class ReportLostPet extends AppCompatActivity {
             @Override
             public void onClick(View arg0) {
                 takePictureFromGallery();
-                loadImagesButton.setVisibility(View.INVISIBLE);
+                loadImagesButton.setVisibility(View.GONE);
+
             }
         });
 
+        // Carga de videos
+        final Button loadVideosButton = (Button) findViewById(R.id.load_missing_video_button);
+        loadImagesButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                loadFromYoutube();
+                loadVideosButton.setVisibility(View.INVISIBLE);
+            }
+        });
 
     }
 
     /**********************************************************************************************/
+
+
+    private void initializeImagesData() {
+        images = new ArrayList<>();
+        imagesPaths = new ArrayList<>();
+        bitmapList = new Vector<>();
+    }
+
+    /**********************************************************************************************/
+
 
     private void takePictureFromGallery() {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
@@ -151,6 +160,13 @@ public class ReportLostPet extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Elije una imagen"), 1);
     }
+
+    private void loadFromYoutube() {
+        TextView videoLayout = (TextView) findViewById(R.id.video_report_missing);
+        videoLayout.setVisibility(View.VISIBLE);
+
+    }
+
 
     /**********************************************************************************************/
 
@@ -230,12 +246,6 @@ public class ReportLostPet extends AppCompatActivity {
 
 
     private void addImagesToSlider() {
-        /*TextSliderView textSliderView = new TextSliderView(this);
-        for (String path : imagesPaths) {
-            textSliderView
-                    .image(path);
-        }
-        sliderShow.addSlider(textSliderView);*/
         imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager());
         viewPager = (ViewPager) findViewById(R.id.missing_pager);
         viewPager.setAdapter(imageFragmentPagerAdapter);
@@ -247,26 +257,21 @@ public class ReportLostPet extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        //sliderShow = (SliderLayout) findViewById(R.id.images_missing);
-
         if (resultCode == RESULT_OK) {
             ClipData clipData = data.getClipData();
             if (clipData == null) {
                 Uri uri = data.getData();
                 Bitmap bitmap = loadImage(uri);
-                //view.setImageBitmap(bitmap);
                 sendImage(bitmap, 0);
             } else {
                 for (int i = 0; i < clipData.getItemCount(); i++) {
                     Bitmap bitmap = loadImage(clipData.getItemAt(i).getUri());
                     Log.e("Uri", clipData.getItemAt(i).getUri().getPath());
-                    //if (i == 0) view.setImageBitmap(bitmap);
                     sendImage(bitmap, i);
                 }
             }
             Toast.makeText(getApplicationContext(), "Imágenes cargadas", Toast.LENGTH_SHORT).show();
             addImagesToSlider();
-            //sliderShow.setVisibility(View.VISIBLE);
         }
     }
 
@@ -310,7 +315,6 @@ public class ReportLostPet extends AppCompatActivity {
 
     @Override
     protected void onStop() {
-       // sliderShow.stopAutoCycle();
         super.onStop();
     }
 
@@ -344,9 +348,6 @@ public class ReportLostPet extends AppCompatActivity {
 
             Bundle bundle = getArguments();
             int position = bundle.getInt("position");
-            //String imageFileName = IMAGE_NAME[position];
-            //int imgResId = getResources().getIdentifier(imageFileName, "drawable", "com.support.android.designlibdemo");
-            //imageView.setImageResource(imgResId);
             imageView.setImageBitmap(bitmapList.elementAt(position));
             return swipeView;
 
@@ -360,9 +361,5 @@ public class ReportLostPet extends AppCompatActivity {
             return swipeFragment;
         }
     }
-
-
-
-
 
 }
