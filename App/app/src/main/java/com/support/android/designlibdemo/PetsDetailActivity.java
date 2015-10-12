@@ -16,10 +16,13 @@
 
 package com.support.android.designlibdemo;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -107,7 +110,11 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
 //        loadBackdrop();
         cargarResultados();
-
+        //TODO: sacar la exampleNotification de acá
+        ExampleNotification notification = new ExampleNotification(getResources(),
+                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE),
+                                this, "esta es una notificacion");
+        notification.sendNotification();
     }
 
     @Override

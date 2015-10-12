@@ -53,10 +53,11 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
         fecha.setText(fecha.getText()+" "+(element.getRequestDate().split(" "))[0]);
         quiereAdoptar.setText(quiereAdoptar.getText()+" "+element.getPetName());
         contacto.setText(contacto.getText()+" "+element.getAdopterEmail());
-        String id = element.getPetImageId();
-
-        baseUrlForImage = IP_EMULADOR + "/pet/image/" + id;
-        new ImageUrlView(baseUrlForImage, imageView).connect();
+        if (!element.getPetImageId().equals("") && !element.getPetImageId().equals("[]")) {
+            String id = (element.getPetImageId().replace("[", "").replace("]", "").split(", "))[0];
+            baseUrlForImage = IP_EMULADOR + "/pet/image/" + id;
+            new ImageUrlView(baseUrlForImage, imageView).connect();
+        }
         return rowView;
     }
 

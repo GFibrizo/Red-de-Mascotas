@@ -1,8 +1,10 @@
 package com.support.android.designlibdemo;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
 import com.support.android.designlibdemo.model.Address;
@@ -20,6 +23,7 @@ import com.support.android.designlibdemo.model.AdoptionNotification;
 import com.support.android.designlibdemo.model.PetAdoption;
 import com.support.android.designlibdemo.model.SearchForAdoptionFilters;
 import com.support.android.designlibdemo.model.TextAndImagePetContainer;
+import com.support.android.designlibdemo.model.User;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -39,6 +43,8 @@ public class NotificationActivity extends AppCompatActivity {
     private ArrayList<AdoptionNotification> textAndImageArray;
     private List<AdoptionNotification> notifications = null;
     private NotificationImageAndTextArrayAdapter adapter;
+    private SharedPreferences prefs;
+    private User loginUser;
     protected String baseUrlForImage;
     private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
 
@@ -54,6 +60,19 @@ public class NotificationActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
+
+        prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        try {
+            JSONObject object = new JSONObject(prefs.getString("userData", "{}"));
+            Log.e("USER DATA DETAIL", prefs.getString("userData", "{}"));
+            if (object.length() == 0) {
+                Toast.makeText(getApplicationContext(), "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            this.loginUser = new User(object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         cargarResultados();
     }
@@ -96,8 +115,7 @@ public class NotificationActivity extends AppCompatActivity {
 
         });
 
-        //TODO: buscar datos correctos para el request
-        String userId = "561735e244ae0289f12d2391";
+        String userId = loginUser.getId();
         QueryResultTask qTask = new QueryResultTask(userId);
         qTask.execute((Void) null);
 

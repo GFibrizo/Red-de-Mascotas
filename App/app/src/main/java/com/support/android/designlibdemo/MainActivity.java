@@ -193,9 +193,7 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.about:
                                 break;
                             case R.id.logout:
-                                LoginManager.getInstance().logOut();
-                                finish();
-                                System.exit(0);
+                                closeApp();
                                 break;
                             default:
                                 mDrawerLayout.closeDrawers();
@@ -210,6 +208,14 @@ public class MainActivity extends AppCompatActivity {
 
                     }
                 });
+    }
+
+    private void closeApp() {
+        SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        preferences.edit().clear();
+        LoginManager.getInstance().logOut();
+        finish();
+        System.exit(0);
     }
 
     /**********************************************************************************************/

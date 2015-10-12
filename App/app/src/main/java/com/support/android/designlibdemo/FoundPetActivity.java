@@ -1,7 +1,9 @@
 package com.support.android.designlibdemo;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -11,6 +13,7 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -27,6 +30,18 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.support.android.designlibdemo.data.maps.MapActivity;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
+import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
+import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -37,6 +52,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import utils.ImageRequest;
@@ -47,13 +63,22 @@ import static utils.Constants.CATS;
 import static utils.Constants.DOGS;
 import static utils.Constants.SIZES;
 
-//TODO: ESTA CLASE ES UNA COPIA DE PUBLICAR MASCOTA, FALTA SU LOGICA PROPIA
-public class FoundPetActivity extends AppCompatActivity {
+
+public class FoundPetActivity extends AppCompatActivity implements
+        TimePickerDialog.OnTimeSetListener,
+        DatePickerDialog.OnDateSetListener {
 
     JSONObject object = null;
     Activity activity = null;
     List<String> images = new ArrayList<>();
     JSONObject userData = null;
+    private TextView timeTextView;
+    private TextView dateTextView;
+
+    GoogleMap mGoogleMap = null;
+    private double lat = -34.603620;
+    private double lng = -58.381598;
+    public MapView mapView;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -118,41 +143,14 @@ public class FoundPetActivity extends AppCompatActivity {
                 if (isChecked) {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS);
                 } else {
-                    adapter =  new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
+                    adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
                 }
                 breed.setAdapter(adapter);
             }
         });
 
 
-        SeekBar ages = (SeekBar) findViewById(R.id.pet_age);
         SeekBar size = (SeekBar) findViewById(R.id.pet_size);
-        ages.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-            TextView ageLabel = (TextView) findViewById(R.id.age_label);
-            @Override
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                if (progress < 20) {
-                    ageLabel.setText(AGES[0]);
-                } else if ((progress >= 20) && (progress < 40)) {
-                    ageLabel.setText(AGES[1]);
-                } else if ((progress >= 40) && (progress < 60)) {
-                    ageLabel.setText(AGES[2]);
-                } else if ((progress >= 60) && (progress < 80)) {
-                    ageLabel.setText(AGES[3]);
-                } else {
-                    ageLabel.setText(AGES[4]);
-                }
-                ageLabel.invalidate();
-            }
-
-            @Override
-            public void onStartTrackingTouch(SeekBar seekBar) {
-            }
-
-            @Override
-            public void onStopTrackingTouch(SeekBar seekBar) {
-            }
-        });
 
         size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             TextView sizeLabel = (TextView) findViewById(R.id.size_label);
@@ -177,9 +175,78 @@ public class FoundPetActivity extends AppCompatActivity {
             public void onStopTrackingTouch(SeekBar seekBar) {
             }
         });
+        timeTextView = (EditText) findViewById(R.id.horaEncuentro);
+        dateTextView = (EditText) findViewById(R.id.fechaEncuentro);
+//        Button timeButton = (Button) findViewById(R.id.time_button);
+//        Button dateButton = (Button) findViewById(R.id.date_button);
+        // Show a timepicker when the timeButton is clicked
+        timeTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar now = Calendar.getInstance();
+                TimePickerDialog tpd = TimePickerDialog.newInstance(
+                        FoundPetActivity.this,
+                        now.get(Calendar.HOUR_OF_DAY),
+                        now.get(Calendar.MINUTE),
+                        true//mode24Hours.isChecked()
+                );
+                tpd.setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialogInterface) {
+                        Log.d("TimePicker", "Dialog was cancelled");
+                    }
+                });
+                tpd.show(getFragmentManager(), "Timepickerdialog");
+            }
+        });
+        dateTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                        FoundPetActivity.this,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+
+                dpd.show(getFragmentManager(), "Datepickerdialog");
+            }
+        });
+
+        // Mapa
+        mapView = (MapView) findViewById(R.id.map);
+        mapView.onCreate(null);
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                MapsInitializer.initialize(getApplicationContext());
+                mGoogleMap = googleMap;
+                if (mGoogleMap != null) {
+                    mGoogleMap.clear();
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 10f);
+                    mGoogleMap.moveCamera(cameraUpdate);
+                }
+            }
+        });
+        mapView.getMap().setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                showMapDetails();
+            }
+        });
+
+
 
     }
 
+/**********************************************************************************************/
+    /**********************************************************************************************/
+
+    public void showMapDetails() {
+        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        startActivity(intent);
+    }
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -231,54 +298,168 @@ public class FoundPetActivity extends AppCompatActivity {
     /**********************************************************************************************/
     /**********************************************************************************************/
 
-    public void nextPage(View view) {
-        EditText name = (EditText)findViewById(R.id.published_pet_name);
-        Switch petType = (Switch)findViewById(R.id.switch_pet_type);
-        Switch petGender = (Switch)findViewById(R.id.switch_pet_gender);
-        AutoCompleteTextView breed = (AutoCompleteTextView)findViewById(R.id.breed);
-        TextView age = (TextView) findViewById(R.id.age_label);
+    public void finish(View view) {
+
+        Switch petType = (Switch) findViewById(R.id.switch_pet_type);
+        Switch petGender = (Switch) findViewById(R.id.switch_pet_gender);
+        AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
         TextView size = (TextView) findViewById(R.id.size_label);
+        Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
+        //Spinner hairColor2Spinner = (Spinner) findViewById(R.id.spinner_hair_color2);
+        Spinner eyeColorSpinner = (Spinner) findViewById(R.id.spinner_eye_color);
 
-        try {
-            object.put("name", name.getText());
+        TextView petTypeLabel = (TextView) findViewById(R.id.pet_type);
+        TextView petGenderLabel = (TextView) findViewById(R.id.pet_gender);
+        TextView colorLabel = (TextView) findViewById(R.id.label_hair_color);
+        //TextView eyeColorLabel = (TextView) findViewById(R.id.label_eye_color);
+        TextView description = (TextView) findViewById(R.id.pet_desc);
+//        TextView zonaEncuentro = (TextView) findViewById(R.id.zonaEncuentro);
+        TextView videoEncuentro = (TextView) findViewById(R.id.videoEncuentro);
 
-            if (petType.isChecked()) {
-                object.put("type", petType.getTextOn());
-            } else {
-                object.put("type", petType.getTextOff());
-            }
-
-            if (petGender.isChecked()) {
-                object.put("gender", petType.getTextOn());
-            } else {
-                object.put("gender", petType.getTextOff());
-            }
-
-            object.put("breed", breed.getText());
-            object.put("age", age.getText());
-            object.put("size", size.getText());
-            object.put("name", name.getText());
-
-            JSONArray imgs = new JSONArray();
-            for (String img : images) {
-                imgs.put(img);
-            }
-
-            object.put("images", images);
+        // Reset errors.
+        petTypeLabel.setError(null);
+        petGenderLabel.setError(null);
+        breed.setError(null);
+        size.setError(null);
+        timeTextView.setError(null);
+        dateTextView.setError(null);
+        colorLabel.setError(null);
 
 
-        } catch (JSONException e) {
-            Log.e("Error al crear el JSON", e.getMessage());
+        boolean cancel = false;
+        View focusView = null;
+
+        String petTypeString = (petType.isChecked()) ? petType.getTextOn().toString() : petType.getTextOff().toString();
+        String petGenderString = (petGender.isChecked()) ? petGender.getTextOn().toString() : petGender.getTextOff().toString();
+        String hairColor = hairColor1Spinner.getSelectedItem().toString();
+        String eyeColor = eyeColorSpinner.getSelectedItem().toString();
+
+        // Check for a valid petType
+        if (TextUtils.isEmpty(petTypeString)) {
+            petTypeLabel.setError(getString(R.string.error_field_required));
+            focusView = petTypeLabel;
+            cancel = true;
         }
 
+        // Check for a valid petGender
+        if (TextUtils.isEmpty(petGenderString)) {
+            petGenderLabel.setError(getString(R.string.error_field_required));
+            focusView = petGenderLabel;
+            cancel = true;
+        }
+        // Check for a valid petGender
+        if (TextUtils.isEmpty(hairColor)) {
+            colorLabel.setError(getString(R.string.error_field_required));
+            focusView = colorLabel;
+            cancel = true;
+        }
+        // Check for a valid petGender
+        if (TextUtils.isEmpty(eyeColor)) {
+            colorLabel.setError(getString(R.string.error_field_required));
+            focusView = colorLabel;
+            cancel = true;
+        }
 
+        // Check for a valid breed
+        if (TextUtils.isEmpty(breed.getText().toString())) {
+            breed.setError(getString(R.string.error_field_required));
+            focusView = breed;
+            cancel = true;
+        }
+        // Check for a valid size
+        if (TextUtils.isEmpty(size.getText().toString())) {
+            size.setError(getString(R.string.error_field_required));
+            focusView = size;
+            cancel = true;
+        }
+        // Check for a valid timeTextView
+        if (TextUtils.isEmpty(timeTextView.getText().toString())) {
+            timeTextView.setError(getString(R.string.error_field_required));
+            focusView = timeTextView;
+            cancel = true;
+        }
+        // Check for a valid dateTextView
+        if (TextUtils.isEmpty(dateTextView.getText().toString())) {
+            dateTextView.setError(getString(R.string.error_field_required));
+            focusView = dateTextView;
+            cancel = true;
+        }
 
-        Intent intent = new Intent(getApplicationContext(), PublishInAdoptionActivity2.class);
-        intent.putExtra("data", object.toString());
-        if (intent != null)
-            startActivity(intent);
+        // Check for a valid dateTextView
+//        if (TextUtils.isEmpty(zonaEncuentro.getText().toString())) {
+//            zonaEncuentro.setError(getString(R.string.error_field_required));
+//            focusView = zonaEncuentro;
+//            cancel = true;
+//        }
+
+        if (cancel) {
+            focusView.requestFocus();
+        } else {
+
+            try {
+                object.put("type", petTypeString);
+                object.put("gender", petGenderString);
+                object.put("breed", breed.getText());
+                object.put("hairColor", hairColor);
+                object.put("eyeColor", eyeColor);
+                object.put("time", timeTextView.getText());
+                object.put("date", dateTextView.getText());
+                object.put("size", size.getText());
+                object.put("address","asd");//TODO: Implementar con api de google mapss
+                object.put("description",description.getText());
+                object.put("videoEncuentro",videoEncuentro.getText());
+
+                JSONArray imgs = new JSONArray();
+                for (String img : images) {
+                    imgs.put(img);
+                }
+                object.put("images", images);
+
+            } catch (JSONException e) {
+                Log.e("Error al crear el JSON", e.getMessage());
+            }
+            AlertDialog dialogo = crearDialogo("Confirmar hallazgo",
+                    "En caso de coincidencia con una mascota reportada como  perdida," +
+                    "Se le enviará una notificación a usted y al dueño de esta publicación");
+            dialogo.show();
+//            QueryResultTask queryResultTask = new QueryResultTask();
+//            queryResultTask.execute((Void) null);
+        }
+
     }
 
+
+    private AlertDialog crearDialogo(String titulo, String mensaje) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(mensaje);
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "Publicado", Toast.LENGTH_SHORT).show();
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton(R.string.dialogNo, listenerCancelar);
+        alertDialogBuilder.setNegativeButton(R.string.dialogSi, listenerOk);
+
+        return alertDialogBuilder.create();
+    }
     /**********************************************************************************************/
     /**********************************************************************************************/
 
@@ -312,9 +493,9 @@ public class FoundPetActivity extends AppCompatActivity {
 
             QueryResultTask qTask = new QueryResultTask(f);
             qTask.execute((Void) null);
-        } catch (IOException ioe) { }
+        } catch (IOException ioe) {
+        }
     }
-
 
 
     @Override
@@ -340,6 +521,20 @@ public class FoundPetActivity extends AppCompatActivity {
             }
             Toast.makeText(getApplicationContext(), "Imágenes cargadas", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        String date = dayOfMonth + "/" + (++monthOfYear) + "/" + year;
+        dateTextView.setText(date);
+    }
+
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+        String hourString = hourOfDay < 10 ? "0" + hourOfDay : "" + hourOfDay;
+        String minuteString = minute < 10 ? "0" + minute : "" + minute;
+        String time = hourString + ":" + minuteString;
+        timeTextView.setText(time);
     }
 
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
@@ -371,7 +566,8 @@ public class FoundPetActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onCancelled() { }
+        protected void onCancelled() {
+        }
 
     }
 
