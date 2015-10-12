@@ -51,7 +51,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import utils.AdoptionRequest;
 
 
@@ -226,7 +225,6 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-      
     public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
         public ImageFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
