@@ -57,7 +57,9 @@ public class LostPet {
 
     public String publicationDate;
 
+
     private static JacksonDBCollection<LostPet, String> collection = MongoDB.getCollection("lostPets", LostPet.class, String.class);
+
 
     public LostPet() { }
 

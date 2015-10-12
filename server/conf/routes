@@ -31,6 +31,9 @@ POST        /pet/:petId/adoption                       @controllers.PetAdoptionC
 # Publicacion de mascota perdida
 POST        /pet/lost                                  @controllers.LostPetController.publishPet
 
+# Publicacion de mascota encontrada
+POST        /pet/found                                 @controllers.FoundPetController.publishPet
+
 # Media
 GET         /pet/image/:imageId                        @controllers.ImageController.getPetImage(imageId)
 POST        /pet/image                                 @controllers.ImageController.uploadPetImage
