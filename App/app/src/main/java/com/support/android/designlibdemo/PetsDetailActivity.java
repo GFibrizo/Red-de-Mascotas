@@ -225,6 +225,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     }
 
+
     public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
         public ImageFragmentPagerAdapter(FragmentManager fm) {
             super(fm);

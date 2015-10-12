@@ -1,6 +1,8 @@
 package com.support.android.designlibdemo.model;
 
+import android.app.AlertDialog;
 import android.content.ClipData;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +16,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,6 +28,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
+import android.widget.TextClock;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
@@ -57,6 +61,7 @@ public class ReportLostPet extends AppCompatActivity {
     private double lat = -34.603620;
     private double lng = -58.381598;
     public MapView mapView;
+    private Button loadVideosButton = null;
     private static List<String> images = new ArrayList<>();
     private static List<String> imagesPaths = new ArrayList<>();
     private static Vector<Bitmap> bitmapList = new Vector<>();
@@ -131,12 +136,11 @@ public class ReportLostPet extends AppCompatActivity {
         });
 
         // Carga de videos
-        final Button loadVideosButton = (Button) findViewById(R.id.load_missing_video_button);
+        loadVideosButton = (Button) findViewById(R.id.load_missing_video_button);
         loadImagesButton.setOnClickListener(new Button.OnClickListener() {
             @Override
             public void onClick(View arg0) {
-                loadFromYoutube();
-                loadVideosButton.setVisibility(View.INVISIBLE);
+                createDialog("Agregar video", "Copie la url de un video de Youtube").show();
             }
         });
 
@@ -160,13 +164,6 @@ public class ReportLostPet extends AppCompatActivity {
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         startActivityForResult(Intent.createChooser(intent, "Elije una imagen"), 1);
     }
-
-    private void loadFromYoutube() {
-        TextView videoLayout = (TextView) findViewById(R.id.video_report_missing);
-        videoLayout.setVisibility(View.VISIBLE);
-
-    }
-
 
     /**********************************************************************************************/
 
@@ -360,6 +357,46 @@ public class ReportLostPet extends AppCompatActivity {
             swipeFragment.setArguments(bundle);
             return swipeFragment;
         }
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private AlertDialog createDialog(String titulo, String message) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(message);
+        TextView link = new TextView(this);
+        link.setMovementMethod(LinkMovementMethod.getInstance());
+        alertDialogBuilder.setView(link);
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                loadVideosButton.setVisibility(View.INVISIBLE);
+                TextView videoLayout = (TextView) findViewById(R.id.video_report_missing);
+                videoLayout.setVisibility(View.VISIBLE);
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton(R.string.dialogCancel, listenerCancelar);
+        alertDialogBuilder.setNegativeButton(R.string.dialogDone, listenerOk);
+
+        return alertDialogBuilder.create();
     }
 
 }
