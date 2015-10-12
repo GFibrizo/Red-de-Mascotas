@@ -30,6 +30,14 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.support.android.designlibdemo.data.maps.MapActivity;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -55,7 +63,7 @@ import static utils.Constants.CATS;
 import static utils.Constants.DOGS;
 import static utils.Constants.SIZES;
 
-//TODO: ESTA CLASE ES UNA COPIA DE PUBLICAR MASCOTA, FALTA SU LOGICA PROPIA
+
 public class FoundPetActivity extends AppCompatActivity implements
         TimePickerDialog.OnTimeSetListener,
         DatePickerDialog.OnDateSetListener {
@@ -66,6 +74,11 @@ public class FoundPetActivity extends AppCompatActivity implements
     JSONObject userData = null;
     private TextView timeTextView;
     private TextView dateTextView;
+
+    GoogleMap mGoogleMap = null;
+    private double lat = -34.603620;
+    private double lng = -58.381598;
+    public MapView mapView;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -164,10 +177,10 @@ public class FoundPetActivity extends AppCompatActivity implements
         });
         timeTextView = (EditText) findViewById(R.id.horaEncuentro);
         dateTextView = (EditText) findViewById(R.id.fechaEncuentro);
-        Button timeButton = (Button) findViewById(R.id.time_button);
-        Button dateButton = (Button) findViewById(R.id.date_button);
+//        Button timeButton = (Button) findViewById(R.id.time_button);
+//        Button dateButton = (Button) findViewById(R.id.date_button);
         // Show a timepicker when the timeButton is clicked
-        timeButton.setOnClickListener(new View.OnClickListener() {
+        timeTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
@@ -186,7 +199,7 @@ public class FoundPetActivity extends AppCompatActivity implements
                 tpd.show(getFragmentManager(), "Timepickerdialog");
             }
         });
-        dateButton.setOnClickListener(new View.OnClickListener() {
+        dateTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Calendar now = Calendar.getInstance();
@@ -201,9 +214,39 @@ public class FoundPetActivity extends AppCompatActivity implements
             }
         });
 
+        // Mapa
+        mapView = (MapView) findViewById(R.id.map);
+        mapView.onCreate(null);
+        mapView.getMapAsync(new OnMapReadyCallback() {
+            @Override
+            public void onMapReady(GoogleMap googleMap) {
+                MapsInitializer.initialize(getApplicationContext());
+                mGoogleMap = googleMap;
+                if (mGoogleMap != null) {
+                    mGoogleMap.clear();
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 10f);
+                    mGoogleMap.moveCamera(cameraUpdate);
+                }
+            }
+        });
+        mapView.getMap().setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+            @Override
+            public void onMapClick(LatLng latLng) {
+                showMapDetails();
+            }
+        });
+
+
 
     }
 
+/**********************************************************************************************/
+    /**********************************************************************************************/
+
+    public void showMapDetails() {
+        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        startActivity(intent);
+    }
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -270,7 +313,7 @@ public class FoundPetActivity extends AppCompatActivity implements
         TextView colorLabel = (TextView) findViewById(R.id.label_hair_color);
         //TextView eyeColorLabel = (TextView) findViewById(R.id.label_eye_color);
         TextView description = (TextView) findViewById(R.id.pet_desc);
-        TextView zonaEncuentro = (TextView) findViewById(R.id.zonaEncuentro);
+//        TextView zonaEncuentro = (TextView) findViewById(R.id.zonaEncuentro);
         TextView videoEncuentro = (TextView) findViewById(R.id.videoEncuentro);
 
         // Reset errors.
@@ -343,11 +386,11 @@ public class FoundPetActivity extends AppCompatActivity implements
         }
 
         // Check for a valid dateTextView
-        if (TextUtils.isEmpty(zonaEncuentro.getText().toString())) {
-            zonaEncuentro.setError(getString(R.string.error_field_required));
-            focusView = zonaEncuentro;
-            cancel = true;
-        }
+//        if (TextUtils.isEmpty(zonaEncuentro.getText().toString())) {
+//            zonaEncuentro.setError(getString(R.string.error_field_required));
+//            focusView = zonaEncuentro;
+//            cancel = true;
+//        }
 
         if (cancel) {
             focusView.requestFocus();
@@ -362,7 +405,7 @@ public class FoundPetActivity extends AppCompatActivity implements
                 object.put("time", timeTextView.getText());
                 object.put("date", dateTextView.getText());
                 object.put("size", size.getText());
-                object.put("address",zonaEncuentro.getText());
+                object.put("address","asd");//TODO: Implementar con api de google mapss
                 object.put("description",description.getText());
                 object.put("videoEncuentro",videoEncuentro.getText());
 
