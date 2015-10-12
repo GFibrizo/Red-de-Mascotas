@@ -41,6 +41,8 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.support.android.designlibdemo.data.communications.ImageUrlView;
 import com.support.android.designlibdemo.model.User;
 
 
@@ -56,7 +58,7 @@ import utils.AdoptionRequest;
 public class PetsDetailActivity extends AppCompatActivity implements View.OnClickListener{
     private JSONArray object = null;
     public static final String EXTRA_NAME = "cheese_name";
-    static final int NUM_ITEMS = 6;
+    public static int IMAGE_MAX = 5;
     ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     ViewPager viewPager;
     private Button button;
@@ -195,7 +197,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
         String caracteristicasItem = getIntent().getStringExtra("caracteristicas");
         String descripcionItem = getIntent().getStringExtra("descripcion");
         String conductaItem = getIntent().getStringExtra("conducta");
-        imagesItem = getIntent().getStringExtra("images").split(" ");
+        imagesItem = getIntent().getStringExtra("images").split(", ");
 
         TextView nombre = (TextView) findViewById(R.id.nombreAnimal);
         TextView raza = (TextView) findViewById(R.id.razaAnimal);
@@ -224,15 +226,9 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-    public void nextPage(View view) {
-        //Aca llama a la actividad siguiente: donde adopta la mascota o se le da el mail.
-        //TODO: dialog de pedido de confirmacion.
         new SweetAlertDialog(this)
                 .setTitleText("Here's a message!")
                 .show();
-    }
-
-
     public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
         public ImageFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -240,7 +236,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
         @Override
         public int getCount() {
-            return NUM_ITEMS;
+            return IMAGE_MAX;
         }
 
         @Override
@@ -251,17 +247,23 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
     }
 
     public static class SwipeFragment extends Fragment {
+        protected String baseUrlForImage;
+        private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
-            View swipeView = inflater.inflate(R.layout.swipe_fragment, container, false);
-            ImageView imageView = (ImageView) swipeView.findViewById(R.id.imageView);
 
+            View swipeView = null;
             Bundle bundle = getArguments();
             int position = bundle.getInt("position");
-            String imageFileName = IMAGE_NAME[position];
-            int imgResId = getResources().getIdentifier(imageFileName, "drawable", "com.support.android.designlibdemo");
-            imageView.setImageResource(imgResId);
+            if (position < imagesItem.length) {
+                swipeView = inflater.inflate(R.layout.swipe_fragment, container, false);
+                ImageView imageView = (ImageView) swipeView.findViewById(R.id.imageView);
+                String imageFileName = imagesItem[position];
+                baseUrlForImage = IP_EMULADOR + "/pet/image/" + imageFileName;
+                new ImageUrlView(baseUrlForImage, imageView).connect();
+            }
             return swipeView;
 
         }

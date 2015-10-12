@@ -17,8 +17,9 @@
 <resources>
     <string name="app_name">Red de Mascotas</string>
     <string name="app_id">1678287159056803</string>
+    <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>
 
-  <string name="cheese_ipsum">Jarlsberg lancashire dalmata. Dolcelatte hard cheese brie st. agur blue
+    <string name="cheese_ipsum">Jarlsberg lancashire dalmata. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
     bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
     cheese caerphilly cheddar cheesecake cream cheese manchego lancashire. Roquefort squirty cheese
@@ -103,12 +104,15 @@
     <string name="telephone">Teléfono</string>
     <string name="firstAndLastName">Nombre y apellido</string>
     <string name="back">Volver</string>
-  <string name="firstName">Nombre</string>
-  <string name="lastName">Apellido</string>
-  <string name="dialogTitle">Alerta</string>
-  <string name="confirmacionAdopcion">¿Desea adoptar esta mascota?</string>
-  <string name="agree">Acepto</string>
-  <string name="dialogSi"> Sí </string>
-  <string name="dialogNo"> No </string>
+    <string name="firstName">Nombre</string>
+    <string name="lastName">Apellido</string>
+    <string name="dialogTitle">Alerta</string>
+    <string name="confirmacionAdopcion">¿Desea adoptar esta mascota?</string>
+    <string name="agree">Acepto</string>
+    <string name="dialogSi"> Sí </string>
+    <string name="dialogNo"> No </string>
+    <string name="title_activity_report_lost_pet">ReportLostPet</string>
+    <string name="title_activity_map">Ultima vez visto en</string>
+
 
 </resources>
