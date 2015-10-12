@@ -4,6 +4,7 @@ import model.external.PublishFoundPet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import play.data.Form;
+import play.libs.Json;
 import play.mvc.Result;
 import services.FoundPetService;
 
@@ -17,7 +18,7 @@ public class FoundPetController {
         Form<PublishFoundPet> form = Form.form(PublishFoundPet.class).bindFromRequest();
         PublishFoundPet pet = form.get();
         if (service.publishPet(pet))
-            return play.mvc.Controller.ok();
+            return play.mvc.Controller.ok(Json.toJson(pet));
         return play.mvc.Controller.badRequest();
     }
 

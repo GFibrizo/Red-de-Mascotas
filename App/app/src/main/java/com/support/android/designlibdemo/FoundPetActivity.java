@@ -5,11 +5,13 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -21,6 +23,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -38,6 +41,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.support.android.designlibdemo.data.maps.MapActivity;
+import com.support.android.designlibdemo.model.User;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -54,11 +58,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeoutException;
 
+import utils.FoundPetRequest;
 import utils.ImageRequest;
 import utils.SpinnerArrayAdapter;
+import utils.UserRegisterRequest;
 
-import static utils.Constants.AGES;
 import static utils.Constants.CATS;
 import static utils.Constants.DOGS;
 import static utils.Constants.SIZES;
@@ -104,7 +111,7 @@ public class FoundPetActivity extends AppCompatActivity implements
         eyeColorSpinner.setSelection(eyeColorAdapter.getCount());
 
         try {
-            object = new JSONObject(getIntent().getStringExtra("data"));
+            userData = new JSONObject(getIntent().getStringExtra("data"));
         } catch (JSONException e) {
             Log.e("Error receiving intent", e.getMessage());
         }
@@ -307,14 +314,34 @@ public class FoundPetActivity extends AppCompatActivity implements
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
         //Spinner hairColor2Spinner = (Spinner) findViewById(R.id.spinner_hair_color2);
         Spinner eyeColorSpinner = (Spinner) findViewById(R.id.spinner_eye_color);
+        CheckBox transitHome = (CheckBox)findViewById(R.id.transit_home_check);
 
         TextView petTypeLabel = (TextView) findViewById(R.id.pet_type);
         TextView petGenderLabel = (TextView) findViewById(R.id.pet_gender);
         TextView colorLabel = (TextView) findViewById(R.id.label_hair_color);
-        //TextView eyeColorLabel = (TextView) findViewById(R.id.label_eye_color);
         TextView description = (TextView) findViewById(R.id.pet_desc);
-//        TextView zonaEncuentro = (TextView) findViewById(R.id.zonaEncuentro);
-        TextView videoEncuentro = (TextView) findViewById(R.id.videoEncuentro);
+        TextView video = (TextView) findViewById(R.id.videoEncuentro);
+
+        SharedPreferences preferences;
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        JSONObject userData;
+        JSONObject foundLocation = new JSONObject();
+        try {
+            foundLocation.put("latitude", "-34.630661");
+            foundLocation.put("longitude","-58.413056");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        String finderId = "";
+
+        try {
+            userData = new JSONObject(preferences.getString("userData", "{}"));
+            finderId = userData.getString("id").toString();
+        } catch (JSONException e) {
+            Toast.makeText(getApplicationContext(), "Error en datos de usuario", Toast.LENGTH_SHORT).show();
+        }
+
+        object = new JSONObject();
 
         // Reset errors.
         petTypeLabel.setError(null);
@@ -385,36 +412,35 @@ public class FoundPetActivity extends AppCompatActivity implements
             cancel = true;
         }
 
-        // Check for a valid dateTextView
-//        if (TextUtils.isEmpty(zonaEncuentro.getText().toString())) {
-//            zonaEncuentro.setError(getString(R.string.error_field_required));
-//            focusView = zonaEncuentro;
-//            cancel = true;
-//        }
+
 
         if (cancel) {
             focusView.requestFocus();
         } else {
 
             try {
+                object.put("finderId", finderId);
                 object.put("type", petTypeString);
                 object.put("gender", petGenderString);
                 object.put("breed", breed.getText());
-                object.put("hairColor", hairColor);
+                object.put("colors", hairColor);
                 object.put("eyeColor", eyeColor);
-                object.put("time", timeTextView.getText());
-                object.put("date", dateTextView.getText());
+                object.put("needsTransitHome", transitHome.isChecked());
+                object.put("foundHour", timeTextView.getText());
+                object.put("foundDate", dateTextView.getText());
                 object.put("size", size.getText());
-                object.put("address","asd");//TODO: Implementar con api de google mapss
+                object.put("foundLocation",foundLocation);
                 object.put("description",description.getText());
-                object.put("videoEncuentro",videoEncuentro.getText());
 
+
+                JSONArray videos = new JSONArray();
                 JSONArray imgs = new JSONArray();
                 for (String img : images) {
                     imgs.put(img);
                 }
-                object.put("images", images);
-
+                videos.put(video.getText());
+                object.put("images", imgs);
+                object.put("videos", videos);
             } catch (JSONException e) {
                 Log.e("Error al crear el JSON", e.getMessage());
             }
@@ -422,12 +448,13 @@ public class FoundPetActivity extends AppCompatActivity implements
                     "En caso de coincidencia con una mascota reportada como  perdida," +
                     "Se le enviará una notificación a usted y al dueño de esta publicación");
             dialogo.show();
-//            QueryResultTask queryResultTask = new QueryResultTask();
-//            queryResultTask.execute((Void) null);
+
         }
 
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private AlertDialog crearDialogo(String titulo, String mensaje) {
         // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
@@ -440,7 +467,8 @@ public class FoundPetActivity extends AppCompatActivity implements
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(getApplicationContext(), "Publicado", Toast.LENGTH_SHORT).show();
+                FoundPetTask foundPetTask = new FoundPetTask();
+                foundPetTask.execute((Void) null);
             }
         };
 
@@ -460,6 +488,8 @@ public class FoundPetActivity extends AppCompatActivity implements
 
         return alertDialogBuilder.create();
     }
+
+
     /**********************************************************************************************/
     /**********************************************************************************************/
 
@@ -491,7 +521,7 @@ public class FoundPetActivity extends AppCompatActivity implements
             fos.flush();
             fos.close();
 
-            QueryResultTask qTask = new QueryResultTask(f);
+            ImageRequestTask qTask = new ImageRequestTask(f);
             qTask.execute((Void) null);
         } catch (IOException ioe) {
         }
@@ -523,9 +553,12 @@ public class FoundPetActivity extends AppCompatActivity implements
         }
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = dayOfMonth + "/" + (++monthOfYear) + "/" + year;
+        String date = year+ "/" + (++monthOfYear) + "/" + dayOfMonth;
         dateTextView.setText(date);
     }
 
@@ -537,11 +570,49 @@ public class FoundPetActivity extends AppCompatActivity implements
         timeTextView.setText(time);
     }
 
-    public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    public class FoundPetTask extends AsyncTask<Void, Void, Boolean> {
+
+        JSONObject response;
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            FoundPetRequest request = new FoundPetRequest(getApplicationContext());
+            try {
+                response = request.post(object);
+            } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+                // exception handling
+                return false;
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                Toast.makeText(getApplicationContext(), "Exito", Toast.LENGTH_SHORT).show();
+                startActivity(intent);
+            }else{
+                Toast.makeText(getApplicationContext(), "Error de conexion", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() { }
+
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    public class ImageRequestTask extends AsyncTask<Void, Void, Boolean> {
         File image;
         String response;
 
-        QueryResultTask(File image) {
+        ImageRequestTask(File image) {
             this.image = image;
         }
 
@@ -556,13 +627,7 @@ public class FoundPetActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(final Boolean success) {
-            if (success) {
-                /*Intent intent = new Intent(getApplicationContext(), ResultListActivity.class);
-                if (response != null) {
-                    intent.putExtra("data", response);
-                    startActivity(intent);
-                }*/
-            }
+            //
         }
 
         @Override
