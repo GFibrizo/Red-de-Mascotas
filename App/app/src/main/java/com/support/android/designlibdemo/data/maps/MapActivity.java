@@ -38,6 +38,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.support.android.designlibdemo.R;
+import com.support.android.designlibdemo.model.MapCoordenates;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -108,6 +109,9 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        MapCoordenates mapCoordenates = MapCoordenates.getInstance();
+        mapCoordenates.setLatitude(Double.toString(myLatLng.latitude));
+        mapCoordenates.setLongitude(Double.toString(myLatLng.longitude));
         Intent upIntent = null;
         switch (item.getItemId()) {
             case android.R.id.home:
@@ -122,6 +126,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 break;
             case 0:
                 upIntent = NavUtils.getParentActivityIntent(this);
+
                 setCoordsToReturn(upIntent);
                 if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
                     TaskStackBuilder.create(this)

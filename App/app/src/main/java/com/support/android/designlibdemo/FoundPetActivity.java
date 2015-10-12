@@ -41,6 +41,7 @@ import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.support.android.designlibdemo.data.maps.MapActivity;
+import com.support.android.designlibdemo.model.MapCoordenates;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
@@ -110,19 +111,20 @@ public class FoundPetActivity extends AppCompatActivity implements
     }
 
     private void initObject() {
-        String strObj = getIntent().getStringExtra("missing");
-        if (strObj != null) {
-            try {
-                object = new JSONObject();
-                object.put("foundLocation",new JSONObject(strObj));
-                Log.e("Object received", object.toString());
-            } catch (JSONException e) {
-                Log.e("Error receiving intent", e.getMessage());
-                object = new JSONObject();
-            }
-        } else {
-            object = new JSONObject();
-        }
+        object = new JSONObject();
+//        String strObj = getIntent().getStringExtra("missing");
+//        if (strObj != null) {
+//            try {
+//                object = new JSONObject();
+//                object.put("foundLocation",new JSONObject(strObj));
+//                Log.e("Object received", object.toString());
+//            } catch (JSONException e) {
+//                Log.e("Error receiving intent", e.getMessage());
+//                object = new JSONObject();
+//            }
+//        } else {
+//            object = new JSONObject();
+//        }
     }
 
     private void initToolBar() {
@@ -369,13 +371,14 @@ public class FoundPetActivity extends AppCompatActivity implements
         SharedPreferences preferences;
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         JSONObject userData;
-//        JSONObject foundLocation = new JSONObject();
-//        try {
-//            foundLocation.put("latitude", "-34.630661");
-//            foundLocation.put("longitude","-58.413056");
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
+        JSONObject foundLocation = new JSONObject();
+        MapCoordenates mapCoordenates = MapCoordenates.getInstance();
+        try {
+            foundLocation.put("latitude", mapCoordenates.getLatitude());
+            foundLocation.put("longitude",mapCoordenates.getLongitude());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         String finderId = "";
 
         try {
@@ -473,7 +476,7 @@ public class FoundPetActivity extends AppCompatActivity implements
                 object.put("foundHour", timeTextView.getText());
                 object.put("foundDate", dateTextView.getText());
                 object.put("size", size.getText());
-//                object.put("foundLocation",foundLocation);
+                object.put("foundLocation",foundLocation);
                 object.put("description",description.getText());
 
 
