@@ -156,36 +156,6 @@
 
                         </android.support.design.widget.TextInputLayout>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left"
-                            android:layout_marginTop="10dp"
-                            android:textAlignment="gravity"
-                            android:text="Edad" />
-
-
-                        <RelativeLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="50dp"
-                            android:layout_marginTop="10dp"
-                            android:orientation="horizontal"
-                            android:layout_marginLeft="10dp" >
-
-                            <TextView
-                                android:id="@+id/age_label"
-                                android:layout_width="80dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="20dp"
-                                android:text="0 - 6 meses" />
-
-                            <SeekBar
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:id="@+id/pet_age"
-                                android:layout_toRightOf="@id/age_label" />
-
-                        </RelativeLayout>
 
 
                         <TextView
@@ -300,29 +270,29 @@
 
 
 
-                        <RelativeLayout
-                            android:id="@+id/layout_publish_23"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:weightSum="1">
+                        <!--<RelativeLayout-->
+                            <!--android:id="@+id/layout_publish_23"-->
+                            <!--android:orientation="horizontal"-->
+                            <!--android:layout_width="match_parent"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="20dp"-->
+                            <!--android:weightSum="1">-->
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textAppearance="?android:attr/textAppearanceMedium"
-                                android:text="Esta castrada"
-                                android:id="@+id/is_castrated"
-                                android:layout_weight="0.5"/>
+                            <!--<TextView-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:textAppearance="?android:attr/textAppearanceMedium"-->
+                                <!--android:text="Esta castrada"-->
+                                <!--android:id="@+id/is_castrated"-->
+                                <!--android:layout_weight="0.5"/>-->
 
-                            <CheckBox
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_alignParentRight="true"
-                                android:id="@+id/castrated_check"
-                                android:layout_weight="0.5"/>
-                        </RelativeLayout>
+                            <!--<CheckBox-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_alignParentRight="true"-->
+                                <!--android:id="@+id/castrated_check"-->
+                                <!--android:layout_weight="0.5"/>-->
+                        <!--</RelativeLayout>-->
 
 
 
@@ -349,38 +319,6 @@
                                 android:layout_weight="0.5"/>
                         </RelativeLayout>
 
-                        <TextView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="10dp"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Toma medicación"
-                            android:id="@+id/medicine" />
-
-                        <RadioGroup
-                            android:id="@+id/radio_pet_type"
-                            android:orientation="horizontal"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" >
-
-                            <RadioButton
-                                android:id="@+id/radio_temporary_medicine"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textColor="#767676"
-                                android:textSize="16sp"
-                                android:text="Temporal" />
-
-                            <RadioButton
-                                android:id="@+id/radio_chronic_medicine"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_marginLeft="5dp"
-                                android:textColor="#767676"
-                                android:textSize="16sp"
-                                android:text="Crónica" />
-
-                        </RadioGroup>
 
                         <EditText
                             android:layout_width="match_parent"
@@ -396,19 +334,42 @@
                             android:hint="Zona donde se encontró"
                             android:layout_marginTop="10dp"/>
 
-                        <EditText
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/horaEncuentro"
-                            android:hint="Hora en la cual se encontró"
-                            android:layout_marginTop="10dp"/>
+                            android:layout_height="wrap_content">
+                            <Button
+                                android:id="@+id/time_button"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hora"/>
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:editable="false"
+                                android:id="@+id/horaEncuentro"
+                                android:layout_toRightOf="@id/time_button"
+                                android:hint="Hora en la cual se encontró"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
 
-                        <EditText
+                        <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/fechaEncuentro"
-                            android:hint="Fecha en la cual se encontró"
-                            android:layout_marginTop="10dp"/>
+                            android:layout_height="wrap_content">
+                            <Button
+                                android:id="@+id/date_button"
+                                android:layout_width="wrap_content"
+                                android:editable="false"
+                                android:layout_height="wrap_content"
+                                android:text="Fecha"/>
+                            <EditText
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:id="@+id/fechaEncuentro"
+                                android:layout_toRightOf="@id/date_button"
+                                android:hint="Fecha en la cual se encontró"
+                                android:layout_marginTop="10dp"/>
+                        </RelativeLayout>
+
 
                         <EditText
                             android:layout_width="match_parent"
