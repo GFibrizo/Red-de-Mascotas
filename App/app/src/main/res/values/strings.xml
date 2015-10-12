@@ -111,6 +111,8 @@
     <string name="agree">Acepto</string>
     <string name="dialogSi"> Sí </string>
     <string name="dialogNo"> No </string>
+    <string name="dialogDone">Listo</string>
+    <string name="dialogCancel">Cancelar</string>
     <string name="title_activity_report_lost_pet">ReportLostPet</string>
     <string name="title_activity_map">Ultima vez visto en</string>
 
