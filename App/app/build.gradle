@@ -61,4 +61,5 @@ dependencies {
     compile files('./libs/httpmime-4.3.1.jar')
     compile 'com.marvinlabs:android-slideshow-widget:0.4.+@aar'
     compile 'com.wdullaer:materialdatetimepicker:1.5.3'
+    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
 }

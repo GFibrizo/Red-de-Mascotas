@@ -17,7 +17,8 @@
 <resources>
     <string name="app_name">Red de Mascotas</string>
     <string name="app_id">1678287159056803</string>
-    <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>
+    <!--<string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>-->
+    <string name="map_api_key">AIzaSyAjodjXXrSoqjz7Drnso-utFGwIv1VloqM</string>
 
     <string name="cheese_ipsum">Jarlsberg lancashire dalmata. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
