@@ -159,7 +159,7 @@ public class ResultListActivity extends AppCompatActivity {
                 }
                 if (!object.get("images").toString().equals("null")) {
                     for (int j = 0; j < object.getJSONArray("images").length(); j++) {
-                        images.add((String) object.getJSONArray("images").get(j));
+                        images.add(((String) object.getJSONArray("images").get(j)).replace("[","").replace("]", ""));
                     }
                 }
                 PetAdoption mascota = new PetAdoption(object.getString("id"),
