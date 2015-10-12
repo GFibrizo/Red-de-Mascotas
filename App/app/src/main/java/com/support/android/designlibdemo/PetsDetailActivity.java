@@ -226,9 +226,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     }
 
-        new SweetAlertDialog(this)
-                .setTitleText("Here's a message!")
-                .show();
+
     public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
         public ImageFragmentPagerAdapter(FragmentManager fm) {
             super(fm);
