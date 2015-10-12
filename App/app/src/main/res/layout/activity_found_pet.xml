@@ -294,12 +294,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <ImageView
-                                android:id="@+id/id_desc"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical|left"
-                                android:src="@drawable/clipboard_text_48" />
+                            <!--<ImageView-->
+                                <!--android:id="@+id/id_desc"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_gravity="center_vertical|left"-->
+                                <!--android:src="@drawable/clipboard_text_48" />-->
 
                             <EditText
                                 android:id="@+id/pet_desc"
@@ -319,12 +319,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <ImageView
-                                android:id="@+id/user_register_image_name"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical|left"
-                                android:src="@drawable/timer_48" />
+                            <!--<ImageView-->
+                                <!--android:id="@+id/user_register_image_name"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_gravity="center_vertical|left"-->
+                                <!--android:src="@drawable/timer_48" />-->
 
                             <EditText
                                 android:id="@+id/horaEncuentro"
@@ -340,12 +340,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <ImageView
-                                android:id="@+id/date_icon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical|left"
-                                android:src="@drawable/calendar_48" />
+                            <!--<ImageView-->
+                                <!--android:id="@+id/date_icon"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_gravity="center_vertical|left"-->
+                                <!--android:src="@drawable/calendar_48" />-->
 
                             <EditText
                                 android:id="@+id/fechaEncuentro"
@@ -359,12 +359,12 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content">
 
-                            <ImageView
-                                android:id="@+id/youtube_icon"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center_vertical|left"
-                                android:src="@drawable/youtube_play_48" />
+                            <!--<ImageView-->
+                                <!--android:id="@+id/youtube_icon"-->
+                                <!--android:layout_width="wrap_content"-->
+                                <!--android:layout_height="wrap_content"-->
+                                <!--android:layout_gravity="center_vertical|left"-->
+                                <!--android:src="@drawable/youtube_play_48" />-->
 
                             <EditText
                                 android:id="@+id/videoEncuentro"
