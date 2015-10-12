@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -17,6 +18,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.method.LinkMovementMethod;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -25,7 +27,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TextClock;
@@ -137,9 +141,9 @@ public class ReportLostPet extends AppCompatActivity {
 
         // Carga de videos
         loadVideosButton = (Button) findViewById(R.id.load_missing_video_button);
-        loadImagesButton.setOnClickListener(new Button.OnClickListener() {
+        loadVideosButton.setOnClickListener(new Button.OnClickListener() {
             @Override
-            public void onClick(View arg0) {
+            public void onClick(View view) {
                 createDialog("Agregar video", "Copie la url de un video de Youtube").show();
             }
         });
@@ -367,18 +371,25 @@ public class ReportLostPet extends AppCompatActivity {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(titulo);
         alertDialogBuilder.setMessage(message);
-        TextView link = new TextView(this);
-        link.setMovementMethod(LinkMovementMethod.getInstance());
-        alertDialogBuilder.setView(link);
+        RelativeLayout linearLayout = new RelativeLayout(this);
+        final EditText link = new EditText(this);
+        link.setHint("URL de Youtube");
+        link.setWidth(750);
+        linearLayout.addView(link);
+        linearLayout.setPadding(70, 0, 0, 0);
+        alertDialogBuilder.setView(linearLayout);
+        link.invalidate();
+        linearLayout.invalidate();
 
         // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
         DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                loadVideosButton.setVisibility(View.INVISIBLE);
-                TextView videoLayout = (TextView) findViewById(R.id.video_report_missing);
-                videoLayout.setVisibility(View.VISIBLE);
+                //loadVideosButton.setVisibility(View.GONE);
+                TextView videoLink = (TextView) findViewById(R.id.video_report_missing);
+                videoLink.setText(link.getText());
+                videoLink.setVisibility(View.VISIBLE);
             }
         };
 

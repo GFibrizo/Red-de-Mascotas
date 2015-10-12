@@ -71,7 +71,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Fotos y videos"
+                        android:text="Fotos"
                         android:layout_margin="5dp"
                         android:gravity="center_horizontal"/>
 
@@ -80,6 +80,7 @@
                         android:layout_height="wrap_content"
                         android:text="Cargar imagenes"
                         android:id="@+id/load_missing_images_button"
+                        android:textColor="@android:color/white"
                         android:visibility="visible"/>
 
                     <android.support.v4.view.ViewPager
@@ -89,19 +90,45 @@
                         android:visibility="gone">
                     </android.support.v4.view.ViewPager>
 
+                </LinearLayout>
+            </android.support.v7.widget.CardView>
+
+
+            <android.support.v7.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="@dimen/card_margin">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    android:layout_margin="5dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Videos"
+                        android:layout_margin="5dp"
+                        android:gravity="center_horizontal"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/video_report_missing"
+                        android:textSize="16dp"
+                        android:autoLink="web"
+                        android:visibility="gone"
+                        android:layout_gravity="center_horizontal"
+                        android:layout_weight="1"/>
 
                     <Button
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Cargar videos"
                         android:id="@+id/load_missing_video_button"
+                        android:textColor="@android:color/white"
                         android:visibility="visible"/>
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/video_report_missing"
-                        android:visibility="gone" />
 
                 </LinearLayout>
             </android.support.v7.widget.CardView>
