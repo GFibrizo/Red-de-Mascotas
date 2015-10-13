@@ -38,6 +38,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.support.android.designlibdemo.R;
+import com.support.android.designlibdemo.model.ReportLostPet;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -121,7 +122,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 }
                 break;
             case 0:
-                upIntent = NavUtils.getParentActivityIntent(this);
+                /*upIntent = NavUtils.getParentActivityIntent(this);
                 setCoordsToReturn(upIntent);
                 if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
                     TaskStackBuilder.create(this)
@@ -129,7 +130,11 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                             .startActivities();
                 } else {
                     NavUtils.navigateUpTo(this, upIntent);
-                }
+                }*/
+                Intent intent = new Intent(MapActivity.this, ReportLostPet.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                setCoordsToReturn(intent);
+                startActivity(intent);
                 break;
         }
         return super.onOptionsItemSelected(item);
@@ -143,8 +148,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         String lat = Double.toString(myLatLng.latitude);
         String lng = Double.toString(myLatLng.longitude);
         try {
-            object.put("latitude", lat);
-            object.put("longitude", lng);
+            JSONObject aux = new JSONObject();
+            aux.put("latitude", lat);
+            aux.put("longitude", lng);
+            object.put("lastSeenLocation", aux);
         } catch (JSONException e) {
             Log.e("Error put latlng", e.getMessage());
         }
@@ -176,5 +183,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(latLng, googleMap.getCameraPosition().zoom);
         googleMap.animateCamera(cameraUpdate);
         //googleMap.moveCamera(cameraUpdate);
+    }
+
+    @Override
+    public void onBackPressed() {
+        moveTaskToBack(true);
     }
 }

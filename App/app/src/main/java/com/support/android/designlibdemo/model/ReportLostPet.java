@@ -1,5 +1,6 @@
 package com.support.android.designlibdemo.model;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
@@ -26,12 +27,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.RelativeLayout;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
 import android.widget.TextClock;
@@ -39,6 +44,10 @@ import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.VideoView;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -69,7 +78,13 @@ import java.util.Objects;
 import java.util.Vector;
 
 import utils.ImageRequest;
+import utils.RequestHandler;
 import utils.SpinnerArrayAdapter;
+
+import static utils.Constants.AGES;
+import static utils.Constants.CATS;
+import static utils.Constants.DOGS;
+import static utils.Constants.SIZES;
 
 public class ReportLostPet extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
 
@@ -80,6 +95,8 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     private Button loadVideosButton = null;
     private TextView dateMissing = null;
     private TextView timeMissing = null;
+    private String dateString = null;
+    private String timeString = null;
     private static List<String> images = new ArrayList<>();
     private static List<String> imagesPaths = new ArrayList<>();
     private static Vector<Bitmap> bitmapList = new Vector<>();
@@ -88,23 +105,38 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     ImageFragmentPagerAdapter imageFragmentPagerAdapter = null;
     String objName = null;
     JSONObject object = null;
+    Activity activity = null;
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_lost_pet);
 
-        String strObj = getIntent().getStringExtra("missing");
-        if (strObj != null) {
+        String userData = getIntent().getStringExtra("data");
+        if (userData != null) {
+            // Vengo de MainActivity
             try {
-                object = new JSONObject(strObj);
-                Log.e("Object received", object.toString());
+                object = new JSONObject(userData);
             } catch (JSONException e) {
                 Log.e("Error receiving intent", e.getMessage());
-                object = new JSONObject();
             }
         } else {
-            object = new JSONObject();
+            // Vengo de MapActivity
+            String strObj = getIntent().getStringExtra("missing");
+            if (strObj != null) {
+                try {
+                    object = new JSONObject(strObj);
+                    Log.e("Object received", object.toString());
+                } catch (JSONException e) {
+                    Log.e("Error receiving intent", e.getMessage());
+                    object = new JSONObject();
+                }
+            } else {
+                object = new JSONObject();
+            }
         }
 
         initializeImagesData();
@@ -130,10 +162,98 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
 
+        activity = this;
+        setBreed();
+        set_age();
+        setSize();
         loadMap();
         loadImages();
         loadVideos();
         loadDateAndTime();
+    }
+
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private void setBreed() {
+        AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.missing_pet_breed);
+        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
+
+        Switch type = (Switch) findViewById(R.id.switch_pet_type_missing);
+        type.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // do something, the isChecked will be
+                // true if the switch is in the On position
+                AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.missing_pet_breed);
+                ArrayAdapter<String> adapter = null;
+
+                if (isChecked) {
+                    adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS);
+                } else {
+                    adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
+                }
+                breed.setAdapter(adapter);
+            }
+        });
+    }
+
+    private void set_age() {
+        SeekBar ages = (SeekBar) findViewById(R.id.pet_age_missing);
+        ages.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            TextView ageLabel = (TextView) findViewById(R.id.age_label_missing);
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress < 20) {
+                    ageLabel.setText(AGES[0]);
+                } else if ((progress >= 20) && (progress < 40)) {
+                    ageLabel.setText(AGES[1]);
+                } else if ((progress >= 40) && (progress < 60)) {
+                    ageLabel.setText(AGES[2]);
+                } else if ((progress >= 60) && (progress < 80)) {
+                    ageLabel.setText(AGES[3]);
+                } else {
+                    ageLabel.setText(AGES[4]);
+                }
+                ageLabel.invalidate();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
+    }
+
+    private void setSize() {
+        SeekBar size = (SeekBar) findViewById(R.id.pet_size_missing);
+        size.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            TextView sizeLabel = (TextView) findViewById(R.id.size_label_missing);
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (progress < 33) {
+                    sizeLabel.setText(SIZES[0]);
+                } else if ((progress >= 33) && (progress < 66)) {
+                    sizeLabel.setText(SIZES[1]);
+                } else {
+                    sizeLabel.setText(SIZES[2]);
+                }
+                sizeLabel.invalidate();
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+            }
+        });
     }
 
 
@@ -239,9 +359,10 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     /**********************************************************************************************/
 
     public void showMapDetails() {
-        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        Intent intent = new Intent(ReportLostPet.this, MapActivity.class);
         intent.putExtra("missing", object.toString());
         startActivity(intent);
+        //moveTaskToBack(true);
     }
 
     /**********************************************************************************************/
@@ -480,14 +601,16 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        String time = "Hora: "+hourOfDay+"h"+minute;
+        timeString = hourOfDay+" : "+minute;
+        String time = "Hora: "+ timeString;
         timeMissing.setText(time);
         timeMissing.setVisibility(View.VISIBLE);
     }
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        String date = "Fecha: "+dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+        dateString = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+        String date = "Fecha: " + dateString;
         dateMissing.setText(date);
         dateMissing.setVisibility(View.VISIBLE);
         Calendar now = Calendar.getInstance();
@@ -500,7 +623,35 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         dpd.show(getFragmentManager(), "Timepickerdialog");
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
+    public void request() {
+        RequestHandler requestHandler = RequestHandler.getInstance(this);
+        JsonObjectRequest request = new JsonObjectRequest(
+                Request.Method.POST,
+                RequestHandler.getServerUrl() + "pet/lost",
+                object.toString(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        // Manejo de la respuesta
+                        System.out.println(response);
+                    }
+                },
+                new Response.ErrorListener() {
+
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        // Manejo de errores
+                    }
+                });
+        requestHandler.addToRequestQueue(request);
+    }
+
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     /*
     {
@@ -529,12 +680,72 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
      */
 
 
-
-
     public void finish(View view) {
+
+        TextView videos = (TextView) findViewById((R.id.video_report_missing));
+        EditText name = (EditText) findViewById(R.id.missing_pet_name);
+        Switch pet_type = (Switch) findViewById(R.id.switch_pet_type_missing);
+        Switch pet_gender = (Switch) findViewById(R.id.switch_pet_gender_missing);
+        EditText breed = (EditText) findViewById(R.id.missing_pet_breed);
+        TextView age = (TextView) findViewById(R.id.age_string_missing);
+        TextView size = (TextView) findViewById((R.id.size_string_missing));
+        CheckBox castrated = (CheckBox) findViewById(R.id.castrated_check_missing);
+        RadioButton temp_meds = (RadioButton) findViewById(R.id.radio_temporary_medicine_missing);
+        RadioButton chronic_meds = (RadioButton) findViewById(R.id.radio_chronic_medicine_missing);
+        EditText desc = (EditText) findViewById(R.id.pet_desc_missing);
+        Spinner hairColor1 = (Spinner) findViewById(R.id.spinner_hair_color1_missing);
+        Spinner hairColor2 = (Spinner) findViewById(R.id.spinner_hair_color2_missing);
+        Spinner eyesColor = (Spinner) findViewById(R.id.spinner_eye_color_missing);
+
+        try {
+            JSONArray a = new JSONArray();
+            object.put("videos", a.put(videos.getText()));
+
+            JSONArray imgs = new JSONArray();
+            for (String img : images) {
+                imgs.put(img);
+            }
+            object.put("images", images);
+            object.put("name", name.getText());
+            if (pet_type.isChecked()) {
+                object.put("type", pet_type.getTextOn());
+            } else {
+                object.put("type", pet_type.getTextOff());
+            }
+
+            if (pet_gender.isChecked()) {
+                object.put("gender", pet_gender.getTextOn());
+            } else {
+                object.put("gender", pet_gender.getTextOff());
+            }
+            object.put("breed", breed.getText());
+            object.put("age", age.getText());
+            object.put("size", size.getText());
+
+            JSONArray colors = new JSONArray();
+            colors.put(hairColor1.getSelectedItem().toString());
+            colors.put(hairColor2.getSelectedItem().toString());
+            object.put("colors", colors);
+            object.put("eyeColor", eyesColor.getSelectedItem().toString());
+            object.put("isCastrated", castrated.getText());
+            object.put("isOnTemporaryMedicine", temp_meds.getText());
+            object.put("isOnChronicMedicine", chronic_meds.getText());
+            object.put("description", desc);
+            object.put("lastSeenDate", dateString);
+            object.put("lastSeenHour", timeString);
+
+            Log.e("Objeto a enviar", object.toString());
+        } catch (JSONException e) {
+            Log.e("Error al crear el JSON", e.getMessage());
+        }
+
+        request();
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
+        if (intent != null)
+            startActivity(intent);
+
     }
-
-
 
 
 
