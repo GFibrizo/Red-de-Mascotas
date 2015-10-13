@@ -46,26 +46,7 @@ public class UserRegisterRequest {
         }
 
         return response;
-//        JsonObjectRequest request = new JsonObjectRequest(
-//                Method.POST,
-//                RequestHandler.getServerUrl() + buildRegisterFacebookUserPath(),
-//                user,
-//                new Response.Listener<JSONObject>() {
-//                    @Override
-//                    public void onResponse(JSONObject response) {
-//                        // Manejo de la respuesta
-//                        System.out.println(response);
-//                    }
-//                },
-//                new Response.ErrorListener() {
-//
-//                    @Override
-//                    public void onErrorResponse(VolleyError error) {
-//                        // Manejo de errores
-//
-//                    }
-//                });
-//        requestHandler.addToRequestQueue(request);
+
 
     }
 
@@ -128,7 +109,6 @@ public class UserRegisterRequest {
             if (facebookUser == null) {
                 //Lo creo y lo recupero
                 facebookUser  = this.createFacebookUser(jsonRequest);
-                //facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
             }
         } catch (TimeoutException | ExecutionException | InterruptedException e) {
             throw e;
