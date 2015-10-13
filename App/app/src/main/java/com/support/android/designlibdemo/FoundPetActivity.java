@@ -14,6 +14,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
@@ -112,19 +113,6 @@ public class FoundPetActivity extends AppCompatActivity implements
 
     private void initObject() {
         object = new JSONObject();
-//        String strObj = getIntent().getStringExtra("missing");
-//        if (strObj != null) {
-//            try {
-//                object = new JSONObject();
-//                object.put("foundLocation",new JSONObject(strObj));
-//                Log.e("Object received", object.toString());
-//            } catch (JSONException e) {
-//                Log.e("Error receiving intent", e.getMessage());
-//                object = new JSONObject();
-//            }
-//        } else {
-//            object = new JSONObject();
-//        }
     }
 
     private void initToolBar() {
@@ -183,7 +171,7 @@ public class FoundPetActivity extends AppCompatActivity implements
     }
 
     private void initType() {
-        Switch type = (Switch) findViewById(R.id.switch_pet_type);
+        SwitchCompat type = (SwitchCompat) findViewById(R.id.switch_pet_type);
         type.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
@@ -353,8 +341,8 @@ public class FoundPetActivity extends AppCompatActivity implements
 
     public void finish(View view) {
 
-        Switch petType = (Switch) findViewById(R.id.switch_pet_type);
-        Switch petGender = (Switch) findViewById(R.id.switch_pet_gender);
+        SwitchCompat petType = (SwitchCompat) findViewById(R.id.switch_pet_type);
+        SwitchCompat petGender = (SwitchCompat) findViewById(R.id.switch_pet_gender);
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
         TextView size = (TextView) findViewById(R.id.size_label);
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);

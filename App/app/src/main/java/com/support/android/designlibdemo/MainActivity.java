@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void closeApp() {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        preferences.edit().clear();
+        preferences.edit().clear().commit();
         LoginManager.getInstance().logOut();
         finish();
         System.exit(0);

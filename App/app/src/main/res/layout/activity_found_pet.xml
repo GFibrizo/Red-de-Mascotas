@@ -100,11 +100,12 @@
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
-                        <Switch
+                        <android.support.v7.widget.SwitchCompat
                             android:id="@+id/switch_pet_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            app:showText="true"
                             android:textOff="Gato"
                             android:textOn="Perro" />
 
@@ -116,24 +117,18 @@
                             android:text="Género"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
-                        <Switch
+                        <android.support.v7.widget.SwitchCompat
                             android:id="@+id/switch_pet_gender"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
+                            app:showText="true"
                             android:textOff="Macho"
                             android:textOn="Hembra" />
 
                     </LinearLayout>
 
-                    <!--
-                    <AppCompatAutoCompleteTextView
-                        android:id="@+id/breed"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Raza"
-                        android:inputType="textAutoComplete" />
-                    -->
+
                     <LinearLayout
                         android:id="@+id/linearLayout2"
                         android:layout_width="match_parent"
@@ -308,12 +303,7 @@
                                 android:layout_marginTop="10dp"
                                 android:hint="Descripción de la mascota" />
                         </RelativeLayout>
-                        <!--<EditText-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:id="@+id/zonaEncuentro"-->
-                        <!--android:hint="Zona donde se encontró"-->
-                        <!--android:layout_marginTop="10dp"/>-->
+
 
                         <RelativeLayout
                             android:layout_width="match_parent"

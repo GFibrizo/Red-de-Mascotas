@@ -152,11 +152,12 @@
                 android:layout_marginTop="10dp" />
 
 
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOn="Perro"
                 android:textOff="Gato"
+                app:showText="true"
                 android:id="@+id/switch_pet_type"
                 android:layout_marginTop="5dp" />
 
@@ -168,11 +169,12 @@
                 android:id="@+id/pet_gender"
                 android:layout_marginTop="10dp" />
 
-            <Switch
+            <android.support.v7.widget.SwitchCompat
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textOn="Hembra"
                 android:textOff="Macho"
+                app:showText="true"
                 android:id="@+id/switch_pet_gender"
                 android:layout_marginTop="5dp" />
 

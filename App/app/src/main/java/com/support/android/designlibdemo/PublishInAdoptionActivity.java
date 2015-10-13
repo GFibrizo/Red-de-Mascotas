@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -89,7 +90,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
         breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
 
-        Switch type = (Switch) findViewById(R.id.switch_pet_type);
+        SwitchCompat type = (SwitchCompat) findViewById(R.id.switch_pet_type);
         type.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
@@ -215,8 +216,8 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
     public void nextPage(View view) {
         EditText name = (EditText)findViewById(R.id.published_pet_name);
-        Switch petType = (Switch)findViewById(R.id.switch_pet_type);
-        Switch petGender = (Switch)findViewById(R.id.switch_pet_gender);
+        SwitchCompat petType = (SwitchCompat)findViewById(R.id.switch_pet_type);
+        SwitchCompat petGender = (SwitchCompat)findViewById(R.id.switch_pet_gender);
         AutoCompleteTextView breed = (AutoCompleteTextView)findViewById(R.id.breed);
         TextView age = (TextView) findViewById(R.id.age_label);
         TextView size = (TextView) findViewById(R.id.size_label);
