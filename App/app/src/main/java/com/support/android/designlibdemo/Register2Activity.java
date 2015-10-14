@@ -62,7 +62,7 @@ public class Register2Activity extends AppCompatActivity {
         }
 
 
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_register);
         setSupportActionBar(toolbar);
         mNameView = (EditText)findViewById(R.id.input_name);
         mLastNameView = (EditText)findViewById(R.id.input_lastName);

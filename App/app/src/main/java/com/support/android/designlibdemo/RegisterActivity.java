@@ -36,7 +36,7 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_register);
         setSupportActionBar(toolbar);
         mUserNameView = (EditText) findViewById(R.id.input_userName);
         mEmailView = (EditText) findViewById(R.id.input_email);
