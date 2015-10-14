@@ -76,10 +76,10 @@
 
         <activity
             android:name=".ResultListActivity"
-            android:parentActivityName=".SearchInAdoptionActivity2" >
+            android:parentActivityName=".SearchInAdoptionActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SearchInAdoptionActivity2" />
+                android:value=".SearchInAdoptionActivity" />
         </activity>
 
         <activity
