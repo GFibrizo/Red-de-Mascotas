@@ -44,7 +44,8 @@ public class UserController {
     public Result logInWithFacebook(String facebookId) {
         User user = service.logInWithFacebook(facebookId);
         if (user == null)
-            return play.mvc.Controller.badRequest();
+//            return play.mvc.Controller.badRequest(Json.newObject());
+            return play.mvc.Controller.notFound();
         return play.mvc.Controller.ok(Json.toJson(user));
     }
 

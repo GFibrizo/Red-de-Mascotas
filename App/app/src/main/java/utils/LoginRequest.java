@@ -52,8 +52,10 @@ public class LoginRequest {
         JSONObject response = null;
         try {
             response = future.get(10, TimeUnit.SECONDS);
-        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+        } catch (InterruptedException | TimeoutException e) {
             throw e;
+        } catch (ExecutionException  e){
+            return null;
         }
         return response;
     }

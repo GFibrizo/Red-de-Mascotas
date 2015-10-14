@@ -192,10 +192,12 @@ public class LoginActivity extends FragmentActivity {
             LoginRequest loginRequest = new LoginRequest(getApplicationContext());
             try {
                 response = loginRequest.getFacebookUser(profile.getId());
+
             } catch (TimeoutException | ExecutionException | InterruptedException e) {
                 return false;
             }
-            return true;
+
+            return (response != null);
         }
 
         @Override
