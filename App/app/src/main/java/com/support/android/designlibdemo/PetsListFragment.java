@@ -23,6 +23,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,10 +54,14 @@ public class PetsListFragment extends Fragment {
     /**********************************************************************************************/
     /**********************************************************************************************/
 
+
     private void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
                 getRandomSublist(CHEESE, 30)));
+        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter());
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
 
     /**********************************************************************************************/
@@ -111,6 +116,10 @@ public class PetsListFragment extends Fragment {
             mValues = items;
         }
 
+        public void remove(int position) {
+            mValues.remove(position);
+            notifyItemRemoved(position);
+        }
 
         /******************************************************************************************/
         /******************************************************************************************/
@@ -154,6 +163,47 @@ public class PetsListFragment extends Fragment {
         @Override
         public int getItemCount() {
             return mValues.size();
+        }
+    }
+
+    /******************************************************************************************/
+    /******************************************************************************************/
+
+
+    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+
+        private final SimpleStringRecyclerViewAdapter mAdapter;
+
+        public SimpleItemTouchHelperCallback(SimpleStringRecyclerViewAdapter adapter) {
+            mAdapter = adapter;
+        }
+
+        @Override
+        public boolean isLongPressDragEnabled() {
+            return false;
+        }
+
+        @Override
+        public boolean isItemViewSwipeEnabled() {
+            return true;
+        }
+
+        @Override
+        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
+            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
+            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            return makeMovementFlags(dragFlags, swipeFlags);
+        }
+
+        @Override
+        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
+                              RecyclerView.ViewHolder target) {
+            return false;
+        }
+
+        @Override
+        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+            mAdapter.remove(viewHolder.getAdapterPosition());
         }
     }
 }
