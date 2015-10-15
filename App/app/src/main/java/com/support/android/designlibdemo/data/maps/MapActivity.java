@@ -37,6 +37,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.support.android.designlibdemo.FoundPetActivity;
 import com.support.android.designlibdemo.R;
 import com.support.android.designlibdemo.model.MapCoordenates;
 import com.support.android.designlibdemo.model.ReportLostPet;
@@ -53,6 +54,8 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     JSONObject object = null;
     String objName = null;
     LatLng myLatLng = null;
+    String fromActivity = null;
+    Class from;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -62,7 +65,16 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
-        String strObj = getIntent().getStringExtra("missing");
+        from = (Class) getIntent().getSerializableExtra("From");
+        MapCoordenates.getInstance().clear();
+        /*Log.e("CLASS", fromActivity);
+        if (fromActivity == "ReportLostPet") {
+            from = ReportLostPet.class;
+        } else {
+            from = FoundPetActivity.class;
+        }*/
+
+        /*String strObj = getIntent().getStringExtra("missing");
         if (strObj != null) {
             try {
                 object = new JSONObject(getIntent().getStringExtra("missing"));
@@ -73,7 +85,7 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             }
         } else {
             object = new JSONObject();
-        }
+        }*/
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_map);
         setSupportActionBar(toolbar);
@@ -113,17 +125,21 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
         MapCoordenates mapCoordenates = MapCoordenates.getInstance();
         mapCoordenates.setLatitude(Double.toString(myLatLng.latitude));
         mapCoordenates.setLongitude(Double.toString(myLatLng.longitude));
+
         Intent upIntent = null;
+        Intent intent = new Intent(MapActivity.this, from);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         switch (item.getItemId()) {
             case android.R.id.home:
-                upIntent = NavUtils.getParentActivityIntent(this);
+               /* upIntent = NavUtils.getParentActivityIntent(this);
                 if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
                     TaskStackBuilder.create(this)
                             .addNextIntentWithParentStack(upIntent)
                             .startActivities();
                 } else {
                     NavUtils.navigateUpTo(this, upIntent);
-                }
+                }*/
+                startActivity(intent);
                 break;
             case 0:
                 /*upIntent = NavUtils.getParentActivityIntent(this);
@@ -135,8 +151,6 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
                 } else {
                     NavUtils.navigateUpTo(this, upIntent);
                 }*/
-                Intent intent = new Intent(MapActivity.this, ReportLostPet.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 setCoordsToReturn(intent);
                 startActivity(intent);
                 break;
@@ -151,15 +165,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     private void setCoordsToReturn(Intent intent) {
         String lat = Double.toString(myLatLng.latitude);
         String lng = Double.toString(myLatLng.longitude);
-        try {
+        /*try {
             JSONObject aux = new JSONObject();
             aux.put("latitude", lat);
             aux.put("longitude", lng);
             object.put("lastSeenLocation", aux);
         } catch (JSONException e) {
             Log.e("Error put latlng", e.getMessage());
-        }
-        intent.putExtra("missing", object.toString());
+        }*/
+        //intent.putExtra("missing", object.toString());
     }
 
     /**********************************************************************************************/

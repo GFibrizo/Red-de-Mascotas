@@ -73,6 +73,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Fotos"
+                        android:id="@+id/images_missing_title"
                         android:layout_margin="5dp"
                         android:gravity="center_horizontal"/>
 
@@ -110,6 +111,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Videos"
+                        android:id="@+id/video_missing_title"
                         android:layout_margin="5dp"
                         android:gravity="center_horizontal"/>
 
@@ -188,6 +190,34 @@
                                 android:layout_marginTop="10dp" />
 
 
+                            <info.hoang8f.android.segmented.SegmentedGroup
+                                xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/segmented_pet_type_missing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:orientation="horizontal"
+                                segmentedgroup:sc_border_width="2dp"
+                                segmentedgroup:sc_corner_radius="10dp">
+
+                                <RadioButton
+                                    android:id="@+id/dog_missing"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Perro"
+                                    android:checked="true"
+                                    style="@style/RadioButton" />
+
+                                <RadioButton
+                                    android:id="@+id/cat_missing"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Gato"
+                                    style="@style/RadioButton" />
+                            </info.hoang8f.android.segmented.SegmentedGroup>
+
+
+                            <!--
                             <Switch
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -195,6 +225,7 @@
                                 android:textOff="Gato"
                                 android:id="@+id/switch_pet_type_missing"
                                 android:layout_marginTop="5dp" />
+                            -->
 
                         </LinearLayout>
 
@@ -214,6 +245,7 @@
                                 android:id="@+id/pet_gender"
                                 android:layout_marginTop="10dp" />
 
+                            <!--
                             <Switch
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
@@ -221,6 +253,34 @@
                                 android:textOff="Macho"
                                 android:id="@+id/switch_pet_gender_missing"
                                 android:layout_marginTop="5dp" />
+                            -->
+
+                            <info.hoang8f.android.segmented.SegmentedGroup
+                                xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                                android:id="@+id/segmented_pet_gender_missing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_margin="10dp"
+                                android:orientation="horizontal"
+                                segmentedgroup:sc_border_width="2dp"
+                                segmentedgroup:sc_corner_radius="10dp">
+
+                                <RadioButton
+                                    android:id="@+id/male_missing"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Macho"
+                                    android:checked="true"
+                                    style="@style/RadioButton" />
+
+                                <RadioButton
+                                    android:id="@+id/female_missing"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Hembra"
+                                    style="@style/RadioButton" />
+                            </info.hoang8f.android.segmented.SegmentedGroup>
+
 
                         </LinearLayout>
                     </LinearLayout>
@@ -349,6 +409,7 @@
                         android:layout_height="wrap_content"
                         android:text="Colores de la mascota"
                         android:layout_margin="5dp"
+                        android:id="@+id/colors_missing_title"
                         android:gravity="center_horizontal" />
 
 
@@ -523,6 +584,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Ultima vez visto "
+                    android:id="@+id/date_missing_title"
                     android:layout_margin="5dp"
                     android:gravity="center_horizontal"/>
 

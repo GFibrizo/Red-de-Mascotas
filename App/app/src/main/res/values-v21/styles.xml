@@ -23,4 +23,12 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="Base.Theme.DesignDemo" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="colorPrimary">#274E8C</item>
+        <item name="colorPrimaryDark">#3d96e0</item>
+        <item name="colorAccent">#448AFF</item>
+        <item name="android:windowBackground">@color/window_background</item>
+        <item name="android:colorButtonNormal">#2196f3</item>
+    </style>
+
 </resources>

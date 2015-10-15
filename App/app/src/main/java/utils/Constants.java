@@ -61,6 +61,8 @@ public final class Constants {
 
     public static String[] SIZES = {"Chico", "Mediano", "Grande"};
 
+    public static String[] NONE_COLORS = {"Color de pelaje principal", "Color de pelaje secundario", "Color de ojos"};
+
 
 
     public static final String[] CHEESE = {

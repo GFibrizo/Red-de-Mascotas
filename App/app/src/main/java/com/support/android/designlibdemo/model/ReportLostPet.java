@@ -5,10 +5,12 @@ import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,6 +20,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.text.method.LinkMovementMethod;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -26,6 +29,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -35,6 +39,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
@@ -55,6 +60,7 @@ import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 import com.support.android.designlibdemo.MainActivity;
 import com.support.android.designlibdemo.R;
 import com.support.android.designlibdemo.data.maps.MapActivity;
@@ -74,9 +80,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Vector;
 
+import info.hoang8f.android.segmented.SegmentedGroup;
 import utils.ImageRequest;
 import utils.RequestHandler;
 import utils.SpinnerArrayAdapter;
@@ -84,6 +92,7 @@ import utils.SpinnerArrayAdapter;
 import static utils.Constants.AGES;
 import static utils.Constants.CATS;
 import static utils.Constants.DOGS;
+import static utils.Constants.NONE_COLORS;
 import static utils.Constants.SIZES;
 
 public class ReportLostPet extends AppCompatActivity implements TimePickerDialog.OnTimeSetListener, DatePickerDialog.OnDateSetListener {
@@ -97,6 +106,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     private TextView timeMissing = null;
     private String dateString = null;
     private String timeString = null;
+    private String breedSelected = null;
     private static List<String> images = new ArrayList<>();
     private static List<String> imagesPaths = new ArrayList<>();
     private static Vector<Bitmap> bitmapList = new Vector<>();
@@ -106,6 +116,10 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     String objName = null;
     JSONObject object = null;
     Activity activity = null;
+    boolean setMarker = false;
+    private int ID_TYPE_DOG = 2131558737;
+    private int ID_GENDER_MALE = 2131558742;
+
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -115,43 +129,36 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_report_lost_pet);
 
-        String userData = getIntent().getStringExtra("data");
-        if (userData != null) {
-            // Vengo de MainActivity
+
+        object = new JSONObject();
+        // Vengo de MapActivity
+        /*String strObj = getIntent().getStringExtra("missing");
+        if (strObj != null) {
+            Log.e("Received Loc", strObj);
             try {
-                object = new JSONObject(userData);
+                object = new JSONObject(strObj);
+                Log.e("Object received", object.toString());
             } catch (JSONException e) {
                 Log.e("Error receiving intent", e.getMessage());
-            }
-        } else {
-            // Vengo de MapActivity
-            String strObj = getIntent().getStringExtra("missing");
-            if (strObj != null) {
-                try {
-                    object = new JSONObject(strObj);
-                    Log.e("Object received", object.toString());
-                } catch (JSONException e) {
-                    Log.e("Error receiving intent", e.getMessage());
-                    object = new JSONObject();
-                }
-            } else {
                 object = new JSONObject();
             }
-        }
+        } else {
+
+        }*/
 
         initializeImagesData();
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1_missing);
-        ArrayAdapter<CharSequence> hairColor1Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, "Color de pelaje principal");
+        ArrayAdapter<CharSequence> hairColor1Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, NONE_COLORS[0]);
         hairColor1Spinner.setAdapter(hairColor1Adapter);
         hairColor1Spinner.setSelection(hairColor1Adapter.getCount());
 
         Spinner hairColor2Spinner = (Spinner) findViewById(R.id.spinner_hair_color2_missing);
-        ArrayAdapter<CharSequence> hairColor2Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, "Color de pelaje secundario");
+        ArrayAdapter<CharSequence> hairColor2Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, NONE_COLORS[1]);
         hairColor2Spinner.setAdapter(hairColor2Adapter);
         hairColor2Spinner.setSelection(hairColor2Adapter.getCount());
 
         Spinner eyeColorSpinner = (Spinner) findViewById(R.id.spinner_eye_color_missing);
-        ArrayAdapter<CharSequence> eyeColorAdapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.EYE_COLORS, "Color de ojos");
+        ArrayAdapter<CharSequence> eyeColorAdapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.EYE_COLORS, NONE_COLORS[2]);
         eyeColorSpinner.setAdapter(eyeColorAdapter);
         eyeColorSpinner.setSelection(eyeColorAdapter.getCount());
 
@@ -178,22 +185,30 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
 
     private void setBreed() {
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.missing_pet_breed);
-        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
+        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS));
 
-        Switch type = (Switch) findViewById(R.id.switch_pet_type_missing);
-        type.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
+        SegmentedGroup type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_missing);
+        type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
                 AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.missing_pet_breed);
                 ArrayAdapter<String> adapter = null;
 
-                if (isChecked) {
+                Log.e("CHECKED", Integer.toString(group.getCheckedRadioButtonId()));
+                if (group.getCheckedRadioButtonId() == ID_TYPE_DOG) {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS);
                 } else {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
                 }
                 breed.setAdapter(adapter);
+            }
+        });
+
+        breed.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                breedSelected = (String) parent.getItemAtPosition(position);
+                Toast.makeText(getApplicationContext(), breedSelected, Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -272,19 +287,48 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                 mGoogleMap = googleMap;
                 if (mGoogleMap != null) {
                     mGoogleMap.clear();
-                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 10f);
+                    CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14f);
                     mGoogleMap.moveCamera(cameraUpdate);
                 }
             }
         });
+
         mapView.getMap().setOnMapClickListener(new GoogleMap.OnMapClickListener() {
             @Override
             public void onMapClick(LatLng latLng) {
                 showMapDetails();
             }
         });
+
+        updateMap();
     }
 
+
+    private void updateMap() {
+        final MapCoordenates coords = MapCoordenates.getInstance();
+        Log.e("Coords", coords.getLatitude() + " : " + coords.getLongitude());
+        if (mGoogleMap != null) {
+            mGoogleMap.clear();
+            if (!coords.isNotSet()) {
+                lat = Double.valueOf(coords.getLatitude());
+                lng = Double.valueOf(coords.getLongitude());
+                mGoogleMap.addMarker(new MarkerOptions().position(new LatLng(lat, lng)));
+                CameraUpdate cameraUpdate = CameraUpdateFactory.newLatLngZoom(new LatLng(lat, lng), 14f);
+                mGoogleMap.moveCamera(cameraUpdate);
+                TextView mapTitle = (TextView) findViewById(R.id.map_title);
+                mapTitle.setError(null);
+            }
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateMap();
+    }
+
+
+    /**********************************************************************************************/
     /**********************************************************************************************/
 
     private void loadImages() {
@@ -332,7 +376,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                         now.get(Calendar.DAY_OF_MONTH)
                 );
                 dpd.show(getFragmentManager(), "Datepickerdialog");
-                buttonDate.setVisibility(View.GONE);
+                //buttonDate.setVisibility(View.GONE);
             }
         });
     }
@@ -360,7 +404,8 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
 
     public void showMapDetails() {
         Intent intent = new Intent(ReportLostPet.this, MapActivity.class);
-        intent.putExtra("missing", object.toString());
+        //intent.putExtra("missing", object.toString());
+        intent.putExtra("From", ReportLostPet.class);
         startActivity(intent);
         //moveTaskToBack(true);
     }
@@ -630,7 +675,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         RequestHandler requestHandler = RequestHandler.getInstance(this);
         JsonObjectRequest request = new JsonObjectRequest(
                 Request.Method.POST,
-                RequestHandler.getServerUrl() + "pet/lost",
+                RequestHandler.getServerUrl() + "/pet/lost",
                 object.toString(),
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -680,15 +725,17 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
      */
 
 
+
+
     public void finish(View view) {
 
         TextView videos = (TextView) findViewById((R.id.video_report_missing));
         EditText name = (EditText) findViewById(R.id.missing_pet_name);
-        Switch pet_type = (Switch) findViewById(R.id.switch_pet_type_missing);
-        Switch pet_gender = (Switch) findViewById(R.id.switch_pet_gender_missing);
+        SegmentedGroup pet_type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_missing);
+        SegmentedGroup pet_gender = (SegmentedGroup) findViewById(R.id.segmented_pet_gender_missing);
         EditText breed = (EditText) findViewById(R.id.missing_pet_breed);
-        TextView age = (TextView) findViewById(R.id.age_string_missing);
-        TextView size = (TextView) findViewById((R.id.size_string_missing));
+        TextView age = (TextView) findViewById(R.id.age_label_missing);
+        TextView size = (TextView) findViewById((R.id.size_label_missing));
         CheckBox castrated = (CheckBox) findViewById(R.id.castrated_check_missing);
         RadioButton temp_meds = (RadioButton) findViewById(R.id.radio_temporary_medicine_missing);
         RadioButton chronic_meds = (RadioButton) findViewById(R.id.radio_chronic_medicine_missing);
@@ -696,55 +743,174 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         Spinner hairColor1 = (Spinner) findViewById(R.id.spinner_hair_color1_missing);
         Spinner hairColor2 = (Spinner) findViewById(R.id.spinner_hair_color2_missing);
         Spinner eyesColor = (Spinner) findViewById(R.id.spinner_eye_color_missing);
+        TextView colorsTitle = (TextView) findViewById(R.id.colors_missing_title);
+        TextView dateTitle = (TextView) findViewById(R.id.date_missing_title);
+        TextView imagesTitle = (TextView) findViewById(R.id.images_missing_title);
+        TextView videosTitle = (TextView) findViewById(R.id.video_missing_title);
+        TextView mapTitle = (TextView) findViewById(R.id.map_title);
+
+        SharedPreferences preferences;
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        JSONObject userData;
+        String ownerId = "";
 
         try {
-            JSONArray a = new JSONArray();
-            object.put("videos", a.put(videos.getText()));
-
-            JSONArray imgs = new JSONArray();
-            for (String img : images) {
-                imgs.put(img);
-            }
-            object.put("images", images);
-            object.put("name", name.getText());
-            if (pet_type.isChecked()) {
-                object.put("type", pet_type.getTextOn());
-            } else {
-                object.put("type", pet_type.getTextOff());
-            }
-
-            if (pet_gender.isChecked()) {
-                object.put("gender", pet_gender.getTextOn());
-            } else {
-                object.put("gender", pet_gender.getTextOff());
-            }
-            object.put("breed", breed.getText());
-            object.put("age", age.getText());
-            object.put("size", size.getText());
-
-            JSONArray colors = new JSONArray();
-            colors.put(hairColor1.getSelectedItem().toString());
-            colors.put(hairColor2.getSelectedItem().toString());
-            object.put("colors", colors);
-            object.put("eyeColor", eyesColor.getSelectedItem().toString());
-            object.put("isCastrated", castrated.getText());
-            object.put("isOnTemporaryMedicine", temp_meds.getText());
-            object.put("isOnChronicMedicine", chronic_meds.getText());
-            object.put("description", desc);
-            object.put("lastSeenDate", dateString);
-            object.put("lastSeenHour", timeString);
-
-            Log.e("Objeto a enviar", object.toString());
+            userData = new JSONObject(preferences.getString("userData", "{}"));
+            ownerId = userData.getString("id").toString();
+            object.put("ownerId", ownerId);
         } catch (JSONException e) {
-            Log.e("Error al crear el JSON", e.getMessage());
+            Toast.makeText(getApplicationContext(), "Error en datos de usuario", Toast.LENGTH_SHORT).show();
         }
 
-        request();
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
-        if (intent != null)
-            startActivity(intent);
+        MapCoordenates coords = MapCoordenates.getInstance();
 
+        try {
+            JSONObject location = new JSONObject();
+            location.put("latitude", coords.getLatitude());
+            location.put("longitude", coords.getLongitude());
+            object.put("lastSeenLocation", location);
+        } catch (JSONException e) {
+        }
+
+
+        // Reset errors.
+        breed.setError(null);
+        timeMissing.setError(null);
+        dateMissing.setError(null);
+        dateTitle.setError(null);
+        mapTitle.setError(null);
+        colorsTitle.setError(null);
+        imagesTitle.setError(null);
+
+
+        boolean cancel = false;
+        View focusView = null;
+
+        String hairColorStr1 = hairColor1.getSelectedItem().toString();
+        String hairColorStr2 = hairColor1.getSelectedItem().toString();
+        String eyesColorStr = eyesColor.getSelectedItem().toString();
+
+
+
+        // Check for a valid dateTextView
+        if (imagesPaths.size() == 0) {
+            imagesTitle.setError(getString(R.string.error_field_required));
+            focusView = imagesTitle;
+            cancel = true;
+        }
+
+        // Check for a valid petHairColor
+        if (hairColorStr1 == NONE_COLORS[0]) {
+            colorsTitle.setError(getString(R.string.error_field_required));
+            focusView = hairColor1;
+            cancel = true;
+        }
+
+        // Check for a valid petHairColor
+        if (hairColorStr2 == NONE_COLORS[1]) {
+            colorsTitle.setError(getString(R.string.error_field_required));
+            focusView = hairColor2;
+            cancel = true;
+        }
+
+        // Check for a valid petHairColor
+        if (eyesColorStr == NONE_COLORS[2]) {
+            colorsTitle.setError(getString(R.string.error_field_required));
+            focusView = eyesColor;
+            cancel = true;
+        }
+
+        // Check for a valid breed
+        if (TextUtils.isEmpty(name.getText().toString())) {
+            name.setError(getString(R.string.error_field_required));
+            focusView = name;
+            cancel = true;
+        }
+
+        // Check for a valid breed
+        if (breedSelected == null) {
+            breed.setError(getString(R.string.error_field_required));
+            focusView = breed;
+            cancel = true;
+        }
+
+        // Check for a valid timeTextView
+        if (TextUtils.isEmpty(timeMissing.getText().toString())) {
+            dateTitle.setError(getString(R.string.error_field_required));
+            focusView = dateTitle;
+            cancel = true;
+        }
+
+        // Check for a valid dateTextView
+        if (TextUtils.isEmpty(dateMissing.getText().toString())) {
+            dateTitle.setError(getString(R.string.error_field_required));
+            focusView = dateTitle;
+            cancel = true;
+        }
+
+
+        if (coords.isNotSet()) {
+            mapTitle.setError(getString(R.string.error_field_required));
+            focusView = mapTitle;
+            cancel = true;
+        }
+
+        if (cancel) {
+            focusView.requestFocus();
+            Toast.makeText(getApplicationContext(), R.string.error_required_fields_left, Toast.LENGTH_SHORT).show();
+        } else {
+
+            try {
+                JSONArray a = new JSONArray();
+                object.put("videos", a.put(videos.getText().toString()));
+
+                JSONArray imgs = new JSONArray();
+                for (String img : images) {
+                    imgs.put(img);
+                }
+                object.put("images", images);
+                object.put("name", name.getText());
+
+                if (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) {
+                    object.put("type", "Perro");
+                } else {
+                    object.put("type", "Gato");
+                }
+
+
+                if (pet_gender.getCheckedRadioButtonId() == ID_GENDER_MALE) {
+                    object.put("gender", "Macho");
+                } else {
+                    object.put("gender", "Hembra");
+                }
+                object.put("breed", breed.getText());
+                object.put("age", age.getText());
+                object.put("size", size.getText());
+
+                JSONArray colors = new JSONArray();
+                colors.put(hairColor1.getSelectedItem().toString());
+                colors.put(hairColor2.getSelectedItem().toString());
+                object.put("colors", colors);
+                object.put("eyeColor", eyesColor.getSelectedItem().toString());
+                object.put("isCastrated", Boolean.toString(castrated.isChecked()));
+                object.put("isOnTemporaryMedicine", temp_meds.isChecked());
+                object.put("isOnChronicMedicine", chronic_meds.isChecked());
+                object.put("description", desc.getText());
+                object.put("lastSeenDate", dateString);
+                object.put("lastSeenHour", timeString);
+
+                Log.e("Objeto a enviar", object.toString());
+            } catch (JSONException e) {
+                Log.e("Error al crear el JSON", e.getMessage());
+            }
+
+            request();
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
+            if (intent != null)
+                startActivity(intent);
+
+        }
     }
 
 

@@ -17,9 +17,9 @@
 <resources>
     <string name="app_name">Red de Mascotas</string>
     <string name="app_id">1678287159056803</string>
-    <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>
+    <!-- API KEY AGUS <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string> -->
     <!-- API KEY FABRI <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string> -->
-
+    <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>
     <string name="cheese_ipsum">Jarlsberg lancashire dalmata. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
     bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
@@ -63,11 +63,16 @@
     <string name="crear_nueva_cuenta">¿Aún no tenés cuenta?</string>
     <string name="registrate">Registrate</string>
 
+    <!-- errors -->
     <string name="error_invalid_user">Usuario inválido</string>
     <string name="error_invalid_email">Email inválido</string>
     <string name="error_invalid_password">Contraseña inválida</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">Este campo es requerido</string>
+    <string name="error_required_fields_left">Quedan campos requeridos sin completar</string>
+
+
+
     <string name="login_button_text">Ingresar con Facebook</string>
     <string name="offer_in_adoption">Ofrecer en adopción</string>
     <string name="search_result_list">Resultados de la búsqueda</string>
