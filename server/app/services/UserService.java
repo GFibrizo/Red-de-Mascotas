@@ -72,18 +72,16 @@ public class UserService {
             if (pet.adoptionRequests != null) {
                 for (Adoption adoptionRequest : pet.adoptionRequests) {
                     User adopter = User.getById(adoptionRequest.adopterId);
-                    // TODO: Cambiar cuando este lista la publicacion ---> pet.images.get(0)
                     String image;
                     if (pet.images != null) {
                         image = pet.images.get(0);
                     } else {
                         image = "";
                     }
-                    /////////////////////////
                     AdoptionNotification adoptionNotification = new AdoptionNotification(adopter.email,
-                            adoptionRequest.requestDate,
-                            pet.name,
-                            image);
+                                                                                         adoptionRequest.requestDate,
+                                                                                         pet.name,
+                                                                                         image);
                     adoptionNotifications.add(adoptionNotification);
                 }
             }

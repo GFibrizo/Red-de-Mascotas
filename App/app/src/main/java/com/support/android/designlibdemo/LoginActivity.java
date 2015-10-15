@@ -2,24 +2,14 @@ package com.support.android.designlibdemo;
 
 
 import android.content.Intent;
-
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.support.v4.app.FragmentActivity;
-
 import android.os.Bundle;
-
-import android.util.Log;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
-
-
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -29,35 +19,24 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
-import com.facebook.ProfileTracker;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.share.Sharer;
-import com.facebook.share.widget.ShareDialog;
 import com.support.android.designlibdemo.model.User;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
-
 import utils.LoginRequest;
 import utils.UserRegisterRequest;
 
-import static java.util.Arrays.*;
 
-public class LoginActivity extends FragmentActivity {
+public class LoginActivity extends AppCompatActivity {
 
 
-    private ShareDialog shareDialog;
     private CallbackManager callbackManager;
     private AccessTokenTracker accessTokenTracker;
-    //private ProfileTracker profileTracker;
     SharedPreferences preferences = null;
     private FacebookCallback<LoginResult> callback;
 
@@ -184,7 +163,7 @@ public class LoginActivity extends FragmentActivity {
         JSONObject response;
 
         UserFacebookTask(Profile profile ) {
-            this.profile= profile;
+            this.profile = profile;
         }
 
         @Override
@@ -192,10 +171,12 @@ public class LoginActivity extends FragmentActivity {
             LoginRequest loginRequest = new LoginRequest(getApplicationContext());
             try {
                 response = loginRequest.getFacebookUser(profile.getId());
+
             } catch (TimeoutException | ExecutionException | InterruptedException e) {
                 return false;
             }
-            return true;
+
+            return (response != null);
         }
 
         @Override

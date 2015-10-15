@@ -51,9 +51,11 @@ public class LoginRequest {
         requestHandler.addToRequestQueue(request);
         JSONObject response = null;
         try {
-            response = future.get(10, TimeUnit.SECONDS);
-        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+            response = future.get(30, TimeUnit.SECONDS);
+        } catch (InterruptedException | TimeoutException e) {
             throw e;
+        } catch (ExecutionException  e){
+            return null;
         }
         return response;
     }

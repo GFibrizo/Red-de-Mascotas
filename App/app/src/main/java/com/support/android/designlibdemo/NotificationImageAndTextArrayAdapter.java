@@ -50,7 +50,11 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.rowimage);
 
-        fecha.setText(fecha.getText()+" "+(element.getRequestDate().split(" "))[0]);
+        String date = element.getRequestDate().split(" ")[0];
+        String[] dateSplit = date.split("/");
+        String newFormatDate = dateSplit[2] + "/" + dateSplit[1] + "/" + dateSplit[0];
+
+        fecha.setText(fecha.getText()+" "+newFormatDate);
         quiereAdoptar.setText(quiereAdoptar.getText()+" "+element.getPetName());
         contacto.setText(contacto.getText()+" "+element.getAdopterEmail());
         if (!element.getPetImageId().equals("") && !element.getPetImageId().equals("[]")) {

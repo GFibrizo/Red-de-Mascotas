@@ -27,6 +27,7 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:largeHeap="true"
+        android:name="android.support.multidex.MultiDexApplication"
         android:theme="@style/Base.Theme.DesignDemo" >
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -76,10 +77,10 @@
 
         <activity
             android:name=".ResultListActivity"
-            android:parentActivityName=".SearchInAdoptionActivity2" >
+            android:parentActivityName=".SearchInAdoptionActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".SearchInAdoptionActivity2" />
+                android:value=".SearchInAdoptionActivity" />
         </activity>
 
         <activity

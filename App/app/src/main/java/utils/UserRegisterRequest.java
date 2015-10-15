@@ -1,6 +1,8 @@
 package utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.os.AsyncTask;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -9,6 +11,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
+import com.facebook.Profile;
+import com.support.android.designlibdemo.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -22,9 +26,12 @@ import static com.android.volley.Request.*;
 /**
  * Created by agu_k_000 on 27/09/2015.
  */
-public class UserRegisterRequest {
+public class UserRegisterRequest extends AsyncTask<Void, Void, Boolean>{
 
-    RequestHandler requestHandler;
+    private RequestHandler requestHandler;
+    private JSONObject facebookUser = null;
+    private JSONObject jsonRequest;
+    private String facebookId;
     public UserRegisterRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
     }
@@ -90,29 +97,20 @@ public class UserRegisterRequest {
         if (json == null) {
             return null;
         }
-        JSONObject jsonRequest = new JSONObject();
+        jsonRequest = new JSONObject();
         try {
             //TODO: Ver como recuperar mas datos desde el api de facewbook
-            jsonRequest.put("facebookId", getJsonData(json, "id"));
+
+            facebookId = getJsonData(json, "id");
+            jsonRequest.put("facebookId", facebookId);
             jsonRequest.put("name", getJsonData(json, "name"));
             jsonRequest.put("lastName", getJsonData(json, "last_name"));
-
         } catch (JSONException e) {
             return null;
+        }
 
-        }
-        //TODO: Primero verificar si existe ya ese usuario
-        LoginRequest loginRequest = new LoginRequest(requestHandler.getContext());
-        JSONObject facebookUser = null;
-        try {
-            facebookUser = loginRequest.getFacebookUser(getJsonData(json, "id"));
-            if (facebookUser == null) {
-                //Lo creo y lo recupero
-                facebookUser  = this.createFacebookUser(jsonRequest);
-            }
-        } catch (TimeoutException | ExecutionException | InterruptedException e) {
-            throw e;
-        }
+        this.execute();
+
         return facebookUser;
     }
 
@@ -120,7 +118,7 @@ public class UserRegisterRequest {
     public JSONObject registerUser(JSONObject json) {
         JSONObject response = null;
         if (json != null) {
-            JSONObject jsonRequest = new JSONObject();
+
             try {
                 response = this.createUser(json);
             } catch (InterruptedException | ExecutionException  | TimeoutException e) {
@@ -131,5 +129,42 @@ public class UserRegisterRequest {
         }
         return response;
     }
+
+
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            //TODO: Primero verificar si existe ya ese usuario
+            LoginRequest loginRequest = new LoginRequest(requestHandler.getContext());
+            try {
+                facebookUser = loginRequest.getFacebookUser(facebookId);
+                if (facebookUser == null) {
+                    //Lo creo y lo recupero
+                    return false;
+
+                }
+            } catch (TimeoutException | ExecutionException | InterruptedException e) {
+                return false;
+            }
+            return true;
+
+
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (!success) {
+                try {
+                    facebookUser  = this.createFacebookUser(jsonRequest);
+                } catch (TimeoutException | ExecutionException | InterruptedException e) {
+
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() { }
+
+
 
 }

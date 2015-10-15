@@ -6,6 +6,6 @@ public class Constants {
 
     public static final String PUBLISHED = "PUBLISHED";
 
-    public static final int MAX_LAST_PUBLICATIONS = 20;
+    public static final int MAX_LAST_PUBLICATIONS = 50;
 
 }
