@@ -163,7 +163,7 @@ public class LoginActivity extends AppCompatActivity {
         JSONObject response;
 
         UserFacebookTask(Profile profile ) {
-            this.profile= profile;
+            this.profile = profile;
         }
 
         @Override
