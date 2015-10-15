@@ -1,5 +1,7 @@
 package model;
 
+import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
@@ -10,6 +12,7 @@ import java.util.List;
 
 import static utils.Constants.DATE_FORMAT;
 import static utils.Constants.PUBLISHED;
+import static utils.Constants.UNPUBLISHED;
 
 public class FoundPet {
 
@@ -81,6 +84,23 @@ public class FoundPet {
         FoundPet.collection.save(foundPet);
     }
 
+    public static FoundPet getById(String id) {
+        return FoundPet.collection.findOneById(id);
+    }
+
+    public static List<FoundPet> getPublishedByFinderId(String finderId) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("finderId", finderId);
+        query.add("publicationStatus", PUBLISHED);
+        return FoundPet.collection.find(query.get()).toArray();
+    }
+
+    public static void unpublishPet(String petId) {
+        FoundPet pet = getById(petId);
+        pet.updatePublicationStatusToUnpublished();
+        FoundPet.collection.updateById(petId, pet);
+    }
+
     public static void delete(String id) {
         FoundPet foundPet = FoundPet.collection.findOneById(id);
         if (foundPet != null)
@@ -90,6 +110,10 @@ public class FoundPet {
     private void updatePublicationStatusToPublished() {
         this.publicationStatus = PUBLISHED;
         this.publicationDate = DateTime.now().toString(DATE_FORMAT);
+    }
+
+    private void updatePublicationStatusToUnpublished() {
+        this.publicationStatus = UNPUBLISHED;
     }
 
 }
