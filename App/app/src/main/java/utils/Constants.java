@@ -8,6 +8,10 @@ public final class Constants {
 
     private Constants() { }
 
+    public static final String PARSE_APPLICATION_ID = "cLJ93SxVri3M9sCj7hGsJUnp45mA46kWMLdwdsno";
+    public static final String PARSE_CLIENT_KEY = "ZkblcRGqaYVV9wUkToPIGg0TellyUuBWwWLIJbiw";
+    public static final int NOTIFICATION_ID = 100;
+
     public static final String[] AGES = {"0 - 6 meses", "6 - 12 meses", "1 - 3 años", "3 - 7 años", "más de 7 años"};
 
     public static final String[] CITIES = {"Ciudad Autónoma de Buenos Aires"};
