@@ -40,6 +40,8 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.support.android.designlibdemo.model.Address;
 import com.support.android.designlibdemo.model.ReportLostPet;
 import com.support.android.designlibdemo.model.User;
@@ -49,6 +51,8 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import utils.Constants;
 
 /**
  * TODO
@@ -93,6 +97,13 @@ public class MainActivity extends AppCompatActivity {
         mTabLayout = (TabLayout) findViewById(R.id.tabs);
         if (viewPager != null)
             mTabLayout.setupWithViewPager(viewPager);
+
+        try {
+            Parse.initialize(this, Constants.PARSE_APPLICATION_ID, Constants.PARSE_CLIENT_KEY);
+            ParseInstallation.getCurrentInstallation().saveInBackground();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
 
         //if ((getIntent().getExtras() != null) && (getIntent().getStringExtra("user") != null)){
