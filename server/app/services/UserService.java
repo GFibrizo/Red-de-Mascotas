@@ -38,24 +38,17 @@ public class UserService {
     public User registerAccountUser(AccountRegistrationUser userRegister) {
         if (User.exists(userRegister.userName, userRegister.email))
             return null;
-        User user = new User(userRegister.userName,
-                             userRegister.name,
-                             userRegister.lastName,
-                             userRegister.email,
-                             userRegister.password,
-                             userRegister.phone,
-                             userRegister.address);
+        User user = new User(userRegister.notificationId, userRegister.userName, userRegister.name,
+                             userRegister.lastName, userRegister.email, userRegister.password,
+                             userRegister.phone, userRegister.address);
         String id = User.create(user);
         user.setId(id);
         return user;
     }
 
     public User registerFacebookUser(FacebookRegistrationUser userRegister) {
-        User user = new User(userRegister.name,
-                             userRegister.lastName,
-                             userRegister.email,
-                             userRegister.facebookId,
-                             userRegister.phone,
+        User user = new User(userRegister.notificationId, userRegister.name, userRegister.lastName,
+                             userRegister.email, userRegister.facebookId, userRegister.phone,
                              userRegister.address);
         String id = User.create(user);
         user.setId(id);
@@ -121,7 +114,7 @@ public class UserService {
     private void addPetsForAdoptionToMyPets(List<PetAdoption> petsForAdoption, List<MyPet> myPets) {
         for (PetAdoption pet : petsForAdoption) {
             myPets.add(new MyPet(pet.id, pet.name, pet.type, pet.breed, pet.gender, pet.images,
-                    pet.publicationDate, FOR_ADOPTION));
+                                 pet.publicationDate, FOR_ADOPTION));
         }
     }
 

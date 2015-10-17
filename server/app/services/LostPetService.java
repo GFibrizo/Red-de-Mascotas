@@ -1,12 +1,23 @@
 package services;
 
+import model.FoundPet;
 import model.LostPet;
 import model.User;
 import model.external.PublishLostPet;
+import notifications.NotificationsClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+import static utils.Constants.PETS_FOUND;
+import static utils.Constants.PETS_FOUND_MESSAGE;
 
 @Service
 public class LostPetService {
+
+    @Autowired
+    private NotificationsClient notificationsClient;
 
     public Boolean publishPet(PublishLostPet pet) {
         User owner = User.getById(pet.ownerId);
@@ -17,7 +28,17 @@ public class LostPetService {
                                       pet.isOnTemporaryMedicine, pet.isOnChronicMedicine, pet.description,
                                       pet.lastSeenLocation, pet.lastSeenDate, pet.lastSeenHour);
         LostPet.create(lostPet);
+        sendNotificationsOfFoundPets(lostPet);
         return true;
+    }
+
+    private void sendNotificationsOfFoundPets(LostPet lostPet) {
+        List<FoundPet> foundPets = FoundPet.getMatches(lostPet.type, lostPet.gender, lostPet.lastSeenDate, lostPet.lastSeenLocation);
+        for (FoundPet foundPet : foundPets) {
+            notificationsClient.pushNotification(foundPet.finderId, PETS_FOUND, PETS_FOUND_MESSAGE);
+        }
+        if (!foundPets.isEmpty())
+            notificationsClient.pushNotification(lostPet.ownerId, PETS_FOUND, PETS_FOUND_MESSAGE);
     }
 
 }

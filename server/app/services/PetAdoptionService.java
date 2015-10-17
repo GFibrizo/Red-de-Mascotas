@@ -6,12 +6,20 @@ import model.User;
 import model.external.AdoptionRequest;
 import model.external.SearchForAdoptionFilters;
 import model.external.PublishForAdoptionPet;
+import notifications.NotificationsClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static utils.Constants.ADOPTION_MESSAGE;
+import static utils.Constants.ADOPTION_REQUEST;
+
 @Service
 public class PetAdoptionService {
+
+    @Autowired
+    private NotificationsClient notificationsClient;
 
     public Boolean publishPet(PublishForAdoptionPet pet) {
         User owner = User.getById(pet.ownerId);
@@ -47,7 +55,9 @@ public class PetAdoptionService {
     }
 
     public void adoptPet(AdoptionRequest request) {
-        PetAdoption.addAdoptionRequest(request);
+        PetAdoption pet = PetAdoption.addAdoptionRequest(request);
+        User user = User.getById(pet.ownerId);
+        notificationsClient.pushNotification(user.notificationId, ADOPTION_REQUEST, ADOPTION_MESSAGE + pet.name);
     }
 
 }

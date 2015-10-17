@@ -6,9 +6,9 @@ public class PushNotificationRequest {
 
     public NotificationData data;
 
-    public PushNotificationRequest(String receiverUserId, String message) {
+    public PushNotificationRequest(String receiverUserId, String notificationType, String message) {
         this.where = new NotificationQuery(receiverUserId);
-        this.data = new NotificationData(message);
+        this.data = new NotificationData(notificationType, message);
     }
 
 }

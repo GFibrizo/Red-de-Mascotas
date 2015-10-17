@@ -5,6 +5,8 @@ import model.Address;
 
 public class AccountRegistrationUser {
 
+    public String notificationId;
+
     public String userName;
 
     public String email;

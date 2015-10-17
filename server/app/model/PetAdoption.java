@@ -131,10 +131,11 @@ public class PetAdoption {
                 .sort(new BasicDBObject("publicationDate", -1)).limit(MAX_LAST_PUBLICATIONS).toArray();
     }
 
-    public static void addAdoptionRequest(AdoptionRequest request) {
+    public static PetAdoption addAdoptionRequest(AdoptionRequest request) {
         PetAdoption pet = getById(request.petId);
         pet.addNewAdoptionRequest(request);
         PetAdoption.collection.updateById(request.petId, pet);
+        return pet;
     }
 
     public static void updateLastSeenAdoptionRequests(String petId) {
@@ -173,7 +174,7 @@ public class PetAdoption {
 
     private void updatePublicationStatusToPublished() {
         this.publicationStatus = PUBLISHED;
-        this.publicationDate = DateTime.now().toString(DATE_FORMAT);
+        this.publicationDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 
     private void updatePublicationStatusToUnpublished() {
@@ -182,7 +183,7 @@ public class PetAdoption {
 
     private void addNewAdoptionRequest(AdoptionRequest request) {
         Adoption adoptionRequest = new Adoption(request.adopterId,
-                                                DateTime.now().toString(DATE_FORMAT));
+                                                DateTime.now().toString(DATE_HOUR_FORMAT));
         if (this.adoptionRequests == null) {
             this.adoptionRequests = new ArrayList<>();
         }
@@ -193,7 +194,7 @@ public class PetAdoption {
         if (this.adoptionRequests == null)
             return false;
         for (Adoption adoptionRequest: this.adoptionRequests) {
-            adoptionRequest.updateLastSeen(DateTime.now().toString(DATE_FORMAT));
+            adoptionRequest.updateLastSeen(DateTime.now().toString(DATE_HOUR_FORMAT));
         }
         return true;
     }

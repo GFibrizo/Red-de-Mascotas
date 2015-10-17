@@ -13,6 +13,8 @@ public class User {
     @ObjectId
     public String id;
 
+    public String notificationId;
+
     public String userName;
 
     public String name;
@@ -35,8 +37,9 @@ public class User {
 
     public User() { }
 
-    public User(String userName, String name, String lastName, String email,
+    public User(String notificationId, String userName, String name, String lastName, String email,
                 Password password, String phone, Address address) {
+        this.notificationId = notificationId;
         this.userName = userName;
         this.name = name;
         this.lastName = lastName;
@@ -46,8 +49,9 @@ public class User {
         this.address = address;
     }
 
-    public User(String name, String lastName, String email, String facebookId,
+    public User(String notificationId, String name, String lastName, String email, String facebookId,
                 String phone, Address address) {
+        this.notificationId = notificationId;
         this.name = name;
         this.lastName = lastName;
         this.email = email;

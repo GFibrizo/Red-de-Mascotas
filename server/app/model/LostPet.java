@@ -1,18 +1,18 @@
 package model;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
 import play.modules.mongodb.jackson.MongoDB;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import static utils.Constants.*;
 import static utils.Constants.DATE_FORMAT;
-import static utils.Constants.PUBLISHED;
-import static utils.Constants.UNPUBLISHED;
 
 public class LostPet {
 
@@ -106,6 +106,28 @@ public class LostPet {
         return LostPet.collection.find(query.get()).toArray();
     }
 
+    public static List<LostPet> getMatches(String type, String gender, String lastSeenDate, GeoLocation location) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("type", type);
+        query.add("gender", gender);
+        query.push("foundDate").add("$gt", LocalDate.parse(lastSeenDate).minusDays(1).toString(DATE_FORMAT))
+                               .add("$lt", LocalDate.parse(lastSeenDate).plusDays(1).toString(DATE_FORMAT)).pop();
+        List<LostPet> basicMatches = LostPet.collection.find(query.get()).toArray();
+
+        List<LostPet> lostPets = new ArrayList<>();
+        Double latitude1 = Double.parseDouble(location.latitude);
+        Double longitude1 = Double.parseDouble(location.longitude);
+        for (LostPet basicMatch : basicMatches) {
+            Double latitude2 = Double.parseDouble(basicMatch.lastSeenLocation.latitude);
+            Double longitude2 = Double.parseDouble(basicMatch.lastSeenLocation.longitude);
+            Double distance = Math.acos(Math.sin(latitude1) * Math.sin(latitude2) + Math.cos(latitude1) * Math.cos(latitude2) * Math.cos(longitude1 - longitude2)) * 6371;
+            if (distance <= 1) {
+                lostPets.add(basicMatch);
+            }
+        }
+        return lostPets;
+    }
+
     public static void unpublishPet(String petId) {
         LostPet pet = getById(petId);
         pet.updatePublicationStatusToUnpublished();
@@ -120,7 +142,7 @@ public class LostPet {
 
     private void updatePublicationStatusToPublished() {
         this.publicationStatus = PUBLISHED;
-        this.publicationDate = DateTime.now().toString(DATE_FORMAT);
+        this.publicationDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 
     private void updatePublicationStatusToUnpublished() {
