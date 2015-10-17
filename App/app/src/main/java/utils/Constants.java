@@ -88,4 +88,8 @@ public final class Constants {
         }
     }
 
+    public static int PUBLICATION = 0;
+    public static int LAST_ADOPTION = 1;
+
+
 }

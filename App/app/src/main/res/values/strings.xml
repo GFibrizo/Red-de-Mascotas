@@ -122,5 +122,8 @@
     <string name="title_activity_report_lost_pet">ReportLostPet</string>
     <string name="title_activity_map">Ultima vez visto en</string>
 
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 
 </resources>

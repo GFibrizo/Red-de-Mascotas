@@ -60,6 +60,9 @@ public class SearchRequest {
         return "/pets/adoption?" + queryString;
     }
 
+
+
+
     private String fromListToString(String field, List<String> list) {
         String str = "";
         for (String item : list) {
