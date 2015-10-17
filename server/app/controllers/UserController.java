@@ -1,7 +1,7 @@
 package controllers;
 
 import model.AdoptionNotification;
-import model.PetAdoption;
+import model.MyPet;
 import model.User;
 import model.external.LogInUser;
 import model.external.AccountRegistrationUser;
@@ -67,8 +67,8 @@ public class UserController {
         return play.mvc.Controller.ok(Json.toJson(registeredUser));
     }
 
-    public Result getPetsInAdoption(String userId) {
-        List<PetAdoption> pets = service.getPetsInAdoption(userId);
+    public Result getPublishedPets(String userId) {
+        List<MyPet> pets = service.getPetsByUserId(userId);
         return play.mvc.Controller.ok(Json.toJson(pets));
     }
 

@@ -14,9 +14,7 @@ import play.modules.mongodb.jackson.MongoDB;
 import java.util.ArrayList;
 import java.util.List;
 
-import static utils.Constants.DATE_FORMAT;
-import static utils.Constants.MAX_LAST_PUBLICATIONS;
-import static utils.Constants.PUBLISHED;
+import static utils.Constants.*;
 
 public class PetAdoption {
 
@@ -117,8 +115,11 @@ public class PetAdoption {
         return PetAdoption.collection.findOneById(id);
     }
 
-    public static List<PetAdoption> getByOwnerId(String ownerId) {
-        return PetAdoption.collection.find(new BasicDBObject("ownerId", ownerId)).toArray();
+    public static List<PetAdoption> getPublishedByOwnerId(String ownerId) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("ownerId", ownerId);
+        query.add("publicationStatus", PUBLISHED);
+        return PetAdoption.collection.find(query.get()).toArray();
     }
 
     public static List<PetAdoption> search(SearchForAdoptionFilters filters) {
@@ -126,19 +127,27 @@ public class PetAdoption {
     }
 
     public static List<PetAdoption> getLastPublications() {
-        return PetAdoption.collection.find().sort(new BasicDBObject("publicationDate", -1)).limit(MAX_LAST_PUBLICATIONS).toArray();
+        return PetAdoption.collection.find(new BasicDBObject("publicationStatus", PUBLISHED))
+                .sort(new BasicDBObject("publicationDate", -1)).limit(MAX_LAST_PUBLICATIONS).toArray();
     }
 
-    public static void addAdoptionRequest(AdoptionRequest request) {
+    public static PetAdoption addAdoptionRequest(AdoptionRequest request) {
         PetAdoption pet = getById(request.petId);
         pet.addNewAdoptionRequest(request);
         PetAdoption.collection.updateById(request.petId, pet);
+        return pet;
     }
 
     public static void updateLastSeenAdoptionRequests(String petId) {
         PetAdoption pet = getById(petId);
         if (!pet.updateLastSeenRequests())
             return;
+        PetAdoption.collection.updateById(petId, pet);
+    }
+
+    public static void unpublishPet(String petId) {
+        PetAdoption pet = getById(petId);
+        pet.updatePublicationStatusToUnpublished();
         PetAdoption.collection.updateById(petId, pet);
     }
 
@@ -159,17 +168,22 @@ public class PetAdoption {
         if (filtros.eyeColors != null) query.push("eyeColor").add("$in", filtros.eyeColors.toArray()).pop();
         if (filtros.neighbourhood != null) query.add("address.neighbourhood", filtros.neighbourhood);
         if (filtros.city != null) query.add("address.city", filtros.city);
+        query.add("publicationStatus", PUBLISHED);
         return query.get();
     }
 
     private void updatePublicationStatusToPublished() {
         this.publicationStatus = PUBLISHED;
-        this.publicationDate = DateTime.now().toString(DATE_FORMAT);
+        this.publicationDate = DateTime.now().toString(DATE_HOUR_FORMAT);
+    }
+
+    private void updatePublicationStatusToUnpublished() {
+        this.publicationStatus = UNPUBLISHED;
     }
 
     private void addNewAdoptionRequest(AdoptionRequest request) {
         Adoption adoptionRequest = new Adoption(request.adopterId,
-                                                DateTime.now().toString(DATE_FORMAT));
+                                                DateTime.now().toString(DATE_HOUR_FORMAT));
         if (this.adoptionRequests == null) {
             this.adoptionRequests = new ArrayList<>();
         }
@@ -180,7 +194,7 @@ public class PetAdoption {
         if (this.adoptionRequests == null)
             return false;
         for (Adoption adoptionRequest: this.adoptionRequests) {
-            adoptionRequest.updateLastSeen(DateTime.now().toString(DATE_FORMAT));
+            adoptionRequest.updateLastSeen(DateTime.now().toString(DATE_HOUR_FORMAT));
         }
         return true;
     }

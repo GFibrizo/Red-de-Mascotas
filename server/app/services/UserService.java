@@ -1,9 +1,6 @@
 package services;
 
-import model.Adoption;
-import model.AdoptionNotification;
-import model.PetAdoption;
-import model.User;
+import model.*;
 import model.external.LogInUser;
 import model.external.AccountRegistrationUser;
 import model.external.FacebookRegistrationUser;
@@ -12,6 +9,10 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import static utils.Constants.FOR_ADOPTION;
+import static utils.Constants.FOUND;
+import static utils.Constants.LOST;
 
 @Service
 public class UserService {
@@ -37,37 +38,40 @@ public class UserService {
     public User registerAccountUser(AccountRegistrationUser userRegister) {
         if (User.exists(userRegister.userName, userRegister.email))
             return null;
-        User user = new User(userRegister.userName,
-                             userRegister.name,
-                             userRegister.lastName,
-                             userRegister.email,
-                             userRegister.password,
-                             userRegister.phone,
-                             userRegister.address);
+        User user = new User(userRegister.notificationId, userRegister.userName, userRegister.name,
+                             userRegister.lastName, userRegister.email, userRegister.password,
+                             userRegister.phone, userRegister.address);
         String id = User.create(user);
         user.setId(id);
         return user;
     }
 
     public User registerFacebookUser(FacebookRegistrationUser userRegister) {
-        User user = new User(userRegister.name,
-                             userRegister.lastName,
-                             userRegister.email,
-                             userRegister.facebookId,
-                             userRegister.phone,
+        User user = new User(userRegister.notificationId, userRegister.name, userRegister.lastName,
+                             userRegister.email, userRegister.facebookId, userRegister.phone,
                              userRegister.address);
         String id = User.create(user);
         user.setId(id);
         return user;
     }
 
-    public List<PetAdoption> getPetsInAdoption(String userId) {
-        return PetAdoption.getByOwnerId(userId);
+    public List<MyPet> getPetsByUserId(String userId) {
+        List<PetAdoption> petsForAdoption = PetAdoption.getPublishedByOwnerId(userId);
+        List<LostPet> lostPets = LostPet.getPublishedByOwnerId(userId);
+        List<FoundPet> foundPets = FoundPet.getPublishedByFinderId(userId);
+
+        List<MyPet> myPets = new ArrayList<>();
+        addPetsForAdoptionToMyPets(petsForAdoption, myPets);
+        addLostPetsToMyPets(lostPets, myPets);
+        addFoundPetsToMyPets(foundPets, myPets);
+
+        Collections.reverse(myPets);
+        return myPets;
     }
 
     public List<AdoptionNotification> getAdoptionNotifications(String userId) {
         List<AdoptionNotification> adoptionNotifications = new ArrayList<>();
-        List<PetAdoption> pets = PetAdoption.getByOwnerId(userId);
+        List<PetAdoption> pets = PetAdoption.getPublishedByOwnerId(userId);
         for (PetAdoption pet : pets) {
             if (pet.adoptionRequests != null) {
                 for (Adoption adoptionRequest : pet.adoptionRequests) {
@@ -91,7 +95,7 @@ public class UserService {
     }
 
     public Boolean userHasPendingNotifications(String userId) {
-        List<PetAdoption> pets = PetAdoption.getByOwnerId(userId);
+        List<PetAdoption> pets = PetAdoption.getPublishedByOwnerId(userId);
         for (PetAdoption pet : pets) {
             if (pet.hasAdoptionRequestsNotSeen()) {
                 return true;
@@ -101,9 +105,30 @@ public class UserService {
     }
 
     public void updateLastSeenNotifications(String userId) {
-        List<PetAdoption> pets = PetAdoption.getByOwnerId(userId);
+        List<PetAdoption> pets = PetAdoption.getPublishedByOwnerId(userId);
         for (PetAdoption pet : pets) {
             PetAdoption.updateLastSeenAdoptionRequests(pet.id);
+        }
+    }
+
+    private void addPetsForAdoptionToMyPets(List<PetAdoption> petsForAdoption, List<MyPet> myPets) {
+        for (PetAdoption pet : petsForAdoption) {
+            myPets.add(new MyPet(pet.id, pet.name, pet.type, pet.breed, pet.gender, pet.images,
+                                 pet.publicationDate, FOR_ADOPTION));
+        }
+    }
+
+    private void addLostPetsToMyPets(List<LostPet> lostPets, List<MyPet> myPets) {
+        for (LostPet pet : lostPets) {
+            myPets.add(new MyPet(pet.id, pet.name, pet.type, pet.breed, pet.gender, pet.images,
+                                 pet.publicationDate, LOST));
+        }
+    }
+
+    private void addFoundPetsToMyPets(List<FoundPet> foundPets, List<MyPet> myPets) {
+        for (FoundPet pet : foundPets) {
+            myPets.add(new MyPet(pet.id, "", pet.type, pet.breed, pet.gender, pet.images,
+                                 pet.publicationDate, LOST));
         }
     }
 

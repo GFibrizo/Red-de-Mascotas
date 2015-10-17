@@ -4,6 +4,8 @@ import model.Address;
 
 public class FacebookRegistrationUser {
 
+    public String notificationId;
+
     public String facebookId;
 
     public String email;
