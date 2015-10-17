@@ -1,6 +1,7 @@
 package controllers;
 
 import model.AdoptionNotification;
+import model.MatchingPet;
 import model.MyPet;
 import model.User;
 import model.external.LogInUser;
@@ -85,6 +86,11 @@ public class UserController {
     public Result updateLastSeenNotifications(String userId) {
         service.updateLastSeenNotifications(userId);
         return play.mvc.Controller.ok();
+    }
+
+    public Result getPetsMatches(String userId) {
+        List<MatchingPet> matchingPets = service.getMatchingPets(userId);
+        return play.mvc.Controller.ok(Json.toJson(matchingPets));
     }
 
 }

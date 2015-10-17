@@ -111,6 +111,16 @@ public class UserService {
         }
     }
 
+    public List<MatchingPet> getMatchingPets(String userId) {
+        List<MatchingPet> matchingPets = new ArrayList<>();
+        List<LostPet> userLostPets = LostPet.getPublishedByOwnerId(userId);
+        List<FoundPet> userFoundPets = FoundPet.getPublishedByFinderId(userId);
+        addFoundPetsToMatches(userLostPets, matchingPets);
+        addLostPetsToMatches(userFoundPets, matchingPets);
+        Collections.reverse(matchingPets);
+        return matchingPets;
+    }
+
     private void addPetsForAdoptionToMyPets(List<PetAdoption> petsForAdoption, List<MyPet> myPets) {
         for (PetAdoption pet : petsForAdoption) {
             myPets.add(new MyPet(pet.id, pet.name, pet.type, pet.breed, pet.gender, pet.images,
@@ -128,7 +138,29 @@ public class UserService {
     private void addFoundPetsToMyPets(List<FoundPet> foundPets, List<MyPet> myPets) {
         for (FoundPet pet : foundPets) {
             myPets.add(new MyPet(pet.id, "", pet.type, pet.breed, pet.gender, pet.images,
-                                 pet.publicationDate, LOST));
+                                 pet.publicationDate, FOUND));
+        }
+    }
+
+    private void addFoundPetsToMatches(List<LostPet> userLostPets, List<MatchingPet> matchingPets) {
+        for (LostPet userLostPet : userLostPets) {
+            List<FoundPet> matches = FoundPet.getMatches(userLostPet.type, userLostPet.gender, userLostPet.lastSeenDate,
+                    userLostPet.lastSeenLocation);
+            for (FoundPet match : matches) {
+                User finder = User.getById(match.finderId);
+                matchingPets.add(new MatchingPet(match, userLostPet, finder.email));
+            }
+        }
+    }
+
+    private void addLostPetsToMatches(List<FoundPet> userFoundPets, List<MatchingPet> matchingPets) {
+        for (FoundPet userFoundPet : userFoundPets) {
+            List<LostPet> matches = LostPet.getMatches(userFoundPet.type, userFoundPet.gender, userFoundPet.foundDate,
+                    userFoundPet.foundLocation);
+            for (LostPet match : matches) {
+                User owner = User.getById(match.ownerId);
+                matchingPets.add(new MatchingPet(match, userFoundPet, owner.email));
+            }
         }
     }
 

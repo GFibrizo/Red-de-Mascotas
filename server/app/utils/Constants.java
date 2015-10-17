@@ -24,6 +24,17 @@ public class Constants {
 
     public static final String PETS_FOUND_MESSAGE = "Hay nuevas publicaciones similares a tu búsqueda";
 
-    public static final int MAX_LAST_PUBLICATIONS = 50;
+    public static final int MAX_LAST_PUBLICATIONS = 20;
+
+    public static final int BREED_SCORE = 8;
+
+    public static final int SIZE_SCORE = 5;
+
+    public static final int MAIN_COLOR_SCORE = 3;
+
+    public static final int EYE_COLOR_SCORE = 2;
+
+    public static final int SECONDARY_COLOR_SCORE = 1;
+
 
 }
