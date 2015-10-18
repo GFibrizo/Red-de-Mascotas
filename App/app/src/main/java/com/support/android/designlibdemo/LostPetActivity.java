@@ -263,7 +263,7 @@ public class LostPetActivity extends AppCompatActivity {
                 imgs.put(img);
             }
 
-            object.put("images", images);
+            object.put("images", imgs);
 
 
         } catch (JSONException e) {
