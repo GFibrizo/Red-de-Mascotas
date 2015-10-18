@@ -54,6 +54,7 @@ public class User {
 
     public User(JSONObject object) {
         try {
+            this.id = object.getString("id");
             this.userName = object.getString("userName");
             this.name = object.getString("name");
             this.lastName = object.getString("lastName");
@@ -61,7 +62,6 @@ public class User {
             this.password = new Password(object.getJSONObject("password"));
             this.phone = object.getString("phone");
             this.address = new Address(object.getJSONObject("address"));
-            this.id = object.getString("id");
         } catch (JSONException e) {
             e.printStackTrace();
         }
