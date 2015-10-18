@@ -17,7 +17,8 @@
 <resources>
     <string name="app_name">Red de Mascotas</string>
     <string name="app_id">1678287159056803</string>
-    <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>
+    <!--<string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>-->
+    <string name="map_api_key">AIzaSyCEsqjDCl4r9oIcmeEoSJF7GI8x9yXveTI</string>
     <!-- API KEY FABRI <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string> -->
 
     <string name="cheese_ipsum">Jarlsberg lancashire dalmata. Dolcelatte hard cheese brie st. agur blue
