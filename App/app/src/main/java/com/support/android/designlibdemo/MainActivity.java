@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         Adapter adapter = new Adapter(fragmentManager);
 
-        PetsListFragment adoption = new PetsListFragment();
+        PetsListFragment adoption = new AdoptionPetListFragment();
         Bundle bundleAdoption = new Bundle();
         bundleAdoption.putInt("type", Constants.LAST_ADOPTION);
         adoption.setArguments(bundleAdoption);

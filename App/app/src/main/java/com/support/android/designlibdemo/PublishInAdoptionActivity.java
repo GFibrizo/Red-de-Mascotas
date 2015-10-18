@@ -326,7 +326,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
         File image;
-        String response;
+        String response = null;
 
         QueryResultTask(File image) {
             this.image = image;
@@ -335,9 +335,11 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             ImageRequest request = new ImageRequest(getApplicationContext());
-            response = request.upload(image);
-            Log.e("Response", response);
+            while (response == null) {
+                response = request.upload(image);
+            }
             images.add(response);
+            Log.e("Response", response);
             return true;
         }
 

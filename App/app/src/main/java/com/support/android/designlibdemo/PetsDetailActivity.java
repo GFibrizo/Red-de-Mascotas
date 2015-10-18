@@ -55,6 +55,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import utils.AdoptionRequest;
+import utils.Constants;
 
 
 public class PetsDetailActivity extends AppCompatActivity implements View.OnClickListener{
@@ -252,7 +253,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     public static class SwipeFragment extends Fragment {
         protected String baseUrlForImage;
-        private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
+        private String IP_EMULADOR = Constants.IP_SERVER;//"http://10.0.2.2:9000"; //ip generica del emulador
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,

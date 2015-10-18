@@ -53,30 +53,35 @@ import java.util.Random;
 import utils.RequestHandler;
 import utils.ResultsRequest;
 import utils.SearchRequest;
+import utils.SimpleStringRecyclerViewAdapter;
 
 import static utils.Constants.CHEESE;
 import static utils.Constants.getRandomCheeseDrawable;
 
 public class PetsListFragment extends Fragment {
 
-    private int type;
-    SharedPreferences preferences;
-    JSONArray result = null;
+    protected int type;
+    protected SharedPreferences preferences;
+    protected JSONArray result = null;
+    protected RecyclerView rv;
 
     @Override
     public void setArguments(Bundle bundle) {
         this.type = bundle.getInt("type");
     }
 
-    @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public void onCreate (Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
         QueryTask resultTask = new QueryTask();
         resultTask.execute();
-        RecyclerView rv = (RecyclerView) inflater.inflate(
-                R.layout.fragment_cheese_list, container, false);
-        setupRecyclerView(rv);
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        rv = (RecyclerView) inflater.inflate(R.layout.fragment_cheese_list, container, false);
         return rv;
     }
 
@@ -85,7 +90,7 @@ public class PetsListFragment extends Fragment {
 
     protected void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));     // TODO: CARGA LOS NOMBRES DE LOS ITEMS
+        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
         SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter());
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -106,133 +111,14 @@ public class PetsListFragment extends Fragment {
     /**********************************************************************************************/
     /**********************************************************************************************/
 
-    public static class SimpleStringRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder> {
-
-        private final TypedValue mTypedValue = new TypedValue();
-        private int mBackground;
-        private JSONArray mValues;
-
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public String mBoundString;
-
-            public final View mView;
-            public final ImageView mImageView;
-            public final TextView mNameView;
-            public final TextView mPetTypeView;
-            public final TextView mBreedView;
-            public final TextView mGenderView;
-            public final TextView mTypeView;
-            public final TextView mDateView;
-
-            public ViewHolder(View view) {
-                super(view);
-                mView = view;
-                mImageView = (ImageView) view.findViewById(R.id.avatar);
-                mNameView = (TextView) view.findViewById(R.id.name_main);
-                mPetTypeView = (TextView) view.findViewById(R.id.pet_type_main);
-                mBreedView = (TextView) view.findViewById(R.id.breed_main);
-                mGenderView = (TextView) view.findViewById(R.id.gender_main);
-                mTypeView = (TextView) view.findViewById(R.id.type_main);
-                mDateView = (TextView) view.findViewById(R.id.date_main);
-            }
-
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mNameView.getText();
-            }
-        }
-
-        /*public String getValueAt(int position) {
-            return mValues.get(position);
-        }*/
-
-        public SimpleStringRecyclerViewAdapter(Context context, JSONArray items) {
-            context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
-            mBackground = mTypedValue.resourceId;
-            mValues = items;
-        }
-
-        public void remove(int position) {
-            mValues.remove(position);
-            notifyItemRemoved(position);
-        }
-
-        /******************************************************************************************/
-        /******************************************************************************************/
-
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item, parent, false);
-            view.setBackgroundResource(mBackground);
-            return new ViewHolder(view);
-        }
-
-        /******************************************************************************************/
-        /******************************************************************************************/
-
-        @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-
-
-            //holder.mBoundString = mValues.get(position);
-            //holder.mBoundString =
-            JSONArray images = null;
-            try {
-                JSONObject object = (JSONObject) mValues.get(position);
-                holder.mBoundString = (String) object.get("name");
-
-                holder.mNameView.setText((String) object.get("name"));
-                holder.mPetTypeView.setText((String) object.get("type"));
-                holder.mBreedView.setText((String) object.get("breed"));
-                holder.mGenderView.setText((String) object.get("gender"));
-                holder.mTypeView.setText((String) object.get("publicationType"));
-                holder.mDateView.setText((String) object.get("publicationDate"));
-                images = (JSONArray) object.get("images");
-
-            } catch (JSONException e) {
-
-            }
-
-
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, PetsDetailActivity.class);
-                    intent.putExtra(PetsDetailActivity.EXTRA_NAME, holder.mBoundString);
-
-                    context.startActivity(intent);
-                }
-            });
-
-            /*Glide.with(holder.mImageView.getContext())
-                    .load(getRandomCheeseDrawable())    //TODO: ACA CARGA LA IMAGEN
-                    .fitCenter()
-                    .into(holder.mImageView);*/
-            try {
-                String baseUrlForImage = RequestHandler.getServerUrl() + "/pet/image/" + ((String) images.get(0));
-                new ImageUrlView(baseUrlForImage, holder.mImageView);
-            } catch (JSONException e) {}
-        }
-
-        /******************************************************************************************/
-        /******************************************************************************************/
-
-        @Override
-        public int getItemCount() {
-            return mValues.length();
-        }
-    }
 
     /******************************************************************************************/
     /******************************************************************************************/
 
 
-    public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
+    protected class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-        private final SimpleStringRecyclerViewAdapter mAdapter;
+        protected final SimpleStringRecyclerViewAdapter mAdapter;
 
         public SimpleItemTouchHelperCallback(SimpleStringRecyclerViewAdapter adapter) {
             mAdapter = adapter;
@@ -270,7 +156,7 @@ public class PetsListFragment extends Fragment {
     /**********************************************************************************************/
     /**********************************************************************************************/
 
-    private class QueryTask extends AsyncTask<Void, Void, Boolean> {
+    protected class QueryTask extends AsyncTask<Void, Void, Boolean> {
 
         SearchForAdoptionFilters filters;
         JSONArray response;
@@ -278,6 +164,7 @@ public class PetsListFragment extends Fragment {
         String ownerId = "";
 
         QueryTask() {
+            super();
         }
 
         @Override
@@ -300,6 +187,7 @@ public class PetsListFragment extends Fragment {
         protected Boolean doInBackground(Void... params) {
             ResultsRequest request = new ResultsRequest(getContext());
             response = request.searchPublications(ownerId);
+            Log.e("RESPONSE", response.toString());
             return true;
         }
 
@@ -309,6 +197,8 @@ public class PetsListFragment extends Fragment {
                 Intent intent = new Intent(getContext(), ResultListActivity.class);
                 if (response != null) {
                     result = response;
+                    setupRecyclerView(rv);
+                    rv.invalidate();
                 }
             }
         }

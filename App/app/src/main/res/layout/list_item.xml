@@ -67,37 +67,38 @@
                     android:id="@+id/name_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Title" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Title"
+                    android:text="No encontrado"/>
 
                 <TextView
                     android:id="@+id/pet_type_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/cheese_ipsum" />
+                    android:text="Tipo:" />
 
                 <TextView
                     android:id="@+id/breed_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/cheese_ipsum" />
+                    android:text="Raza:" />
 
                 <TextView
                     android:id="@+id/gender_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/cheese_ipsum" />
+                    android:text="Genero:" />
 
                 <TextView
                     android:id="@+id/type_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/cheese_ipsum" />
+                    android:text="Tipo:" />
 
                 <TextView
                     android:id="@+id/date_main"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/cheese_ipsum"
+                    android:text="Fecha:"
                     android:visibility="gone"/>
 
 
