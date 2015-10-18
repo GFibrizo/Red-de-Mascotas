@@ -23,6 +23,8 @@ public class User {
 
     public String facebookId;
 
+    public String notificationId;
+
     public String phone;
 
     public Address address;
@@ -76,6 +78,7 @@ public class User {
             jsonObject.put("lastName",this.lastName);
             jsonObject.put("email",this.email);
             jsonObject.put("facebookId",this.facebookId);
+            jsonObject.put("notificationId", this.notificationId);
             jsonObject.put("phone",this.phone);
             jsonObject.put("password",this.password.toJson());
             jsonObject.put("address", address.toJson());
@@ -165,5 +168,13 @@ public class User {
 
     public Address getAddress() {
         return address;
+    }
+
+    public String getNotificationId() {
+        return notificationId;
+    }
+
+    public void setNotificationId(String notificationId) {
+        this.notificationId = notificationId;
     }
 }
