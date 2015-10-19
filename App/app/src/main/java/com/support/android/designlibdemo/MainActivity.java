@@ -236,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         preferences.edit().clear().commit();
         LoginManager.getInstance().logOut();
-        finish();
+        finishAffinity();
         System.exit(0);
     }
 
