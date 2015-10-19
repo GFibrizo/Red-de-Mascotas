@@ -53,7 +53,7 @@ public class LoginActivity extends AppCompatActivity {
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject json, GraphResponse response) {
-                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+
                                 if (response.getError() != null) {
                                     // handle error
                                     Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
@@ -61,6 +61,8 @@ public class LoginActivity extends AppCompatActivity {
                                     UserRegisterRequest userRegisterRequest = new UserRegisterRequest(getApplicationContext());
                                     SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
                                     userRegisterRequest.setPreferences(preferences);
+                                    userRegisterRequest.setContext(getApplicationContext());
+                                    userRegisterRequest.setCallerActivity(LoginActivity.this);
 
                                     try {
                                         userRegisterRequest.registerFacebookUser(json);
@@ -68,7 +70,7 @@ public class LoginActivity extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
                                     }
                                 }
-                                startActivity(intent);
+
                             }
                         }).executeAsync();
             }
