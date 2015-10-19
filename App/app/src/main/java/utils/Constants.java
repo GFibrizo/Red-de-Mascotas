@@ -38,7 +38,7 @@ public final class Constants {
             "Grifón Korthal", "Grifón vandeano basset pequeño", "Harrier", "Husky siberiano", "Jack Russell terrier", "Keeshond", "Kerry Blue Terrier",
             "Komondor", "Kuvasz", "Labrador Retriever", "Lakeland Terrier", "Lebrel escocés", "Lebrel italiano", "Leonberger", "Lhasa Apso", "Lobero irlandés",
             "Lundehund", "Manchester Terrier", "Mastín inglés", "Mastín napolitano", "Mestizo", "Montaña de los Pirineos / Gran Pirineo", "Otterhound", "Papillon",
-            "Parson Russell Terrier", "Pastor alemán / Overjero Alemán", "Pastor belga", "Pastor belga Malinois", "Pastor belga Tervuerense", "Pastor de Anatolia",
+            "Parson Russell Terrier", "Pastor alemán / Ovejero Alemán", "Pastor belga", "Pastor belga Malinois", "Pastor belga Tervuerense", "Pastor de Anatolia",
             "Pastor de Brie", "Pastor de los Pirineos", "Pastor de Valée", "Pastor ganadero autraliano", "Pastor Islandés", "Pastor ovejero australiano", "Pekinés",
             "Pequeño perro león", "Perro crestado rodesiano", "Perro de agua americano", "Perro de agua irlandés", "Perro de Agua Portugués", "Perro de Canaán",
             "Perro esquimal americano", "Perro pastor de las islas Shetland", "Pharaoh Hound", "Pinscher alemán", "Pinscher miniatura", "Plott", "Podenco ibicenco",
