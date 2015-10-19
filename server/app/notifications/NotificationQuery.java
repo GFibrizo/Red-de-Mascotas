@@ -1,11 +1,21 @@
 package notifications;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class NotificationQuery {
 
-    public String objectId;
+    public InQuery installationId;
 
-    public NotificationQuery(String objectId) {
-        this.objectId = objectId;
+    public InQuery deviceType;
+
+    public NotificationQuery(String installationId) {
+        List<String> installationIdQuery = new ArrayList<>();
+        installationIdQuery.add(installationId);
+        List<String> deviceTypeQuery = new ArrayList<>();
+        deviceTypeQuery.add("android");
+        this.installationId = new InQuery(installationIdQuery);
+        this.deviceType = new InQuery(deviceTypeQuery);
     }
 
 }

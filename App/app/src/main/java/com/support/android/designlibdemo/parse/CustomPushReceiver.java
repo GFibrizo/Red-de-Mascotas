@@ -6,6 +6,7 @@ import android.util.Log;
 
 import com.parse.ParsePushBroadcastReceiver;
 import com.support.android.designlibdemo.MainActivity;
+import com.support.android.designlibdemo.NotificationHandlerActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -57,15 +58,13 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
      */
     private void parsePushJson(Context context, JSONObject json) {
         try {
-            boolean isBackground = json.getBoolean("is_background");
-            JSONObject data = json.getJSONObject("data");
-            String title = data.getString("title");
-            String message = data.getString("message");
+//            boolean isBackground = json.getBoolean("is_background");
+//            JSONObject data = json.getJSONObject("data");
+            String message = json.getString("alert");
+            String notificationType = json.getString("notificationType");
 
-            if (!isBackground) {
-                Intent resultIntent = new Intent(context, MainActivity.class);
-                showNotificationMessage(context, title, message, resultIntent);
-            }
+            Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
+            showNotificationMessage(context, notificationType, message, resultIntent);
 
         } catch (JSONException e) {
             Log.e(TAG, "Push message json exception: " + e.getMessage());
@@ -78,18 +77,19 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
      * If the app is in background, launches the app
      *
      * @param context
-     * @param title
+     * @param notificationType
      * @param message
      * @param intent
      */
-    private void showNotificationMessage(Context context, String title, String message, Intent intent) {
+    private void showNotificationMessage(Context context, String notificationType, String message, Intent intent) {
 
         notificationUtils = new NotificationUtils(context);
 
         intent.putExtras(parseIntent.getExtras());
+        intent.putExtra("notificationType", notificationType);
 
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
-        notificationUtils.showNotificationMessage(title, message, intent);
+        notificationUtils.showNotificationMessage(message, intent);
     }
 }
