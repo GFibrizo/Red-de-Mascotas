@@ -49,6 +49,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         try {
             JSONObject object = mAdapter.getAt(viewHolder.getAdapterPosition());
             UnpublishRequest request = new UnpublishRequest(context);
+            Log.e("REMOVE", object.getString("id") + " : " + object.getString("publicationType"));
             request.send(object.getString("id"), object.getString("publicationType"));
         } catch (JSONException e) {
             Log.e("ERROR UNPUBLISH SWIPE", e.getMessage());

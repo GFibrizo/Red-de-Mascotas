@@ -77,8 +77,10 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -646,7 +648,8 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
 
     @Override
     public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
-        timeString = hourOfDay+" : "+minute;
+        timeString = String.format("%02d:%02d",hourOfDay,minute);
+
         String time = "Hora: "+ timeString;
         timeMissing.setText(time);
         timeMissing.setVisibility(View.VISIBLE);
@@ -655,7 +658,9 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         dateString = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
-        String date = "Fecha: " + dateString;
+
+        String date = String.format("Fecha: %04d/%02d/%02d", year, monthOfYear+1, dayOfMonth);// dateString;
+        //Toast.makeText(getApplicationContext(), date, Toast.LENGTH_SHORT).show();
         dateMissing.setText(date);
         dateMissing.setVisibility(View.VISIBLE);
         Calendar now = Calendar.getInstance();
