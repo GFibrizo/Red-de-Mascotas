@@ -17,6 +17,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="20dp"
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+            android:layout_alignParentRight="false"
             android:layout_alignParentEnd="false">
 
             <android.support.v7.widget.Toolbar

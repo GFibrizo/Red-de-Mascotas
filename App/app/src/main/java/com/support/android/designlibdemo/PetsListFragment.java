@@ -16,53 +16,88 @@
 
 package com.support.android.designlibdemo;
 
-import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
+import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
+import com.support.android.designlibdemo.model.SearchForAdoptionFilters;
+import com.support.android.designlibdemo.model.User;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import static utils.Constants.CHEESE;
-import static utils.Constants.getRandomCheeseDrawable;
+import utils.ResultsRequest;
+import utils.SimpleItemTouchHelperCallback;
+import utils.SimpleStringRecyclerViewAdapter;
 
 public class PetsListFragment extends Fragment {
+
+    protected int type;
+    protected SharedPreferences preferences;
+    protected JSONArray result = null;
+    protected RecyclerView rv;
+
+    @Override
+    public void setArguments(Bundle bundle) {
+        this.type = bundle.getInt("type");
+    }
+
+    @Override
+    public void onCreate (Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+        QueryTask resultTask = setQuery();
+        resultTask.execute();
+    }
+
+    protected QueryTask setQuery() {
+        return new QueryTask();
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        RecyclerView rv = (RecyclerView) inflater.inflate(
-                R.layout.fragment_cheese_list, container, false);
-        setupRecyclerView(rv);
+        rv = (RecyclerView) inflater.inflate(R.layout.fragment_cheese_list, container, false);
         return rv;
     }
 
     /**********************************************************************************************/
     /**********************************************************************************************/
 
-    private void setupRecyclerView(RecyclerView recyclerView) {
+    protected void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(),
-                getRandomSublist(CHEESE, 30)));
+        //recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
+        setAdapter(recyclerView);
+        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter(), getContext());
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    protected void setAdapter(RecyclerView recyclerView) {
+        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
     }
 
     /**********************************************************************************************/
     /**********************************************************************************************/
 
-    private List<String> getRandomSublist(String[] array, int amount) {
+    protected List<String> getRandomSublist(String[] array, int amount) {
         ArrayList<String> list = new ArrayList<>(amount);
         Random random = new Random();
         while (list.size() < amount) {
@@ -74,86 +109,66 @@ public class PetsListFragment extends Fragment {
     /**********************************************************************************************/
     /**********************************************************************************************/
 
-    public static class SimpleStringRecyclerViewAdapter
-            extends RecyclerView.Adapter<SimpleStringRecyclerViewAdapter.ViewHolder> {
 
-        private final TypedValue mTypedValue = new TypedValue();
-        private int mBackground;
-        private List<String> mValues;
+    /******************************************************************************************/
+    /******************************************************************************************/
 
-        public static class ViewHolder extends RecyclerView.ViewHolder {
-            public String mBoundString;
 
-            public final View mView;
-            public final ImageView mImageView;
-            public final TextView mTextView;
 
-            public ViewHolder(View view) {
-                super(view);
-                mView = view;
-                mImageView = (ImageView) view.findViewById(R.id.avatar);
-                mTextView = (TextView) view.findViewById(android.R.id.text1);
-            }
 
-            @Override
-            public String toString() {
-                return super.toString() + " '" + mTextView.getText();
-            }
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    protected class QueryTask extends AsyncTask<Void, Void, Boolean> {
+
+        SearchForAdoptionFilters filters;
+        JSONArray response;
+        JSONObject object;
+        String ownerId = "";
+
+        QueryTask() {
+            super();
         }
-
-        public String getValueAt(int position) {
-            return mValues.get(position);
-        }
-
-        public SimpleStringRecyclerViewAdapter(Context context, List<String> items) {
-            context.getTheme().resolveAttribute(R.attr.selectableItemBackground, mTypedValue, true);
-            mBackground = mTypedValue.resourceId;
-            mValues = items;
-        }
-
-
-        /******************************************************************************************/
-        /******************************************************************************************/
-        @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_item, parent, false);
-            view.setBackgroundResource(mBackground);
-            return new ViewHolder(view);
-        }
-
-
-        /******************************************************************************************/
-        /******************************************************************************************/
 
         @Override
-        public void onBindViewHolder(final ViewHolder holder, int position) {
-            holder.mBoundString = mValues.get(position);
-            holder.mTextView.setText(mValues.get(position));
+        protected void onPreExecute() {
+            try {
+                object = new JSONObject(preferences.getString("userData", "{}")); //getIntent().getStringExtra("user")
+                Log.e("USER DATA", preferences.getString("userData", "{}"));
+            } catch (JSONException e) {
 
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, PetsDetailActivity.class);
-                    intent.putExtra(PetsDetailActivity.EXTRA_NAME, holder.mBoundString);
+            }
+            if (object.length() == 0) {
+                Toast.makeText(getContext(), "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            User loginUser = new User(object);
+            ownerId = loginUser.getId();
+        }
 
-                    context.startActivity(intent);
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ResultsRequest request = new ResultsRequest(getContext());
+            response = request.searchPublications(ownerId);
+            Log.e("RESPONSE", response.toString());
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                Intent intent = new Intent(getContext(), ResultListActivity.class);
+                if (response != null) {
+                    result = response;
+                    setupRecyclerView(rv);
+                    rv.invalidate();
                 }
-            });
-
-            Glide.with(holder.mImageView.getContext())
-                    .load(getRandomCheeseDrawable())
-                    .fitCenter()
-                    .into(holder.mImageView);
+            }
         }
-
-        /******************************************************************************************/
-        /******************************************************************************************/
 
         @Override
-        public int getItemCount() {
-            return mValues.size();
-        }
+        protected void onCancelled() { }
+
     }
+
 }

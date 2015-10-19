@@ -16,13 +16,11 @@
 
 package com.support.android.designlibdemo;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -48,13 +46,12 @@ import android.widget.Toast;
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
 import com.support.android.designlibdemo.model.User;
 
-
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import utils.AdoptionRequest;
+import utils.Constants;
 
 
 public class PetsDetailActivity extends AppCompatActivity implements View.OnClickListener{
@@ -252,7 +249,7 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
     public static class SwipeFragment extends Fragment {
         protected String baseUrlForImage;
-        private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
+        private String IP_EMULADOR = Constants.IP_SERVER;//"http://10.0.2.2:9000"; //ip generica del emulador
 
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,

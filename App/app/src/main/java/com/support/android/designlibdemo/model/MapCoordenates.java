@@ -6,14 +6,18 @@ package com.support.android.designlibdemo.model;
 public class MapCoordenates {
 
     private static MapCoordenates ourInstance = new MapCoordenates();
-    private String latitude;
-    private String longitude;
+    private String latitude = null;
+    private String longitude = null;
 
     public static MapCoordenates getInstance() {
         return ourInstance;
     }
 
     private MapCoordenates() {
+    }
+
+    public boolean isNotSet() {
+        return ((latitude == null) || (longitude == null));
     }
 
     public void setLatitude(String latitude) {
@@ -30,5 +34,10 @@ public class MapCoordenates {
 
     public String getLongitude() {
         return longitude;
+    }
+
+    public void clear() {
+        latitude = null;
+        longitude = null;
     }
 }

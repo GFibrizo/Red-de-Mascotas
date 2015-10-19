@@ -8,6 +8,7 @@ public final class Constants {
 
     private Constants() { }
 
+    public static final String IP_SERVER = "http://10.0.2.2:9000";//"http://192.168.1.107:9000"
     public static final String PARSE_APPLICATION_ID = "cLJ93SxVri3M9sCj7hGsJUnp45mA46kWMLdwdsno";
     public static final String PARSE_CLIENT_KEY = "ZkblcRGqaYVV9wUkToPIGg0TellyUuBWwWLIJbiw";
     public static final int NOTIFICATION_ID = 100;
@@ -65,6 +66,8 @@ public final class Constants {
 
     public static String[] SIZES = {"Chico", "Mediano", "Grande"};
 
+    public static String[] NONE_COLORS = {"Color de pelaje principal", "Color de pelaje secundario", "Color de ojos"};
+
 
 
     public static final String[] CHEESE = {
@@ -89,5 +92,9 @@ public final class Constants {
                 return R.drawable.black_cat;
         }
     }
+
+    public static int PUBLICATION = 0;
+    public static int LAST_ADOPTION = 1;
+
 
 }

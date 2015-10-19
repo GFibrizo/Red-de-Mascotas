@@ -13,6 +13,8 @@ import com.support.android.designlibdemo.model.AdoptionNotification;
 
 import java.util.ArrayList;
 
+import utils.Constants;
+
 /**
  * Clase que servira para mostrar en un listView algo que tenga un texto y una imagen
  *
@@ -22,7 +24,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
     protected ArrayList<AdoptionNotification> elements;
     protected final int layout;
     protected String baseUrlForImage;
-    private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
+    private String IP_EMULADOR = Constants.IP_SERVER; //"http://10.0.2.2:9000"; //ip generica del emulador
     /**
      * @param layout   El layout que usara para mostrar cada fila
      * @param elements conjunto de elementos en los cuales se mostrara 1 por fila

@@ -32,6 +32,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
+import utils.Constants;
 import utils.NotificationRequest;
 import utils.SearchRequest;
 
@@ -46,7 +47,7 @@ public class NotificationActivity extends AppCompatActivity {
     private SharedPreferences prefs;
     private User loginUser;
     protected String baseUrlForImage;
-    private String IP_EMULADOR = "http://10.0.2.2:9000"; //ip generica del emulador
+    private String IP_EMULADOR = Constants.IP_SERVER;//"http://10.0.2.2:9000"; //ip generica del emulador
 
 
     @Override

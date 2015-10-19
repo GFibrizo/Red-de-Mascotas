@@ -166,9 +166,20 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         fragmentManager = getSupportFragmentManager();
         Adapter adapter = new Adapter(fragmentManager);
-        adapter.addFragment(new PetsListFragment(), "En adopción");
-        adapter.addFragment(new PetsListFragment(), "Mis búsquedas");
-        adapter.addFragment(new PetsListFragment(), "Mis\n publicaciones");
+
+        PetsListFragment adoption = new AdoptionPetListFragment();
+        Bundle bundleAdoption = new Bundle();
+        bundleAdoption.putInt("type", Constants.LAST_ADOPTION);
+        adoption.setArguments(bundleAdoption);
+
+        PetsListFragment publications = new PetsListFragment();
+        Bundle bundlePublication = new Bundle();
+        bundlePublication.putInt("type", Constants.PUBLICATION);
+        publications.setArguments(bundlePublication);
+
+        adapter.addFragment(adoption, "Últimos\n en adopción");
+        //adapter.addFragment(new PetsListFragment(), "Mis búsquedas");
+        adapter.addFragment(publications, "Mis\n publicaciones");
         viewPager.setAdapter(adapter);
     }
 
