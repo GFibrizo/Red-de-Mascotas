@@ -10,6 +10,7 @@ public class AdoptionNotification implements Comparable<AdoptionNotification> {
 
     public String petImageId;
 
+
     public AdoptionNotification(String adopterEmail, String requestDate, String petName, String petImageId) {
         this.adopterEmail = adopterEmail;
         this.requestDate = requestDate;

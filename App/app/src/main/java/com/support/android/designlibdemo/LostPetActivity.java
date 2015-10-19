@@ -7,10 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -23,6 +22,8 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -39,13 +40,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 import utils.ImageRequest;
+import utils.SpinnerArrayAdapter;
 
 import static utils.Constants.AGES;
 import static utils.Constants.CATS;
 import static utils.Constants.DOGS;
 import static utils.Constants.SIZES;
-
-public class PublishInAdoptionActivity extends AppCompatActivity {
+//TODO: ESTA CLASE ES UNA COPIA DE PUBLICAR MASCOTA, FALTA SU LOGICA PROPIA
+public class LostPetActivity extends AppCompatActivity {
 
     JSONObject object = null;
     Activity activity = null;
@@ -58,7 +60,22 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_publish_in_adoption);
+        setContentView(R.layout.activity_lost_pet);
+
+        Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
+        ArrayAdapter<CharSequence> hairColor1Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, "Color principal");
+        hairColor1Spinner.setAdapter(hairColor1Adapter);
+        hairColor1Spinner.setSelection(hairColor1Adapter.getCount());
+
+        Spinner hairColor2Spinner = (Spinner) findViewById(R.id.spinner_hair_color2);
+        ArrayAdapter<CharSequence> hairColor2Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, "Color secundario");
+        hairColor2Spinner.setAdapter(hairColor2Adapter);
+        hairColor2Spinner.setSelection(hairColor2Adapter.getCount());
+
+        Spinner eyeColorSpinner = (Spinner) findViewById(R.id.spinner_eye_color);
+        ArrayAdapter<CharSequence> eyeColorAdapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.EYE_COLORS, "Color de ojos");
+        eyeColorSpinner.setAdapter(eyeColorAdapter);
+        eyeColorSpinner.setSelection(eyeColorAdapter.getCount());
 
         try {
             object = new JSONObject(getIntent().getStringExtra("data"));
@@ -89,7 +106,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
         breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
 
-        SwitchCompat type = (SwitchCompat) findViewById(R.id.switch_pet_type);
+        Switch type = (Switch) findViewById(R.id.switch_pet_type);
         type.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 // do something, the isChecked will be
@@ -215,8 +232,8 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
     public void nextPage(View view) {
         EditText name = (EditText)findViewById(R.id.published_pet_name);
-        SwitchCompat petType = (SwitchCompat)findViewById(R.id.switch_pet_type);
-        SwitchCompat petGender = (SwitchCompat)findViewById(R.id.switch_pet_gender);
+        Switch petType = (Switch)findViewById(R.id.switch_pet_type);
+        Switch petGender = (Switch)findViewById(R.id.switch_pet_gender);
         AutoCompleteTextView breed = (AutoCompleteTextView)findViewById(R.id.breed);
         TextView age = (TextView) findViewById(R.id.age_label);
         TextView size = (TextView) findViewById(R.id.size_label);
@@ -231,9 +248,9 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
             }
 
             if (petGender.isChecked()) {
-                object.put("gender", petGender.getTextOn());
+                object.put("gender", petType.getTextOn());
             } else {
-                object.put("gender", petGender.getTextOff());
+                object.put("gender", petType.getTextOff());
             }
 
             object.put("breed", breed.getText());
@@ -326,7 +343,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
         File image;
-        String response = null;
+        String response;
 
         QueryResultTask(File image) {
             this.image = image;
@@ -335,11 +352,9 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
             ImageRequest request = new ImageRequest(getApplicationContext());
-            while (response == null) {
-                response = request.upload(image);
-            }
-            images.add(response);
+            response = request.upload(image);
             Log.e("Response", response);
+            images.add(response);
             return true;
         }
 

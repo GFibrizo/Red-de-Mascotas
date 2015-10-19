@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.ParseInstallation;
 import com.support.android.designlibdemo.model.Address;
 import com.support.android.designlibdemo.model.User;
 
@@ -179,6 +180,7 @@ public class Register2Activity extends AppCompatActivity {
             //Validate
             user.setAddress(address);
 
+            user.setNotificationId(ParseInstallation.getCurrentInstallation().getInstallationId());
             user.setName(mNameView.getText().toString());
             user.setLastName(mLastNameView.getText().toString());
             user.setPhone(mPhoneView.getText().toString());

@@ -6,6 +6,8 @@ import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import play.modules.mongodb.jackson.MongoDB;
 
 import java.util.ArrayList;
@@ -98,11 +100,13 @@ public class FoundPet {
     }
 
     public static List<FoundPet> getMatches(String type, String gender, String lastSeenDate, GeoLocation location) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
+        LocalDate date = dateTimeFormatter.parseLocalDate(lastSeenDate);
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("type", type);
         query.add("gender", gender);
-        query.push("foundDate").add("$gt", LocalDate.parse(lastSeenDate).minusDays(1).toString(DATE_FORMAT))
-                               .add("$lt", LocalDate.parse(lastSeenDate).plusDays(1).toString(DATE_FORMAT)).pop();
+        query.push("foundDate").add("$gt", date.minusDays(1).toString(DATE_FORMAT))
+                               .add("$lt", date.plusDays(1).toString(DATE_FORMAT)).pop();
         List<FoundPet> basicMatches = FoundPet.collection.find(query.get()).toArray();
 
         List<FoundPet> foundPets = new ArrayList<>();

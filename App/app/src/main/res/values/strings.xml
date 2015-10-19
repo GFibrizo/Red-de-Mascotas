@@ -19,6 +19,7 @@
     <string name="app_id">1678287159056803</string>
     <!-- API KEY AGUS <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string> -->
     <!-- API KEY FABRI <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string> -->
+    <!-- API KEY JAS <string name="map_api_key">AIzaSyCEsqjDCl4r9oIcmeEoSJF7GI8x9yXveTI</string> -->
     <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>
     <string name="cheese_ipsum">Jarlsberg lancashire dalmata. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
@@ -121,9 +122,6 @@
     <string name="dialogCancel">Cancelar</string>
     <string name="title_activity_report_lost_pet">ReportLostPet</string>
     <string name="title_activity_map">Ultima vez visto en</string>
-
-<!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

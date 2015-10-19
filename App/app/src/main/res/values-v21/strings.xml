@@ -30,4 +30,5 @@
     <string name="telephone">Teléfono</string>
     <string name="firstAndLastName">Nombre y apellido</string>
     <string name="firstName">Nombre</string>
+    <string name="map_api_key">AIzaSyCEsqjDCl4r9oIcmeEoSJF7GI8x9yXveTI</string>
 </resources>
