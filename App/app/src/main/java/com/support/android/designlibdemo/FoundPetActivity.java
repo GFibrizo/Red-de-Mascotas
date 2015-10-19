@@ -284,8 +284,11 @@ public class FoundPetActivity extends AppCompatActivity implements
     /**********************************************************************************************/
 
     public void showMapDetails() {
-        Intent intent = new Intent(getApplicationContext(), MapActivity.class);
-        intent.putExtra("missing", object.toString());
+        //Intent intent = new Intent(getApplicationContext(), MapActivity.class);
+        //intent.putExtra("missing", object.toString());
+        Intent intent = new Intent(FoundPetActivity.this, MapActivity.class);
+        //intent.putExtra("missing", object.toString());
+        intent.putExtra("From", FoundPetActivity.class);
         startActivity(intent);
     }
 

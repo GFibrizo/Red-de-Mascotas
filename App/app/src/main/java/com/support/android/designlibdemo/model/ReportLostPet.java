@@ -657,9 +657,9 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        dateString = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+        dateString = String.format("Fecha: %04d/%02d/%02d", year, monthOfYear+1, dayOfMonth);// dateString;
 
-        String date = String.format("Fecha: %04d/%02d/%02d", year, monthOfYear+1, dayOfMonth);// dateString;
+        String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
         //Toast.makeText(getApplicationContext(), date, Toast.LENGTH_SHORT).show();
         dateMissing.setText(date);
         dateMissing.setVisibility(View.VISIBLE);
