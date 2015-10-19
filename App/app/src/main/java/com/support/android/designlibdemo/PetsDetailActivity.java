@@ -110,11 +110,11 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 
 //        loadBackdrop();
         cargarResultados();
-        //TODO: sacar la exampleNotification de acá
-        ExampleNotification notification = new ExampleNotification(getResources(),
-                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE),
-                                this, "esta es una notificacion");
-        notification.sendNotification();
+//        TODO: sacar la exampleNotification de acá
+//        ExampleNotification notification = new ExampleNotification(getResources(),
+//                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE),
+//                                this, "esta es una notificacion");
+//        notification.sendNotification();
     }
 
     @Override
