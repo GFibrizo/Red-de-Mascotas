@@ -7,10 +7,15 @@ public class NotificationQuery {
 
     public InQuery installationId;
 
+    public InQuery deviceType;
+
     public NotificationQuery(String installationId) {
-        List<String> query = new ArrayList<>();
-        query.add(installationId);
-        this.installationId = new InQuery(query);
+        List<String> installationIdQuery = new ArrayList<>();
+        installationIdQuery.add(installationId);
+        List<String> deviceTypeQuery = new ArrayList<>();
+        deviceTypeQuery.add("android");
+        this.installationId = new InQuery(installationIdQuery);
+        this.deviceType = new InQuery(deviceTypeQuery);
     }
 
 }

@@ -4,11 +4,11 @@ public class NotificationData {
 
     public String notificationType;
 
-    public String message;
+    public String alert;
 
     public NotificationData(String notificationType, String message) {
         this.notificationType = notificationType;
-        this.message = message;
+        this.alert = message;
     }
 
 }
