@@ -90,7 +90,7 @@ public class FoundPetActivity extends AppCompatActivity implements
     public MapView mapView;
 
     private int ID_TYPE_DOG = 2131558612;
-    private int ID_GENDER_MALE = 2131558742;
+    private int ID_GENDER_MALE = 2131558616;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
