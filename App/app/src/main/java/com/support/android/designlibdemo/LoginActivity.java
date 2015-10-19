@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+
 import com.facebook.AccessToken;
 import com.facebook.AccessTokenTracker;
 import com.facebook.CallbackManager;
@@ -22,12 +23,15 @@ import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.support.android.designlibdemo.model.User;
+
 import org.json.JSONException;
 import org.json.JSONObject;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
+
 import utils.LoginRequest;
 import utils.UserRegisterRequest;
 
@@ -44,31 +48,29 @@ public class LoginActivity extends AppCompatActivity {
         callback = new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-            AccessToken accessToken = loginResult.getAccessToken();
-            GraphRequest.newMeRequest(
-                loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
-                    @Override
-                    public void onCompleted(JSONObject json, GraphResponse response) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        if (response.getError() != null) {
-                            // handle error
-                            Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
-                        } else {
-                            UserRegisterRequest userRegisterRequest = new UserRegisterRequest(getApplicationContext());
-                            JSONObject jUser = null;
-                            try {
-                                jUser = userRegisterRequest.registerFacebookUser(json);
-                            }catch (TimeoutException | ExecutionException | InterruptedException e) {
-                                Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
+                AccessToken accessToken = loginResult.getAccessToken();
+                GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject json, GraphResponse response) {
+                                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                                if (response.getError() != null) {
+                                    // handle error
+                                    Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    UserRegisterRequest userRegisterRequest = new UserRegisterRequest(getApplicationContext());
+                                    SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+                                    userRegisterRequest.setPreferences(preferences);
+
+                                    try {
+                                        userRegisterRequest.registerFacebookUser(json);
+                                    } catch (TimeoutException | ExecutionException | InterruptedException e) {
+                                        Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
+                                    }
+                                }
+                                startActivity(intent);
                             }
-                            if (jUser!= null){
-                                User user = new User(jUser);
-                                intent.putExtra("user", user.toJson().toString());
-                            }
-                        }
-                        startActivity(intent);
-                    }
-                }).executeAsync();
+                        }).executeAsync();
             }
 
             @Override
@@ -81,8 +83,6 @@ public class LoginActivity extends AppCompatActivity {
 
         };
     }
-
-
 
 
     @Override
@@ -105,7 +105,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         callbackManager = CallbackManager.Factory.create();
-        accessTokenTracker= new AccessTokenTracker() {
+        accessTokenTracker = new AccessTokenTracker() {
             @Override
             protected void onCurrentAccessTokenChanged(AccessToken oldToken, AccessToken newToken) {
             }
@@ -145,11 +145,11 @@ public class LoginActivity extends AppCompatActivity {
         super.onResume();
 
         Profile profile = Profile.getCurrentProfile();
-        if(profile != null) {
+        if (profile != null) {
             UserFacebookTask userFacebookTask = new UserFacebookTask(profile);
             userFacebookTask.execute((Void) null);
-        }else{
-         //TODO: Lanzar mensaje de error
+        } else {
+            //TODO: Lanzar mensaje de error
         }
     }
 
@@ -157,12 +157,13 @@ public class LoginActivity extends AppCompatActivity {
         Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
         startActivity(intent);
     }
+
     public class UserFacebookTask extends AsyncTask<Void, Void, Boolean> {
 
         Profile profile;
         JSONObject response;
 
-        UserFacebookTask(Profile profile ) {
+        UserFacebookTask(Profile profile) {
             this.profile = profile;
         }
 
@@ -171,7 +172,6 @@ public class LoginActivity extends AppCompatActivity {
             LoginRequest loginRequest = new LoginRequest(getApplicationContext());
             try {
                 response = loginRequest.getFacebookUser(profile.getId());
-
             } catch (TimeoutException | ExecutionException | InterruptedException e) {
                 return false;
             }
@@ -183,10 +183,10 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             if (success) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-                if (response != null){
+                if (response != null) {
                     //intent.putExtra("user", response.toString());
                     preferences.edit().putString("userData", response.toString()).commit();
-                }else{
+                } else {
                     Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
                 }
                 startActivity(intent);
@@ -194,7 +194,8 @@ public class LoginActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onCancelled() { }
+        protected void onCancelled() {
+        }
 
     }
 }

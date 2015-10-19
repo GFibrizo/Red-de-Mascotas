@@ -1,18 +1,13 @@
 package utils;
 
 import android.content.Context;
-import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.widget.Toast;
+import android.preference.PreferenceManager;
+import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
-import com.android.volley.toolbox.StringRequest;
-import com.facebook.Profile;
-import com.support.android.designlibdemo.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -26,29 +21,34 @@ import static com.android.volley.Request.*;
 /**
  * Created by agu_k_000 on 27/09/2015.
  */
-public class UserRegisterRequest extends AsyncTask<Void, Void, Boolean>{
+public class UserRegisterRequest {
 
     private RequestHandler requestHandler;
     private JSONObject facebookUser = null;
     private JSONObject jsonRequest;
     private String facebookId;
+    private SharedPreferences preferences;
+    private static final String TAG = "UserRegisterRequest";
+
     public UserRegisterRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
     }
 
 
     //Sincronico
-    private JSONObject createFacebookUser(JSONObject user) throws InterruptedException, ExecutionException, TimeoutException{
-        String path =   RequestHandler.getServerUrl() + buildRegisterFacebookUserPath();
+    private JSONObject createFacebookUser(JSONObject user) throws InterruptedException, ExecutionException, TimeoutException {
+        String path = RequestHandler.getServerUrl() + buildRegisterFacebookUserPath();
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest request = new JsonObjectRequest(Method.POST, path,  user, future, future);
+        JsonObjectRequest request = new JsonObjectRequest(Method.POST, path, user, future, future);
         requestHandler.addToRequestQueue(request);
         JSONObject response = null;
         try {
             response = future.get(10, TimeUnit.SECONDS);
 
-        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             // exception handling
+            Log.e(TAG, "create fb user error" +
+                    "" + e.toString());
             throw e;
         }
 
@@ -57,16 +57,16 @@ public class UserRegisterRequest extends AsyncTask<Void, Void, Boolean>{
 
     }
 
-    private JSONObject createUser(JSONObject user) throws InterruptedException, ExecutionException, TimeoutException{
-        String path =   RequestHandler.getServerUrl() + buildRegisterUserPath();
+    private JSONObject createUser(JSONObject user) throws InterruptedException, ExecutionException, TimeoutException {
+        String path = RequestHandler.getServerUrl() + buildRegisterUserPath();
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest request = new JsonObjectRequest(Method.POST, path,  user, future, future);
+        JsonObjectRequest request = new JsonObjectRequest(Method.POST, path, user, future, future);
         requestHandler.addToRequestQueue(request);
         JSONObject response = null;
         try {
             response = future.get(10, TimeUnit.SECONDS);
 
-        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+        } catch (InterruptedException | ExecutionException | TimeoutException e) {
             // exception handling
             throw e;
         }
@@ -92,26 +92,26 @@ public class UserRegisterRequest extends AsyncTask<Void, Void, Boolean>{
         return data;
     }
 
-    public JSONObject registerFacebookUser(JSONObject json) throws InterruptedException, ExecutionException, TimeoutException {
+    public void registerFacebookUser(JSONObject json) throws InterruptedException, ExecutionException, TimeoutException {
 
         if (json == null) {
-            return null;
+            return;
         }
         jsonRequest = new JSONObject();
         try {
             //TODO: Ver como recuperar mas datos desde el api de facewbook
+            String[] userName = getJsonData(json, "name").split(" ");
 
             facebookId = getJsonData(json, "id");
             jsonRequest.put("facebookId", facebookId);
-            jsonRequest.put("name", getJsonData(json, "name"));
-            jsonRequest.put("lastName", getJsonData(json, "last_name"));
+            jsonRequest.put("name", userName[0]);
+            jsonRequest.put("lastName", userName[1]);
         } catch (JSONException e) {
-            return null;
+            return;
         }
-
-        this.execute();
-
-        return facebookUser;
+        RegisterUserFacebookTask userFacebookTask = new RegisterUserFacebookTask();
+        userFacebookTask.execute();
+        return;
     }
 
 
@@ -121,7 +121,7 @@ public class UserRegisterRequest extends AsyncTask<Void, Void, Boolean>{
 
             try {
                 response = this.createUser(json);
-            } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+            } catch (InterruptedException | ExecutionException | TimeoutException e) {
                 // exception handling
                 return response;
             }
@@ -130,7 +130,17 @@ public class UserRegisterRequest extends AsyncTask<Void, Void, Boolean>{
         return response;
     }
 
+    public void setPreferences(SharedPreferences preferences) {
+        this.preferences = preferences;
+    }
 
+
+    public class RegisterUserFacebookTask extends AsyncTask<Void, Void, Boolean> {
+
+
+        RegisterUserFacebookTask() {
+
+        }
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -139,32 +149,63 @@ public class UserRegisterRequest extends AsyncTask<Void, Void, Boolean>{
             try {
                 facebookUser = loginRequest.getFacebookUser(facebookId);
                 if (facebookUser == null) {
-                    //Lo creo y lo recupero
                     return false;
-
                 }
             } catch (TimeoutException | ExecutionException | InterruptedException e) {
                 return false;
             }
             return true;
-
-
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (!success) {
-                try {
-                    facebookUser  = this.createFacebookUser(jsonRequest);
-                } catch (TimeoutException | ExecutionException | InterruptedException e) {
-
-                }
+                //Lo creo y lo recupero
+                CreateUserFacebookTask createUserFacebookTask = new CreateUserFacebookTask();
+                createUserFacebookTask.execute();
             }
         }
 
         @Override
-        protected void onCancelled() { }
+        protected void onCancelled() {
+        }
+
+    }
+
+    public class CreateUserFacebookTask extends AsyncTask<Void, Void, Boolean> {
+
+        CreateUserFacebookTask() {
+
+        }
 
 
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            try {
+                facebookUser = createFacebookUser(jsonRequest);
+                if (facebookUser == null) {
+                    return false;
+                }
+            } catch (TimeoutException | ExecutionException | InterruptedException e) {
+                return false;
+
+            }
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                Log.e(TAG, "Put user preferences");
+                preferences.edit().putString("userData", facebookUser.toString()).commit();
+            }
+        }
+
+        @Override
+        protected void onCancelled() {
+        }
+
+
+    }
 
 }
