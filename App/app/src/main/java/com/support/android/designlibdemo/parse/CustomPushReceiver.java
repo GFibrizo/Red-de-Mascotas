@@ -2,18 +2,35 @@ package com.support.android.designlibdemo.parse;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.os.AsyncTask;
+import android.preference.PreferenceManager;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.parse.ParsePushBroadcastReceiver;
 import com.support.android.designlibdemo.MainActivity;
+import com.support.android.designlibdemo.NotificationActivity;
 import com.support.android.designlibdemo.NotificationHandlerActivity;
+import com.support.android.designlibdemo.ResultListActivity;
+import com.support.android.designlibdemo.model.User;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utils.MatchRequest;
+import utils.NotificationRequest;
+
 
 public class CustomPushReceiver extends ParsePushBroadcastReceiver {
+    private final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
+    private final String PETS_FOUND = "PETS_FOUND";
     private final String TAG = CustomPushReceiver.class.getSimpleName();
+    private Context context;
+    private SharedPreferences prefs = null;
+    private String message;
+    private String notificationType;
 
     private NotificationUtils notificationUtils;
 
@@ -26,6 +43,8 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
     @Override
     protected void onPushReceive(Context context, Intent intent) {
         super.onPushReceive(context, intent);
+        this.context = context;
+        prefs = PreferenceManager.getDefaultSharedPreferences(context);
 
         if (intent == null)
             return;
@@ -48,6 +67,27 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
     @Override
     protected void onPushOpen(Context context, Intent intent) {
         super.onPushOpen(context, intent);
+        try{
+            if (intent != null) {
+                JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
+                parsePushJson(context, json);
+                if (this.notificationType.equals(ADOPTION_REQUEST)) {
+                    Intent resultIntent = new Intent(context, NotificationActivity.class);
+                    if (resultIntent != null) {
+                        showNotificationMessage(context, this.notificationType, this.message, resultIntent);
+                    }
+                } else {
+                    User loginUser = obtenerUsuario(context);
+                    if (loginUser != null) {
+                        String userId = obtenerUsuario(context).getId();
+                        QueryResultTask qTask = new QueryResultTask(userId);
+                        qTask.execute((Void) null);
+                    }
+                }
+            }
+        } catch (JSONException e) {
+            Log.e(TAG, "Push message json exception: " + e.getMessage());
+        }
     }
 
     /**
@@ -58,17 +98,29 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
      */
     private void parsePushJson(Context context, JSONObject json) {
         try {
-//            boolean isBackground = json.getBoolean("is_background");
-//            JSONObject data = json.getJSONObject("data");
-            String message = json.getString("alert");
-            String notificationType = json.getString("notificationType");
-
-            Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
-            showNotificationMessage(context, notificationType, message, resultIntent);
+            this.message = json.getString("alert");
+            this.notificationType = json.getString("notificationType");
 
         } catch (JSONException e) {
             Log.e(TAG, "Push message json exception: " + e.getMessage());
         }
+    }
+
+
+    private User obtenerUsuario(Context context){
+        User loginUser = null;
+        try {
+            JSONObject object = new JSONObject(prefs.getString("userData", "{}"));
+            Log.e("USER DATA DETAIL", prefs.getString("userData", "{}"));
+            if (object.length() == 0) {
+                Toast.makeText(context, "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
+                return null;
+            }
+            loginUser = new User(object);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return loginUser;
     }
 
 
@@ -84,12 +136,47 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
     private void showNotificationMessage(Context context, String notificationType, String message, Intent intent) {
 
         notificationUtils = new NotificationUtils(context);
-
-        intent.putExtras(parseIntent.getExtras());
+        if (parseIntent != null){
+            intent.putExtras(parseIntent.getExtras());
+        }
         intent.putExtra("notificationType", notificationType);
 
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         notificationUtils.showNotificationMessage(message, intent);
     }
+
+
+    public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
+        String userId;
+        JSONArray response;
+
+        QueryResultTask(String userId) {
+            this.userId = userId;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+//            MatchRequest request = new MatchRequest(getApplicationContext());
+            MatchRequest request = new MatchRequest(context);
+            response = request.getMatch(userId);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success) {
+                Intent resultIntent = new Intent(context, ResultListActivity.class);
+                if (response != null) {
+                    prefs.edit().putString("searchResponse", response.toString()).commit();
+                    showNotificationMessage(context, notificationType, message, resultIntent);
+                }
+            }
+        }
+
+        @Override
+        protected void onCancelled() { }
+
+    }
+
 }
