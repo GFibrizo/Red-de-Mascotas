@@ -67,10 +67,6 @@ public class LoginActivity extends AppCompatActivity {
                                     } catch (TimeoutException | ExecutionException | InterruptedException e) {
                                         Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
                                     }
-//                            if (jUser!= null){
-//                                User user = new User(jUser);
-//                                intent.putExtra("user", user.toJson().toString());
-//                            }
                                 }
                                 startActivity(intent);
                             }

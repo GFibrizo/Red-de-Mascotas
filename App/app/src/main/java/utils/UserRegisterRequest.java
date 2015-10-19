@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
@@ -27,6 +28,7 @@ public class UserRegisterRequest {
     private JSONObject jsonRequest;
     private String facebookId;
     private SharedPreferences preferences;
+    private static final String TAG = "UserRegisterRequest";
 
     public UserRegisterRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
@@ -45,6 +47,8 @@ public class UserRegisterRequest {
 
         } catch (InterruptedException | ExecutionException | TimeoutException e) {
             // exception handling
+            Log.e(TAG, "create fb user error" +
+                    "" + e.toString());
             throw e;
         }
 
@@ -192,6 +196,7 @@ public class UserRegisterRequest {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
+                Log.e(TAG, "Put user preferences");
                 preferences.edit().putString("userData", facebookUser.toString()).commit();
             }
         }
