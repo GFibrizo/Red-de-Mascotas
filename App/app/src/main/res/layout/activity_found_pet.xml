@@ -100,14 +100,40 @@
                             android:textAppearance="?android:attr/textAppearanceSmall" />
 
 
-                        <android.support.v7.widget.SwitchCompat
+                        <!--<android.support.v7.widget.SwitchCompat
                             android:id="@+id/switch_pet_type"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="5dp"
                             app:showText="true"
                             android:textOff="Gato"
-                            android:textOn="Perro" />
+                            android:textOn="Perro" />-->
+
+                        <info.hoang8f.android.segmented.SegmentedGroup
+                            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/segmented_pet_type_missing"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_margin="10dp"
+                            android:orientation="horizontal"
+                            segmentedgroup:sc_border_width="2dp"
+                            segmentedgroup:sc_corner_radius="10dp">
+
+                            <RadioButton
+                                android:id="@+id/dog_missing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Perro"
+                                android:checked="true"
+                                style="@style/RadioButton" />
+
+                            <RadioButton
+                                android:id="@+id/cat_missing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Gato"
+                                style="@style/RadioButton" />
+                        </info.hoang8f.android.segmented.SegmentedGroup>
 
                         <TextView
                             android:id="@+id/pet_gender"
@@ -116,15 +142,39 @@
                             android:layout_marginTop="10dp"
                             android:text="Género"
                             android:textAppearance="?android:attr/textAppearanceSmall" />
-
-                        <android.support.v7.widget.SwitchCompat
-                            android:id="@+id/switch_pet_gender"
+                        <info.hoang8f.android.segmented.SegmentedGroup
+                            xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
+                            android:id="@+id/segmented_pet_gender_missing"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            app:showText="true"
-                            android:textOff="Macho"
-                            android:textOn="Hembra" />
+                            android:layout_margin="10dp"
+                            android:orientation="horizontal"
+                            segmentedgroup:sc_border_width="2dp"
+                            segmentedgroup:sc_corner_radius="10dp">
+
+                            <RadioButton
+                                android:id="@+id/male_missing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Macho"
+                                android:checked="true"
+                                style="@style/RadioButton" />
+
+                            <RadioButton
+                                android:id="@+id/female_missing"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Hembra"
+                                style="@style/RadioButton" />
+                        </info.hoang8f.android.segmented.SegmentedGroup>
+                        <!--<android.support.v7.widget.SwitchCompat-->
+                            <!--android:id="@+id/switch_pet_gender"-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:layout_marginTop="5dp"-->
+                            <!--app:showText="true"-->
+                            <!--android:textOff="Macho"-->
+                            <!--android:textOn="Hembra" />-->
 
                     </LinearLayout>
 

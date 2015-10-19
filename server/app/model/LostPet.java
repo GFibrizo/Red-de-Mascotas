@@ -119,12 +119,12 @@ public class LostPet {
         List<LostPet> basicMatches = LostPet.collection.find(query.get()).toArray();
 
         List<LostPet> lostPets = new ArrayList<>();
-        Double latitude1 = Double.parseDouble(location.latitude);
-        Double longitude1 = Double.parseDouble(location.longitude);
+        Double latitude1 = Double.parseDouble(location.latitude) * (Math.PI / 180);
+        Double longitude1 = Double.parseDouble(location.longitude) * (Math.PI / 180);
         for (LostPet basicMatch : basicMatches) {
-            Double latitude2 = Double.parseDouble(basicMatch.lastSeenLocation.latitude);
-            Double longitude2 = Double.parseDouble(basicMatch.lastSeenLocation.longitude);
-            Double distance = Math.acos(Math.sin(latitude1) * Math.sin(latitude2) + Math.cos(latitude1) * Math.cos(latitude2) * Math.cos(longitude1 - longitude2)) * 6371;
+            Double latitude2 = Double.parseDouble(basicMatch.lastSeenLocation.latitude) * (Math.PI / 180);
+            Double longitude2 = Double.parseDouble(basicMatch.lastSeenLocation.longitude) * (Math.PI / 180);
+            Double distance = Math.acos(Math.sin(latitude1) * Math.sin(latitude2) + Math.cos(latitude1) * Math.cos(latitude2) * Math.cos(longitude2 - longitude1)) * 6371;
             if (distance <= 1) {
                 lostPets.add(basicMatch);
             }

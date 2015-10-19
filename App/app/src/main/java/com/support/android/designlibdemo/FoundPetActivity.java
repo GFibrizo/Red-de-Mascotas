@@ -28,6 +28,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -62,6 +63,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+import info.hoang8f.android.segmented.SegmentedGroup;
 import utils.FoundPetRequest;
 import utils.ImageRequest;
 import utils.SpinnerArrayAdapter;
@@ -86,6 +88,9 @@ public class FoundPetActivity extends AppCompatActivity implements
     private double lat = -34.603620;
     private double lng = -58.381598;
     public MapView mapView;
+
+    private int ID_TYPE_DOG = 2131558612;
+    private int ID_GENDER_MALE = 2131558616;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -149,8 +154,10 @@ public class FoundPetActivity extends AppCompatActivity implements
     }
 
     private void initBreed() {
+//        AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
+//        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
-        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
+        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS));
     }
 
     private void initSpinners() {
@@ -171,15 +178,33 @@ public class FoundPetActivity extends AppCompatActivity implements
     }
 
     private void initType() {
-        SwitchCompat type = (SwitchCompat) findViewById(R.id.switch_pet_type);
-        type.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // do something, the isChecked will be
-                // true if the switch is in the On position
+        //SwitchCompat type = (SwitchCompat) findViewById(R.id.switch_pet_type);
+//        type.setOn
+//
+// ChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                // do something, the isChecked will be
+//                // true if the switch is in the On position
+//                AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
+//                ArrayAdapter<String> adapter = null;
+//
+//                if (isChecked) {
+//                    adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS);
+//                } else {
+//                    adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
+//                }
+//                breed.setAdapter(adapter);
+//            }
+//        });
+        SegmentedGroup type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_missing);
+        type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
                 AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
                 ArrayAdapter<String> adapter = null;
 
-                if (isChecked) {
+                Log.e("CHECKED", Integer.toString(group.getCheckedRadioButtonId()));
+                if (group.getCheckedRadioButtonId() == ID_TYPE_DOG) {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS);
                 } else {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
@@ -344,8 +369,10 @@ public class FoundPetActivity extends AppCompatActivity implements
 
     public void finish(View view) {
 
-        SwitchCompat petType = (SwitchCompat) findViewById(R.id.switch_pet_type);
-        SwitchCompat petGender = (SwitchCompat) findViewById(R.id.switch_pet_gender);
+        /*SwitchCompat petType = (SwitchCompat) findViewById(R.id.switch_pet_type);
+        SwitchCompat petGender = (SwitchCompat) findViewById(R.id.switch_pet_gender);*/
+        SegmentedGroup pet_type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_missing);
+        SegmentedGroup pet_gender = (SegmentedGroup) findViewById(R.id.segmented_pet_gender_missing);
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
         TextView size = (TextView) findViewById(R.id.size_label);
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
@@ -393,14 +420,20 @@ public class FoundPetActivity extends AppCompatActivity implements
 
         boolean cancel = false;
         View focusView = null;
+        String petTypeString;
+        String petGenderString;
+        /*String petTypeString = (petType.isChecked()) ? petType.getTextOn().toString() : petType.getTextOff().toString();
+        String petGenderString = (petGender.isChecked()) ? petGender.getTextOn().toString() : petGender.getTextOff().toString();*/
+        petTypeString = (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) ?  "Perro": "Gato";
+        Log.e(" petGenderString CHECKED", Integer.toString(pet_gender.getCheckedRadioButtonId()));
+        petGenderString = (pet_gender.getCheckedRadioButtonId() == ID_GENDER_MALE) ? "Macho" : "Hembra";
 
-        String petTypeString = (petType.isChecked()) ? petType.getTextOn().toString() : petType.getTextOff().toString();
-        String petGenderString = (petGender.isChecked()) ? petGender.getTextOn().toString() : petGender.getTextOff().toString();
+
         String hairColor = hairColor1Spinner.getSelectedItem().toString();
         String eyeColor = eyeColorSpinner.getSelectedItem().toString();
 
         // Check for a valid petType
-        if (TextUtils.isEmpty(petTypeString)) {
+ /*       if (TextUtils.isEmpty(petTypeString)) {
             petTypeLabel.setError(getString(R.string.error_field_required));
             focusView = petTypeLabel;
             cancel = true;
@@ -411,7 +444,7 @@ public class FoundPetActivity extends AppCompatActivity implements
             petGenderLabel.setError(getString(R.string.error_field_required));
             focusView = petGenderLabel;
             cancel = true;
-        }
+        }*/
         // Check for a valid petGender
         if (TextUtils.isEmpty(hairColor)) {
             colorLabel.setError(getString(R.string.error_field_required));
