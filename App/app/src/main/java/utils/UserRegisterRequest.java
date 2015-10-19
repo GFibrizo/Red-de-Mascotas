@@ -1,6 +1,7 @@
 package utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -8,6 +9,8 @@ import android.util.Log;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
+import com.support.android.designlibdemo.LoginActivity;
+import com.support.android.designlibdemo.MainActivity;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -28,7 +31,9 @@ public class UserRegisterRequest {
     private JSONObject jsonRequest;
     private String facebookId;
     private SharedPreferences preferences;
+    private Context mContext;
     private static final String TAG = "UserRegisterRequest";
+    private LoginActivity callerActivity;
 
     public UserRegisterRequest(Context context) {
         requestHandler = RequestHandler.getInstance(context);
@@ -134,6 +139,14 @@ public class UserRegisterRequest {
         this.preferences = preferences;
     }
 
+    public void setContext(Context context) {
+        this.mContext = context;
+    }
+
+    public void setCallerActivity(LoginActivity callerActivity) {
+        this.callerActivity = callerActivity;
+    }
+
 
     public class RegisterUserFacebookTask extends AsyncTask<Void, Void, Boolean> {
 
@@ -154,6 +167,11 @@ public class UserRegisterRequest {
             } catch (TimeoutException | ExecutionException | InterruptedException e) {
                 return false;
             }
+            Log.e(TAG, "Put user preferences");
+            preferences.edit().putString("userData", facebookUser.toString()).commit();
+            Intent myIntent = new Intent(callerActivity, MainActivity.class);
+            myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            mContext.startActivity(myIntent);
             return true;
         }
 
@@ -164,6 +182,7 @@ public class UserRegisterRequest {
                 CreateUserFacebookTask createUserFacebookTask = new CreateUserFacebookTask();
                 createUserFacebookTask.execute();
             }
+
         }
 
         @Override
@@ -196,8 +215,14 @@ public class UserRegisterRequest {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
+
                 Log.e(TAG, "Put user preferences");
                 preferences.edit().putString("userData", facebookUser.toString()).commit();
+                Intent myIntent = new Intent(callerActivity, MainActivity.class);
+                myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                mContext.startActivity(myIntent);
+
+
             }
         }
 
