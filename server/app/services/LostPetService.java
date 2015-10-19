@@ -35,10 +35,13 @@ public class LostPetService {
     private void sendNotificationsOfFoundPets(LostPet lostPet) {
         List<FoundPet> foundPets = FoundPet.getMatches(lostPet.type, lostPet.gender, lostPet.lastSeenDate, lostPet.lastSeenLocation);
         for (FoundPet foundPet : foundPets) {
-            notificationsClient.pushNotification(foundPet.finderId, PETS_FOUND, PETS_FOUND_MESSAGE);
+            User finder = User.getById(foundPet.finderId);
+            notificationsClient.pushNotification(finder.notificationId, PETS_FOUND, PETS_FOUND_MESSAGE);
         }
-        if (!foundPets.isEmpty())
-            notificationsClient.pushNotification(lostPet.ownerId, PETS_FOUND, PETS_FOUND_MESSAGE);
+        if (!foundPets.isEmpty()) {
+            User owner = User.getById(lostPet.ownerId);
+            notificationsClient.pushNotification(owner.notificationId, PETS_FOUND, PETS_FOUND_MESSAGE);
+        }
     }
 
 }
