@@ -177,7 +177,7 @@ public class MainActivity extends AppCompatActivity {
         bundlePublication.putInt("type", Constants.PUBLICATION);
         publications.setArguments(bundlePublication);
 
-        adapter.addFragment(adoption, "En adopción");
+        adapter.addFragment(adoption, "Últimos\n en adopción");
         //adapter.addFragment(new PetsListFragment(), "Mis búsquedas");
         adapter.addFragment(publications, "Mis\n publicaciones");
         viewPager.setAdapter(adapter);

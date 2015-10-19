@@ -8,7 +8,7 @@ public final class Constants {
 
     private Constants() { }
 
-    public static final String IP_SERVER = "http://10.0.2.2:9000";
+    public static final String IP_SERVER = "http://192.168.1.107:9000";//"http://10.0.2.2:9000";
     public static final String PARSE_APPLICATION_ID = "cLJ93SxVri3M9sCj7hGsJUnp45mA46kWMLdwdsno";
     public static final String PARSE_CLIENT_KEY = "ZkblcRGqaYVV9wUkToPIGg0TellyUuBWwWLIJbiw";
     public static final int NOTIFICATION_ID = 100;

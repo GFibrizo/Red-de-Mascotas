@@ -16,8 +16,6 @@
 
 package com.support.android.designlibdemo;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -29,16 +27,11 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.support.android.designlibdemo.data.communications.ImageUrlView;
 import com.support.android.designlibdemo.model.SearchForAdoptionFilters;
 import com.support.android.designlibdemo.model.User;
 
@@ -50,13 +43,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import utils.RequestHandler;
 import utils.ResultsRequest;
-import utils.SearchRequest;
+import utils.SimpleItemTouchHelperCallback;
 import utils.SimpleStringRecyclerViewAdapter;
-
-import static utils.Constants.CHEESE;
-import static utils.Constants.getRandomCheeseDrawable;
 
 public class PetsListFragment extends Fragment {
 
@@ -74,8 +63,12 @@ public class PetsListFragment extends Fragment {
     public void onCreate (Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         preferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-        QueryTask resultTask = new QueryTask();
+        QueryTask resultTask = setQuery();
         resultTask.execute();
+    }
+
+    protected QueryTask setQuery() {
+        return new QueryTask();
     }
 
     @Nullable
@@ -90,10 +83,15 @@ public class PetsListFragment extends Fragment {
 
     protected void setupRecyclerView(RecyclerView recyclerView) {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
-        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
-        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter());
+        //recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
+        setAdapter(recyclerView);
+        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter(), getContext());
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
+    }
+
+    protected void setAdapter(RecyclerView recyclerView) {
+        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
     }
 
     /**********************************************************************************************/
@@ -116,42 +114,7 @@ public class PetsListFragment extends Fragment {
     /******************************************************************************************/
 
 
-    protected class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
-        protected final SimpleStringRecyclerViewAdapter mAdapter;
-
-        public SimpleItemTouchHelperCallback(SimpleStringRecyclerViewAdapter adapter) {
-            mAdapter = adapter;
-        }
-
-        @Override
-        public boolean isLongPressDragEnabled() {
-            return false;
-        }
-
-        @Override
-        public boolean isItemViewSwipeEnabled() {
-            return true;
-        }
-
-        @Override
-        public int getMovementFlags(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder) {
-            int dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
-            int swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
-            return makeMovementFlags(dragFlags, swipeFlags);
-        }
-
-        @Override
-        public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder,
-                              RecyclerView.ViewHolder target) {
-            return false;
-        }
-
-        @Override
-        public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-            mAdapter.remove(viewHolder.getAdapterPosition());
-        }
-    }
 
     /**********************************************************************************************/
     /**********************************************************************************************/

@@ -16,13 +16,11 @@
 
 package com.support.android.designlibdemo;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -47,8 +45,6 @@ import android.widget.Toast;
 
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
 import com.support.android.designlibdemo.model.User;
-
-
 
 import org.json.JSONArray;
 import org.json.JSONException;

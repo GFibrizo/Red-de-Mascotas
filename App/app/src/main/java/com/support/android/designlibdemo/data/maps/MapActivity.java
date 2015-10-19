@@ -123,9 +123,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         MapCoordenates mapCoordenates = MapCoordenates.getInstance();
-        mapCoordenates.setLatitude(Double.toString(myLatLng.latitude));
-        mapCoordenates.setLongitude(Double.toString(myLatLng.longitude));
-
+        if ((myLatLng != null) && (myLatLng != null)) {
+            mapCoordenates.setLatitude(Double.toString(myLatLng.latitude));
+            mapCoordenates.setLongitude(Double.toString(myLatLng.longitude));
+        }
         Intent upIntent = null;
         Intent intent = new Intent(MapActivity.this, from);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
