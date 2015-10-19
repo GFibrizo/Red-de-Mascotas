@@ -1,6 +1,7 @@
 package utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -21,24 +22,30 @@ public class UnpublishRequest {
         requestHandler.setContext(context);
     }
 
-    public void send(String petId) {
+    public void send(String petId, String type) {
 
         String path =  requestHandler.getServerUrl() + this.buildUnpublishtPath(petId);
+        JSONObject object = new JSONObject();
+        try {
+            object.put("petId", petId);
+            object.put("publicationType", type);
+        } catch (JSONException e) {
+            return;
+        }
 
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, path,
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, path, object,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         // Manejo de la respuesta
-                        System.out.println(response);
+                        Log.e("RESPONSE", response.toString());
                     }
                 },
                 new Response.ErrorListener() {
 
                     @Override
                     public void onErrorResponse(VolleyError error) {
-                        // Manejo de errores
-
+                        Log.e("ERROR UNPUBLISH", error.getMessage());
                     }
                 });
 

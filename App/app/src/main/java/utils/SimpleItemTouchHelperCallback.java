@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
+import android.util.Log;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -48,8 +49,9 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         try {
             JSONObject object = mAdapter.getAt(viewHolder.getAdapterPosition());
             UnpublishRequest request = new UnpublishRequest(context);
-            request.send(object.getString("id"));
+            request.send(object.getString("id"), object.getString("publicationType"));
         } catch (JSONException e) {
+            Log.e("ERROR UNPUBLISH SWIPE", e.getMessage());
         }
         mAdapter.remove(viewHolder.getAdapterPosition());
     }

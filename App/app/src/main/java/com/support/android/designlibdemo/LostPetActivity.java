@@ -60,7 +60,7 @@ public class LostPetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lost_pet);
+        //setContentView(R.layout.activity_lost_pet);
 
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
         ArrayAdapter<CharSequence> hairColor1Adapter = SpinnerArrayAdapter.createSpinnerArrayAdapter(this, utils.Constants.HAIR_COLORS, "Color principal");
