@@ -29,8 +29,8 @@ public class NotificationUtils {
         this.mContext = mContext;
     }
 
-    public void showNotificationMessage(String title, String message, Intent intent) {
-
+    public void showNotificationMessage(String message, Intent intent) {
+        String title = "Red de Mascotas";
         // Check for empty push message
         if (TextUtils.isEmpty(message))
             return;
