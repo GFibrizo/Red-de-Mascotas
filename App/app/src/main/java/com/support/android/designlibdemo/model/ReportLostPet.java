@@ -535,7 +535,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success == false) {
-                Toast.makeText(getApplicationContext(), "Hubo un problema al cargar las imagenes", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), "Hubo un problema al cargar las imagenes", Toast.LENGTH_SHORT).show();
             }
         }
 
@@ -659,7 +659,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         dateString = String.format("%04d/%02d/%02d", year, monthOfYear+1, dayOfMonth);// dateString;
 
-        String date = dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+        String date = "Fecha: " + dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
         //Toast.makeText(getApplicationContext(), date, Toast.LENGTH_SHORT).show();
         dateMissing.setText(date);
         dateMissing.setVisibility(View.VISIBLE);
