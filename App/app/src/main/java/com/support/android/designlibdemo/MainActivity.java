@@ -16,6 +16,7 @@
 
 package com.support.android.designlibdemo;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -33,6 +34,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -51,6 +53,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.jar.Attributes;
 
 import utils.Constants;
 
@@ -135,6 +138,20 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //}
+
+
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        if (viewPager != null) {
+            setupViewPager(viewPager);
+        }
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        if (viewPager != null)
+            mTabLayout.setupWithViewPager(viewPager);
+    }
 
 
     /**********************************************************************************************/
