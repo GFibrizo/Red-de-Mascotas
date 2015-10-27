@@ -88,6 +88,10 @@ public class User {
         return User.collection.find(new BasicDBObject("$or", value)).toArray().size() > 0;
     }
 
+    public static Boolean existsWithFacebook(String facebookId) {
+        return User.collection.find(new BasicDBObject("facebookId", facebookId)).toArray().size() > 0;
+    }
+
     public static void delete(String id) {
         User user = User.collection.findOneById(id);
         if (user != null)

@@ -7,6 +7,7 @@ import model.external.PublishFoundPet;
 import notifications.NotificationsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import play.Logger;
 
 import java.util.List;
 
@@ -21,8 +22,10 @@ public class FoundPetService {
 
     public Boolean publishPet(PublishFoundPet pet) {
         User owner = User.getById(pet.finderId);
-        if (owner == null)
+        if (owner == null) {
+            Logger.error("Finder with id " + pet.finderId + " not found");
             return false;
+        }
         FoundPet foundPet = new FoundPet(pet.type, pet.finderId, pet.breed, pet.gender, pet.size, pet.colors,
                                          pet.eyeColor, pet.needsTransitHome, pet.images, pet.videos, pet.description,
                                          pet.foundLocation, pet.foundDate, pet.foundHour);
@@ -41,6 +44,7 @@ public class FoundPetService {
             User finder = User.getById(foundPet.finderId);
             notificationsClient.pushNotification(finder.notificationId, PETS_FOUND, PETS_FOUND_MESSAGE);
         }
+        Logger.info("Number of matches found: " + lostPets.size());
     }
 
 }

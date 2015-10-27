@@ -9,6 +9,7 @@ import model.external.AccountRegistrationUser;
 import model.external.FacebookRegistrationUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import play.Logger;
 import play.data.Form;
 import play.libs.Json;
 import play.mvc.Result;
@@ -28,25 +29,33 @@ public class UserController {
         Form<LogInUser> form = Form.form(LogInUser.class).bindFromRequest();
         LogInUser logInUser = form.get();
         User user = service.logInWithAccount(logInUser);
-        if (user == null)
+        if (user == null) {
+            Logger.error("User " + logInUser.userName + " could not be logged in");
             return play.mvc.Controller.badRequest();
+        }
+        Logger.info("User " + logInUser.userName + " successfully logged in");
         return play.mvc.Controller.ok(Json.toJson(user));
     }
 
     // Devuelve el salt del usuario, si existe el usuario, sino devuelve BadRequest.
     public Result getUserSalt(String userName) {
         String salt = service.getUserSalt(userName);
-        if (salt == null)
+        if (salt == null) {
+            Logger.error("Salt for user " + userName + " could not be retrieved");
             return play.mvc.Controller.badRequest();
+        }
+        Logger.info("Salt for user " + userName + " successfully retrieved");
         return play.mvc.Controller.ok(salt);
     }
 
     // Devuelve el usuario segun el id de Facebook. Si no lo encuentra devuelve BadRequest.
     public Result logInWithFacebook(String facebookId) {
         User user = service.logInWithFacebook(facebookId);
-        if (user == null)
-//            return play.mvc.Controller.badRequest(Json.newObject());
+        if (user == null) {
+            Logger.error("User with facebook id " + facebookId + " not found");
             return play.mvc.Controller.notFound();
+        }
+        Logger.info("User with facebook id " + facebookId + " successfully logged in");
         return play.mvc.Controller.ok(Json.toJson(user));
     }
 
@@ -56,40 +65,53 @@ public class UserController {
         Form<AccountRegistrationUser> form = Form.form(AccountRegistrationUser.class).bindFromRequest();
         AccountRegistrationUser user = form.get();
         User registeredUser = service.registerAccountUser(user);
-        if (registeredUser == null)
+        if (registeredUser == null) {
+            Logger.error("User with account could not be registered, user: ", form.data());
             return play.mvc.Controller.badRequest();
-        else return play.mvc.Controller.ok(Json.toJson(registeredUser));
+        }
+        Logger.info("User with account successfully registered, user: ", form.data());
+        return play.mvc.Controller.ok(Json.toJson(registeredUser));
     }
 
     public Result registerFacebookUser() {
         Form<FacebookRegistrationUser> form = Form.form(FacebookRegistrationUser.class).bindFromRequest();
         FacebookRegistrationUser user = form.get();
         User registeredUser = service.registerFacebookUser(user);
+        if (registeredUser == null) {
+            Logger.error("Facebook user could not be registered, user: ", form.data());
+            return play.mvc.Controller.badRequest();
+        }
+        Logger.info("Facebook user successfully registered, user: ", form.data());
         return play.mvc.Controller.ok(Json.toJson(registeredUser));
     }
 
     public Result getPublishedPets(String userId) {
         List<MyPet> pets = service.getPetsByUserId(userId);
+        Logger.info("Number of user's published pets: " + pets.size());
         return play.mvc.Controller.ok(Json.toJson(pets));
     }
 
     public Result getAdoptionNotifications(String userId) {
         List<AdoptionNotification> adoptionNotifications = service.getAdoptionNotifications(userId);
+        Logger.info("Number of user's notifications: " + adoptionNotifications.size());
         return play.mvc.Controller.ok(Json.toJson(adoptionNotifications));
     }
 
     public Result userHasPendingNotifications(String userId) {
         Boolean userHasPendingNotifications = service.userHasPendingNotifications(userId);
+        Logger.info("User has pending notifications: " + userHasPendingNotifications);
         return play.mvc.Controller.ok(Json.toJson(userHasPendingNotifications));
     }
 
     public Result updateLastSeenNotifications(String userId) {
         service.updateLastSeenNotifications(userId);
+        Logger.info("Updated user's last seen notifications");
         return play.mvc.Controller.ok();
     }
 
     public Result getPetsMatches(String userId) {
         List<MatchingPet> matchingPets = service.getMatchingPets(userId);
+        Logger.info("Number of matching pets: " + matchingPets.size());
         return play.mvc.Controller.ok(Json.toJson(matchingPets));
     }
 

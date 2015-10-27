@@ -128,7 +128,7 @@ Url: http://localhost:9000/pet/image
 
 Method: POST
 
-En Key - Value, seleccionan "File" y le ponen en Key "image" y seleccionan el archivo.
+En Key - Value, seleccionan "File" y le ponen en Key "file" y seleccionan el archivo.
 
 
 

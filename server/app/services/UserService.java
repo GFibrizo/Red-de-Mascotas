@@ -5,6 +5,7 @@ import model.external.LogInUser;
 import model.external.AccountRegistrationUser;
 import model.external.FacebookRegistrationUser;
 import org.springframework.stereotype.Service;
+import play.Logger;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,14 +22,18 @@ public class UserService {
         User user = User.getByUserName(logInUser.userName);
         if (user != null && logInUser.encryptedPassword.equals(user.password.encryption)) {
             return user;
-        } else return null;
+        }
+        Logger.error("User " + logInUser.userName + " not found or password is invalid");
+        return null;
     }
 
     public String getUserSalt(String userName) {
         User user = User.getByUserName(userName);
         if (user != null) {
             return user.password.salt;
-        } else return null;
+        }
+        Logger.error("Salt for user " + userName + " not found");
+        return null;
     }
 
     public User logInWithFacebook(String facebookId) {
@@ -36,8 +41,10 @@ public class UserService {
     }
 
     public User registerAccountUser(AccountRegistrationUser userRegister) {
-        if (User.exists(userRegister.userName, userRegister.email))
+        if (User.exists(userRegister.userName, userRegister.email)) {
+            Logger.error("Username or email already exists");
             return null;
+        }
         User user = new User(userRegister.notificationId, userRegister.userName, userRegister.name,
                              userRegister.lastName, userRegister.email, userRegister.password,
                              userRegister.phone, userRegister.address);
@@ -47,6 +54,10 @@ public class UserService {
     }
 
     public User registerFacebookUser(FacebookRegistrationUser userRegister) {
+        if (User.existsWithFacebook(userRegister.facebookId)) {
+            Logger.error("Facebook account already exists");
+            return null;
+        }
         User user = new User(userRegister.notificationId, userRegister.name, userRegister.lastName,
                              userRegister.email, userRegister.facebookId, userRegister.phone,
                              userRegister.address);
