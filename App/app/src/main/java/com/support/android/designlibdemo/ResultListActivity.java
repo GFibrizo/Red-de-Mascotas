@@ -157,9 +157,11 @@ public class ResultListActivity extends AppCompatActivity {
                         behavior.add((String) object.getJSONArray("behavior").get(j));
                     }
                 }
-                if (!object.get("images").toString().equals("null")) {
-                    for (int j = 0; j < object.getJSONArray("images").length(); j++) {
-                        images.add(((String) object.getJSONArray("images").get(j)).replace("[","").replace("]", ""));
+                JSONArray imageArray = object.getJSONArray("images");
+                if (!imageArray.toString().equals("null")) {
+                    for (int j = 0; j < imageArray.length(); j++) {
+                        //images.add(((String) object.getJSONArray("images").get(j)).replace("[","").replace("]", ""));
+                        images.add(imageArray.getString(j));
                     }
                 }
                 PetAdoption mascota = new PetAdoption(object.getString("id"),

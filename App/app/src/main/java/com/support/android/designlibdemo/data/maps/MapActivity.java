@@ -164,8 +164,10 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
     /**********************************************************************************************/
 
     private void setCoordsToReturn(Intent intent) {
-        String lat = Double.toString(myLatLng.latitude);
-        String lng = Double.toString(myLatLng.longitude);
+        if ((myLatLng != null) && (myLatLng != null)) {
+            String lat = Double.toString(myLatLng.latitude);
+            String lng = Double.toString(myLatLng.longitude);
+        }
         /*try {
             JSONObject aux = new JSONObject();
             aux.put("latitude", lat);

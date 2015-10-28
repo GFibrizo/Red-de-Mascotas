@@ -254,9 +254,10 @@ public class TextAndImagePetContainer implements TextAndImage {
 
     public String getImages() {
         String imagenes = "";
-        for (int i = 0; i < this.images.size(); i++){
+        imagenes += this.images.get(0);
+        for (int i = 1; i < this.images.size(); i++){
+            imagenes += ", ";
             imagenes += this.images.get(i);
-            imagenes += " ";
         }
         return imagenes;
     }

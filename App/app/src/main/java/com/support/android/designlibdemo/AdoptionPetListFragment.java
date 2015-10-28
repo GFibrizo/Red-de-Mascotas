@@ -26,7 +26,10 @@ public class AdoptionPetListFragment extends PetsListFragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             ResultsRequest request = new ResultsRequest(getContext());
-            response = request.searchAdoption();
+            response = null;
+            while(response == null) {
+                response = request.searchAdoption();
+            }
             Log.e("RESPONSE1", response.toString());
             return true;
         }
