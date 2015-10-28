@@ -9,6 +9,7 @@ import model.external.PublishForAdoptionPet;
 import notifications.NotificationsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import play.Logger;
 
 import java.util.List;
 
@@ -23,8 +24,10 @@ public class PetAdoptionService {
 
     public Boolean publishPet(PublishForAdoptionPet pet) {
         User owner = User.getById(pet.ownerId);
-        if (owner == null)
+        if (owner == null) {
+            Logger.error("Owner with id " + pet.ownerId + " not found");
             return false;
+        }
         PetAdoption petAdoption = new PetAdoption(pet.name, pet.type, pet.ownerId, owner.address, pet.breed,
                                                   pet.gender, pet.age, pet.size, pet.colors, pet.eyeColor,
                                                   pet.behavior, pet.images, pet.needsTransitHome, pet.isCastrated,
