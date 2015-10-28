@@ -13,7 +13,7 @@ public class NotificationsClient {
     private static final String REST_API_KEY = "99jcwgukKAkdcZb70j7YvzEBDEoGOOXQiuMdBGK6";
     private static final String PARSE_PUSH_URL = "https://api.parse.com/1/push";
 
-    public String pushNotification(String receiverInstallationId, String notificationType, String message) {
+    public void pushNotification(String receiverInstallationId, String notificationType, String message) {
         PushNotificationRequest request = new PushNotificationRequest(receiverInstallationId, notificationType, message);
         Promise<String> promise = WS.url(PARSE_PUSH_URL)
                 .setContentType("application/json")
@@ -28,8 +28,6 @@ public class NotificationsClient {
                             }
                         }
                 );
-        long timeout = 10001;
-        return promise.get(timeout);
     }
 
 }
