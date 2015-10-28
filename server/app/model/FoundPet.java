@@ -105,8 +105,8 @@ public class FoundPet {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("type", type);
         query.add("gender", gender);
-        query.push("foundDate").add("$gt", date.minusDays(1).toString(DATE_FORMAT))
-                               .add("$lt", date.plusDays(1).toString(DATE_FORMAT)).pop();
+        query.push("foundDate").add("$gte", date.minusDays(1).toString(DATE_FORMAT))
+                               .add("$lte", date.plusDays(1).toString(DATE_FORMAT)).pop();
         List<FoundPet> basicMatches = FoundPet.collection.find(query.get()).toArray();
 
         List<FoundPet> foundPets = new ArrayList<>();
