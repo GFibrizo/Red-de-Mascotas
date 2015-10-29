@@ -10,6 +10,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.support.android.designlibdemo.model.User;
@@ -30,7 +31,9 @@ public class NotificationHandlerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.basic_layout);
+        setContentView(R.layout.activity_result_list_view);
+        TextView titulo = (TextView) findViewById(R.id.titulo);
+        titulo.setText("Resultados del Match");
         context = this;
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         loginUser = obtenerUsuario(getApplicationContext());
@@ -72,7 +75,6 @@ public class NotificationHandlerActivity extends AppCompatActivity {
 
         @Override
         protected Boolean doInBackground(Void... params) {
-//            MatchRequest request = new MatchRequest(getApplicationContext());
             MatchRequest request = new MatchRequest(getApplicationContext());
             response = request.getMatch(userId);
             return true;
@@ -81,7 +83,7 @@ public class NotificationHandlerActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                Intent resultIntent = new Intent(context, ResultListActivity.class);
+                Intent resultIntent = new Intent(context, MatchResultListActivity.class);
                 if (response != null) {
                     prefs.edit().putString("searchResponse", response.toString()).commit();
                     context.startActivity(resultIntent);

@@ -90,6 +90,7 @@
     <string name="nombreLabel">Nombre:</string>
     <string name="logout_msg">Salir</string>
     <string name="razaLabel">Raza:</string>
+    <string name="tipoLabel">Tipo:</string>
     <string name="sexoLabel">Sexo:</string>
     <string name="edadLabel">Edad:</string>
     <string name="tamanioLabel">Tamaño:</string>

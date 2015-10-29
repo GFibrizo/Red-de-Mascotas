@@ -22,21 +22,4 @@ limitations under the License.
     android:layout_height="wrap_content"
     android:layout_gravity="center_vertical">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="descripcion"
-        android:id="@+id/description"
-        android:scrollbars="vertical"
-        android:layout_gravity="fill_vertical"
-        android:layout_weight="1"/>
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Do it!"
-        android:id="@+id/button"
-        android:layout_gravity="center"
-        android:onClick="sendNotification"/>
-
 </LinearLayout>
