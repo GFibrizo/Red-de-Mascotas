@@ -17,7 +17,6 @@
 package com.support.android.designlibdemo;
 
 import android.app.AlertDialog;
-import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -54,24 +53,22 @@ import utils.AdoptionRequest;
 import utils.Constants;
 
 
-public class PetsDetailActivity extends AppCompatActivity {
+public class MatchedPetsDetailActivity extends AppCompatActivity implements View.OnClickListener{
     private JSONArray object = null;
     public static final String EXTRA_NAME = "cheese_name";
     public static int IMAGE_MAX = 5;
     ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     ViewPager viewPager;
-    private Button buttonAdopt;
-    private Button buttonTransitHome;
+    private Button button;
     private CardView contacto;
     private SharedPreferences prefs;
     private User loginUser;
     public static  String imagesItem[] = {};
-    public static final String[] IMAGE_NAME = {"orange_kitten", "black_cat", "grey_cat",  "pardo_cat", "tiger_cat", "tiger_kitten"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.activity_detail_match);
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         try {
             JSONObject object = new JSONObject(prefs.getString("userData", "{}"));
@@ -90,26 +87,10 @@ public class PetsDetailActivity extends AppCompatActivity {
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(imageFragmentPagerAdapter);
 
-        buttonAdopt = (Button) findViewById(R.id.botonAdoptar);
-        buttonAdopt.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog dialogo = crearDialogo("Confirmar Adopción",
-                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
-                dialogo.show();
-            }
-        });
-        buttonTransitHome = (Button) findViewById(R.id.botonOfrecerHogar);
-        buttonTransitHome.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AlertDialog dialogo = crearDialogo("Confirmar ofrecimiento de hogar de tránsito",
-                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
-                dialogo.show();
-            }
-        });
-        contacto = (CardView) findViewById(R.id.cardContacto);
-        contacto.setVisibility(View.GONE);
+//        button = (Button) findViewById(R.id.botonAdoptar);
+//        button.setOnClickListener(this);
+//        contacto = (CardView) findViewById(R.id.cardContacto);
+//        contacto.setVisibility(View.GONE);
 
         Intent intent = getIntent();
         final String cheeseName = intent.getStringExtra("nombre");
@@ -122,46 +103,24 @@ public class PetsDetailActivity extends AppCompatActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(cheeseName);
 
-//        loadBackdrop();
         cargarResultados();
-//        TODO: sacar la exampleNotification de acá
-//        ExampleNotification notification = new ExampleNotification(getResources(),
-//                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE),
-//                                this, "esta es una notificacion");
-//        notification.sendNotification();
     }
 
-/*    @Override
+    @Override
     public void onClick(View button) {
         //show dialog
         AlertDialog dialogo = crearDialogo("Confirmar Adopción",
-                "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
+                "Se le enviará una notificación al dueño de esta publicación, ¿Está seguro de que desea adoptarlo?");
         dialogo.show();
     }
-*/
-//    private void loadBackdrop() {
-//        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-//        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
-//    }
-
-
-    private void ofrecerHogarDeTransito() {
-        String petId = getIntent().getStringExtra("id");
-        String adopterId = loginUser.getId();
-        QueryResultTask qTask = new QueryResultTask(petId, adopterId);
-        qTask.execute((Void) null);
-        //contacto.setVisibility(View.VISIBLE);
-        buttonTransitHome.setVisibility(View.GONE);
-    }
-
 
     private void adoptar(){
         String petId = getIntent().getStringExtra("id");
         String adopterId = loginUser.getId();
         QueryResultTask qTask = new QueryResultTask(petId, adopterId);
         qTask.execute((Void) null);
-        //contacto.setVisibility(View.VISIBLE);
-        buttonAdopt.setVisibility(View.GONE);
+        contacto.setVisibility(View.VISIBLE);
+        button.setVisibility(View.GONE);
     }
 
     private AlertDialog crearDialogo(String titulo, String mensaje) {
@@ -217,41 +176,34 @@ public class PetsDetailActivity extends AppCompatActivity {
     }
 
     private void cargarResultados(){
-        String nombreItem = getIntent().getStringExtra("nombre");
+        String tipoItem = getIntent().getStringExtra("tipo");
+        String fechaItem = getIntent().getStringExtra("lastSeenOrFoundDate");
         String razaItem = getIntent().getStringExtra("raza");
         String sexoItem = getIntent().getStringExtra("sexo");
-        String edadItem = getIntent().getStringExtra("edad");
         String tamanioItem = getIntent().getStringExtra("tamanio");
-        String ubicacionItem = getIntent().getStringExtra("ubicacion");
         String colorPelajeItem = getIntent().getStringExtra("colorPelaje");
         String colorOjosItem = getIntent().getStringExtra("colorOjos");
-        String caracteristicasItem = getIntent().getStringExtra("caracteristicas");
-        String descripcionItem = getIntent().getStringExtra("descripcion");
-        String conductaItem = getIntent().getStringExtra("conducta");
+        String contactoItem = getIntent().getStringExtra("contactEmail");
         imagesItem = getIntent().getStringExtra("images").split(", ");
 
-        TextView nombre = (TextView) findViewById(R.id.nombreAnimal);
+
+        TextView contacto = (TextView) findViewById(R.id.contacto);
+        TextView tipo = (TextView) findViewById(R.id.tipoAnimal);
+        TextView fecha = (TextView) findViewById(R.id.fechaAnimal);
         TextView raza = (TextView) findViewById(R.id.razaAnimal);
         TextView sexo = (TextView) findViewById(R.id.sexoAnimal);
-        TextView edad = (TextView) findViewById(R.id.edadAnimal);
         TextView tamanio = (TextView) findViewById(R.id.tamanioAnimal);
-        TextView ubicacion = (TextView) findViewById(R.id.ubicacionAnimal);
         TextView colorPelaje = (TextView) findViewById(R.id.colorPelajeAnimal);
         TextView colorOjos = (TextView) findViewById(R.id.colorOjosAnimal);
-        TextView caracteristicas = (TextView) findViewById(R.id.caracteristicas);
-        TextView descripcion = (TextView) findViewById(R.id.description);
-        TextView conducta = (TextView) findViewById(R.id.behavior);
-        nombre.setText(nombre.getText() + " " + nombreItem);
+        tipo.setText(tipo.getText()+" "+tipoItem);
+        fecha.setText(fecha.getText()+" "+fechaItem);
         raza.setText(raza.getText()+" "+razaItem);
         sexo.setText(sexo.getText() + " " + sexoItem);
-        edad.setText(edad.getText()+" "+edadItem);
+        contacto.setText(contactoItem);
         tamanio.setText(tamanio.getText() + " " + tamanioItem);
-        ubicacion.setText(ubicacion.getText()+" "+ubicacionItem);
         colorPelaje.setText(colorPelaje.getText() + " " + colorPelajeItem);
         colorOjos.setText(colorOjos.getText()+" "+colorOjosItem);
-        caracteristicas.setText(caracteristicasItem);
-        descripcion.setText(descripcionItem);
-        conducta.setText(conductaItem);
+
 //
 //        Button botonAdoptar = (Button) findViewById(R.id.botonAdoptar);
 

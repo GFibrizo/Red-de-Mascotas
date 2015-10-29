@@ -140,14 +140,10 @@ Mascota:
 {
 "name": "Nala",
 "type": "Perro",
-"ownerId": "560af25344aeb8e12aa73bc7",
+"ownerId": "563021d244aecc0e677ea27e",
 "address": {
-"street": "Pavón",
-"number": "3100",
 "neighbourhood": "San Cristóbal",
-"city": "C.A.B.A",
-"province": "C.A.B.A",
-"country": "Argentina"
+"city": "C.A.B.A"
 },
 "breed": "Golden Retriever",
 "gender": "Hembra",

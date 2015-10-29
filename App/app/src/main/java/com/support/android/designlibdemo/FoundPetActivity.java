@@ -641,6 +641,7 @@ public class FoundPetActivity extends AppCompatActivity implements
                 response = request.post(object);
             } catch (InterruptedException | ExecutionException  | TimeoutException e) {
                 // exception handling
+                Log.e("Found Error",e.getMessage());
                 return false;
             }
             return true;
@@ -648,13 +649,14 @@ public class FoundPetActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             if (success) {
-                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 Toast.makeText(getApplicationContext(), "Exito", Toast.LENGTH_SHORT).show();
-                startActivity(intent);
+
             }else{
-                Toast.makeText(getApplicationContext(), "Error de conexion", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), "Error de conexion", Toast.LENGTH_SHORT).show();
             }
+            startActivity(intent);
         }
 
         @Override

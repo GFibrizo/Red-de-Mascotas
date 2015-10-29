@@ -88,8 +88,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/nombreLabel"
-                        android:id="@+id/nombreAnimal" />
+                        android:text="@string/tipoLabel"
+                        android:id="@+id/tipoAnimal" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -104,13 +104,6 @@
                         android:textAppearance="?android:attr/textAppearanceSmall"
                         android:text="@string/sexoLabel"
                         android:id="@+id/sexoAnimal" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/edadLabel"
-                        android:id="@+id/edadAnimal" />
 
                     <TextView
                         android:layout_width="match_parent"
@@ -137,99 +130,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:text="@string/ubicacionLabel"
-                        android:id="@+id/ubicacionAnimal" />
-
-                    <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/cheese_ipsum" />-->
+                        android:text="@string/fechaLabel"
+                        android:id="@+id/fechaAnimal" />
 
                 </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_margin"
-                android:layout_marginLeft="@dimen/card_margin"
-                android:layout_marginRight="@dimen/card_margin">
-
-                <LinearLayout
-                    style="@style/Widget.CardContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Descripción"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/description"
-                        android:text="@string/cheese_ipsum" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_margin"
-                android:layout_marginLeft="@dimen/card_margin"
-                android:layout_marginRight="@dimen/card_margin">
-
-                <LinearLayout
-                    style="@style/Widget.CardContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Características"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:textAppearance="?android:attr/textAppearanceSmall"
-                        android:id="@+id/caracteristicas" />
-
-                </LinearLayout>
-
-            </android.support.v7.widget.CardView>
-
-            <android.support.v7.widget.CardView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/card_margin"
-                android:layout_marginLeft="@dimen/card_margin"
-                android:layout_marginRight="@dimen/card_margin">
-
-                <LinearLayout
-                    style="@style/Widget.CardContent"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Conducta"
-                        android:textAppearance="@style/TextAppearance.AppCompat.Title" />
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/behavior" />
-
-                </LinearLayout>
-
             </android.support.v7.widget.CardView>
 
             <android.support.v7.widget.CardView
@@ -255,38 +159,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:id="@+id/contacto"
-                        android:text="juan.perez@gmail.com"/>
+                        android:text="mail@gmail.com"/>
 
                 </LinearLayout>
 
             </android.support.v7.widget.CardView>
-
-
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=" Adoptar Mascota "
-                    android:background="#2196F3"
-                    android:textColor="#ffffff"
-                    android:id="@+id/botonAdoptar"
-                    android:layout_marginBottom="@dimen/card_margin"
-                    android:layout_marginLeft="@dimen/card_margin"
-                    android:layout_marginRight="@dimen/card_margin"
-                    android:elevation="3dp"/>
-
-                <Button
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text=" Ofrecer hogar de tránsito "
-                    android:background="#2196F3"
-                    android:textColor="#ffffff"
-                    android:id="@+id/botonOfrecerHogar"
-                    android:layout_marginBottom="@dimen/card_margin"
-                    android:layout_marginLeft="@dimen/card_margin"
-                    android:layout_marginRight="@dimen/card_margin"
-                    android:elevation="3dp"/>
-
 
 
         </LinearLayout>

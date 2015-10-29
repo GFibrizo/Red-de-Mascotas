@@ -6,6 +6,7 @@ import model.User;
 import model.external.AdoptionRequest;
 import model.external.SearchForAdoptionFilters;
 import model.external.PublishForAdoptionPet;
+import model.external.TransitHomeRequest;
 import notifications.NotificationsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,7 +29,7 @@ public class PetAdoptionService {
             Logger.error("Owner with id " + pet.ownerId + " not found");
             return false;
         }
-        PetAdoption petAdoption = new PetAdoption(pet.name, pet.type, pet.ownerId, owner.address, pet.breed,
+        PetAdoption petAdoption = new PetAdoption(pet.name, pet.type, pet.ownerId, pet.address, pet.breed,
                                                   pet.gender, pet.age, pet.size, pet.colors, pet.eyeColor,
                                                   pet.behavior, pet.images, pet.needsTransitHome, pet.isCastrated,
                                                   pet.isOnTemporaryMedicine, pet.isOnChronicMedicine, pet.description);
@@ -61,6 +62,10 @@ public class PetAdoptionService {
         PetAdoption pet = PetAdoption.addAdoptionRequest(request);
         User user = User.getById(pet.ownerId);
         notificationsClient.pushNotification(user.notificationId, ADOPTION_REQUEST, ADOPTION_MESSAGE + pet.name);
+    }
+
+    public void takePetInTransit(TransitHomeRequest request) {
+        PetAdoption.takePetInTransit(request);
     }
 
 }
