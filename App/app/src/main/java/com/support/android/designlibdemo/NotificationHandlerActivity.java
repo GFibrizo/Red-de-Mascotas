@@ -31,7 +31,7 @@ public class NotificationHandlerActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.basic_layout);
-        context = getApplicationContext();
+        context = this;
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         loginUser = obtenerUsuario(getApplicationContext());
 
@@ -73,7 +73,7 @@ public class NotificationHandlerActivity extends AppCompatActivity {
         @Override
         protected Boolean doInBackground(Void... params) {
 //            MatchRequest request = new MatchRequest(getApplicationContext());
-            MatchRequest request = new MatchRequest(context);
+            MatchRequest request = new MatchRequest(getApplicationContext());
             response = request.getMatch(userId);
             return true;
         }
