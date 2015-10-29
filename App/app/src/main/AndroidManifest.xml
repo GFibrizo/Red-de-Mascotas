@@ -95,8 +95,24 @@
         </activity>
 
         <activity
+            android:name=".MatchResultListActivity"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".SearchInAdoptionActivity" />
+        </activity>
+
+        <activity
             android:name=".PetsDetailActivity"
             android:parentActivityName=".ResultListActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ResultListActivity" />
+        </activity>
+
+        <activity
+            android:name=".MatchedPetsDetailActivity"
+            android:parentActivityName=".MatchResultListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ResultListActivity" />
@@ -128,6 +144,14 @@
         
         <activity
             android:name=".NotificationActivity"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".NotificationHandlerActivity"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

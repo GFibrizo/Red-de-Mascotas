@@ -17,10 +17,10 @@
 <resources>
     <string name="app_name">Red de Mascotas</string>
     <string name="app_id">1678287159056803</string>
-    <!-- API KEY AGUS <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string> -->
+    <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>
     <!-- API KEY FABRI <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string> -->
     <!-- API KEY JAS <string name="map_api_key">AIzaSyCEsqjDCl4r9oIcmeEoSJF7GI8x9yXveTI</string> -->
-    <string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>
+    <!--<string name="map_api_key">AIzaSyAjGZfKR36Y0xL9j4ATtEoWlTvif712kqw</string>-->
     <string name="cheese_ipsum">Jarlsberg lancashire dalmata. Dolcelatte hard cheese brie st. agur blue
     cheese caerphilly bavarian bergkase cheese and biscuits mascarpone. Cheeseburger swiss bavarian
     bergkase cream cheese fromage frais cheesy feet port-salut airedale. St. agur blue cheese rubber
@@ -67,7 +67,7 @@
     <!-- errors -->
     <string name="error_invalid_user">Usuario inválido</string>
     <string name="error_invalid_email">Email inválido</string>
-    <string name="error_invalid_password">Contraseña inválida</string>
+    <string name="error_invalid_password">Contraseña inválida. La cantidad mínima de caracteres es 6</string>
     <string name="error_incorrect_password">This password is incorrect</string>
     <string name="error_field_required">Este campo es requerido</string>
     <string name="error_required_fields_left">Quedan campos requeridos sin completar</string>
@@ -90,6 +90,7 @@
     <string name="nombreLabel">Nombre:</string>
     <string name="logout_msg">Salir</string>
     <string name="razaLabel">Raza:</string>
+    <string name="tipoLabel">Tipo:</string>
     <string name="sexoLabel">Sexo:</string>
     <string name="edadLabel">Edad:</string>
     <string name="tamanioLabel">Tamaño:</string>
