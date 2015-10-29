@@ -54,13 +54,14 @@ import utils.AdoptionRequest;
 import utils.Constants;
 
 
-public class PetsDetailActivity extends AppCompatActivity implements View.OnClickListener{
+public class PetsDetailActivity extends AppCompatActivity {
     private JSONArray object = null;
     public static final String EXTRA_NAME = "cheese_name";
     public static int IMAGE_MAX = 5;
     ImageFragmentPagerAdapter imageFragmentPagerAdapter;
     ViewPager viewPager;
-    private Button button;
+    private Button buttonAdopt;
+    private Button buttonTransitHome;
     private CardView contacto;
     private SharedPreferences prefs;
     private User loginUser;
@@ -89,8 +90,24 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
         viewPager = (ViewPager) findViewById(R.id.pager);
         viewPager.setAdapter(imageFragmentPagerAdapter);
 
-        button = (Button) findViewById(R.id.botonAdoptar);
-        button.setOnClickListener(this);
+        buttonAdopt = (Button) findViewById(R.id.botonAdoptar);
+        buttonAdopt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog dialogo = crearDialogo("Confirmar Adopción",
+                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
+                dialogo.show();
+            }
+        });
+        buttonTransitHome = (Button) findViewById(R.id.botonOfrecerHogar);
+        buttonTransitHome.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog dialogo = crearDialogo("Confirmar ofrecimiento de hogar de tránsito",
+                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
+                dialogo.show();
+            }
+        });
         contacto = (CardView) findViewById(R.id.cardContacto);
         contacto.setVisibility(View.GONE);
 
@@ -114,26 +131,37 @@ public class PetsDetailActivity extends AppCompatActivity implements View.OnClic
 //        notification.sendNotification();
     }
 
-    @Override
+/*    @Override
     public void onClick(View button) {
         //show dialog
         AlertDialog dialogo = crearDialogo("Confirmar Adopción",
-                "Se le enviará una notificación al dueño de esta publicación, ¿Está seguro de que desea adoptarlo?");
+                "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
         dialogo.show();
     }
-
+*/
 //    private void loadBackdrop() {
 //        final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
 //        Glide.with(this).load(getRandomCheeseDrawable()).centerCrop().into(imageView);
 //    }
+
+
+    private void ofrecerHogarDeTransito() {
+        String petId = getIntent().getStringExtra("id");
+        String adopterId = loginUser.getId();
+        QueryResultTask qTask = new QueryResultTask(petId, adopterId);
+        qTask.execute((Void) null);
+        //contacto.setVisibility(View.VISIBLE);
+        buttonTransitHome.setVisibility(View.GONE);
+    }
+
 
     private void adoptar(){
         String petId = getIntent().getStringExtra("id");
         String adopterId = loginUser.getId();
         QueryResultTask qTask = new QueryResultTask(petId, adopterId);
         qTask.execute((Void) null);
-        contacto.setVisibility(View.VISIBLE);
-        button.setVisibility(View.GONE);
+        //contacto.setVisibility(View.VISIBLE);
+        buttonAdopt.setVisibility(View.GONE);
     }
 
     private AlertDialog crearDialogo(String titulo, String mensaje) {
