@@ -31,6 +31,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
     private SharedPreferences prefs = null;
     private String message;
     private String notificationType;
+    private static User loginUser;
 
     private NotificationUtils notificationUtils;
 
@@ -45,6 +46,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
         super.onPushReceive(context, intent);
         this.context = context;
         prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        loginUser = obtenerUsuario(context);
 
         if (intent == null)
             return;
@@ -71,17 +73,21 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
             if (intent != null) {
                 JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
                 parsePushJson(context, json);
+//                Intent nuevoIntent = new Intent(context, NotificationHandlerActivity.class);
+//                nuevoIntent.putExtra("type", this.notificationType);
+//                nuevoIntent.putExtra("message", this.message);
+//                context.startActivity(nuevoIntent);
+
+
                 if (this.notificationType.equals(ADOPTION_REQUEST)) {
                     Intent resultIntent = new Intent(context, NotificationActivity.class);
                     if (resultIntent != null) {
                         showNotificationMessage(context, this.notificationType, this.message, resultIntent);
                     }
                 } else {
-                    User loginUser = obtenerUsuario(context);
-                    if (loginUser != null) {
-                        String userId = obtenerUsuario(context).getId();
-                        QueryResultTask qTask = new QueryResultTask(userId);
-                        qTask.execute((Void) null);
+                    Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
+                    if (resultIntent != null) {
+                        showNotificationMessage(context, this.notificationType, this.message, resultIntent);
                     }
                 }
             }

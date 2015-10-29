@@ -228,6 +228,7 @@ public class MainActivity extends AppCompatActivity {
                             case R.id.invite_a_friend:
                                 break;
                             case R.id.config:
+                                intent = new Intent(getApplicationContext(), NotificationHandlerActivity.class);
                                 break;
                             case R.id.about:
                                 break;
