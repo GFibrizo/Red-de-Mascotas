@@ -20,6 +20,8 @@ public class SearchForAdoptionFilters {
 
     public List<String> eyeColors;
 
+    public Boolean needsTransitHome;
+
     public String neighbourhood;
 
     public String city;

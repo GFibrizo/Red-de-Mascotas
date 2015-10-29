@@ -166,6 +166,7 @@ public class PetAdoption {
         if (filtros.sizes != null) query.push("size").add("$in", filtros.sizes.toArray()).pop();
         if (filtros.colors != null) query.push("colors").add("$in", filtros.colors.toArray()).pop();
         if (filtros.eyeColors != null) query.push("eyeColor").add("$in", filtros.eyeColors.toArray()).pop();
+        if (filtros.needsTransitHome != null) query.add("needsTransitHome", filtros.needsTransitHome);
         if (filtros.neighbourhood != null) query.add("address.neighbourhood", filtros.neighbourhood);
         if (filtros.city != null) query.add("address.city", filtros.city);
         query.add("publicationStatus", PUBLISHED);
