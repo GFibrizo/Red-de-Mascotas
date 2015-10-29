@@ -30,7 +30,7 @@ public class NotificationHandlerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.basic_layout);
+        setContentView(R.layout.activity_result_list_view);
         context = getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         loginUser = obtenerUsuario(getApplicationContext());
