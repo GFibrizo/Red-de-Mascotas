@@ -28,7 +28,7 @@ public class PetAdoptionService {
             Logger.error("Owner with id " + pet.ownerId + " not found");
             return false;
         }
-        PetAdoption petAdoption = new PetAdoption(pet.name, pet.type, pet.ownerId, owner.address, pet.breed,
+        PetAdoption petAdoption = new PetAdoption(pet.name, pet.type, pet.ownerId, pet.address, pet.breed,
                                                   pet.gender, pet.age, pet.size, pet.colors, pet.eyeColor,
                                                   pet.behavior, pet.images, pet.needsTransitHome, pet.isCastrated,
                                                   pet.isOnTemporaryMedicine, pet.isOnChronicMedicine, pet.description);
