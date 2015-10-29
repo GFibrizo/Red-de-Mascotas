@@ -297,12 +297,16 @@ public class FoundPetActivity extends AppCompatActivity implements
                 }
             }
         });
-        mapView.getMap().setOnMapClickListener(new GoogleMap.OnMapClickListener() {
-            @Override
-            public void onMapClick(LatLng latLng) {
-                showMapDetails();
-            }
-        });
+
+        GoogleMap map = mapView.getMap();
+        if ( map != null){
+            map.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+                    showMapDetails();
+                }
+            });
+        }
     }
 
 /**********************************************************************************************/
@@ -369,14 +373,12 @@ public class FoundPetActivity extends AppCompatActivity implements
 
     public void finish(View view) {
 
-        /*SwitchCompat petType = (SwitchCompat) findViewById(R.id.switch_pet_type);
-        SwitchCompat petGender = (SwitchCompat) findViewById(R.id.switch_pet_gender);*/
         SegmentedGroup pet_type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_missing);
         SegmentedGroup pet_gender = (SegmentedGroup) findViewById(R.id.segmented_pet_gender_missing);
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
         TextView size = (TextView) findViewById(R.id.size_label);
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
-        //Spinner hairColor2Spinner = (Spinner) findViewById(R.id.spinner_hair_color2);
+        Spinner hairColor2Spinner = (Spinner) findViewById(R.id.spinner_hair_color2);
         Spinner eyeColorSpinner = (Spinner) findViewById(R.id.spinner_eye_color);
         CheckBox transitHome = (CheckBox)findViewById(R.id.transit_home_check);
 
@@ -422,29 +424,13 @@ public class FoundPetActivity extends AppCompatActivity implements
         View focusView = null;
         String petTypeString;
         String petGenderString;
-        /*String petTypeString = (petType.isChecked()) ? petType.getTextOn().toString() : petType.getTextOff().toString();
-        String petGenderString = (petGender.isChecked()) ? petGender.getTextOn().toString() : petGender.getTextOff().toString();*/
         petTypeString = (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) ?  "Perro": "Gato";
-        Log.e(" petGenderString CHECKED", Integer.toString(pet_gender.getCheckedRadioButtonId()));
         petGenderString = (pet_gender.getCheckedRadioButtonId() == ID_GENDER_MALE) ? "Macho" : "Hembra";
 
 
         String hairColor = hairColor1Spinner.getSelectedItem().toString();
         String eyeColor = eyeColorSpinner.getSelectedItem().toString();
 
-        // Check for a valid petType
- /*       if (TextUtils.isEmpty(petTypeString)) {
-            petTypeLabel.setError(getString(R.string.error_field_required));
-            focusView = petTypeLabel;
-            cancel = true;
-        }
-
-        // Check for a valid petGender
-        if (TextUtils.isEmpty(petGenderString)) {
-            petGenderLabel.setError(getString(R.string.error_field_required));
-            focusView = petGenderLabel;
-            cancel = true;
-        }*/
         // Check for a valid petGender
         if (TextUtils.isEmpty(hairColor)) {
             colorLabel.setError(getString(R.string.error_field_required));
@@ -459,11 +445,11 @@ public class FoundPetActivity extends AppCompatActivity implements
         }
 
         // Check for a valid breed
-        if (TextUtils.isEmpty(breed.getText().toString())) {
-            breed.setError(getString(R.string.error_field_required));
-            focusView = breed;
-            cancel = true;
-        }
+//        if (TextUtils.isEmpty(breed.getText().toString())) {
+//            breed.setError(getString(R.string.error_field_required));
+//            focusView = breed;
+//            cancel = true;
+//        }
         // Check for a valid size
         if (TextUtils.isEmpty(size.getText().toString())) {
             size.setError(getString(R.string.error_field_required));

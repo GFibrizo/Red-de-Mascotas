@@ -76,7 +76,7 @@ public class UserService {
         addLostPetsToMyPets(lostPets, myPets);
         addFoundPetsToMyPets(foundPets, myPets);
 
-        Collections.reverse(myPets);
+        Collections.sort(myPets, Collections.reverseOrder());
         return myPets;
     }
 
@@ -101,7 +101,7 @@ public class UserService {
                 }
             }
         }
-        Collections.reverse(adoptionNotifications);
+        Collections.sort(adoptionNotifications, Collections.reverseOrder());
         return adoptionNotifications;
     }
 
@@ -128,7 +128,7 @@ public class UserService {
         List<FoundPet> userFoundPets = FoundPet.getPublishedByFinderId(userId);
         addFoundPetsToMatches(userLostPets, matchingPets);
         addLostPetsToMatches(userFoundPets, matchingPets);
-        Collections.reverse(matchingPets);
+        Collections.sort(matchingPets, Collections.reverseOrder());
         return matchingPets;
     }
 
