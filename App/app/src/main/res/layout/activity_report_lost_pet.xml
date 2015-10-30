@@ -72,7 +72,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Fotos"
+                        android:text="Fotos*"
                         android:id="@+id/images_missing_title"
                         android:layout_margin="5dp"
                         android:gravity="center_horizontal"/>
@@ -151,7 +151,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Datos generales"
+                        android:text="Datos generales*"
                         android:layout_margin="5dp"
                         android:gravity="center_horizontal" />
 
@@ -407,7 +407,7 @@
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:text="Colores de la mascota"
+                        android:text="Colores de la mascota*"
                         android:layout_margin="5dp"
                         android:id="@+id/colors_missing_title"
                         android:gravity="center_horizontal" />
@@ -504,14 +504,6 @@
                         android:layout_marginTop="5dp"
                         android:weightSum="1">
 
-                        <TextView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:textAppearance="?android:attr/textAppearanceMedium"
-                            android:text="Necesita un hogar de tránsito"
-                            android:id="@+id/transit_home_missing_label"
-                            android:layout_weight="0.5"/>
-
                         <CheckBox
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -583,7 +575,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Ultima vez visto "
+                    android:text="Ultima vez visto* "
                     android:id="@+id/date_missing_title"
                     android:layout_margin="5dp"
                     android:gravity="center_horizontal"/>
@@ -637,7 +629,7 @@
                     android:id="@+id/map_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Ultima vez visto"
+                    android:text="Ultima vez visto*"
                     android:layout_margin="5dp"
                     android:layout_centerHorizontal="true"
                     android:textAppearance="?android:attr/textAppearanceSmall" />
