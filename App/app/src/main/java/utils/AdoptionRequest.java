@@ -22,61 +22,12 @@ import java.util.concurrent.TimeoutException;
 /** Pedido de adopción, llama al servicio "/pet/petId/adoption" que crea notificación hacia el usuario que
  *  publicó la mascota en adopción. **/
 
-public class AdoptionRequest {
-    RequestHandler requestHandler;
+public class AdoptionRequest extends BasicOwnerPetRequest {
 
     public AdoptionRequest(Context context) {
-        requestHandler = RequestHandler.getInstance(context);
-        requestHandler.setContext(context);
+        super(context);
+        PATH = "/pet/petId/adoption";
+        PET_ID = "petId";
+        OWNER_ID = "adopterId";
     }
-
-    public void send(String petId, String adopterId) {
-
-        String path =  requestHandler.getServerUrl() + this.buildAdoptionRequestPath(petId);
-        JSONObject jsonRequest = new JSONObject();
-        try {
-            jsonRequest.put("petId", petId);
-            jsonRequest.put("adopterId", adopterId);
-        } catch (JSONException e) {
-            return;
-        }
-        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, path,
-                jsonRequest,
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        // Manejo de la respuesta
-                        System.out.println(response);
-                    }
-                },
-                new Response.ErrorListener() {
-
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        // Manejo de errores
-
-                    }
-                });
-
-//        RequestFuture<JSONArray> future = RequestFuture.newFuture();
-//        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,  path, future, future);
-        requestHandler.addToRequestQueue(request);
-//        JSONArray response = null;
-//        try {
-//            response =  future.get(10, TimeUnit.SECONDS);
-//        } catch (InterruptedException e) {
-//            Log.e("Retrieve cards api call interrupted.", String.valueOf(e));
-//        } catch (ExecutionException e) {
-//            Log.e("Retrieve cards api call failed.", String.valueOf(e));
-//        } catch (TimeoutException e) {
-//            Log.e("Retrieve cards api call timed out.", String.valueOf(e));
-//        }
-//        return response;
-    }
-
-    private String buildAdoptionRequestPath(String petId) {
-        return "/pet/petId/adoption";
-    }
-
-
 }
