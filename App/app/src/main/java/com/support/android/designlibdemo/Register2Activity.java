@@ -18,6 +18,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.support.android.designlibdemo.model.Address;
 import com.support.android.designlibdemo.model.User;
@@ -25,6 +26,7 @@ import com.support.android.designlibdemo.model.User;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import utils.Constants;
 import utils.UserRegisterRequest;
 
 import static utils.Constants.NEIGHBOURHOODS;
@@ -165,7 +167,12 @@ public class Register2Activity extends AppCompatActivity {
             cancel = true;
         }
 
-
+        try{
+            Parse.initialize(this, Constants.PARSE_APPLICATION_ID, Constants.PARSE_CLIENT_KEY);
+            ParseInstallation.getCurrentInstallation().saveInBackground();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         if (cancel) {
             focusView.requestFocus();
