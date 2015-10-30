@@ -95,7 +95,8 @@ public class PetsDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog dialogo = crearDialogo("Confirmar Adopción",
-                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
+                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud",
+                        true);
                 dialogo.show();
             }
         });
@@ -104,7 +105,8 @@ public class PetsDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog dialogo = crearDialogo("Confirmar ofrecimiento de hogar de tránsito",
-                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
+                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud",
+                        false);
                 dialogo.show();
             }
         });
@@ -148,8 +150,8 @@ public class PetsDetailActivity extends AppCompatActivity {
     private void ofrecerHogarDeTransito() {
         String petId = getIntent().getStringExtra("id");
         String adopterId = loginUser.getId();
-        QueryResultTask qTask = new QueryResultTask(petId, adopterId);
-        qTask.execute((Void) null);
+        //QueryResultTask qTask = new QueryResultTask(petId, adopterId);
+        //qTask.execute((Void) null);
         //contacto.setVisibility(View.VISIBLE);
         buttonTransitHome.setVisibility(View.GONE);
     }
@@ -164,7 +166,8 @@ public class PetsDetailActivity extends AppCompatActivity {
         buttonAdopt.setVisibility(View.GONE);
     }
 
-    private AlertDialog crearDialogo(String titulo, String mensaje) {
+
+    private AlertDialog crearDialogo(String titulo, String mensaje, final boolean isAdoption) {
         // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(titulo);
@@ -175,7 +178,8 @@ public class PetsDetailActivity extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                adoptar();
+                if (isAdoption) adoptar();
+                else ofrecerHogarDeTransito();
             }
         };
 
