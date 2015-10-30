@@ -29,6 +29,9 @@ GET         /pets/last                                 @controllers.PetAdoptionC
 GET         /pet/:petId/adopted                        @controllers.PetAdoptionController.userHasAdoptedPet(petId)
 POST        /pet/:petId/adoption                       @controllers.PetAdoptionController.adoptPet(petId)
 
+# Tomar mascota en hogar de transito
+PUT         /pet/:petId/take-in-transit                @controllers.PetAdoptionController.takePetInTransit(petId)
+
 # Publicacion de mascota perdida
 POST        /pet/lost                                  @controllers.LostPetController.publishPet
 

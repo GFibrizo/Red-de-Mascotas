@@ -1,5 +1,7 @@
 package model.external;
 
+import model.ShortAddress;
+
 import java.util.List;
 
 public class PublishForAdoptionPet {
@@ -9,6 +11,8 @@ public class PublishForAdoptionPet {
     public String type;
 
     public String ownerId;
+
+    public ShortAddress address;
 
     public String breed;
 
