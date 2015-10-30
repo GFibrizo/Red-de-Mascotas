@@ -4,6 +4,7 @@ import model.PetAdoption;
 import model.external.AdoptionRequest;
 import model.external.SearchForAdoptionFilters;
 import model.external.PublishForAdoptionPet;
+import model.external.TransitHomeRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import play.Logger;
@@ -59,6 +60,14 @@ public class PetAdoptionController {
         AdoptionRequest request = form.get();
         service.adoptPet(request);
         Logger.info("Adoption request successfully added for pet with id " + petId);
+        return play.mvc.Controller.ok();
+    }
+
+    public Result takePetInTransit(String petId) {
+        Form<TransitHomeRequest> form = Form.form(TransitHomeRequest.class).bindFromRequest();
+        TransitHomeRequest request = form.get();
+        service.takePetInTransit(request);
+        Logger.info("Pet with id " + petId + " successfully taken in transit");
         return play.mvc.Controller.ok();
     }
 

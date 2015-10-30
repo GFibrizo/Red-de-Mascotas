@@ -6,6 +6,7 @@ import model.User;
 import model.external.AdoptionRequest;
 import model.external.SearchForAdoptionFilters;
 import model.external.PublishForAdoptionPet;
+import model.external.TransitHomeRequest;
 import notifications.NotificationsClient;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -61,6 +62,10 @@ public class PetAdoptionService {
         PetAdoption pet = PetAdoption.addAdoptionRequest(request);
         User user = User.getById(pet.ownerId);
         notificationsClient.pushNotification(user.notificationId, ADOPTION_REQUEST, ADOPTION_MESSAGE + pet.name);
+    }
+
+    public void takePetInTransit(TransitHomeRequest request) {
+        PetAdoption.takePetInTransit(request);
     }
 
 }

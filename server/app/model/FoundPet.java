@@ -100,8 +100,12 @@ public class FoundPet {
     }
 
     public static List<FoundPet> getMatches(String type, String gender, String lastSeenDate, GeoLocation location) {
+        String lastSeenDateSplit = lastSeenDate;
+        if (lastSeenDate.split(" ").length > 1){ //TODO: ver si lo saco o lo dejo
+            lastSeenDateSplit = lastSeenDate.split(" ")[1];
+        }
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
-        LocalDate date = dateTimeFormatter.parseLocalDate(lastSeenDate);
+        LocalDate date = dateTimeFormatter.parseLocalDate(lastSeenDateSplit);
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("type", type);
         query.add("gender", gender);
