@@ -4,6 +4,7 @@ import model.*;
 import model.external.LogInUser;
 import model.external.AccountRegistrationUser;
 import model.external.FacebookRegistrationUser;
+import model.external.SearchForAdoptionFilters;
 import org.springframework.stereotype.Service;
 import play.Logger;
 
@@ -114,6 +115,23 @@ public class UserService {
         addLostPetsToMatches(userFoundPets, matchingPets);
         Collections.sort(matchingPets, Collections.reverseOrder());
         return matchingPets;
+    }
+
+    public List<PetAdoption> getPetsMatchingSavedSearches(String userId) {
+        List<PetAdoption> pets = new ArrayList<>();
+        User user = User.getById(userId);
+        if (user.savedSearchFilters != null) {
+            for (int i = 0; i < user.savedSearchFilters.size(); i++) {
+                SearchForAdoptionFilters filters = user.savedSearchFilters.get(i);
+                List<PetAdoption> results = PetAdoption.search(filters);
+                if (results.size() > 0) {
+                    User.removeFilterFromSavedSearchFilters(filters, i);
+                    pets.addAll(results);
+                }
+            }
+        }
+        Collections.sort(pets, Collections.reverseOrder());
+        return pets;
     }
 
     private void addPetsForAdoptionToMyPets(List<PetAdoption> petsForAdoption, List<MyPet> myPets) {

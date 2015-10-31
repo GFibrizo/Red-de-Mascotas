@@ -17,7 +17,7 @@ import java.util.List;
 
 import static utils.Constants.*;
 
-public class PetAdoption {
+public class PetAdoption implements Comparable<PetAdoption> {
 
     @Id
     @ObjectId
@@ -100,6 +100,15 @@ public class PetAdoption {
         this.isOnTemporaryMedicine = isOnTemporaryMedicine;
         this.isOnChronicMedicine = isOnChronicMedicine;
         this.description = description;
+    }
+
+    @Override
+    public int compareTo(PetAdoption another) {
+        if (this.publicationDate.compareTo(another.publicationDate) < 0) {
+            return -1;
+        } else {
+            return 1;
+        }
     }
 
     public Boolean hasAdoptionRequestsNotSeen() {

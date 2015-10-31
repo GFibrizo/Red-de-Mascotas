@@ -24,19 +24,21 @@ public class AcceptProposalRequest {
     }
 
     public JSONObject accept(AdoptionNotification currentNotification) throws InterruptedException, ExecutionException, TimeoutException {
-        String path =   RequestHandler.getServerUrl() + "/pet/found";
+
+        String path =   RequestHandler.getServerUrl() + "/pet/" + currentNotification.getPetId() + "/adoption/accepted";
         JSONObject response = null;
-//        RequestFuture<JSONObject> future = RequestFuture.newFuture();
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, path,  object, future, future);
-//        requestHandler.addToRequestQueue(request);
-//        try {
-//            response = future.get(10, TimeUnit.SECONDS);
-//
-//        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
-//            // exception handling
-//            throw e;
-//        }
+        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, path,  currentNotification.toJson(), future, future);
+        requestHandler.addToRequestQueue(request);
+        try {
+            response = future.get(10, TimeUnit.SECONDS);
+
+        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+            // exception handling
+            throw e;
+        }
 
         return response;
     }
+
 }

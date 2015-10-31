@@ -1,5 +1,8 @@
 package com.support.android.designlibdemo.model;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class AdoptionNotification {
 
     public String adopterEmail;
@@ -58,6 +61,17 @@ public class AdoptionNotification {
 
     public String getAdopterId() {
         return adopterId;
+    }
+
+    public JSONObject toJson() {
+        JSONObject  jsonObject = new JSONObject();
+        try {
+            jsonObject.put("petId",this.petId);
+            jsonObject.put("adopterId",this.adopterId);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }
 
