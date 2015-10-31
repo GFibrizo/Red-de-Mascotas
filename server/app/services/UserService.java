@@ -11,11 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static utils.Constants.ADOPTION_REQUEST;
-import static utils.Constants.TAKE_IN_TRANSIT_REQUEST;
-import static utils.Constants.FOR_ADOPTION;
-import static utils.Constants.FOUND;
-import static utils.Constants.LOST;
+import static utils.Constants.*;
 
 @Service
 public class UserService {
@@ -84,7 +80,7 @@ public class UserService {
 
     public List<Notification> getNotifications(String userId) {
         List<Notification> notifications = new ArrayList<>();
-        List<PetAdoption> pets = PetAdoption.getPublishedByOwnerId(userId);
+        List<PetAdoption> pets = PetAdoption.getByOwnerId(userId);
         for (PetAdoption pet : pets) {
             addAdoptionNotifications(notifications, pet);
             addTransitHomeNotifications(notifications, pet);
@@ -166,22 +162,25 @@ public class UserService {
     private void addAdoptionNotifications(List<Notification> notifications, PetAdoption pet) {
         if (pet.adoptionRequests != null) {
             for (Adoption adoptionRequest : pet.adoptionRequests) {
-                User adopter = User.getById(adoptionRequest.adopterId);
-                String image;
-                if (pet.images != null) {
-                    image = pet.images.get(0);
-                } else {
-                    Logger.error("Pet with id " + pet.id + " does not have images");
-                    image = "";
+                if (!adoptionRequest.status.equals(NOTIFICATION_REJECTED)) {
+                    User adopter = User.getById(adoptionRequest.adopterId);
+                    String image;
+                    if (pet.images != null) {
+                        image = pet.images.get(0);
+                    } else {
+                        Logger.error("Pet with id " + pet.id + " does not have images");
+                        image = "";
+                    }
+                    Notification notification = new Notification(ADOPTION_REQUEST,
+                                                                 pet.id,
+                                                                 adopter.id,
+                                                                 adopter.email,
+                                                                 adoptionRequest.requestDate,
+                                                                 pet.name,
+                                                                 image,
+                                                                 adoptionRequest.status);
+                    notifications.add(notification);
                 }
-                Notification notification = new Notification(ADOPTION_REQUEST,
-                                                             pet.id,
-                                                             adopter.id,
-                                                             adopter.email,
-                                                             adoptionRequest.requestDate,
-                                                             pet.name,
-                                                             image);
-                notifications.add(notification);
             }
         }
     }
@@ -189,22 +188,25 @@ public class UserService {
     private void addTransitHomeNotifications(List<Notification> notifications, PetAdoption pet) {
         if (pet.transitHomeRequests != null) {
             for (TransitHome transitHomeRequest : pet.transitHomeRequests) {
-                User transitHomeUser = User.getById(transitHomeRequest.transitHomeUserId);
-                String image;
-                if (pet.images != null) {
-                    image = pet.images.get(0);
-                } else {
-                    Logger.error("Pet with id " + pet.id + " does not have images");
-                    image = "";
+                if (!transitHomeRequest.status.equals(NOTIFICATION_REJECTED)) {
+                    User transitHomeUser = User.getById(transitHomeRequest.transitHomeUserId);
+                    String image;
+                    if (pet.images != null) {
+                        image = pet.images.get(0);
+                    } else {
+                        Logger.error("Pet with id " + pet.id + " does not have images");
+                        image = "";
+                    }
+                    Notification notification = new Notification(TAKE_IN_TRANSIT_REQUEST,
+                                                                 pet.id,
+                                                                 transitHomeUser.id,
+                                                                 transitHomeUser.email,
+                                                                 transitHomeRequest.requestDate,
+                                                                 pet.name,
+                                                                 image,
+                                                                 transitHomeRequest.status);
+                    notifications.add(notification);
                 }
-                Notification notification = new Notification(TAKE_IN_TRANSIT_REQUEST,
-                                                             pet.id,
-                                                             transitHomeUser.id,
-                                                             transitHomeUser.email,
-                                                             transitHomeRequest.requestDate,
-                                                             pet.name,
-                                                             image);
-                notifications.add(notification);
             }
         }
     }

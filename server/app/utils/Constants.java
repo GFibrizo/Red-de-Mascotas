@@ -16,9 +16,21 @@ public class Constants {
 
     public static final String FOUND = "FOUND";
 
+    public static final String NOTIFICATION_PENDING = "PENDING";
+
+    public static final String NOTIFICATION_ACCEPTED = "ACCEPTED";
+
+    public static final String NOTIFICATION_REJECTED = "REJECTED";
+
     public static final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
 
     public static final String ADOPTION_MESSAGE = "Hay nuevos interesados en adoptar a ";
+
+    public static final String ADOPTION_ACCEPTED = "ADOPTION_ACCEPTED";
+
+    public static final String ADOPTION_ACCEPTED_MESSAGE_1 = "El dueño de ";
+
+    public static final String ADOPTION_ACCEPTED_MESSAGE_2 = " ha aceptado tu solicitud de adopción";
 
     public static final String TAKE_IN_TRANSIT_REQUEST = "TAKE_IN_TRANSIT_REQUEST";
 

@@ -16,9 +16,11 @@ public class Notification implements Comparable<Notification> {
 
     public String requestDate;
 
+    public String status;
+
 
     public Notification(String notificationType, String petId, String inquirerId, String inquirerEmail,
-                        String requestDate, String petName, String petImageId) {
+                        String requestDate, String petName, String petImageId, String status) {
         this.notificationType = notificationType;
         this.petId = petId;
         this.inquirerId = inquirerId;
@@ -26,6 +28,7 @@ public class Notification implements Comparable<Notification> {
         this.petName = petName;
         this.petImageId = petImageId;
         this.requestDate = requestDate;
+        this.status = status;
     }
 
     @Override
