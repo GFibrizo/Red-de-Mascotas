@@ -18,4 +18,8 @@ public class TransitHome {
         this.status = NOTIFICATION_PENDING;
     }
 
+    public void updateStatus(String status) {
+        this.status = status;
+    }
+
 }

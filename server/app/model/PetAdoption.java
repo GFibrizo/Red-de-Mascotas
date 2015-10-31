@@ -170,6 +170,13 @@ public class PetAdoption {
         return pet;
     }
 
+    public static PetAdoption acceptTakeInTransitRequest(TransitHomeRequest request) {
+        PetAdoption pet = getById(request.petId);
+        pet.updateTransitHomeRequestsToAccepted(request.transitHomeUser);
+        PetAdoption.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
     public static void updateLastSeenAdoptionRequests(String petId) {
         PetAdoption pet = getById(petId);
         if (!pet.updateLastSeenRequests())
@@ -222,15 +229,25 @@ public class PetAdoption {
     private void updatePublicationStatusToAdopted(String adopterId) {
         List<Adoption> requests = this.adoptionRequests;
         for (Adoption request : requests) {
-            // Adoption newRequest = requests.get(i);
             if (request.adopterId.equals(adopterId))
                 request.updateStatus(NOTIFICATION_ACCEPTED);
             else
                 request.updateStatus(NOTIFICATION_REJECTED);
-            // TODO: requests.set(i, newRequest);
         }
         this.adopterId = adopterId;
         this.publicationStatus = UNPUBLISHED;
+        this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
+    }
+
+    private void updateTransitHomeRequestsToAccepted(String transitHomeUser) {
+        List<TransitHome> requests = this.transitHomeRequests;
+        for (TransitHome request : requests) {
+            if (request.transitHomeUserId.equals(transitHomeUser))
+                request.updateStatus(NOTIFICATION_ACCEPTED);
+            else
+                request.updateStatus(NOTIFICATION_REJECTED);
+        }
+        this.transitHomeUser = transitHomeUser;
         this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 
