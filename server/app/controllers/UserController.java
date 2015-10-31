@@ -1,6 +1,6 @@
 package controllers;
 
-import model.AdoptionNotification;
+import model.Notification;
 import model.MatchingPet;
 import model.MyPet;
 import model.User;
@@ -91,10 +91,10 @@ public class UserController {
         return play.mvc.Controller.ok(Json.toJson(pets));
     }
 
-    public Result getAdoptionNotifications(String userId) {
-        List<AdoptionNotification> adoptionNotifications = service.getAdoptionNotifications(userId);
-        Logger.info("Number of user's notifications: " + adoptionNotifications.size());
-        return play.mvc.Controller.ok(Json.toJson(adoptionNotifications));
+    public Result getNotifications(String userId) {
+        List<Notification> notifications = service.getNotifications(userId);
+        Logger.info("Number of user's notifications: " + notifications.size());
+        return play.mvc.Controller.ok(Json.toJson(notifications));
     }
 
     public Result userHasPendingNotifications(String userId) {
