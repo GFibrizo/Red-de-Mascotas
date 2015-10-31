@@ -33,12 +33,16 @@ public class PetAdoptionService {
                                                   pet.behavior, pet.images, pet.needsTransitHome, pet.isCastrated,
                                                   pet.isOnTemporaryMedicine, pet.isOnChronicMedicine, pet.description);
         PetAdoption.create(petAdoption);
+        alertUsersAboutMatchingSavedSearches();
         return true;
     }
 
     public List<PetAdoption> searchPets(SearchForAdoptionFilters filters) {
         filters.decodeFilters();
-        return PetAdoption.search(filters);
+        List<PetAdoption> pets = PetAdoption.search(filters);
+        if (pets.size() == 0)
+            User.saveSearchRequest(filters);
+        return pets;
     }
 
     public List<PetAdoption> getLastPublished() {
@@ -79,6 +83,22 @@ public class PetAdoptionService {
         PetAdoption pet = PetAdoption.acceptTakeInTransitRequest(request);
         User transitHomeUser = User.getById(request.transitHomeUser);
         notificationsClient.pushNotification(transitHomeUser.notificationId, TAKE_IN_TRANSIT_ACCEPTED, TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_1 + pet.name + TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_2);
+    }
+
+    private void alertUsersAboutMatchingSavedSearches() {
+        List<User> users = User.getUsersWithSavedSearchFilters();
+        for (User user : users) {
+            Boolean needsToBeAlerted = false;
+            for (SearchForAdoptionFilters filters : user.savedSearchFilters) {
+                List<PetAdoption> pets = PetAdoption.search(filters);
+                if (pets.size() > 0) {
+                    needsToBeAlerted = true;
+                    break;
+                }
+            }
+            if (needsToBeAlerted)
+                notificationsClient.pushNotification(user.notificationId, NEW_SEARCH_MATCHES, NEW_SEARCH_MATCHES_MESSAGE);
+        }
     }
 
 }
