@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static utils.Constants.ADOPTION_REQUEST;
+import static utils.Constants.TAKE_IN_TRANSIT_REQUEST;
 import static utils.Constants.FOR_ADOPTION;
 import static utils.Constants.FOUND;
 import static utils.Constants.LOST;
@@ -80,31 +82,15 @@ public class UserService {
         return myPets;
     }
 
-    public List<AdoptionNotification> getAdoptionNotifications(String userId) {
-        List<AdoptionNotification> adoptionNotifications = new ArrayList<>();
+    public List<Notification> getNotifications(String userId) {
+        List<Notification> notifications = new ArrayList<>();
         List<PetAdoption> pets = PetAdoption.getPublishedByOwnerId(userId);
         for (PetAdoption pet : pets) {
-            if (pet.adoptionRequests != null) {
-                for (Adoption adoptionRequest : pet.adoptionRequests) {
-                    User adopter = User.getById(adoptionRequest.adopterId);
-                    String image;
-                    if (pet.images != null) {
-                        image = pet.images.get(0);
-                    } else {
-                        image = "";
-                    }
-                    AdoptionNotification adoptionNotification = new AdoptionNotification(pet.id,
-                                                                                         adopter.id,
-                                                                                         adopter.email,
-                                                                                         adoptionRequest.requestDate,
-                                                                                         pet.name,
-                                                                                         image);
-                    adoptionNotifications.add(adoptionNotification);
-                }
-            }
+            addAdoptionNotifications(notifications, pet);
+            addTransitHomeNotifications(notifications, pet);
         }
-        Collections.sort(adoptionNotifications, Collections.reverseOrder());
-        return adoptionNotifications;
+        Collections.sort(notifications, Collections.reverseOrder());
+        return notifications;
     }
 
     public Boolean userHasPendingNotifications(String userId) {
@@ -173,6 +159,52 @@ public class UserService {
             for (LostPet match : matches) {
                 User owner = User.getById(match.ownerId);
                 matchingPets.add(new MatchingPet(match, userFoundPet, owner.email));
+            }
+        }
+    }
+
+    private void addAdoptionNotifications(List<Notification> notifications, PetAdoption pet) {
+        if (pet.adoptionRequests != null) {
+            for (Adoption adoptionRequest : pet.adoptionRequests) {
+                User adopter = User.getById(adoptionRequest.adopterId);
+                String image;
+                if (pet.images != null) {
+                    image = pet.images.get(0);
+                } else {
+                    Logger.error("Pet with id " + pet.id + " does not have images");
+                    image = "";
+                }
+                Notification notification = new Notification(ADOPTION_REQUEST,
+                                                             pet.id,
+                                                             adopter.id,
+                                                             adopter.email,
+                                                             adoptionRequest.requestDate,
+                                                             pet.name,
+                                                             image);
+                notifications.add(notification);
+            }
+        }
+    }
+
+    private void addTransitHomeNotifications(List<Notification> notifications, PetAdoption pet) {
+        if (pet.transitHomeRequests != null) {
+            for (TransitHome transitHomeRequest : pet.transitHomeRequests) {
+                User transitHomeUser = User.getById(transitHomeRequest.transitHomeUserId);
+                String image;
+                if (pet.images != null) {
+                    image = pet.images.get(0);
+                } else {
+                    Logger.error("Pet with id " + pet.id + " does not have images");
+                    image = "";
+                }
+                Notification notification = new Notification(TAKE_IN_TRANSIT_REQUEST,
+                                                             pet.id,
+                                                             transitHomeUser.id,
+                                                             transitHomeUser.email,
+                                                             transitHomeRequest.requestDate,
+                                                             pet.name,
+                                                             image);
+                notifications.add(notification);
             }
         }
     }

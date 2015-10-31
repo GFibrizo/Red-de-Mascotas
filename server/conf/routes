@@ -14,7 +14,7 @@ POST        /user/facebook                             @controllers.UserControll
 # Usuario
 GET         /user/:userId/pets                         @controllers.UserController.getPublishedPets(userId)
 GET         /user/:userId/pets/matches                 @controllers.UserController.getPetsMatches(userId)
-GET         /user/:userId/notifications                @controllers.UserController.getAdoptionNotifications(userId)
+GET         /user/:userId/notifications                @controllers.UserController.getNotifications(userId)
 GET         /user/:userId/pending-notifications        @controllers.UserController.userHasPendingNotifications(userId)
 PUT         /user/:userId/notifications                @controllers.UserController.updateLastSeenNotifications(userId)
 
