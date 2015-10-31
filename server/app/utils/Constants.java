@@ -20,6 +20,12 @@ public class Constants {
 
     public static final String ADOPTION_MESSAGE = "Hay nuevos interesados en adoptar a ";
 
+    public static final String TAKE_IN_TRANSIT_REQUEST = "TAKE_IN_TRANSIT_REQUEST";
+
+    public static final String TAKE_IN_TRANSIT_MESSAGE_1 = "Hay nuevos interesados en tomar a ";
+
+    public static final String TAKE_IN_TRANSIT_MESSAGE_2 = " en tránsito";
+
     public static final String PETS_FOUND = "PETS_FOUND";
 
     public static final String PETS_FOUND_MESSAGE = "Hay nuevas publicaciones similares a tu búsqueda";

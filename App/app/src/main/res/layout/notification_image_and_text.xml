@@ -51,9 +51,22 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/contactoLabel"
                     android:id="@+id/contactoAdoptar" />
-
             </LinearLayout>
 
+
+
+            <RelativeLayout   android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:orientation="horizontal"
+                android:layout_gravity="bottom">
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/button_accept"
+                    android:layout_width="fill_parent"
+                    android:layout_height="fill_parent"
+                    android:layout_alignParentRight="true"
+                    android:layout_alignParentBottom="true"
+                    android:src="@drawable/com_facebook_button_like_icon_selected"/>
+            </RelativeLayout>
         </LinearLayout>
 
     </android.support.v7.widget.CardView>
