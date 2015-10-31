@@ -179,6 +179,7 @@ public class NotificationActivity extends AppCompatActivity {
                     JSONObject object = jsonArray.getJSONObject(i);
                     AdoptionNotification notification = new AdoptionNotification(
                             object.getString("petId"),
+                            object.getString("adopterId"),
                             object.getString("adopterEmail"),
                             object.getString("requestDate"),
                             object.getString("petName"),

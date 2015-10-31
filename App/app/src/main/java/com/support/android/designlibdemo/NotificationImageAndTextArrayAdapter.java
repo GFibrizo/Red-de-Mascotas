@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+import utils.AcceptProposalRequest;
 import utils.Constants;
 import utils.LoginRequest;
 
@@ -137,15 +138,23 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
         AcceptProposalTask() {    }
         @Override
         protected Boolean doInBackground(Void... params) {
-            Log.i("FLOATING", "CLICK | USERID: " +
+            Log.i("FLOATING", "CLICK | adopterId: " + currentNotification.getAdopterId() +
                     "PETID: " + currentNotification.getPetId() );
+
+            AcceptProposalRequest request = new AcceptProposalRequest(context);
+            try {
+                response = request.accept(currentNotification);
+            }  catch (InterruptedException | ExecutionException  | TimeoutException e) {
+                // exception handling
+               return false;
+            }
             return (response != null);
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-
+                //TODO: Actualizar listado de propuestas -> limpiarlo
             }
         }
 
