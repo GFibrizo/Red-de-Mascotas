@@ -16,6 +16,9 @@ import java.util.List;
 
 import static utils.Constants.ADOPTION_MESSAGE;
 import static utils.Constants.ADOPTION_REQUEST;
+import static utils.Constants.TAKE_IN_TRANSIT_REQUEST;
+import static utils.Constants.TAKE_IN_TRANSIT_MESSAGE_1;
+import static utils.Constants.TAKE_IN_TRANSIT_MESSAGE_2;
 
 @Service
 public class PetAdoptionService {
@@ -65,7 +68,9 @@ public class PetAdoptionService {
     }
 
     public void takePetInTransit(TransitHomeRequest request) {
-        PetAdoption.takePetInTransit(request);
+        PetAdoption pet = PetAdoption.addTransitHomeRequest(request);
+        User user = User.getById(pet.ownerId);
+        notificationsClient.pushNotification(user.notificationId, TAKE_IN_TRANSIT_REQUEST, TAKE_IN_TRANSIT_MESSAGE_1 + pet.name + TAKE_IN_TRANSIT_MESSAGE_2);
     }
 
 }
