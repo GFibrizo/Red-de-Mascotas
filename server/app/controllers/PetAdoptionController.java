@@ -67,7 +67,7 @@ public class PetAdoptionController {
         Form<TransitHomeRequest> form = Form.form(TransitHomeRequest.class).bindFromRequest();
         TransitHomeRequest request = form.get();
         service.takePetInTransit(request);
-        Logger.info("Pet with id " + petId + " successfully taken in transit");
+        Logger.info("Take in transit request successfully added for pet with id " + petId);
         return play.mvc.Controller.ok();
     }
 

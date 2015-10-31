@@ -67,6 +67,8 @@ public class PetAdoption {
 
     public List<Adoption> adoptionRequests;
 
+    public List<TransitHome> transitHomeRequests;
+
 
     private static JacksonDBCollection<PetAdoption, String> collection = MongoDB.getCollection("petsAdoption", PetAdoption.class, String.class);
 
@@ -139,10 +141,11 @@ public class PetAdoption {
         return pet;
     }
 
-    public static void takePetInTransit(TransitHomeRequest request) {
+    public static PetAdoption addTransitHomeRequest(TransitHomeRequest request) {
         PetAdoption pet = getById(request.petId);
-        pet.setTransitHomeUser(request.transitHomeUser);
+        pet.addNewTransitHomeRequest(request);
         PetAdoption.collection.updateById(request.petId, pet);
+        return pet;
     }
 
     public static void updateLastSeenAdoptionRequests(String petId) {
@@ -201,6 +204,15 @@ public class PetAdoption {
         this.adoptionRequests.add(adoptionRequest);
     }
 
+    private void addNewTransitHomeRequest(TransitHomeRequest request) {
+        TransitHome transitHomeRequest = new TransitHome(request.transitHomeUser,
+                                                         DateTime.now().toString(DATE_HOUR_FORMAT));
+        if (this.transitHomeRequests == null) {
+            this.transitHomeRequests = new ArrayList<>();
+        }
+        this.transitHomeRequests.add(transitHomeRequest);
+    }
+
     private Boolean updateLastSeenRequests() {
         if (this.adoptionRequests == null)
             return false;
@@ -208,10 +220,6 @@ public class PetAdoption {
             adoptionRequest.updateLastSeen(DateTime.now().toString(DATE_HOUR_FORMAT));
         }
         return true;
-    }
-
-    private void setTransitHomeUser(String transitHomeUser) {
-        this.transitHomeUser = transitHomeUser;
     }
 
 }
