@@ -154,7 +154,6 @@ public class NotificationActivity extends AppCompatActivity {
                         Log.e("Error receiving intent", e.getMessage());
                     }
 
-
                     if (notifications != null) {
                         for (int i = 0; i < notifications.size(); i++) {
                             textAndImageArray.add(notifications.get(i));
@@ -179,6 +178,7 @@ public class NotificationActivity extends AppCompatActivity {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
                     AdoptionNotification notification = new AdoptionNotification(
+                            object.getString("petId"),
                             object.getString("adopterEmail"),
                             object.getString("requestDate"),
                             object.getString("petName"),

@@ -93,7 +93,9 @@ public class UserService {
                     } else {
                         image = "";
                     }
-                    AdoptionNotification adoptionNotification = new AdoptionNotification(adopter.email,
+                    AdoptionNotification adoptionNotification = new AdoptionNotification(pet.id,
+                                                                                         adopter.id,
+                                                                                         adopter.email,
                                                                                          adoptionRequest.requestDate,
                                                                                          pet.name,
                                                                                          image);

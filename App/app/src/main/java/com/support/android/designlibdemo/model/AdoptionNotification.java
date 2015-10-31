@@ -6,10 +6,12 @@ public class AdoptionNotification {
     public String requestDate;
     public String petName;
     public String petImageId;
+    public String petId;
 
     public AdoptionNotification(){}
 
-    public AdoptionNotification(String adopterEmail, String requestDate, String petName, String petImageId) {
+    public AdoptionNotification(String petId, String adopterEmail, String requestDate, String petName, String petImageId) {
+        this.petId = petId;
         this.adopterEmail = adopterEmail;
         this.requestDate = requestDate;
         this.petName = petName;
@@ -46,6 +48,10 @@ public class AdoptionNotification {
 
     public void setPetImageId(String petImageId) {
         this.petImageId = petImageId;
+    }
+
+    public String getPetId() {
+        return petId;
     }
 }
 
