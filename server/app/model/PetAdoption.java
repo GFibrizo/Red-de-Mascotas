@@ -29,6 +29,8 @@ public class PetAdoption {
 
     public String ownerId;
 
+    public String adopterId;
+
     public ShortAddress address;
 
     public String breed;
@@ -64,6 +66,8 @@ public class PetAdoption {
     public String publicationStatus;
 
     public String publicationDate;
+
+    public String lastModifiedDate;
 
     public List<Adoption> adoptionRequests;
 
@@ -125,6 +129,17 @@ public class PetAdoption {
         return PetAdoption.collection.find(query.get()).toArray();
     }
 
+    public static List<PetAdoption> getByOwnerId(String ownerId) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("ownerId", ownerId);
+        List<PetAdoption> pets = PetAdoption.collection.find(query.get()).toArray();
+        for (PetAdoption pet : pets) {
+            if (pet.publicationStatus.equals(UNPUBLISHED) && pet.adopterId == null)
+                pets.remove(pet);
+        }
+        return pets;
+    }
+
     public static List<PetAdoption> search(SearchForAdoptionFilters filters) {
         return PetAdoption.collection.find(buildSearchFilters(filters)).toArray();
     }
@@ -137,6 +152,13 @@ public class PetAdoption {
     public static PetAdoption addAdoptionRequest(AdoptionRequest request) {
         PetAdoption pet = getById(request.petId);
         pet.addNewAdoptionRequest(request);
+        PetAdoption.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
+    public static PetAdoption acceptAdoptionRequest(AdoptionRequest request) {
+        PetAdoption pet = getById(request.petId);
+        pet.updatePublicationStatusToAdopted(request.adopterId);
         PetAdoption.collection.updateById(request.petId, pet);
         return pet;
     }
@@ -189,10 +211,27 @@ public class PetAdoption {
     private void updatePublicationStatusToPublished() {
         this.publicationStatus = PUBLISHED;
         this.publicationDate = DateTime.now().toString(DATE_HOUR_FORMAT);
+        this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 
     private void updatePublicationStatusToUnpublished() {
         this.publicationStatus = UNPUBLISHED;
+        this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
+    }
+
+    private void updatePublicationStatusToAdopted(String adopterId) {
+        List<Adoption> requests = this.adoptionRequests;
+        for (Adoption request : requests) {
+            // Adoption newRequest = requests.get(i);
+            if (request.adopterId.equals(adopterId))
+                request.updateStatus(NOTIFICATION_ACCEPTED);
+            else
+                request.updateStatus(NOTIFICATION_REJECTED);
+            // TODO: requests.set(i, newRequest);
+        }
+        this.adopterId = adopterId;
+        this.publicationStatus = UNPUBLISHED;
+        this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 
     private void addNewAdoptionRequest(AdoptionRequest request) {

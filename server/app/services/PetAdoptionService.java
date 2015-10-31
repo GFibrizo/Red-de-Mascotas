@@ -14,11 +14,7 @@ import play.Logger;
 
 import java.util.List;
 
-import static utils.Constants.ADOPTION_MESSAGE;
-import static utils.Constants.ADOPTION_REQUEST;
-import static utils.Constants.TAKE_IN_TRANSIT_REQUEST;
-import static utils.Constants.TAKE_IN_TRANSIT_MESSAGE_1;
-import static utils.Constants.TAKE_IN_TRANSIT_MESSAGE_2;
+import static utils.Constants.*;
 
 @Service
 public class PetAdoptionService {
@@ -65,6 +61,12 @@ public class PetAdoptionService {
         PetAdoption pet = PetAdoption.addAdoptionRequest(request);
         User user = User.getById(pet.ownerId);
         notificationsClient.pushNotification(user.notificationId, ADOPTION_REQUEST, ADOPTION_MESSAGE + pet.name);
+    }
+
+    public void acceptAdoptionRequest(AdoptionRequest request) {
+        PetAdoption pet = PetAdoption.acceptAdoptionRequest(request);
+        User adopter = User.getById(request.adopterId);
+        notificationsClient.pushNotification(adopter.notificationId, ADOPTION_ACCEPTED, ADOPTION_ACCEPTED_MESSAGE_1 + pet.name + ADOPTION_ACCEPTED_MESSAGE_2);
     }
 
     public void takePetInTransit(TransitHomeRequest request) {

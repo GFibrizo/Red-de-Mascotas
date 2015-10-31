@@ -63,6 +63,14 @@ public class PetAdoptionController {
         return play.mvc.Controller.ok();
     }
 
+    public Result acceptAdoptionRequest(String petId) {
+        Form<AdoptionRequest> form = Form.form(AdoptionRequest.class).bindFromRequest();
+        AdoptionRequest request = form.get();
+        service.acceptAdoptionRequest(request);
+        Logger.info("Adoption request successfully accepted for pet with id " + petId);
+        return play.mvc.Controller.ok();
+    }
+
     public Result takePetInTransit(String petId) {
         Form<TransitHomeRequest> form = Form.form(TransitHomeRequest.class).bindFromRequest();
         TransitHomeRequest request = form.get();
