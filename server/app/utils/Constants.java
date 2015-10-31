@@ -38,6 +38,12 @@ public class Constants {
 
     public static final String TAKE_IN_TRANSIT_MESSAGE_2 = " en tránsito";
 
+    public static final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED";
+
+    public static final String TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_1 = "El dueño de ";
+
+    public static final String TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_2 = " ha aceptado tu ofrecimiento de hogar en tránsito";
+
     public static final String PETS_FOUND = "PETS_FOUND";
 
     public static final String PETS_FOUND_MESSAGE = "Hay nuevas publicaciones similares a tu búsqueda";

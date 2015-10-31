@@ -75,4 +75,10 @@ public class PetAdoptionService {
         notificationsClient.pushNotification(user.notificationId, TAKE_IN_TRANSIT_REQUEST, TAKE_IN_TRANSIT_MESSAGE_1 + pet.name + TAKE_IN_TRANSIT_MESSAGE_2);
     }
 
+    public void acceptTakeInTransitRequest(TransitHomeRequest request) {
+        PetAdoption pet = PetAdoption.acceptTakeInTransitRequest(request);
+        User transitHomeUser = User.getById(request.transitHomeUser);
+        notificationsClient.pushNotification(transitHomeUser.notificationId, TAKE_IN_TRANSIT_ACCEPTED, TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_1 + pet.name + TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_2);
+    }
+
 }

@@ -79,4 +79,12 @@ public class PetAdoptionController {
         return play.mvc.Controller.ok();
     }
 
+    public Result acceptTakeInTransitRequest(String petId) {
+        Form<TransitHomeRequest> form = Form.form(TransitHomeRequest.class).bindFromRequest();
+        TransitHomeRequest request = form.get();
+        service.acceptTakeInTransitRequest(request);
+        Logger.info("Take in transit request successfully accepted for pet with id " + petId);
+        return play.mvc.Controller.ok();
+    }
+
 }
