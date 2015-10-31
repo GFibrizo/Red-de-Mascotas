@@ -148,13 +148,17 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
                 // exception handling
                return false;
             }
-            return (response != null);
+//            return (response != null);
+            return true;
         }
 
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                //TODO: Actualizar listado de propuestas -> limpiarlo
+                //TODO: Actualizar listado de propuestas
+                Intent intent = new Intent(context, NotificationActivity.class);
+                Toast.makeText(context, "Mascota adoptada", Toast.LENGTH_SHORT).show();
+                context.startActivity(intent);
             }
         }
 
