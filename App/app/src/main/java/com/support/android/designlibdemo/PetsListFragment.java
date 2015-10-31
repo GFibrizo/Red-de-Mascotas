@@ -85,7 +85,7 @@ public class PetsListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         //recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
         setAdapter(recyclerView);
-        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter(), getContext());
+        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter(), getActivity().getApplicationContext());
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
@@ -149,8 +149,12 @@ public class PetsListFragment extends Fragment {
         @Override
         protected Boolean doInBackground(Void... params) {
             ResultsRequest request = new ResultsRequest(getContext());
-            response = request.searchPublications(ownerId);
-            Log.e("RESPONSE", response.toString());
+            int count = 0;
+            response = null;
+            while ((response == null) && (count < 10)) {
+                response = request.searchPublications(ownerId);
+            }
+            //Log.e("RESPONSE", response.toString());
             return true;
         }
 
