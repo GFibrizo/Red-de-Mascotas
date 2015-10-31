@@ -140,20 +140,6 @@ public class MainActivity extends AppCompatActivity {
     //}
 
 
-
-    @Override
-    public void onStart() {
-        super.onStart();
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-        }
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
-        if (viewPager != null)
-            mTabLayout.setupWithViewPager(viewPager);
-    }
-
-
     /**********************************************************************************************/
     /**********************************************************************************************/
 
@@ -224,8 +210,6 @@ public class MainActivity extends AppCompatActivity {
                                 break;
                             case R.id.report_found:
                                 intent = new Intent(getApplicationContext(), FoundPetActivity.class);
-                                break;
-                            case R.id.invite_a_friend:
                                 break;
                             case R.id.config:
                                 intent = new Intent(getApplicationContext(), NotificationHandlerActivity.class);

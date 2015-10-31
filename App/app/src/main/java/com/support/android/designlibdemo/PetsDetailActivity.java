@@ -51,7 +51,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import utils.AdoptionRequest;
+import utils.BasicOwnerPetRequest;
 import utils.Constants;
+import utils.TransitHomeRequest;
 
 
 public class PetsDetailActivity extends AppCompatActivity {
@@ -95,7 +97,8 @@ public class PetsDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog dialogo = crearDialogo("Confirmar Adopción",
-                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
+                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud",
+                        true);
                 dialogo.show();
             }
         });
@@ -104,7 +107,8 @@ public class PetsDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 AlertDialog dialogo = crearDialogo("Confirmar ofrecimiento de hogar de tránsito",
-                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud");
+                        "Se le enviará una notificación al dueño de esta publicación para la evaluación de su solicitud",
+                        false);
                 dialogo.show();
             }
         });
@@ -147,8 +151,8 @@ public class PetsDetailActivity extends AppCompatActivity {
 
     private void ofrecerHogarDeTransito() {
         String petId = getIntent().getStringExtra("id");
-        String adopterId = loginUser.getId();
-        QueryResultTask qTask = new QueryResultTask(petId, adopterId);
+        String homeOwnerId = loginUser.getId();
+        QueryResultTask qTask = new QueryResultTask(petId, homeOwnerId, false);
         qTask.execute((Void) null);
         //contacto.setVisibility(View.VISIBLE);
         buttonTransitHome.setVisibility(View.GONE);
@@ -158,13 +162,14 @@ public class PetsDetailActivity extends AppCompatActivity {
     private void adoptar(){
         String petId = getIntent().getStringExtra("id");
         String adopterId = loginUser.getId();
-        QueryResultTask qTask = new QueryResultTask(petId, adopterId);
+        QueryResultTask qTask = new QueryResultTask(petId, adopterId, true);
         qTask.execute((Void) null);
         //contacto.setVisibility(View.VISIBLE);
         buttonAdopt.setVisibility(View.GONE);
     }
 
-    private AlertDialog crearDialogo(String titulo, String mensaje) {
+
+    private AlertDialog crearDialogo(String titulo, String mensaje, final boolean isAdoption) {
         // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
         alertDialogBuilder.setTitle(titulo);
@@ -175,7 +180,8 @@ public class PetsDetailActivity extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                adoptar();
+                if (isAdoption) adoptar();
+                else ofrecerHogarDeTransito();
             }
         };
 
@@ -308,19 +314,26 @@ public class PetsDetailActivity extends AppCompatActivity {
 
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
         String petId;
-        String adopterId;
+        String ownerId;
         JSONArray response;
+        Boolean adoption;
 
-        QueryResultTask(String petId, String adopterId) {
+        QueryResultTask(String petId, String ownerId, Boolean adoption) {
             this.petId = petId;
-            this.adopterId = adopterId;
+            this.ownerId = ownerId;
+            this.adoption = adoption;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
-            AdoptionRequest request = new AdoptionRequest(getApplicationContext());
-            request.send(petId, adopterId);
+            BasicOwnerPetRequest request = buildRequest(); //new AdoptionRequest(getApplicationContext());
+            request.send(petId, ownerId);
             return true;
+        }
+
+        private BasicOwnerPetRequest buildRequest() {
+            if (adoption) return new AdoptionRequest(getApplicationContext());
+            return new TransitHomeRequest(getApplicationContext());
         }
 
         @Override

@@ -106,7 +106,6 @@
 
 
 
-<!--
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -129,7 +128,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Fotos"
-                    android:id="@+id/images_missing_title"
+                    android:id="@+id/images_publish_title"
                     android:layout_margin="5dp"
                     android:gravity="center_horizontal"/>
 
@@ -137,12 +136,12 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cargar imagenes"
-                    android:id="@+id/load_image"
+                    android:id="@+id/load_publish_image"
                     android:textColor="@android:color/white"
                     android:visibility="visible"/>
 
                 <android.support.v4.view.ViewPager
-                    android:id="@+id/missing_pager"
+                    android:id="@+id/publish_pager"
                     android:layout_width="wrap_content"
                     android:layout_height="200dp"
                     android:visibility="gone">
@@ -167,14 +166,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Videos"
-                    android:id="@+id/video_missing_title"
+                    android:id="@+id/video_publish_title"
                     android:layout_margin="5dp"
                     android:gravity="center_horizontal"/>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:id="@+id/video_report_missing"
+                    android:id="@+id/video_report_publish"
                     android:textSize="16dp"
                     android:autoLink="web"
                     android:visibility="gone"
@@ -185,7 +184,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cargar videos"
-                    android:id="@+id/load_missing_video_button"
+                    android:id="@+id/load_publish_video_button"
                     android:textColor="@android:color/white"
                     android:visibility="visible"/>
 
@@ -216,7 +215,7 @@
                     android:layout_height="wrap_content">
 
                     <EditText
-                        android:id="@+id/missing_pet_name"
+                        android:id="@+id/publish_pet_name"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Nombre"
@@ -248,7 +247,7 @@
 
                         <info.hoang8f.android.segmented.SegmentedGroup
                             xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/segmented_pet_type_missing"
+                            android:id="@+id/segmented_pet_type_publish"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
@@ -257,7 +256,7 @@
                             segmentedgroup:sc_corner_radius="10dp">
 
                             <RadioButton
-                                android:id="@+id/dog_missing"
+                                android:id="@+id/dog_publish"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Perro"
@@ -265,7 +264,7 @@
                                 style="@style/RadioButton" />
 
                             <RadioButton
-                                android:id="@+id/cat_missing"
+                                android:id="@+id/cat_publish"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Gato"
@@ -295,7 +294,7 @@
 
                         <info.hoang8f.android.segmented.SegmentedGroup
                             xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
-                            android:id="@+id/segmented_pet_gender_missing"
+                            android:id="@+id/segmented_pet_gender_publish"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_margin="10dp"
@@ -304,7 +303,7 @@
                             segmentedgroup:sc_corner_radius="10dp">
 
                             <RadioButton
-                                android:id="@+id/male_missing"
+                                android:id="@+id/male_publish"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Macho"
@@ -312,7 +311,7 @@
                                 style="@style/RadioButton" />
 
                             <RadioButton
-                                android:id="@+id/female_missing"
+                                android:id="@+id/female_publish"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:text="Hembra"
@@ -328,7 +327,7 @@
                     android:layout_height="wrap_content">
 
                     <AutoCompleteTextView
-                        android:id="@+id/missing_pet_breed"
+                        android:id="@+id/publish_pet_breed"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Raza"
@@ -360,25 +359,25 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="center_horizontal"
                                 android:text="Edad:"
-                                android:id="@+id/age_string_missing"/>
+                                android:id="@+id/age_string_publish"/>
 
 
                             <TextView
-                                android:id="@+id/age_label_missing"
+                                android:id="@+id/age_label_publish"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:text="0 - 6 meses"
-                                android:layout_toRightOf="@id/age_string_missing"/>
+                                android:layout_toRightOf="@id/age_string_publish"/>
 
                         </RelativeLayout>
 
                         <SeekBar
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:id="@+id/pet_age_missing"
+                            android:id="@+id/pet_age_publish"
                             android:layout_margin="5dp"
-                            android:layout_toRightOf="@id/age_label_missing" />
+                            android:layout_toRightOf="@id/age_label_publish" />
 
 
                     </LinearLayout>
@@ -402,16 +401,16 @@
                                 android:layout_gravity="center_horizontal"
                                 android:textAlignment="gravity"
                                 android:layout_height="wrap_content"
-                                android:id="@+id/size_string_missing"
+                                android:id="@+id/size_string_publish"
                                 android:text="Tamaño:" />
 
                             <TextView
-                                android:id="@+id/size_label_missing"
+                                android:id="@+id/size_label_publish"
                                 android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
                                 android:layout_marginLeft="10dp"
                                 android:text="Chico"
-                                android:layout_toRightOf="@id/size_string_missing"/>
+                                android:layout_toRightOf="@id/size_string_publish"/>
 
                         </RelativeLayout>
 
@@ -419,10 +418,59 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:id="@+id/pet_size_missing" />
+                            android:id="@+id/pet_size_publish" />
 
                     </LinearLayout>
                 </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/card_margin">
+
+            <LinearLayout
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="10dp">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Ubicación"
+                    android:layout_margin="5dp"
+                    android:id="@+id/location_publish"
+                    android:gravity="center_horizontal" />
+
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/publish_pet_neighbourhood"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Barrio"
+                        android:inputType="textAutoComplete" />
+
+                </android.support.design.widget.TextInputLayout>
+
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/publish_pet_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Ciudad"
+                        android:inputType="textAutoComplete" />
+
+                </android.support.design.widget.TextInputLayout>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
@@ -434,7 +482,7 @@
             android:layout_margin="@dimen/card_margin">
 
             <LinearLayout
-                android:id="@+id/layout_missing_2"
+                android:id="@+id/layout_publish_2"
                 android:orientation="vertical"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -447,7 +495,7 @@
                     android:layout_height="wrap_content"
                     android:text="Colores de la mascota"
                     android:layout_margin="5dp"
-                    android:id="@+id/colors_missing_title"
+                    android:id="@+id/colors_publish_title"
                     android:gravity="center_horizontal" />
 
 
@@ -457,7 +505,7 @@
                     android:layout_marginTop="10dp">
 
                     <Spinner
-                        android:id="@+id/spinner_hair_color1_missing"
+                        android:id="@+id/spinner_hair_color1_publish"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -468,7 +516,7 @@
                     android:layout_marginTop="10dp">
 
                     <Spinner
-                        android:id="@+id/spinner_hair_color2_missing"
+                        android:id="@+id/spinner_hair_color2_publish"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content" />
                 </android.support.design.widget.TextInputLayout>
@@ -480,7 +528,7 @@
                     android:layout_marginTop="10dp">
 
                     <Spinner
-                        android:id="@+id/spinner_eye_color_missing"
+                        android:id="@+id/spinner_eye_color_publish"
                         android:layout_width="fill_parent"
                         android:layout_height="wrap_content"
                         android:textColor="#7e7e7e" />
@@ -512,7 +560,7 @@
 
 
                 <RelativeLayout
-                    android:id="@+id/layout_missing_23"
+                    android:id="@+id/layout_publish_23"
                     android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -524,19 +572,19 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Está castrada"
-                        android:id="@+id/is_castrated_missing"
+                        android:id="@+id/is_castrated_publish"
                         android:layout_weight="0.5"/>
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
-                        android:id="@+id/castrated_check_missing"
+                        android:id="@+id/castrated_check_publish"
                         android:layout_weight="0.5"/>
                 </RelativeLayout>
 
                 <RelativeLayout
-                    android:id="@+id/layout_missing_24"
+                    android:id="@+id/layout_publish_24"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
@@ -547,13 +595,13 @@
                         android:layout_height="wrap_content"
                         android:textAppearance="?android:attr/textAppearanceMedium"
                         android:text="Necesita un hogar de tránsito"
-                        android:id="@+id/transit_home_missing_label"
+                        android:id="@+id/transit_home_publish_label"
                         android:layout_weight="0.5"/>
 
                     <CheckBox
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/transit_home_check"
+                        android:id="@+id/transit_home_publish_check"
                         android:layout_alignParentRight="true"
                         android:layout_weight="0.5"/>
                 </RelativeLayout>
@@ -565,17 +613,17 @@
                     android:gravity="center_horizontal"
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="Toma medicación"
-                    android:id="@+id/medicine_missing" />
+                    android:id="@+id/medicine_publish" />
 
                 <RadioGroup
-                    android:id="@+id/radio_pet_type_missing"
+                    android:id="@+id/radio_medicine_publish"
                     android:orientation="horizontal"
                     android:layout_marginTop="10dp"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content" >
 
                     <RadioButton
-                        android:id="@+id/radio_temporary_medicine_missing"
+                        android:id="@+id/radio_temporary_medicine_publish"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:textColor="#767676"
@@ -585,7 +633,7 @@
                         android:text="Temporal" />
 
                     <RadioButton
-                        android:id="@+id/radio_chronic_medicine_missing"
+                        android:id="@+id/radio_chronic_medicine_publish"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="5dp"
@@ -599,216 +647,241 @@
                 <EditText
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pet_desc_missing"
+                    android:id="@+id/pet_desc_publish"
                     android:hint="Descripción de la mascota"
                     android:layout_marginTop="10dp"/>
 
             </LinearLayout>
         </android.support.v7.widget.CardView>
 
-            -->
 
-
-
-
-
-
-
-
-
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:id="@+id/relativeLayout">
-
-        <ImageView
-            android:id="@+id/load_image"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/load"
-            android:layout_marginLeft="10dp"
-            android:layout_marginStart="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
-
-        <LinearLayout
+        <android.support.v7.widget.CardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_toRightOf="@+id/load_image"
-            android:layout_marginLeft="10dp"
-            android:id="@+id/linearLayout1">
+            android:layout_margin="@dimen/card_margin">
 
 
-            <android.support.design.widget.TextInputLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:layout_margin="10dp">
 
-                <EditText
-                    android:id="@+id/published_pet_name"
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Conducta"
+                android:layout_margin="5dp"
+                android:gravity="center_horizontal" />
+
+
+                <RelativeLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre"
-                    android:inputType="textPersonName"
-                    android:layout_marginRight="10dp"/>
+                    android:weightSum="1"
+                    android:layout_marginTop="20dp">
 
-            </android.support.design.widget.TextInputLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Sociable"
+                        android:id="@+id/sociable_label"
+                        android:layout_weight="0.5"/>
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Tipo de mascota"
-                android:id="@+id/pet_type"
-                android:layout_marginTop="10dp" />
-
-
-            <android.support.v7.widget.SwitchCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textOn="Perro"
-                android:textOff="Gato"
-                app:showText="true"
-                android:id="@+id/switch_pet_type"
-                android:layout_marginTop="5dp" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textAppearance="?android:attr/textAppearanceSmall"
-                android:text="Género"
-                android:id="@+id/pet_gender"
-                android:layout_marginTop="10dp" />
-
-            <android.support.v7.widget.SwitchCompat
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textOn="Hembra"
-                android:textOff="Macho"
-                app:showText="true"
-                android:id="@+id/switch_pet_gender"
-                android:layout_marginTop="5dp" />
-
-        </LinearLayout>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:id="@+id/sociable_check"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
 
 
-        <LinearLayout
-            android:id="@+id/linearLayout2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_below="@id/linearLayout1"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp">
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-            <AutoCompleteTextView
-                android:id="@+id/breed"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Raza"
-                android:inputType="textAutoComplete" />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left"
-                android:layout_marginTop="10dp"
-                android:textAlignment="gravity"
-                android:text="Edad" />
-
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp" >
-
-                <TextView
-                    android:id="@+id/age_label"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:layout_marginLeft="20dp"
-                    android:text="0 - 6 meses" />
-
-                <SeekBar
+                <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pet_age"
-                    android:layout_toRightOf="@id/age_label" />
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Se lleva bien con otros animales"
+                        android:id="@+id/other_animals_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/other_animals_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
 
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_gravity="left"
-                android:textAlignment="gravity"
-                android:layout_height="wrap_content"
-                android:text="Tamaño" />
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal"
-                android:layout_marginLeft="10dp" >
-
-                <TextView
-                    android:id="@+id/size_label"
-                    android:layout_width="80dp"
-                    android:layout_height="match_parent"
-                    android:text="Chico"
-                    android:layout_marginLeft="20dp"/>
-
-                <SeekBar
+                <RelativeLayout
+                    android:orientation="horizontal"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/pet_size"
-                    android:layout_toRightOf="@id/size_label" />
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
 
-            </RelativeLayout>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Se lleva bien con los niños"
+                        android:id="@+id/with_kids_label"
+                        android:layout_weight="0.5"/>
 
-        </LinearLayout>
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/with_kids_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
 
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="De compañía"
+                        android:id="@+id/companion_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/companion_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
 
 
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
 
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Juguetón"
+                        android:id="@+id/plays_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/plays_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Tranquilo"
+                        android:id="@+id/quiet_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/quiet_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Guardián"
+                        android:id="@+id/guardian_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/guardian_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceMedium"
+                        android:text="Agresivo"
+                        android:id="@+id/agressive_label"
+                        android:layout_weight="0.5"/>
+
+                    <CheckBox
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/agressive_check"
+                        android:layout_alignParentRight="true"
+                        android:layout_weight="0.5"/>
+                </RelativeLayout>
+
+            </LinearLayout>
+
+    </android.support.v7.widget.CardView>
 
 
     <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Siguiente"
             android:background="#2196F3"
             android:textColor="#ffffff"
             android:textAllCaps="false"
             android:id="@+id/button_publish_1"
-            android:onClick="nextPage"
-            android:layout_marginRight="10dp"
-            android:layout_marginEnd="40dp"
-            android:layout_below="@+id/linearLayout2"
-            android:layout_alignRight="@+id/linearLayout2"
-            android:layout_alignEnd="@+id/linearLayout2"
+            android:onClick="finish"
+            android:layout_margin="16dp"
+            android:layout_marginBottom="10dp"
             android:elevation="3dp"/>
 
 
+    <!--
     </RelativeLayout>
+    -->
 
     </LinearLayout>
 

@@ -282,7 +282,6 @@
                     android:background="#2196F3"
                     android:textColor="#ffffff"
                     android:id="@+id/botonOfrecerHogar"
-                    android:layout_marginBottom="@dimen/card_margin"
                     android:layout_marginLeft="@dimen/card_margin"
                     android:layout_marginRight="@dimen/card_margin"
                     android:elevation="3dp"/>

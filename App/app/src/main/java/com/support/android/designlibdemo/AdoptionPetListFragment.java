@@ -27,8 +27,10 @@ public class AdoptionPetListFragment extends PetsListFragment {
         protected Boolean doInBackground(Void... params) {
             ResultsRequest request = new ResultsRequest(getContext());
             response = null;
-            while(response == null) {
+            int count = 0;
+            while ((response == null) && (count < 10)){
                 response = request.searchAdoption();
+                count++;
             }
             Log.e("RESPONSE1", response.toString());
             return true;

@@ -18,7 +18,8 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
     Context context;
 
     public SimpleItemTouchHelperCallback(SimpleStringRecyclerViewAdapter adapter,  Context context) {
-        mAdapter = adapter;
+        this.mAdapter = adapter;
+        this.context = context;
     }
 
     @Override

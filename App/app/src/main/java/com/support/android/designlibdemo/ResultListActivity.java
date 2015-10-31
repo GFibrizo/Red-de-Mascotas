@@ -1,5 +1,7 @@
 package com.support.android.designlibdemo;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -38,6 +40,9 @@ public class ResultListActivity extends AppCompatActivity {
     // Defined Array values to show in ListView
     String[] values = new String[]{"Fiona", "Simba", "Homero", "Casandra", "Cleopatra"};
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,6 +59,8 @@ public class ResultListActivity extends AppCompatActivity {
         cargarResultados();
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,6 +68,9 @@ public class ResultListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_result_list, menu);
         return true;
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -77,6 +87,56 @@ public class ResultListActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private AlertDialog createDialog(String titulo, String mensaje) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(mensaje);
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //TODO: aca llamar a funcion que envia al server los filtros utilizados
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton(R.string.dialogNo, listenerCancelar);
+        alertDialogBuilder.setNegativeButton(R.string.dialogSi, listenerOk);
+
+        return alertDialogBuilder.create();
+    }
+
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+
+    private void saveSearchIfNoResults() {
+        if (mascotas.size() > 0)
+            return;
+        AlertDialog dialog = createDialog("No se han encontrado resultados",
+                "¿Desea guardar la búsqueda que realizó para que se le notifique cuando haya nuevos resultados?");
+        dialog.show();
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void cargarResultados(){
         // Get ListView object from xml
@@ -131,6 +191,8 @@ public class ResultListActivity extends AppCompatActivity {
 
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
 //    public PetAdoption(String name, String type, String ownerId, Address address, String breed,
 //                       String gender, String age, String size, List<String> colors, String eyeColor,

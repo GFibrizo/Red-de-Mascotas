@@ -46,10 +46,6 @@
         android:checkableBehavior="single">
 
         <item
-            android:id="@+id/invite_a_friend"
-            android:icon="@drawable/ic_person_add_black_24dp"
-            android:title="@string/invite_a_friend" />
-        <item
             android:id="@+id/config"
             android:icon="@drawable/ic_settings_black_24dp"
             android:title="@string/config" />
