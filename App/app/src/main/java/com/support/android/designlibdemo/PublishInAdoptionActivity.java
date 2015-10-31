@@ -684,7 +684,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 for (String img : images) {
                     imgs.put(img);
                 }
-                object.put("images", images);
+                object.put("images", imgs);
                 object.put("name", name.getText());
 
                 Log.e("ID Perro", Integer.toString(pet_type.getCheckedRadioButtonId()));

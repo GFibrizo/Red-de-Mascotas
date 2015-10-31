@@ -367,7 +367,11 @@ public class PetsDetailActivity extends AppCompatActivity {
         }
 
         private BasicOwnerPetRequest buildRequest() {
-            if (adoption) return new AdoptionRequest(getApplicationContext());
+            if (adoption) {
+                Log.e("PetRequest","Adoption");
+                return new AdoptionRequest(getApplicationContext());
+            }
+            Log.e("PetRequest","TransitHome");
             return new TransitHomeRequest(getApplicationContext());
         }
 
