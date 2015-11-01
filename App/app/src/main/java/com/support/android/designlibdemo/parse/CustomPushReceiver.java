@@ -25,13 +25,17 @@ import utils.NotificationRequest;
 
 public class CustomPushReceiver extends ParsePushBroadcastReceiver {
     private final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
-    private final String PETS_FOUND = "PETS_FOUND";
+    private final String ADOPTION_ACCEPTED = "ADOPTION_ACCEPTED";
+    private final String TAKE_IN_TRANSIT_REQUEST = "TAKE_IN_TRANSIT_REQUEST";
+    private final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED";
     private final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES";
+    private final String PETS_FOUND = "PETS_FOUND";
     private final String TAG = CustomPushReceiver.class.getSimpleName();
     private Context context;
     private SharedPreferences prefs = null;
     private String message;
     private String notificationType;
+
     private static User loginUser;
 
     private NotificationUtils notificationUtils;
@@ -66,7 +70,12 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
     protected void onPushDismiss(Context context, Intent intent) {
         super.onPushDismiss(context, intent);
     }
-
+//    private final String ADOPTION_REQUEST = "ADOPTION_REQUEST"; me lleva a notificaciones
+//    private final String ADOPTION_ACCEPTED = "ADOPTION_ACCEPTED"; me lleva a notificaciones
+//    private final String TAKE_IN_TRANSIT_REQUEST = "TAKE_IN_TRANSIT_REQUEST"; me lleva a notificaciones
+//    private final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED"; me lleva a notificaciones
+//    private final String PETS_FOUND = "PETS_FOUND"; me lleva a los resultados
+//private final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES"; me lleva a los resultados
     @Override
     protected void onPushOpen(Context context, Intent intent) {
         super.onPushOpen(context, intent);
@@ -74,20 +83,19 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
             if (intent != null) {
                 JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
                 parsePushJson(context, json);
-//                Intent nuevoIntent = new Intent(context, NotificationHandlerActivity.class);
-//                nuevoIntent.putExtra("type", this.notificationType);
-//                nuevoIntent.putExtra("message", this.message);
-//                context.startActivity(nuevoIntent);
-
-
-                if (this.notificationType.equals(ADOPTION_REQUEST)) {
-                    Intent resultIntent = new Intent(context, NotificationActivity.class);
+                if (this.notificationType.equals(PETS_FOUND)) {
+                    Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
                     if (resultIntent != null) {
                         showNotificationMessage(context, this.notificationType, this.message, resultIntent);
                     }
                 } else if (this.notificationType.equals(PETS_FOUND)){
                     Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
                     if (resultIntent != null) {
+                        showNotificationMessage(context, this.notificationType, this.message, resultIntent);
+                    }
+                } else if (this.notificationType.equals(NEW_SEARCH_MATCHES)) {
+                    Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
+                    if (resultIntent != null) { //TODO: ver si tengo que pasar algun otro dato
                         showNotificationMessage(context, this.notificationType, this.message, resultIntent);
                     }
                 } else {
@@ -110,7 +118,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
      */
     private void parsePushJson(Context context, JSONObject json) {
         try {
-            this.message = json.getString("alert");
+            this.message = json.getString("alert"); //TODO: va a depender del notificationType
             this.notificationType = json.getString("notificationType");
 
         } catch (JSONException e) {
@@ -156,39 +164,6 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
 
         notificationUtils.showNotificationMessage(message, intent);
-    }
-
-
-    public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
-        String userId;
-        JSONArray response;
-
-        QueryResultTask(String userId) {
-            this.userId = userId;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-//            MatchRequest request = new MatchRequest(getApplicationContext());
-            MatchRequest request = new MatchRequest(context);
-            response = request.getMatch(userId);
-            return true;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            if (success) {
-                Intent resultIntent = new Intent(context, ResultListActivity.class);
-                if (response != null) {
-                    prefs.edit().putString("searchResponse", response.toString()).commit();
-                    showNotificationMessage(context, notificationType, message, resultIntent);
-                }
-            }
-        }
-
-        @Override
-        protected void onCancelled() { }
-
     }
 
 }
