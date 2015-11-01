@@ -109,35 +109,48 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        //if ((getIntent().getExtras() != null) && (getIntent().getStringExtra("user") != null)){
-            try {
-                JSONObject object = new JSONObject(prefs.getString("userData", "{}")); //getIntent().getStringExtra("user")
-                Log.e("USER DATA", prefs.getString("userData", "{}"));
+        try {
+            JSONObject object = new JSONObject(prefs.getString("userData", "{}")); //getIntent().getStringExtra("user")
+            Log.e("USER DATA", prefs.getString("userData", "{}"));
 
-                if (object.length() == 0) {
-                    Toast.makeText(getApplicationContext(), "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                this.loginUser = new User(object);
-                userData.put("ownerId", loginUser.getId());
-                Log.e("ID",loginUser.getId());
-                Address addr = loginUser.getAddress();
-                if (addr != null) {
-                    JSONObject address = new JSONObject();
-                    address.put("street", addr.getStreet());
-                    address.put("number", addr.getNumber());
-                    address.put("neighbourhood", addr.getNeighbourhood());
-                    address.put("city", addr.getCity());
-                    address.put("province", addr.getProvince());
-                    address.put("country", addr.getCountry());
-                    userData.put("address", address);
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
+            if (object.length() == 0) {
+                Toast.makeText(getApplicationContext(), "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
+                return;
             }
+            this.loginUser = new User(object);
+            userData.put("ownerId", loginUser.getId());
+            Log.e("ID",loginUser.getId());
+            Address addr = loginUser.getAddress();
+            if (addr != null) {
+                JSONObject address = new JSONObject();
+                address.put("street", addr.getStreet());
+                address.put("number", addr.getNumber());
+                address.put("neighbourhood", addr.getNeighbourhood());
+                address.put("city", addr.getCity());
+                address.put("province", addr.getProvince());
+                address.put("country", addr.getCountry());
+                userData.put("address", address);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
-    //}
+    @Override
+    public void onStart() {
+        super.onStart();
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        if (viewPager != null) {
+            setupViewPager(viewPager);
+        }
+        mTabLayout = (TabLayout) findViewById(R.id.tabs);
+        if (viewPager != null)
+            mTabLayout.setupWithViewPager(viewPager);
+
+        mTabLayout.invalidate();
+
+    }
+
 
 
     /**********************************************************************************************/

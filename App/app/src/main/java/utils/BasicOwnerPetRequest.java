@@ -2,6 +2,7 @@ package utils;
 
 import android.content.Context;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -52,6 +53,7 @@ public abstract class BasicOwnerPetRequest {
 
                     }
                 });
+        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
 
 //        RequestFuture<JSONArray> future = RequestFuture.newFuture();
 //        JsonArrayRequest request = new JsonArrayRequest(Request.Method.POST,  path, future, future);
