@@ -39,6 +39,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.login.LoginManager;
@@ -84,6 +85,8 @@ public class MainActivity extends AppCompatActivity {
             ab.setDisplayHomeAsUpEnabled(true);
         }
 
+        loadUserData();
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -107,8 +110,12 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
+    private void loadUserData() {
         try {
             JSONObject object = new JSONObject(prefs.getString("userData", "{}")); //getIntent().getStringExtra("user")
             Log.e("USER DATA", prefs.getString("userData", "{}"));
@@ -135,6 +142,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     @Override
     public void onStart() {
@@ -203,6 +214,8 @@ public class MainActivity extends AppCompatActivity {
     /**********************************************************************************************/
 
     private void setupDrawerContent(NavigationView navigationView) {
+        TextView nameAndLastName = (TextView) findViewById(R.id.profile_name);
+        nameAndLastName.setText(loginUser.getName() + " " + loginUser.getLastName());
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
