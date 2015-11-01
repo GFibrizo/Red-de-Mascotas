@@ -2,6 +2,7 @@ package utils;
 
 import android.content.Context;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
@@ -29,6 +30,7 @@ public class AcceptProposalRequest {
         JSONObject response = null;
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, path,  currentNotification.toJson(), future, future);
+        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
         requestHandler.addToRequestQueue(request);
         try {
             response = future.get(10, TimeUnit.SECONDS);

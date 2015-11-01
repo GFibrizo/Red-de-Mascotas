@@ -3,6 +3,7 @@ package utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.toolbox.RequestFuture;
 
 import java.io.File;
@@ -22,6 +23,7 @@ public class ImageRequest {
         String path =  requestHandler.getServerUrl() + "/pet/image";
         RequestFuture<String> future = RequestFuture.newFuture();
         MultipartRequest request = new MultipartRequest(path, future, future, file/*, "image"*/);
+        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
         requestHandler.addToRequestQueue(request);
         String response = null;
         try {

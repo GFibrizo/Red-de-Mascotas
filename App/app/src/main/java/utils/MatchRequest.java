@@ -3,6 +3,7 @@ package utils;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.RequestFuture;
@@ -29,6 +30,7 @@ public class MatchRequest {
 
         RequestFuture<JSONArray> future = RequestFuture.newFuture();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, path, future, future);
+        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
         requestHandler.addToRequestQueue(request);
         JSONArray response = null;
         try {

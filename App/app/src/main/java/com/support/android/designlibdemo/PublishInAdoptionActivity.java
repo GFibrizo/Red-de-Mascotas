@@ -266,6 +266,12 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
             }
         });
+        loadImagesButton.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                v.performClick();
+            }
+        });
     }
 
     /**********************************************************************************************/
