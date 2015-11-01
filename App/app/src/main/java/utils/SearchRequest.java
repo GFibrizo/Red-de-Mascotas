@@ -48,7 +48,7 @@ public class SearchRequest {
 
 
     private String buildSearchPetPath(SearchForAdoptionFilters filters) {
-        String queryString = "type=" + filters.type + "&";
+        String queryString = "type=" + filters.type + "&"  + "userId=" +filters.user + "&";
         if (filters.genders != null) queryString += fromListToString("genders", filters.genders);
         if (filters.breed != null && !filters.breed.isEmpty()) queryString += "breed=" + filters.breed + "&";
         if (filters.ages != null) queryString += fromListToString("ages", filters.ages);

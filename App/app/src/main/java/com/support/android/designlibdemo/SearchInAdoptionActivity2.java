@@ -138,6 +138,7 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
 
             object.put("city", Encoder.encode(city.getText().toString()));
             object.put("neighbourhood", Encoder.encode(neighbourhood.getText().toString()));
+            object.put("userId", getUserId());
 
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
@@ -181,5 +182,17 @@ public class SearchInAdoptionActivity2 extends AppCompatActivity {
         protected void onCancelled() { }
 
     }
+
+    private String getUserId() {
+        String id = "";
+        try {
+            JSONObject object = new JSONObject(prefs.getString("userData", "{}"));
+            id = object.getString("id");
+        } catch (JSONException e) {
+            Log.e("Error", "Error getting id in search activity");
+        }
+        return id;
+    }
+
 
 }

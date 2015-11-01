@@ -11,6 +11,8 @@ import java.util.List;
 
 public class SearchForAdoptionFilters {
 
+    public String user;
+
     public String type;
 
     public String breed;
@@ -40,6 +42,7 @@ public class SearchForAdoptionFilters {
             this.eyeColors = fromJSONArrayToList((JSONArray) object.get("eyeColors"));
             this.neighbourhood = object.getString("neighbourhood");
             this.city = object.getString("city");
+            this.user = object.getString("userId");
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

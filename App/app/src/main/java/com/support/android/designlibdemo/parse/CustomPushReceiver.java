@@ -26,6 +26,7 @@ import utils.NotificationRequest;
 public class CustomPushReceiver extends ParsePushBroadcastReceiver {
     private final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
     private final String PETS_FOUND = "PETS_FOUND";
+    private final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES";
     private final String TAG = CustomPushReceiver.class.getSimpleName();
     private Context context;
     private SharedPreferences prefs = null;
@@ -81,6 +82,11 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 
                 if (this.notificationType.equals(ADOPTION_REQUEST)) {
                     Intent resultIntent = new Intent(context, NotificationActivity.class);
+                    if (resultIntent != null) {
+                        showNotificationMessage(context, this.notificationType, this.message, resultIntent);
+                    }
+                } else if (this.notificationType.equals(PETS_FOUND)){
+                    Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
                     if (resultIntent != null) {
                         showNotificationMessage(context, this.notificationType, this.message, resultIntent);
                     }
