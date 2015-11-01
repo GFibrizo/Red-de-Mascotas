@@ -30,7 +30,6 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
     private final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED";
     private final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES";
     private final String PETS_FOUND = "PETS_FOUND";
-    private final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES";
     private final String TAG = CustomPushReceiver.class.getSimpleName();
     private Context context;
     private SharedPreferences prefs = null;
