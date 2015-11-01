@@ -38,6 +38,8 @@ public class User {
 
     public List<SearchForAdoptionFilters> savedSearchFilters;
 
+    public List<Notification> notifications;
+
 
     private static JacksonDBCollection<User, String> collection = MongoDB.getCollection("users", User.class, String.class);
 
@@ -79,6 +81,12 @@ public class User {
 
     private void removeSearchRequest(int index) {
         this.savedSearchFilters.remove(index);
+    }
+
+    private void addNewNotification(Notification notification) {
+        if (this.notifications == null)
+            this.notifications = new ArrayList<>();
+        this.notifications.add(notification);
     }
 
 
@@ -125,6 +133,12 @@ public class User {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.push("savedSearchFilters").add("$ne", null).pop();
         return User.collection.find(query.get()).toArray();
+    }
+
+    public static void saveNotification(String userId, Notification notification) {
+        User user = getById(userId);
+        user.addNewNotification(notification);
+        User.collection.updateById(userId, user);
     }
 
     public static void delete(String id) {

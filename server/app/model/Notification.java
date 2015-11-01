@@ -19,6 +19,8 @@ public class Notification implements Comparable<Notification> {
     public String status;
 
 
+    public Notification() {}
+
     public Notification(String notificationType, String petId, String inquirerId, String inquirerEmail,
                         String requestDate, String petName, String petImageId, String status) {
         this.notificationType = notificationType;
