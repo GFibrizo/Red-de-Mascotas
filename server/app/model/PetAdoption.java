@@ -142,10 +142,12 @@ public class PetAdoption implements Comparable<PetAdoption> {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("ownerId", ownerId);
         List<PetAdoption> pets = PetAdoption.collection.find(query.get()).toArray();
+        List<PetAdoption> petsToRemove = new ArrayList<>();
         for (PetAdoption pet : pets) {
             if (pet.publicationStatus.equals(UNPUBLISHED) && pet.adopterId == null)
-                pets.remove(pet);
+                petsToRemove.add(pet);
         }
+        pets.removeAll(petsToRemove);
         return pets;
     }
 
