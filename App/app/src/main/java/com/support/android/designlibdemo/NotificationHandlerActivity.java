@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.TabLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,11 +23,13 @@ import org.json.JSONObject;
 import utils.MatchRequest;
 
 public class NotificationHandlerActivity extends AppCompatActivity {
-    private final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
     private final String PETS_FOUND = "PETS_FOUND";
+    private final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES";
+    private final String TAG = NotificationHandlerActivity.class.getSimpleName();
     private SharedPreferences prefs= null;
     private static User loginUser;
     private Context context;
+    private String notificationType;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,14 +40,14 @@ public class NotificationHandlerActivity extends AppCompatActivity {
         context = this;
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         loginUser = obtenerUsuario(getApplicationContext());
-
+        setNotificationType(getIntent());
         cargarResultado();
 
     }
 
     public void cargarResultado(){
         String userId = loginUser.getId();
-        QueryResultTask qTask = new QueryResultTask(userId);
+        QueryResultTask qTask = new QueryResultTask(userId, this.notificationType);
         qTask.execute((Void) null);
     }
 
@@ -64,19 +67,29 @@ public class NotificationHandlerActivity extends AppCompatActivity {
         return loginUser;
     }
 
+    private void setNotificationType(Intent intent){
+        try {
+            this.notificationType = intent.getStringExtra("notificationType");
+            Log.i(TAG, "notificationType = " + this.notificationType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
         String userId;
         JSONArray response;
+        String notificationType;
 
-        QueryResultTask(String userId) {
+        QueryResultTask(String userId, String notificationType) {
             this.userId = userId;
+            this.notificationType = notificationType;
         }
 
         @Override
         protected Boolean doInBackground(Void... params) {
             MatchRequest request = new MatchRequest(getApplicationContext());
-            response = request.getMatch(userId);
+            response = request.getMatch(userId, notificationType);
             return true;
         }
 
