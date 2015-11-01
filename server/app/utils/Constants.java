@@ -48,6 +48,10 @@ public class Constants {
 
     public static final String PETS_FOUND_MESSAGE = "Hay nuevas publicaciones similares a tu búsqueda";
 
+    public static final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES";
+
+    public static final String NEW_SEARCH_MATCHES_MESSAGE = "Hay nuevas publicaciones que cumplen con tus búsquedas realizadas";
+
     public static final int MAX_LAST_PUBLICATIONS = 20;
 
     public static final int BREED_SCORE = 8;

@@ -32,7 +32,7 @@ public class AdoptionPetListFragment extends PetsListFragment {
                 response = request.searchAdoption();
                 count++;
             }
-            Log.e("RESPONSE1", response.toString());
+            //Log.e("RESPONSE1", response.toString());
             return true;
         }
     }

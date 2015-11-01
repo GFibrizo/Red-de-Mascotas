@@ -57,6 +57,7 @@ public class ResultListActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
 
         cargarResultados();
+        saveSearchIfNoResults();
     }
 
     /**********************************************************************************************/
@@ -101,7 +102,9 @@ public class ResultListActivity extends AppCompatActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO: aca llamar a funcion que envia al server los filtros utilizados
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(intent);
             }
         };
 
@@ -116,8 +119,7 @@ public class ResultListActivity extends AppCompatActivity {
 
         // Asignamos los botones positivo y negativo a sus respectivos listeners
         //OJO: estan al reves para que sea display si - no en vez de no - si
-        alertDialogBuilder.setPositiveButton(R.string.dialogNo, listenerCancelar);
-        alertDialogBuilder.setNegativeButton(R.string.dialogSi, listenerOk);
+        alertDialogBuilder.setPositiveButton("OK", listenerOk);
 
         return alertDialogBuilder.create();
     }
@@ -128,10 +130,10 @@ public class ResultListActivity extends AppCompatActivity {
 
 
     private void saveSearchIfNoResults() {
-        if (mascotas.size() > 0)
+        if (mascotas != null)
             return;
         AlertDialog dialog = createDialog("No se han encontrado resultados",
-                "¿Desea guardar la búsqueda que realizó para que se le notifique cuando haya nuevos resultados?");
+                "Se ha guardado la búsqueda realizada y se le notificará cuando haya nuevos resultados para la misma.");
         dialog.show();
     }
 
@@ -147,6 +149,8 @@ public class ResultListActivity extends AppCompatActivity {
             object = new JSONArray(prefs.getString("searchResponse", "[]"));
             if (object.length() != 0){
                 mascotas = fromJSONArrayToListMascotas(object);
+            } else {
+
             }
         } catch (JSONException e) {
             Log.e("Error receiving intent", e.getMessage());

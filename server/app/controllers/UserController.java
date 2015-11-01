@@ -1,9 +1,6 @@
 package controllers;
 
-import model.Notification;
-import model.MatchingPet;
-import model.MyPet;
-import model.User;
+import model.*;
 import model.external.LogInUser;
 import model.external.AccountRegistrationUser;
 import model.external.FacebookRegistrationUser;
@@ -113,6 +110,12 @@ public class UserController {
         List<MatchingPet> matchingPets = service.getMatchingPets(userId);
         Logger.info("Number of matching pets: " + matchingPets.size());
         return play.mvc.Controller.ok(Json.toJson(matchingPets));
+    }
+
+    public Result getPetsMatchingSavedSearches(String userId) {
+        List<PetAdoption> pets = service.getPetsMatchingSavedSearches(userId);
+        Logger.info("Number of pets matching saved searches: " + pets.size());
+        return play.mvc.Controller.ok(Json.toJson(pets));
     }
 
 }
