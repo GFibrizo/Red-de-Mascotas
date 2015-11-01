@@ -70,12 +70,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
     protected void onPushDismiss(Context context, Intent intent) {
         super.onPushDismiss(context, intent);
     }
-//    private final String ADOPTION_REQUEST = "ADOPTION_REQUEST"; me lleva a notificaciones
-//    private final String ADOPTION_ACCEPTED = "ADOPTION_ACCEPTED"; me lleva a notificaciones
-//    private final String TAKE_IN_TRANSIT_REQUEST = "TAKE_IN_TRANSIT_REQUEST"; me lleva a notificaciones
-//    private final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED"; me lleva a notificaciones
-//    private final String PETS_FOUND = "PETS_FOUND"; me lleva a los resultados
-//private final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES"; me lleva a los resultados
+
     @Override
     protected void onPushOpen(Context context, Intent intent) {
         super.onPushOpen(context, intent);
@@ -91,11 +86,6 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
                 } else if (this.notificationType.equals(PETS_FOUND)){
                     Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
                     if (resultIntent != null) {
-                        showNotificationMessage(context, this.notificationType, this.message, resultIntent);
-                    }
-                } else if (this.notificationType.equals(NEW_SEARCH_MATCHES)) {
-                    Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
-                    if (resultIntent != null) { //TODO: ver si tengo que pasar algun otro dato
                         showNotificationMessage(context, this.notificationType, this.message, resultIntent);
                     }
                 } else {
