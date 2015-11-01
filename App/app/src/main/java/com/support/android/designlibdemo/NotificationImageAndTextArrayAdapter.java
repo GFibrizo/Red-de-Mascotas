@@ -11,14 +11,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.facebook.Profile;
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
-import com.support.android.designlibdemo.model.AdoptionNotification;
+import com.support.android.designlibdemo.model.InquirerNotification;
 
 import org.json.JSONObject;
 
@@ -28,23 +26,22 @@ import java.util.concurrent.TimeoutException;
 
 import utils.AcceptProposalRequest;
 import utils.Constants;
-import utils.LoginRequest;
 
 /**
  * Clase que servira para mostrar en un listView algo que tenga un texto y una imagen
  */
-public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionNotification> {
+public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerNotification> {
     protected final Activity context;
-    protected ArrayList<AdoptionNotification> elements;
+    protected ArrayList<InquirerNotification> elements;
     protected final int layout;
     protected String baseUrlForImage;
     private String IP_EMULADOR = Constants.IP_SERVER; //"http://10.0.2.2:9000"; //ip generica del emulador
-    private AdoptionNotification currentNotification;
+    private InquirerNotification currentNotification;
     /**
      * @param layout   El layout que usara para mostrar cada fila
      * @param elements conjunto de elementos en los cuales se mostrara 1 por fila
      */
-    public NotificationImageAndTextArrayAdapter(Activity context, int layout, String baseUrlForImage, ArrayList<AdoptionNotification> elements) {
+    public NotificationImageAndTextArrayAdapter(Activity context, int layout, String baseUrlForImage, ArrayList<InquirerNotification> elements) {
         super(context, layout, elements);
         this.layout = layout;
         this.context = context;
@@ -56,7 +53,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
         if (elements.size() == 0) {
             return new View(getContext());
         }
-        final AdoptionNotification element = elements.get(position);
+        final InquirerNotification element = elements.get(position);
         currentNotification = elements.get(position);
         final LayoutInflater inflater = context.getLayoutInflater();
         View rowView = inflater.inflate(this.layout, null, true);
@@ -73,7 +70,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
 
         fecha.setText(fecha.getText() + " " + newFormatDate);
         quiereAdoptar.setText(quiereAdoptar.getText() + " " + element.getPetName());
-        contacto.setText(contacto.getText() + " " + element.getAdopterEmail());
+        contacto.setText(contacto.getText() + " " + element.getInquirerEmail());
         if (!element.getPetImageId().equals("") && !element.getPetImageId().equals("[]")) {
             String id = (element.getPetImageId().replace("[", "").replace("]", "").split(", "))[0];
             baseUrlForImage = IP_EMULADOR + "/pet/image/" + id;
@@ -127,7 +124,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
         return alertDialogBuilder.create();
     }
 
-    public void setElements(ArrayList<AdoptionNotification> elements) {
+    public void setElements(ArrayList<InquirerNotification> elements) {
         this.elements = elements;
     }
 
@@ -138,7 +135,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
         AcceptProposalTask() {    }
         @Override
         protected Boolean doInBackground(Void... params) {
-            Log.i("FLOATING", "CLICK | adopterId: " + currentNotification.getAdopterId() +
+            Log.i("FLOATING", "CLICK | adopterId: " + currentNotification.getInquirerId() +
                     "PETID: " + currentNotification.getPetId() );
 
             AcceptProposalRequest request = new AcceptProposalRequest(context);
@@ -159,6 +156,8 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<AdoptionN
                 Intent intent = new Intent(context, NotificationActivity.class);
                 Toast.makeText(context, "Mascota adoptada", Toast.LENGTH_SHORT).show();
                 context.startActivity(intent);
+            }else{
+                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
             }
         }
 

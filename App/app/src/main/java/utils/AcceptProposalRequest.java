@@ -5,7 +5,7 @@ import android.content.Context;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
-import com.support.android.designlibdemo.model.AdoptionNotification;
+import com.support.android.designlibdemo.model.InquirerNotification;
 
 import org.json.JSONObject;
 
@@ -23,7 +23,7 @@ public class AcceptProposalRequest {
         requestHandler = RequestHandler.getInstance(context);
     }
 
-    public JSONObject accept(AdoptionNotification currentNotification) throws InterruptedException, ExecutionException, TimeoutException {
+    public JSONObject accept(InquirerNotification currentNotification) throws InterruptedException, ExecutionException, TimeoutException {
 
         String path =   RequestHandler.getServerUrl() + "/pet/" + currentNotification.getPetId() + "/adoption/accepted";
         JSONObject response = null;
