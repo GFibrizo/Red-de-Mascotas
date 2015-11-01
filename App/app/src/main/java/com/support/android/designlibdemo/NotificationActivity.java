@@ -175,7 +175,8 @@ public class NotificationActivity extends AppCompatActivity {
                             object.getString("inquirerEmail"),
                             object.getString("requestDate"),
                             object.getString("petName"),
-                            object.getString("petImageId")
+                            object.getString("petImageId"),
+                            object.getString("status")
                     );
                     list.add(notification);
                 }
