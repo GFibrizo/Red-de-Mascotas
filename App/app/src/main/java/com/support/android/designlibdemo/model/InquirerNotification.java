@@ -3,32 +3,32 @@ package com.support.android.designlibdemo.model;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class AdoptionNotification {
+public class InquirerNotification {
 
-    public String adopterEmail;
+    public String inquirerEmail;
     public String requestDate;
     public String petName;
     public String petImageId;
     public String petId;
-    public String adopterId;
+    public String inquirerId;
 
-    public AdoptionNotification(){}
+    public InquirerNotification(){}
 
-    public AdoptionNotification(String petId,String adopterId, String adopterEmail, String requestDate, String petName, String petImageId) {
+    public InquirerNotification(String petId, String inquirerId, String inquirerEmail, String requestDate, String petName, String petImageId) {
         this.petId = petId;
-        this.adopterId = adopterId;
-        this.adopterEmail = adopterEmail;
+        this.inquirerId = inquirerId;
+        this.inquirerEmail = inquirerEmail;
         this.requestDate = requestDate;
         this.petName = petName;
         this.petImageId = petImageId;
     }
 
-    public String getAdopterEmail() {
-        return adopterEmail;
+    public String getInquirerEmail() {
+        return inquirerEmail;
     }
 
-    public void setAdopterEmail(String adopterEmail) {
-        this.adopterEmail = adopterEmail;
+    public void setInquirerEmail(String inquirerEmail) {
+        this.inquirerEmail = inquirerEmail;
     }
 
     public String getRequestDate() {
@@ -59,15 +59,15 @@ public class AdoptionNotification {
         return petId;
     }
 
-    public String getAdopterId() {
-        return adopterId;
+    public String getInquirerId() {
+        return inquirerId;
     }
 
     public JSONObject toJson() {
         JSONObject  jsonObject = new JSONObject();
         try {
             jsonObject.put("petId",this.petId);
-            jsonObject.put("adopterId",this.adopterId);
+            jsonObject.put("inquirerId",this.inquirerId);
         } catch (JSONException e) {
             e.printStackTrace();
         }

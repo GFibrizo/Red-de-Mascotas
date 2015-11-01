@@ -80,12 +80,15 @@ public class UserService {
     }
 
     public List<Notification> getNotifications(String userId) {
+        User user = User.getById(userId);
         List<Notification> notifications = new ArrayList<>();
         List<PetAdoption> pets = PetAdoption.getByOwnerId(userId);
         for (PetAdoption pet : pets) {
             addAdoptionNotifications(notifications, pet);
             addTransitHomeNotifications(notifications, pet);
         }
+        if (user.notifications != null)
+            notifications.addAll(user.notifications);
         Collections.sort(notifications, Collections.reverseOrder());
         return notifications;
     }

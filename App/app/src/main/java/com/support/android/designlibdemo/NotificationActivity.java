@@ -1,6 +1,5 @@
 package com.support.android.designlibdemo;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -13,16 +12,10 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.Toast;
 
-import com.support.android.designlibdemo.data.communications.ImageUrlView;
-import com.support.android.designlibdemo.model.Address;
-import com.support.android.designlibdemo.model.AdoptionNotification;
-import com.support.android.designlibdemo.model.PetAdoption;
-import com.support.android.designlibdemo.model.SearchForAdoptionFilters;
-import com.support.android.designlibdemo.model.TextAndImagePetContainer;
+import com.support.android.designlibdemo.model.InquirerNotification;
 import com.support.android.designlibdemo.model.User;
 
 import org.json.JSONArray;
@@ -34,15 +27,14 @@ import java.util.List;
 
 import utils.Constants;
 import utils.NotificationRequest;
-import utils.SearchRequest;
 
 
 public class NotificationActivity extends AppCompatActivity {
     private JSONArray object = null;
     private ListView listView ;
     private String dataServer;
-    private ArrayList<AdoptionNotification> textAndImageArray;
-    private List<AdoptionNotification> notifications = null;
+    private ArrayList<InquirerNotification> textAndImageArray;
+    private List<InquirerNotification> notifications = null;
     private NotificationImageAndTextArrayAdapter adapter;
     private SharedPreferences prefs;
     private User loginUser;
@@ -104,9 +96,9 @@ public class NotificationActivity extends AppCompatActivity {
     private void cargarResultados(){
         // Get ListView object from xml
         listView = (ListView) findViewById(R.id.list);
-        textAndImageArray = new ArrayList<AdoptionNotification>();
+        textAndImageArray = new ArrayList<InquirerNotification>();
         adapter = new NotificationImageAndTextArrayAdapter(this, R.layout.notification_image_and_text ,
-                null, (ArrayList<AdoptionNotification>) textAndImageArray);
+                null, (ArrayList<InquirerNotification>) textAndImageArray);
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -171,16 +163,16 @@ public class NotificationActivity extends AppCompatActivity {
 
     }
 
-    private List<AdoptionNotification> fromJSONArrayToListNotifications(JSONArray jsonArray) {
-        List<AdoptionNotification> list = new ArrayList<>();
+    private List<InquirerNotification> fromJSONArrayToListNotifications(JSONArray jsonArray) {
+        List<InquirerNotification> list = new ArrayList<>();
         try {
             if (jsonArray != null) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
-                    AdoptionNotification notification = new AdoptionNotification(
+                    InquirerNotification notification = new InquirerNotification(
                             object.getString("petId"),
-                            object.getString("adopterId"),
-                            object.getString("adopterEmail"),
+                            object.getString("inquirerId"),
+                            object.getString("inquirerEmail"),
                             object.getString("requestDate"),
                             object.getString("petName"),
                             object.getString("petImageId")
