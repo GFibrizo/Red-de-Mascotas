@@ -24,6 +24,7 @@ import utils.MatchRequest;
 public class NotificationHandlerActivity extends AppCompatActivity {
     private final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
     private final String PETS_FOUND = "PETS_FOUND";
+    private final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES";
     private SharedPreferences prefs= null;
     private static User loginUser;
     private Context context;

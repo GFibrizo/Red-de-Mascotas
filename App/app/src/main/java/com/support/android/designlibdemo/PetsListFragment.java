@@ -151,7 +151,7 @@ public class PetsListFragment extends Fragment {
             ResultsRequest request = new ResultsRequest(getContext());
             int count = 0;
             response = null;
-            while ((response == null) && (count < 10)) {
+            while ((response == null) && (count < 2)) {
                 response = request.searchPublications(ownerId);
             }
             //Log.e("RESPONSE", response.toString());

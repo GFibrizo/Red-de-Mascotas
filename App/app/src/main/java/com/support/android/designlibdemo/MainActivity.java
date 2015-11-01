@@ -212,7 +212,7 @@ public class MainActivity extends AppCompatActivity {
                                 intent = new Intent(getApplicationContext(), FoundPetActivity.class);
                                 break;
                             case R.id.config:
-                                intent = new Intent(getApplicationContext(), NotificationHandlerActivity.class);
+                                //intent = new Intent(getApplicationContext(), NotificationHandlerActivity.class);
                                 break;
                             case R.id.about:
                                 break;
