@@ -76,7 +76,12 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
             baseUrlForImage = IP_EMULADOR + "/pet/image/" + id;
             new ImageUrlView(baseUrlForImage, imageView).connect();
         }
+
         final FloatingActionButton button = (FloatingActionButton) rowView.findViewById(R.id.button_accept);
+
+        if (currentNotification.getStatus().equals("ACCEPTED")){
+            button.setVisibility(View.INVISIBLE);
+        }
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 AlertDialog dialogo = crearDialogo("Confirmar adopción",
@@ -157,7 +162,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
                 Toast.makeText(context, "Mascota adoptada", Toast.LENGTH_SHORT).show();
                 context.startActivity(intent);
             }else{
-                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
             }
         }
 
