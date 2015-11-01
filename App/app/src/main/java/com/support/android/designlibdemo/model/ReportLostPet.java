@@ -2,6 +2,7 @@ package com.support.android.designlibdemo.model;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -121,6 +122,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     boolean setMarker = false;
     private int ID_TYPE_DOG = 2131558737;
     private int ID_GENDER_MALE = 2131558742;
+    private ProgressDialog progress;
 
 
     /**********************************************************************************************/
@@ -687,6 +689,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                     public void onResponse(JSONObject response) {
                         // Manejo de la respuesta
                         System.out.println(response);
+                        finishPublication();
                     }
                 },
                 new Response.ErrorListener() {
@@ -694,6 +697,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Manejo de errores
+                        finishPublication();
                     }
                 });
         requestHandler.addToRequestQueue(request);
@@ -909,13 +913,24 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                 Log.e("Error al crear el JSON", e.getMessage());
             }
 
+            progress = ProgressDialog.show(this, "Publicando", "Se está publicando la mascota", true);
             request();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
-            if (intent != null)
-                startActivity(intent);
-
         }
+    }
+
+
+
+    private void finishPublication() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progress.dismiss();
+            }
+        });
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
+        if (intent != null)
+            startActivity(intent);
     }
 
 

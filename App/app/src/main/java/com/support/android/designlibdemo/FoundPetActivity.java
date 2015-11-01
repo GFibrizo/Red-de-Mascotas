@@ -2,6 +2,7 @@ package com.support.android.designlibdemo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -91,6 +92,7 @@ public class FoundPetActivity extends AppCompatActivity implements
 
     private int ID_TYPE_DOG = 2131558612;
     private int ID_GENDER_MALE = 2131558616;
+    private ProgressDialog progress;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -524,6 +526,7 @@ public class FoundPetActivity extends AppCompatActivity implements
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                progress = ProgressDialog.show(FoundPetActivity.this, "Publicando", "Se está publicando la mascota", true);
                 FoundPetTask foundPetTask = new FoundPetTask();
                 foundPetTask.execute((Void) null);
             }
@@ -638,6 +641,7 @@ public class FoundPetActivity extends AppCompatActivity implements
         protected Boolean doInBackground(Void... params) {
             FoundPetRequest request = new FoundPetRequest(getApplicationContext());
             try {
+
                 response = request.post(object);
             } catch (InterruptedException | ExecutionException  | TimeoutException e) {
                 // exception handling
@@ -649,6 +653,7 @@ public class FoundPetActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            progress.dismiss();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             if (success) {
                 Toast.makeText(getApplicationContext(), "Exito", Toast.LENGTH_SHORT).show();
