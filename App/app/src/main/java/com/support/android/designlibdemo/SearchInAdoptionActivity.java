@@ -2,7 +2,9 @@ package com.support.android.designlibdemo;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -29,12 +31,14 @@ import static utils.Constants.DOGS;
 public class SearchInAdoptionActivity extends AppCompatActivity {
 
     Activity activity = null;
+    SharedPreferences preferences = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_in_adoption);
 
+        preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         AutoCompleteTextView breedTextView = (AutoCompleteTextView) findViewById(R.id.autocomplete_breed);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.autocomplete_list_item, DOGS);
         breedTextView.setAdapter(adapter);
@@ -124,6 +128,8 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
             if (age7toMorey.isChecked()) ages.put(Encoder.encode(AGES[4]));
             object.put("ages", ages);
 
+            //object.put("userId", getUserId());
+
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }
@@ -134,5 +140,16 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
     }
 
 
+
+    private String getUserId() {
+        String id = "";
+        try {
+            JSONObject object = new JSONObject(preferences.getString("userData", "{}"));
+            id = object.getString("id");
+        } catch (JSONException e) {
+            Log.e("Error", "Error getting id in search activity");
+        }
+        return id;
+    }
 
 }

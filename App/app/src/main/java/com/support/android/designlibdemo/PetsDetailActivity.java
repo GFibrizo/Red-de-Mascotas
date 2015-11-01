@@ -70,6 +70,10 @@ public class PetsDetailActivity extends AppCompatActivity {
     public static  String imagesItem[] = {};
     public static final String[] IMAGE_NAME = {"orange_kitten", "black_cat", "grey_cat",  "pardo_cat", "tiger_cat", "tiger_kitten"};
 
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -112,6 +116,13 @@ public class PetsDetailActivity extends AppCompatActivity {
                 dialogo.show();
             }
         });
+        Boolean transitHome = getIntent().getBooleanExtra("transitHome", false);
+        Log.e("Intent transit", transitHome.toString());
+        if (!transitHome) {
+            buttonTransitHome.setVisibility(View.GONE);
+        }
+
+
         contacto = (CardView) findViewById(R.id.cardContacto);
         contacto.setVisibility(View.GONE);
 
@@ -149,6 +160,9 @@ public class PetsDetailActivity extends AppCompatActivity {
 //    }
 
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     private void ofrecerHogarDeTransito() {
         String petId = getIntent().getStringExtra("id");
         String homeOwnerId = loginUser.getId();
@@ -158,6 +172,8 @@ public class PetsDetailActivity extends AppCompatActivity {
         buttonTransitHome.setVisibility(View.GONE);
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void adoptar(){
         String petId = getIntent().getStringExtra("id");
@@ -168,6 +184,8 @@ public class PetsDetailActivity extends AppCompatActivity {
         buttonAdopt.setVisibility(View.GONE);
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private AlertDialog crearDialogo(String titulo, String mensaje, final boolean isAdoption) {
         // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
@@ -202,11 +220,17 @@ public class PetsDetailActivity extends AppCompatActivity {
         return alertDialogBuilder.create();
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.sample_actions, menu);
         return true;
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -221,6 +245,9 @@ public class PetsDetailActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void cargarResultados(){
         String nombreItem = getIntent().getStringExtra("nombre");
@@ -263,6 +290,8 @@ public class PetsDetailActivity extends AppCompatActivity {
 
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     public static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
         public ImageFragmentPagerAdapter(FragmentManager fm) {
@@ -280,6 +309,9 @@ public class PetsDetailActivity extends AppCompatActivity {
             return SwipeFragment.newInstance(position);
         }
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     public static class SwipeFragment extends Fragment {
         protected String baseUrlForImage;
@@ -312,6 +344,9 @@ public class PetsDetailActivity extends AppCompatActivity {
         }
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
         String petId;
         String ownerId;
@@ -332,7 +367,11 @@ public class PetsDetailActivity extends AppCompatActivity {
         }
 
         private BasicOwnerPetRequest buildRequest() {
-            if (adoption) return new AdoptionRequest(getApplicationContext());
+            if (adoption) {
+                Log.e("PetRequest","Adoption");
+                return new AdoptionRequest(getApplicationContext());
+            }
+            Log.e("PetRequest","TransitHome");
             return new TransitHomeRequest(getApplicationContext());
         }
 

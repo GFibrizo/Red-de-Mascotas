@@ -2,10 +2,11 @@ package utils;
 
 import android.content.Context;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
-import com.support.android.designlibdemo.model.AdoptionNotification;
+import com.support.android.designlibdemo.model.InquirerNotification;
 
 import org.json.JSONObject;
 
@@ -23,20 +24,23 @@ public class AcceptProposalRequest {
         requestHandler = RequestHandler.getInstance(context);
     }
 
-    public JSONObject accept(AdoptionNotification currentNotification) throws InterruptedException, ExecutionException, TimeoutException {
-        String path =   RequestHandler.getServerUrl() + "/pet/found";
+    public JSONObject accept(InquirerNotification currentNotification) throws InterruptedException, ExecutionException, TimeoutException {
+
+        String path =   RequestHandler.getServerUrl() + "/pet/" + currentNotification.getPetId() + "/adoption/accepted";
         JSONObject response = null;
-//        RequestFuture<JSONObject> future = RequestFuture.newFuture();
-//        JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, path,  object, future, future);
-//        requestHandler.addToRequestQueue(request);
-//        try {
-//            response = future.get(10, TimeUnit.SECONDS);
-//
-//        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
-//            // exception handling
-//            throw e;
-//        }
+        RequestFuture<JSONObject> future = RequestFuture.newFuture();
+        JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, path,  currentNotification.toJson(), future, future);
+        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
+        requestHandler.addToRequestQueue(request);
+        try {
+            response = future.get(10, TimeUnit.SECONDS);
+
+        } catch (InterruptedException | ExecutionException  | TimeoutException e) {
+            // exception handling
+            throw e;
+        }
 
         return response;
     }
+
 }

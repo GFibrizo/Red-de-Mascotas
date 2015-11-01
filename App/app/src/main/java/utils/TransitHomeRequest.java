@@ -9,7 +9,7 @@ public class TransitHomeRequest extends BasicOwnerPetRequest {
 
     public TransitHomeRequest(Context context) {
         super(context);
-        PATH = "/pet/petId/adoption";
+        PATH = "/pet/petId/take-in-transit";
         PET_ID = "petId";
         OWNER_ID = "transitHomeUser";
     }

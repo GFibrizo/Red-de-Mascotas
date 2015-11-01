@@ -6,6 +6,8 @@ import java.util.List;
 
 public class SearchForAdoptionFilters {
 
+    public String userId;
+
     public String type;
 
     public String breed;

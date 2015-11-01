@@ -17,7 +17,7 @@ import java.util.List;
 
 import static utils.Constants.*;
 
-public class PetAdoption {
+public class PetAdoption implements Comparable<PetAdoption> {
 
     @Id
     @ObjectId
@@ -102,6 +102,15 @@ public class PetAdoption {
         this.description = description;
     }
 
+    @Override
+    public int compareTo(PetAdoption another) {
+        if (this.publicationDate.compareTo(another.publicationDate) < 0) {
+            return -1;
+        } else {
+            return 1;
+        }
+    }
+
     public Boolean hasAdoptionRequestsNotSeen() {
         if (this.adoptionRequests == null)
             return false;
@@ -133,10 +142,12 @@ public class PetAdoption {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("ownerId", ownerId);
         List<PetAdoption> pets = PetAdoption.collection.find(query.get()).toArray();
+        List<PetAdoption> petsToRemove = new ArrayList<>();
         for (PetAdoption pet : pets) {
             if (pet.publicationStatus.equals(UNPUBLISHED) && pet.adopterId == null)
-                pets.remove(pet);
+                petsToRemove.add(pet);
         }
+        pets.removeAll(petsToRemove);
         return pets;
     }
 

@@ -873,7 +873,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                 for (String img : images) {
                     imgs.put(img);
                 }
-                object.put("images", images);
+                object.put("images", imgs);
                 object.put("name", name.getText());
 
                 if (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) {

@@ -2,10 +2,15 @@ package model;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
+import model.external.SearchForAdoptionFilters;
 import play.modules.mongodb.jackson.MongoDB;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.ObjectId;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class User {
 
@@ -30,6 +35,10 @@ public class User {
     public String phone;
 
     public Address address;
+
+    public List<SearchForAdoptionFilters> savedSearchFilters;
+
+    public List<Notification> notifications;
 
 
     private static JacksonDBCollection<User, String> collection = MongoDB.getCollection("users", User.class, String.class);
@@ -64,6 +73,22 @@ public class User {
         this.id = id;
     }
 
+    private void addNewSearchRequest(SearchForAdoptionFilters filters) {
+        if (this.savedSearchFilters == null)
+            this.savedSearchFilters = new ArrayList<>();
+        this.savedSearchFilters.add(filters);
+    }
+
+    private void removeSearchRequest(int index) {
+        this.savedSearchFilters.remove(index);
+    }
+
+    private void addNewNotification(Notification notification) {
+        if (this.notifications == null)
+            this.notifications = new ArrayList<>();
+        this.notifications.add(notification);
+    }
+
 
     public static User getById(String id) {
         return User.collection.findOneById(id);
@@ -90,6 +115,30 @@ public class User {
 
     public static Boolean existsWithFacebook(String facebookId) {
         return User.collection.find(new BasicDBObject("facebookId", facebookId)).toArray().size() > 0;
+    }
+
+    public static void saveSearchRequest(SearchForAdoptionFilters filters) {
+        User user = getById(filters.userId);
+        user.addNewSearchRequest(filters);
+        User.collection.updateById(filters.userId, user);
+    }
+
+    public static void removeFilterFromSavedSearchFilters(SearchForAdoptionFilters filters, int index) {
+        User user = getById(filters.userId);
+        user.removeSearchRequest(index);
+        User.collection.updateById(filters.userId, user);
+    }
+
+    public static List<User> getUsersWithSavedSearchFilters() {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.push("savedSearchFilters").add("$ne", null).pop();
+        return User.collection.find(query.get()).toArray();
+    }
+
+    public static void saveNotification(String userId, Notification notification) {
+        User user = getById(userId);
+        user.addNewNotification(notification);
+        User.collection.updateById(userId, user);
     }
 
     public static void delete(String id) {
