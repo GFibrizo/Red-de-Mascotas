@@ -74,14 +74,8 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
             if (intent != null) {
                 JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));
                 parsePushJson(context, json);
-//                Intent nuevoIntent = new Intent(context, NotificationHandlerActivity.class);
-//                nuevoIntent.putExtra("type", this.notificationType);
-//                nuevoIntent.putExtra("message", this.message);
-//                context.startActivity(nuevoIntent);
-
-
-                if (this.notificationType.equals(ADOPTION_REQUEST)) {
-                    Intent resultIntent = new Intent(context, NotificationActivity.class);
+                if (this.notificationType.equals(NEW_SEARCH_MATCHES)) {
+                    Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
                     if (resultIntent != null) {
                         showNotificationMessage(context, this.notificationType, this.message, resultIntent);
                     }
@@ -91,7 +85,7 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
                         showNotificationMessage(context, this.notificationType, this.message, resultIntent);
                     }
                 } else {
-                    Intent resultIntent = new Intent(context, NotificationHandlerActivity.class);
+                    Intent resultIntent = new Intent(context, NotificationActivity.class);
                     if (resultIntent != null) {
                         showNotificationMessage(context, this.notificationType, this.message, resultIntent);
                     }
