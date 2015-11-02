@@ -13,6 +13,11 @@ public final class Constants {
     public static final String PARSE_CLIENT_KEY = "ZkblcRGqaYVV9wUkToPIGg0TellyUuBWwWLIJbiw";
     public static final int NOTIFICATION_ID = 100;
 
+    public static final String QUIERE_ADOPTAR = "Quieren adoptar a ";
+    public static final String QUIERE_DAR_TRANSITO = "Quieren dar tránsito a ";
+    public static final String ADOPCION_ACEPTADA = "Aceptaron tu solicitud de Adopción para ";
+    public static final String TRANSITO_ACEPTADO = "Aceptaron tu solicitud de Tránsito para ";
+
     public static final String[] AGES = {"0 - 6 meses", "6 - 12 meses", "1 - 3 años", "3 - 7 años", "más de 7 años"};
 
     public static final String[] CITIES = {"Ciudad Autónoma de Buenos Aires"};

@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 public class InquirerNotification {
 
+    public String notificationType;
     public String inquirerEmail;
     public String requestDate;
     public String petName;
@@ -15,13 +16,15 @@ public class InquirerNotification {
 
     public InquirerNotification(){}
 
-    public InquirerNotification(String petId,
+    public InquirerNotification(String notificationType,
+                                String petId,
                                 String inquirerId,
                                 String inquirerEmail,
                                 String requestDate,
                                 String petName,
                                 String petImageId,
                                 String status) {
+        this.notificationType = notificationType;
         this.petId = petId;
         this.inquirerId = inquirerId;
         this.inquirerEmail = inquirerEmail;
@@ -88,6 +91,14 @@ public class InquirerNotification {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public String getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
     }
 }
 

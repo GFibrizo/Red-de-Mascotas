@@ -37,6 +37,11 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
     protected String baseUrlForImage;
     private String IP_EMULADOR = Constants.IP_SERVER; //"http://10.0.2.2:9000"; //ip generica del emulador
     private InquirerNotification currentNotification;
+    private final String ADOPTION_ACCEPTED = "ADOPTION_ACCEPTED";
+    private final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED";
+    private final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
+    private final String TAKE_IN_TRANSIT_REQUEST = "TAKE_IN_TRANSIT_REQUEST";
+
     /**
      * @param layout   El layout que usara para mostrar cada fila
      * @param elements conjunto de elementos en los cuales se mostrara 1 por fila
@@ -59,7 +64,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
         View rowView = inflater.inflate(this.layout, null, true);
 
         TextView fecha = (TextView) rowView.findViewById(R.id.fechaAdoptar);
-        TextView quiereAdoptar = (TextView) rowView.findViewById(R.id.quiereAdoptar);
+        TextView mensaje = (TextView) rowView.findViewById(R.id.quiereAdoptar);
         TextView contacto = (TextView) rowView.findViewById(R.id.contactoAdoptar);
 
         ImageView imageView = (ImageView) rowView.findViewById(R.id.rowimage);
@@ -69,7 +74,17 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
         String newFormatDate = dateSplit[2] + "/" + dateSplit[1] + "/" + dateSplit[0];
 
         fecha.setText(fecha.getText() + " " + newFormatDate);
-        quiereAdoptar.setText(quiereAdoptar.getText() + " " + element.getPetName());
+
+        if (element.getNotificationType().equals(ADOPTION_REQUEST)) {
+            mensaje.setText(Constants.QUIERE_ADOPTAR +  element.getPetName());
+        }else if (element.getNotificationType().equals(TAKE_IN_TRANSIT_REQUEST)) {
+            mensaje.setText(Constants.QUIERE_DAR_TRANSITO + element.getPetName());
+        }else if (element.getNotificationType().equals(ADOPTION_ACCEPTED)) {
+            mensaje.setText(Constants.ADOPCION_ACEPTADA + element.getPetName());
+        }else if (element.getNotificationType().equals(TAKE_IN_TRANSIT_ACCEPTED)) {
+            mensaje.setText(Constants.TRANSITO_ACEPTADO + element.getPetName());
+        }
+
         contacto.setText(contacto.getText() + " " + element.getInquirerEmail());
         if (!element.getPetImageId().equals("") && !element.getPetImageId().equals("[]")) {
             String id = (element.getPetImageId().replace("[", "").replace("]", "").split(", "))[0];
@@ -80,7 +95,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
         final FloatingActionButton button = (FloatingActionButton) rowView.findViewById(R.id.button_accept);
 
         if (currentNotification.getStatus().equals("ACCEPTED")){
-            button.setVisibility(View.INVISIBLE);
+            button.setVisibility(View.GONE);
         }
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
