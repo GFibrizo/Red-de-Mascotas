@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -77,13 +78,15 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
             new ImageUrlView(baseUrlForImage, imageView).connect();
         }
 
-        final FloatingActionButton button = (FloatingActionButton) rowView.findViewById(R.id.button_accept);
-
+        final Button button = (Button) rowView.findViewById(R.id.button_accept);
+        button.setTag(position);
         if (currentNotification.getStatus().equals("ACCEPTED")){
             button.setVisibility(View.INVISIBLE);
+            quiereAdoptar.setText(element.getPetName() + " ya fue adoptado");
         }
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
+                currentNotification = elements.get((Integer) v.getTag());
                 AlertDialog dialogo = crearDialogo("Confirmar adopción",
                         "¿Desea aceptar esta solicitud de adopción?");
                 dialogo.show();
@@ -158,12 +161,12 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
         protected void onPostExecute(final Boolean success) {
             if (success) {
                 //TODO: Actualizar listado de propuestas
-                Intent intent = new Intent(context, NotificationActivity.class);
                 Toast.makeText(context, "Mascota adoptada", Toast.LENGTH_SHORT).show();
-                context.startActivity(intent);
             }else{
-//                Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(context, "Error", Toast.LENGTH_SHORT).show();
             }
+            Intent intent = new Intent(context, NotificationActivity.class);
+            context.startActivity(intent);
         }
 
         @Override
