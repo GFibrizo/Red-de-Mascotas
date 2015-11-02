@@ -94,7 +94,7 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
         }
 
         final Button button = (Button) rowView.findViewById(R.id.button_accept);
-
+        button.setTag(position);
         if (currentNotification.getStatus().equals("ACCEPTED")){
             button.setVisibility(View.INVISIBLE);
             mensaje.setText(element.getPetName() + " ya fue adoptado");
