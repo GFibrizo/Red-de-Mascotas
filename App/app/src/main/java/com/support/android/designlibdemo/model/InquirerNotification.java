@@ -5,22 +5,33 @@ import org.json.JSONObject;
 
 public class InquirerNotification {
 
+    public String notificationType;
     public String inquirerEmail;
     public String requestDate;
     public String petName;
     public String petImageId;
     public String petId;
     public String inquirerId;
+    public String status;
 
     public InquirerNotification(){}
 
-    public InquirerNotification(String petId, String inquirerId, String inquirerEmail, String requestDate, String petName, String petImageId) {
+    public InquirerNotification(String notificationType,
+                                String petId,
+                                String inquirerId,
+                                String inquirerEmail,
+                                String requestDate,
+                                String petName,
+                                String petImageId,
+                                String status) {
+        this.notificationType = notificationType;
         this.petId = petId;
         this.inquirerId = inquirerId;
         this.inquirerEmail = inquirerEmail;
         this.requestDate = requestDate;
         this.petName = petName;
         this.petImageId = petImageId;
+        this.status = status;
     }
 
     public String getInquirerEmail() {
@@ -63,15 +74,31 @@ public class InquirerNotification {
         return inquirerId;
     }
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public JSONObject toJson() {
         JSONObject  jsonObject = new JSONObject();
         try {
             jsonObject.put("petId",this.petId);
-            jsonObject.put("inquirerId",this.inquirerId);
+            jsonObject.put("adopterId",this.inquirerId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return jsonObject;
+    }
+
+    public String getNotificationType() {
+        return notificationType;
+    }
+
+    public void setNotificationType(String notificationType) {
+        this.notificationType = notificationType;
     }
 }
 

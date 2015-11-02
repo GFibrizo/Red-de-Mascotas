@@ -14,9 +14,13 @@ import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
-/** Trae los match de un usuario a partir de su Id **/
+/** Trae los match de un usuario a partir de su Id
+ *  Pueden ser match de hallazgo/extravio o de busqueda sin resultado
+ ***/
 
 public class MatchRequest {
+    private final String PETS_FOUND = "PETS_FOUND";
+    private final String NEW_SEARCH_MATCHES = "NEW_SEARCH_MATCHES";
     RequestHandler requestHandler;
 
     public MatchRequest(Context context) {
@@ -24,9 +28,19 @@ public class MatchRequest {
         requestHandler.setContext(context);
     }
 
-    public JSONArray getMatch(String userId) {
-
-        String path =  requestHandler.getServerUrl() + this.buildSearchNotificationPath(userId);
+    /** Llama al servicio de match de hallazgo/extravio o al servicio
+     *  de match de busquedas sin resultado segun el notificationType
+     * @param userId id de usuario
+     * @param notificationType puede ser PETS_FOUND o NEW_SEARCH_MATCHES
+     * @return JSONArray de resultados del match
+     */
+    public JSONArray getMatch(String userId, String notificationType) {
+        String path;
+        if (notificationType.equals(PETS_FOUND)){
+            path =  requestHandler.getServerUrl() + this.buildMatchNotificationPath(userId);
+        }else { //NEW_SEARCH_MATCHES
+            path = requestHandler.getServerUrl() + this.buildSearchNotificationPath(userId);
+        }
 
         RequestFuture<JSONArray> future = RequestFuture.newFuture();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET, path, future, future);
@@ -45,8 +59,12 @@ public class MatchRequest {
         return response;
     }
 
-    private String buildSearchNotificationPath(String userId) {
+    private String buildMatchNotificationPath(String userId) {
         return "/user/"+userId+"/pets/matches";
+    }
+
+    private String buildSearchNotificationPath(String userId){
+        return "/user/"+userId+"/search-matches";
     }
 
 }

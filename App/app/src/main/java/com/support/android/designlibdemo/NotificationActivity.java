@@ -170,12 +170,14 @@ public class NotificationActivity extends AppCompatActivity {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     JSONObject object = jsonArray.getJSONObject(i);
                     InquirerNotification notification = new InquirerNotification(
+                            object.getString("notificationType"),
                             object.getString("petId"),
                             object.getString("inquirerId"),
                             object.getString("inquirerEmail"),
                             object.getString("requestDate"),
                             object.getString("petName"),
-                            object.getString("petImageId")
+                            object.getString("petImageId"),
+                            object.getString("status") //"PENDING" o "ACCEPTED"
                     );
                     list.add(notification);
                 }

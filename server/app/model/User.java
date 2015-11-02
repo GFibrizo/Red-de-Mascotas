@@ -79,8 +79,11 @@ public class User {
         this.savedSearchFilters.add(filters);
     }
 
-    private void removeSearchRequest(int index) {
-        this.savedSearchFilters.remove(index);
+    private void removeSearchRequests(List<Integer> indexes) {
+        List<SearchForAdoptionFilters> filtersToRemove = new ArrayList<>();
+        for (Integer index : indexes)
+            filtersToRemove.add(this.savedSearchFilters.get(index));
+        this.savedSearchFilters.removeAll(filtersToRemove);
     }
 
     private void addNewNotification(Notification notification) {
@@ -123,10 +126,10 @@ public class User {
         User.collection.updateById(filters.userId, user);
     }
 
-    public static void removeFilterFromSavedSearchFilters(SearchForAdoptionFilters filters, int index) {
-        User user = getById(filters.userId);
-        user.removeSearchRequest(index);
-        User.collection.updateById(filters.userId, user);
+    public static void removeFiltersFromSavedSearchFilters(String userId, List<Integer> indexes) {
+        User user = getById(userId);
+        user.removeSearchRequests(indexes);
+        User.collection.updateById(userId, user);
     }
 
     public static List<User> getUsersWithSavedSearchFilters() {

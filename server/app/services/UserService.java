@@ -8,9 +8,7 @@ import model.external.SearchForAdoptionFilters;
 import org.springframework.stereotype.Service;
 import play.Logger;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static utils.Constants.*;
 
@@ -121,18 +119,21 @@ public class UserService {
     }
 
     public List<PetAdoption> getPetsMatchingSavedSearches(String userId) {
-        List<PetAdoption> pets = new ArrayList<>();
+        Map<String, PetAdoption> petsFromSearch = new HashMap<>();
         User user = User.getById(userId);
+        List<Integer> indexesToRemove = new ArrayList<>();
         if (user.savedSearchFilters != null) {
             for (int i = 0; i < user.savedSearchFilters.size(); i++) {
                 SearchForAdoptionFilters filters = user.savedSearchFilters.get(i);
                 List<PetAdoption> results = PetAdoption.search(filters);
-                if (results.size() > 0) {
-                    User.removeFilterFromSavedSearchFilters(filters, i);
-                    pets.addAll(results);
-                }
+                for (PetAdoption result : results)
+                    petsFromSearch.put(result.id, result);
+                if (results.size() > 0)
+                    indexesToRemove.add(i);
             }
         }
+        List<PetAdoption> pets = new ArrayList<>(petsFromSearch.values());
+        User.removeFiltersFromSavedSearchFilters(userId, indexesToRemove);
         Collections.sort(pets, Collections.reverseOrder());
         return pets;
     }
