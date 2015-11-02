@@ -90,8 +90,8 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
     String objName = null;
     JSONObject object = null;
     Activity activity = null;
-    private int ID_TYPE_DOG = 2131558676;
-    private int ID_GENDER_MALE = 2131558679;
+    private int ID_TYPE_DOG = 2131558679;
+    private int ID_GENDER_MALE = 2131558682;
     private ProgressDialog progress;
 
 

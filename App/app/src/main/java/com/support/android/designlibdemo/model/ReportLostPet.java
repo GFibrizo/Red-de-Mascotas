@@ -217,6 +217,9 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         });
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     private void set_age() {
         SeekBar ages = (SeekBar) findViewById(R.id.pet_age_missing);
         ages.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -247,6 +250,9 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
             }
         });
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void setSize() {
         SeekBar size = (SeekBar) findViewById(R.id.pet_size_missing);
@@ -879,6 +885,10 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                 }
                 object.put("images", imgs);
                 object.put("name", name.getText());
+
+                Log.e("Perro", Integer.toString(pet_type.getCheckedRadioButtonId()));
+                Log.e("Macho", Integer.toString(pet_gender.getCheckedRadioButtonId()));
+
 
                 if (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) {
                     object.put("type", "Perro");
