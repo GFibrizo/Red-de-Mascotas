@@ -104,8 +104,9 @@ public class NotificationActivity extends AppCompatActivity {
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-            }
+                Log.i("item","position " + position + " id " + id);
 
+            }
         });
 
         String userId = loginUser.getId();

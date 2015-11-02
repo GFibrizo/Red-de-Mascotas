@@ -31,5 +31,6 @@
     <string name="telephone">Teléfono</string>
     <string name="firstAndLastName">Nombre y apellido</string>
     <string name="firstName">Nombre</string>
+    <string name="aceptarAdopcion">Aceptar</string>
 
 </resources>
