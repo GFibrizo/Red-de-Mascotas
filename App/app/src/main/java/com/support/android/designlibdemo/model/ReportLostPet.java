@@ -120,8 +120,8 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     JSONObject object = null;
     Activity activity = null;
     boolean setMarker = false;
-    private int ID_TYPE_DOG = 2131558737;
-    private int ID_GENDER_MALE = 2131558742;
+    private int ID_TYPE_DOG = 2131558787;
+    private int ID_GENDER_MALE = 2131558790;
     private ProgressDialog progress;
 
 
@@ -938,9 +938,11 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
             }
         });
         Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
         if (intent != null)
             startActivity(intent);
+        finish();
     }
 
 
