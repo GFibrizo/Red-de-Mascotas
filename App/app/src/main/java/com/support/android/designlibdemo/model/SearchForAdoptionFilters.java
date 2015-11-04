@@ -31,6 +31,8 @@ public class SearchForAdoptionFilters {
 
     public String city;
 
+    public Boolean needsTransitHome;
+
     public SearchForAdoptionFilters(JSONObject object) {
         try {
             this.type = object.getString("type");
@@ -43,6 +45,7 @@ public class SearchForAdoptionFilters {
             this.neighbourhood = object.getString("neighbourhood");
             this.city = object.getString("city");
             this.user = object.getString("userId");
+            this.needsTransitHome = (Boolean) object.get("needsTransitHome");
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

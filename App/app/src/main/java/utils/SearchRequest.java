@@ -49,7 +49,7 @@ public class SearchRequest {
 
 
 
-
+//TODO: probar que ande bien.
     private String buildSearchPetPath(SearchForAdoptionFilters filters) {
         String queryString = "type=" + filters.type + "&"  + "userId=" +filters.user + "&";
         if (filters.genders != null) queryString += fromListToString("genders", filters.genders);
@@ -59,7 +59,9 @@ public class SearchRequest {
         if (filters.colors != null) queryString += fromListToString("colors", filters.colors);
         if (filters.eyeColors != null) queryString += fromListToString("eyeColors", filters.eyeColors);
         if (filters.city != null && !filters.city.isEmpty()) queryString += "city=" + filters.city + "&";
-        if (filters.neighbourhood != null && !filters.neighbourhood.isEmpty()) queryString += "neighbourhood=" + filters.neighbourhood;
+        if (filters.neighbourhood != null && !filters.neighbourhood.isEmpty()) queryString += "neighbourhood=" + filters.neighbourhood + "&";
+        if (filters.needsTransitHome != null) queryString += "needsTransitHome=" + filters.needsTransitHome;
+        Log.i("buildSearchPetPath", "/pets/adoption?" + queryString);
         return "/pets/adoption?" + queryString;
     }
 

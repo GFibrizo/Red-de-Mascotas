@@ -132,14 +132,11 @@ public class NotificationHandlerActivity extends AppCompatActivity {
     private SharedPreferences prefs= null;
     private static User loginUser;
     private Context context;
-    private String notificationType;
+    private String notificationType = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_result_list_view);
-        TextView titulo = (TextView) findViewById(R.id.titulo);
-        titulo.setText("Resultados del Match");
         context = this;
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         loginUser = obtenerUsuario(getApplicationContext());

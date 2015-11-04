@@ -227,6 +227,17 @@
 
             </LinearLayout>
 
+            <CheckBox
+                android:id="@+id/check_transito"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/linearLayout"
+                android:layout_marginLeft="10dp"
+                android:textColor="#7e7e7e"
+                android:textSize="16sp"
+                android:text="Necesita tránsito"
+                android:layout_marginTop="15dp" />
+
             <Button
                 android:layout_width="110dp"
                 android:layout_height="wrap_content"
