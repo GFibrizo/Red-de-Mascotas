@@ -10,6 +10,10 @@ public class Password {
     private String encryption;
     private String salt;
 
+    public Password() {
+        this.encryption = "";
+        this.salt = "";
+    }
 
     public Password(JSONObject password) {
         try {
