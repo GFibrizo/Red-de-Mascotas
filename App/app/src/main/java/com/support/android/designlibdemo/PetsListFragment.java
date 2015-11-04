@@ -99,6 +99,7 @@ public class PetsListFragment extends Fragment {
 
 
     public void update() {
+        Log.e("Update fragment", this.getClass().toString());
         QueryTask resultTask = setQuery();
         resultTask.execute();
         viewHolderAdapter.update(result);
