@@ -85,7 +85,7 @@ public class PetsListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         //recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
         setAdapter(recyclerView);
-        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter(), getActivity().getApplicationContext());
+        SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter(), getActivity());
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
     }
