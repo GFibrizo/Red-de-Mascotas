@@ -50,6 +50,11 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
         return (JSONObject) mValues.get(position);
     }
 
+    public void update(JSONArray newValues) {
+        mValues = newValues;
+        notifyDataSetChanged();
+    }
+
     /******************************************************************************************/
     /******************************************************************************************/
 
