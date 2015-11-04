@@ -216,17 +216,6 @@
                                     style="@style/RadioButton" />
                             </info.hoang8f.android.segmented.SegmentedGroup>
 
-
-                            <!--
-                            <Switch
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textOn="Perro"
-                                android:textOff="Gato"
-                                android:id="@+id/switch_pet_type_missing"
-                                android:layout_marginTop="5dp" />
-                            -->
-
                         </LinearLayout>
 
                         <LinearLayout
@@ -245,15 +234,6 @@
                                 android:id="@+id/pet_gender"
                                 android:layout_marginTop="10dp" />
 
-                            <!--
-                            <Switch
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:textOn="Hembra"
-                                android:textOff="Macho"
-                                android:id="@+id/switch_pet_gender_missing"
-                                android:layout_marginTop="5dp" />
-                            -->
 
                             <info.hoang8f.android.segmented.SegmentedGroup
                                 xmlns:segmentedgroup="http://schemas.android.com/apk/res-auto"
@@ -497,20 +477,6 @@
                             android:layout_weight="0.5"/>
                     </RelativeLayout>
 
-                    <RelativeLayout
-                        android:id="@+id/layout_missing_24"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:weightSum="1">
-
-                        <CheckBox
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/transit_home_check"
-                            android:layout_alignParentRight="true"
-                            android:layout_weight="0.5"/>
-                    </RelativeLayout>
 
                     <TextView
                         android:layout_width="match_parent"

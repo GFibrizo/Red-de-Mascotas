@@ -2,6 +2,7 @@ package com.support.android.designlibdemo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -89,9 +90,9 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
     String objName = null;
     JSONObject object = null;
     Activity activity = null;
-    private int ID_TYPE_DOG = 2131558676;
-    private int ID_GENDER_MALE = 2131558679;
-
+    private int ID_TYPE_DOG = 2131558679;
+    private int ID_GENDER_MALE = 2131558682;
+    private ProgressDialog progress;
 
 
     /**********************************************************************************************/
@@ -754,14 +755,9 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
             } catch (JSONException e) {
                 Log.e("Error al crear el JSON", e.getMessage());
             }
-
+            progress = ProgressDialog.show(this, "Publicando", "Se está publicando la mascota", true);
             request();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
-            if (intent != null)
-                startActivity(intent);
-
-        }
+           }
     }
 
 
@@ -777,6 +773,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                     public void onResponse(JSONObject response) {
                         // Manejo de la respuesta
                         System.out.println(response);
+                        finishPublication();
                     }
                 },
                 new Response.ErrorListener() {
@@ -784,6 +781,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Manejo de errores
+                        finishPublication();
                     }
                 });
         requestHandler.addToRequestQueue(request);
@@ -791,6 +789,18 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
 
 
+    private void finishPublication() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progress.dismiss();
+            }
+        });
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
+        if (intent != null)
+            startActivity(intent);
+    }
 
 
     /*

@@ -2,6 +2,7 @@ package com.support.android.designlibdemo.model;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -119,8 +120,9 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     JSONObject object = null;
     Activity activity = null;
     boolean setMarker = false;
-    private int ID_TYPE_DOG = 2131558737;
-    private int ID_GENDER_MALE = 2131558742;
+    private int ID_TYPE_DOG = 2131558787;
+    private int ID_GENDER_MALE = 2131558790;
+    private ProgressDialog progress;
 
 
     /**********************************************************************************************/
@@ -215,6 +217,9 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         });
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     private void set_age() {
         SeekBar ages = (SeekBar) findViewById(R.id.pet_age_missing);
         ages.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
@@ -245,6 +250,9 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
             }
         });
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void setSize() {
         SeekBar size = (SeekBar) findViewById(R.id.pet_size_missing);
@@ -687,6 +695,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                     public void onResponse(JSONObject response) {
                         // Manejo de la respuesta
                         System.out.println(response);
+                        finishPublication();
                     }
                 },
                 new Response.ErrorListener() {
@@ -694,6 +703,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         // Manejo de errores
+                        finishPublication();
                     }
                 });
         requestHandler.addToRequestQueue(request);
@@ -876,6 +886,10 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                 object.put("images", imgs);
                 object.put("name", name.getText());
 
+                Log.e("Perro", Integer.toString(pet_type.getCheckedRadioButtonId()));
+                Log.e("Macho", Integer.toString(pet_gender.getCheckedRadioButtonId()));
+
+
                 if (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) {
                     object.put("type", "Perro");
                 } else {
@@ -909,13 +923,26 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                 Log.e("Error al crear el JSON", e.getMessage());
             }
 
+            progress = ProgressDialog.show(this, "Publicando", "Se está publicando la mascota", true);
             request();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-            Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
-            if (intent != null)
-                startActivity(intent);
-
         }
+    }
+
+
+
+    private void finishPublication() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                progress.dismiss();
+            }
+        });
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
+        if (intent != null)
+            startActivity(intent);
+        finish();
     }
 
 

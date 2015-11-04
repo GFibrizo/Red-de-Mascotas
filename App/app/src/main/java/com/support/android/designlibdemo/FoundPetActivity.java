@@ -2,6 +2,7 @@ package com.support.android.designlibdemo;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -12,15 +13,21 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.SwitchCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -29,6 +36,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RadioGroup;
+import android.widget.RelativeLayout;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.Switch;
@@ -51,6 +59,7 @@ import com.wdullaer.materialdatetimepicker.time.TimePickerDialog;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Text;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -60,6 +69,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
+import java.util.Vector;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
@@ -79,18 +89,29 @@ public class FoundPetActivity extends AppCompatActivity implements
 
     JSONObject object = null;
     Activity activity = null;
-    List<String> images = new ArrayList<>();
     JSONObject userData = null;
     private TextView timeTextView;
     private TextView dateTextView;
+    ViewPager viewPager = null;
+    ImageFragmentPagerAdapter imageFragmentPagerAdapter = null;
+    private TextView dateFound = null;
+    private TextView timeFound = null;
+    private String dateString = null;
+    private String timeString = null;
+    private Button loadVideosButton = null;
 
     GoogleMap mGoogleMap = null;
     private double lat = -34.603620;
     private double lng = -58.381598;
     public MapView mapView;
 
-    private int ID_TYPE_DOG = 2131558612;
-    private int ID_GENDER_MALE = 2131558616;
+    private int ID_TYPE_DOG = 2131558617;
+    private int ID_GENDER_MALE = 2131558621;
+    private ProgressDialog progress;
+
+    private static List<String> images = new ArrayList<>();
+    private static List<String> imagesPaths = new ArrayList<>();
+    private static Vector<Bitmap> bitmapList = new Vector<>();
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -102,28 +123,68 @@ public class FoundPetActivity extends AppCompatActivity implements
 
         activity = this;
         initObject();
+        initializeImagesData();
         initSpinners();
         initUserData();
         initToolBar();
         initActionBar();
-        initImage();
+        //initImage();
+        loadImages();
+        loadVideos();
         initBreed();
         initType();
         initSize();
+        loadDateAndTime();
         // Show a timepicker when the timeButton is clicked
-        initDateTime();
+        //initDateTime();
         // Mapa
         initMap();
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private void loadImages() {
+        // Carga de imagenes
+        final Button loadImagesButton = (Button) findViewById(R.id.load_found_images_button);
+        loadImagesButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View arg0) {
+                takePictureFromGallery();
+                loadImagesButton.setVisibility(View.GONE);
+
+            }
+        });
+    }
+
+    private void loadVideos() {
+        // Carga de videos
+        loadVideosButton = (Button) findViewById(R.id.load_found_video_button);
+        loadVideosButton.setOnClickListener(new Button.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                createDialog("Agregar video", "Copie la url de un video de Youtube").show();
+            }
+        });
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void initObject() {
         object = new JSONObject();
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     private void initToolBar() {
-        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_publish);
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_found);
         setSupportActionBar(toolbar);
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void initUserData() {
         try {
@@ -133,11 +194,17 @@ public class FoundPetActivity extends AppCompatActivity implements
         }
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     private void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void initImage() {
         ImageView image = (ImageView) findViewById(R.id.load_image);
@@ -153,12 +220,18 @@ public class FoundPetActivity extends AppCompatActivity implements
         });
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
     private void initBreed() {
 //        AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
 //        breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS));
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
         breed.setAdapter(new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS));
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void initSpinners() {
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
@@ -176,6 +249,62 @@ public class FoundPetActivity extends AppCompatActivity implements
         eyeColorSpinner.setAdapter(eyeColorAdapter);
         eyeColorSpinner.setSelection(eyeColorAdapter.getCount());
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+
+/**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private AlertDialog createDialog(String titulo, String message) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(message);
+        RelativeLayout linearLayout = new RelativeLayout(this);
+        final EditText link = new EditText(this);
+        link.setHint("URL de Youtube");
+        link.setWidth(750);
+        linearLayout.addView(link);
+        linearLayout.setPadding(70, 0, 0, 0);
+        alertDialogBuilder.setView(linearLayout);
+        link.invalidate();
+        linearLayout.invalidate();
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //loadVideosButton.setVisibility(View.GONE);
+                TextView videoLink = (TextView) findViewById(R.id.video_report_found);
+                videoLink.setText(link.getText());
+                videoLink.setVisibility(View.VISIBLE);
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton(R.string.dialogCancel, listenerCancelar);
+        alertDialogBuilder.setNegativeButton(R.string.dialogDone, listenerOk);
+
+        return alertDialogBuilder.create();
+    }
+
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
 
     private void initType() {
         //SwitchCompat type = (SwitchCompat) findViewById(R.id.switch_pet_type);
@@ -196,7 +325,7 @@ public class FoundPetActivity extends AppCompatActivity implements
 //                breed.setAdapter(adapter);
 //            }
 //        });
-        SegmentedGroup type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_missing);
+        SegmentedGroup type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_found);
         type.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup group, int checkedId) {
@@ -213,6 +342,9 @@ public class FoundPetActivity extends AppCompatActivity implements
             }
         });
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void initSize() {
         SeekBar size = (SeekBar) findViewById(R.id.pet_size);
@@ -242,7 +374,10 @@ public class FoundPetActivity extends AppCompatActivity implements
         });
     }
 
-    private void initDateTime() {
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    /*private void initDateTime() {
         timeTextView = (EditText) findViewById(R.id.horaEncuentro);
         dateTextView = (EditText) findViewById(R.id.fechaEncuentro);
 
@@ -280,7 +415,62 @@ public class FoundPetActivity extends AppCompatActivity implements
                 dpd.show(getFragmentManager(), "Datepickerdialog");
             }
         });
+    }*/
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private void loadDateAndTime() {
+        // Carga de fecha
+        dateFound = (TextView) findViewById(R.id.date_found);
+        timeFound = (TextView) findViewById(R.id.time_found);
+        final Button buttonDate = (Button) findViewById(R.id.date_found_button);
+        buttonDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = DatePickerDialog.newInstance(
+                        FoundPetActivity.this,
+                        now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+                dpd.show(getFragmentManager(), "Datepickerdialog");
+                //buttonDate.setVisibility(View.GONE);
+            }
+        });
     }
+
+
+    @Override
+    public void onTimeSet(RadialPickerLayout view, int hourOfDay, int minute) {
+        timeString = String.format("%02d:%02d",hourOfDay,minute);
+
+        String time = "Hora: "+ timeString;
+        timeFound.setText(time);
+        timeFound.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
+        dateString = String.format("%04d/%02d/%02d", year, monthOfYear+1, dayOfMonth);// dateString;
+
+        String date = "Fecha: " + dayOfMonth+"/"+(monthOfYear+1)+"/"+year;
+        //Toast.makeText(getApplicationContext(), date, Toast.LENGTH_SHORT).show();
+        dateFound.setText(date);
+        dateFound.setVisibility(View.VISIBLE);
+        Calendar now = Calendar.getInstance();
+        TimePickerDialog dpd = TimePickerDialog.newInstance(
+                FoundPetActivity.this,
+                now.get(Calendar.HOUR),
+                now.get(Calendar.MINUTE),
+                true
+        );
+        dpd.show(getFragmentManager(), "Timepickerdialog");
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void initMap() {
         mapView = (MapView) findViewById(R.id.map);
@@ -309,7 +499,7 @@ public class FoundPetActivity extends AppCompatActivity implements
         }
     }
 
-/**********************************************************************************************/
+    /**********************************************************************************************/
     /**********************************************************************************************/
 
     public void showMapDetails() {
@@ -373,8 +563,8 @@ public class FoundPetActivity extends AppCompatActivity implements
 
     public void finish(View view) {
 
-        SegmentedGroup pet_type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_missing);
-        SegmentedGroup pet_gender = (SegmentedGroup) findViewById(R.id.segmented_pet_gender_missing);
+        SegmentedGroup pet_type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_found);
+        SegmentedGroup pet_gender = (SegmentedGroup) findViewById(R.id.segmented_pet_gender_found);
         AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
         TextView size = (TextView) findViewById(R.id.size_label);
         Spinner hairColor1Spinner = (Spinner) findViewById(R.id.spinner_hair_color1);
@@ -384,9 +574,10 @@ public class FoundPetActivity extends AppCompatActivity implements
 
         TextView petTypeLabel = (TextView) findViewById(R.id.pet_type);
         TextView petGenderLabel = (TextView) findViewById(R.id.pet_gender);
-        TextView colorLabel = (TextView) findViewById(R.id.label_hair_color);
+        TextView colorLabel = (TextView) findViewById(R.id.colors_found_title);
         TextView description = (TextView) findViewById(R.id.pet_desc);
-        TextView video = (TextView) findViewById(R.id.videoEncuentro);
+        TextView video = (TextView) findViewById(R.id.video_report_found);
+        TextView dateTitle = (TextView) findViewById(R.id.date_found_title);
 
         SharedPreferences preferences;
         preferences = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
@@ -415,8 +606,8 @@ public class FoundPetActivity extends AppCompatActivity implements
         petGenderLabel.setError(null);
         breed.setError(null);
         size.setError(null);
-        timeTextView.setError(null);
-        dateTextView.setError(null);
+        timeFound.setError(null);
+        dateFound.setError(null);
         colorLabel.setError(null);
 
 
@@ -424,6 +615,10 @@ public class FoundPetActivity extends AppCompatActivity implements
         View focusView = null;
         String petTypeString;
         String petGenderString;
+
+        Log.e("PERRO", Integer.toString(pet_type.getCheckedRadioButtonId()));
+        Log.e("MACHO", Integer.toString(pet_gender.getCheckedRadioButtonId()));
+
         petTypeString = (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) ?  "Perro": "Gato";
         petGenderString = (pet_gender.getCheckedRadioButtonId() == ID_GENDER_MALE) ? "Macho" : "Hembra";
 
@@ -457,15 +652,15 @@ public class FoundPetActivity extends AppCompatActivity implements
             cancel = true;
         }
         // Check for a valid timeTextView
-        if (TextUtils.isEmpty(timeTextView.getText().toString())) {
-            timeTextView.setError(getString(R.string.error_field_required));
-            focusView = timeTextView;
+        if (TextUtils.isEmpty(timeFound.getText().toString())) {
+            dateTitle.setError(getString(R.string.error_field_required));
+            focusView = dateTitle;
             cancel = true;
         }
         // Check for a valid dateTextView
-        if (TextUtils.isEmpty(dateTextView.getText().toString())) {
-            dateTextView.setError(getString(R.string.error_field_required));
-            focusView = dateTextView;
+        if (TextUtils.isEmpty(dateFound.getText().toString())) {
+            dateTitle.setError(getString(R.string.error_field_required));
+            focusView = dateTitle;
             cancel = true;
         }
 
@@ -483,8 +678,8 @@ public class FoundPetActivity extends AppCompatActivity implements
                 object.put("colors", hairColor);
                 object.put("eyeColor", eyeColor);
                 object.put("needsTransitHome", transitHome.isChecked());
-                object.put("foundHour", timeTextView.getText());
-                object.put("foundDate", dateTextView.getText());
+                object.put("foundHour", timeString);
+                object.put("foundDate", dateString);
                 object.put("size", size.getText());
                 object.put("foundLocation",foundLocation);
                 object.put("description",description.getText());
@@ -498,6 +693,7 @@ public class FoundPetActivity extends AppCompatActivity implements
                 videos.put(video.getText());
                 object.put("images", imgs);
                 object.put("videos", videos);
+                Log.e("FOUND PET", object.toString());
             } catch (JSONException e) {
                 Log.e("Error al crear el JSON", e.getMessage());
             }
@@ -524,6 +720,7 @@ public class FoundPetActivity extends AppCompatActivity implements
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
+                progress = ProgressDialog.show(FoundPetActivity.this, "Publicando", "Se está publicando la mascota", true);
                 FoundPetTask foundPetTask = new FoundPetTask();
                 foundPetTask.execute((Void) null);
             }
@@ -546,73 +743,9 @@ public class FoundPetActivity extends AppCompatActivity implements
         return alertDialogBuilder.create();
     }
 
-
     /**********************************************************************************************/
     /**********************************************************************************************/
-
-
-    private Bitmap loadImage(Uri uri) {
-        Bitmap bitmap = null;
-
-        try {
-            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-            return null;
-        }
-        return bitmap;
-    }
-
-
-    private void sendImage(Bitmap bitmap, int index) {
-        try {
-            File f = new File(this.getCacheDir(), "tmp-" + Integer.toString(index));
-            f.createNewFile();
-
-            ByteArrayOutputStream bos = new ByteArrayOutputStream();
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, bos);
-            byte[] bitmapdata = bos.toByteArray();
-
-            FileOutputStream fos = new FileOutputStream(f);
-            fos.write(bitmapdata);
-            fos.flush();
-            fos.close();
-
-            ImageRequestTask qTask = new ImageRequestTask(f);
-            qTask.execute((Void) null);
-        } catch (IOException ioe) {
-        }
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        ImageView view = (ImageView) findViewById(R.id.load_image);
-        if (resultCode == RESULT_OK) {
-            ClipData clipData = data.getClipData();
-            if (clipData == null) {
-                Uri uri = data.getData();
-                Bitmap bitmap = loadImage(uri);
-                view.setImageBitmap(bitmap);
-                sendImage(bitmap, 0);
-
-            } else {
-                for (int i = 0; i < clipData.getItemCount(); i++) {
-                    Bitmap bitmap = loadImage(clipData.getItemAt(i).getUri());
-                    Log.e("Uri", clipData.getItemAt(i).getUri().getPath());
-                    if (i == 0) view.setImageBitmap(bitmap);
-                    sendImage(bitmap, i);
-                }
-            }
-            Toast.makeText(getApplicationContext(), "Imágenes cargadas", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    /**********************************************************************************************/
-    /**********************************************************************************************/
-
+/*
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
         String date = year+ "/" + (++monthOfYear) + "/" + dayOfMonth;
@@ -626,7 +759,7 @@ public class FoundPetActivity extends AppCompatActivity implements
         String time = hourString + ":" + minuteString;
         timeTextView.setText(time);
     }
-
+*/
     /**********************************************************************************************/
     /**********************************************************************************************/
 
@@ -638,6 +771,7 @@ public class FoundPetActivity extends AppCompatActivity implements
         protected Boolean doInBackground(Void... params) {
             FoundPetRequest request = new FoundPetRequest(getApplicationContext());
             try {
+
                 response = request.post(object);
             } catch (InterruptedException | ExecutionException  | TimeoutException e) {
                 // exception handling
@@ -649,13 +783,14 @@ public class FoundPetActivity extends AppCompatActivity implements
 
         @Override
         protected void onPostExecute(final Boolean success) {
+            progress.dismiss();
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             if (success) {
                 Toast.makeText(getApplicationContext(), "Exito", Toast.LENGTH_SHORT).show();
-
             }else{
 //                Toast.makeText(getApplicationContext(), "Error de conexion", Toast.LENGTH_SHORT).show();
             }
+            Log.e("Exit Found", "EXITING FOUND");
             startActivity(intent);
         }
 
@@ -694,6 +829,176 @@ public class FoundPetActivity extends AppCompatActivity implements
         }
 
     }
+
+
+
+
+
+    /**********************************************************************************************/
+    /********************           IMAGES UPLOAD AND SENDING TO SERVER         *******************/
+    /**********************************************************************************************/
+
+    private void initializeImagesData() {
+        images = new ArrayList<>();
+        imagesPaths = new ArrayList<>();
+        bitmapList = new Vector<>();
+    }
+
+
+    private Bitmap loadImage(Uri uri) {
+        Bitmap bitmap = null;
+
+        try {
+            bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri));
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+            return null;
+        }
+        return bitmap;
+    }
+
+
+    /**********************************************************************************************/
+
+    private void sendImage(Bitmap bitmap, int index) {
+        try {
+            String currentPath = this.getCacheDir().getAbsolutePath() + "tmp-" + Integer.toString(index);
+            imagesPaths.add(currentPath);
+            bitmapList.add(bitmap);
+            File f = new File(currentPath); //this.getCacheDir(), "tmp-" + Integer.toString(index)
+            f.createNewFile();
+
+            ByteArrayOutputStream bos = new ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 10, bos);
+            byte[] bitmapdata = bos.toByteArray();
+
+            FileOutputStream fos = new FileOutputStream(f);
+            fos.write(bitmapdata);
+            fos.flush();
+            fos.close();
+
+            QueryResultTask qTask = new QueryResultTask(f);
+            qTask.execute((Void) null);
+        } catch (IOException ioe) { }
+    }
+
+    /**********************************************************************************************/
+
+
+    private void addImagesToSlider() {
+        imageFragmentPagerAdapter = new ImageFragmentPagerAdapter(getSupportFragmentManager());
+        viewPager = (ViewPager) findViewById(R.id.found_pager);
+        viewPager.setAdapter(imageFragmentPagerAdapter);
+        viewPager.setVisibility(View.VISIBLE);
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (resultCode == RESULT_OK) {
+            ClipData clipData = data.getClipData();
+            if (clipData == null) {
+                Uri uri = data.getData();
+                Bitmap bitmap = loadImage(uri);
+                sendImage(bitmap, 0);
+            } else {
+                for (int i = 0; i < clipData.getItemCount(); i++) {
+                    Bitmap bitmap = loadImage(clipData.getItemAt(i).getUri());
+                    Log.e("Uri", clipData.getItemAt(i).getUri().getPath());
+                    sendImage(bitmap, i);
+                }
+            }
+            Toast.makeText(getApplicationContext(), "Imágenes cargadas", Toast.LENGTH_SHORT).show();
+            addImagesToSlider();
+        }
+    }
+
+    /**********************************************************************************************/
+
+    public class QueryResultTask extends AsyncTask<Void, Void, Boolean> {
+        File image;
+        String response;
+
+        QueryResultTask(File image) {
+            this.image = image;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... params) {
+            ImageRequest request = new ImageRequest(getApplicationContext());
+            response = request.upload(image);
+            if (response == null) return false;
+            Log.e("Response", response);
+            images.add(response);
+            return true;
+        }
+
+        @Override
+        protected void onPostExecute(final Boolean success) {
+            if (success == false) {
+                //Toast.makeText(getApplicationContext(), "Hubo un problema al cargar las imagenes", Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected void onCancelled() { }
+
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+
+    private static class ImageFragmentPagerAdapter extends FragmentPagerAdapter {
+        public ImageFragmentPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public int getCount() {
+            return imagesPaths.size();
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            SwipeFragment fragment = new SwipeFragment();
+            return fragment.newInstance(position);
+        }
+    }
+
+    public static class SwipeFragment extends Fragment {
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View swipeView = inflater.inflate(R.layout.swipe_fragment, container, false);
+            ImageView imageView = (ImageView) swipeView.findViewById(R.id.imageView);
+
+            Bundle bundle = getArguments();
+            int position = bundle.getInt("position");
+            imageView.setImageBitmap(bitmapList.elementAt(position));
+            return swipeView;
+
+        }
+
+        public SwipeFragment newInstance(int position) {
+            SwipeFragment swipeFragment = new SwipeFragment();
+            Bundle bundle = new Bundle();
+            bundle.putInt("position", position);
+            swipeFragment.setArguments(bundle);
+            return swipeFragment;
+        }
+    }
+
 
 }
 
