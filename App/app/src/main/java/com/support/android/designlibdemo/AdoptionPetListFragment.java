@@ -15,6 +15,10 @@ public class AdoptionPetListFragment extends PetsListFragment {
         recyclerView.setAdapter(viewHolderAdapter);
     }
 
+    @Override
+    protected void setTouchCallback(RecyclerView recyclerView) {
+        /*Pass*/
+    }
 
     @Override
     protected QueryTask setQuery() {

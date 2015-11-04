@@ -87,6 +87,9 @@ public class PetsListFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(recyclerView.getContext()));
         //recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
         setAdapter(recyclerView);
+    }
+
+    protected void setTouchCallback(RecyclerView recyclerView) {
         SimpleItemTouchHelperCallback callback = new SimpleItemTouchHelperCallback((SimpleStringRecyclerViewAdapter) recyclerView.getAdapter(), getActivity());
         ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
         itemTouchHelper.attachToRecyclerView(recyclerView);
@@ -102,7 +105,8 @@ public class PetsListFragment extends Fragment {
         Log.e("Update fragment", this.getClass().toString());
         QueryTask resultTask = setQuery();
         resultTask.execute();
-        viewHolderAdapter.update(result);
+        if (viewHolderAdapter != null)
+            viewHolderAdapter.update(result);
     }
 
     /**********************************************************************************************/
@@ -176,6 +180,7 @@ public class PetsListFragment extends Fragment {
                 if (response != null) {
                     result = response;
                     setupRecyclerView(rv);
+                    setTouchCallback(rv);
                     rv.invalidate();
                 }
             }
