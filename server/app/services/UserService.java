@@ -140,22 +140,22 @@ public class UserService {
 
     private void addPetsForAdoptionToMyPets(List<PetAdoption> petsForAdoption, List<MyPet> myPets) {
         for (PetAdoption pet : petsForAdoption) {
-            myPets.add(new MyPet(pet.id, pet.name, pet.type, pet.breed, pet.gender, pet.images,
-                                 pet.publicationDate, FOR_ADOPTION));
+            myPets.add(new MyPet(pet.id, pet.ownerId, pet.name, pet.type, pet.breed, pet.gender, pet.size, pet.age,
+                    pet.colors, pet.eyeColor, pet.images, pet.publicationDate, FOR_ADOPTION));
         }
     }
 
     private void addLostPetsToMyPets(List<LostPet> lostPets, List<MyPet> myPets) {
         for (LostPet pet : lostPets) {
-            myPets.add(new MyPet(pet.id, pet.name, pet.type, pet.breed, pet.gender, pet.images,
-                                 pet.publicationDate, LOST));
+            myPets.add(new MyPet(pet.id, pet.ownerId, pet.name, pet.type, pet.breed, pet.gender, pet.size, pet.age,
+                    pet.colors, pet.eyeColor, pet.images, pet.publicationDate, LOST));
         }
     }
 
     private void addFoundPetsToMyPets(List<FoundPet> foundPets, List<MyPet> myPets) {
         for (FoundPet pet : foundPets) {
-            myPets.add(new MyPet(pet.id, "", pet.type, pet.breed, pet.gender, pet.images,
-                                 pet.publicationDate, FOUND));
+            myPets.add(new MyPet(pet.id, pet.finderId, "", pet.type, pet.breed, pet.gender, pet.size, "",
+                    pet.colors, pet.eyeColor, pet.images, pet.publicationDate, FOUND));
         }
     }
 
