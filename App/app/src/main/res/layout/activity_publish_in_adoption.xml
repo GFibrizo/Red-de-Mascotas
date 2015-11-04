@@ -870,7 +870,7 @@
     <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Siguiente"
+            android:text="Publicar"
             android:background="#2196F3"
             android:textColor="#ffffff"
             android:textAllCaps="false"
