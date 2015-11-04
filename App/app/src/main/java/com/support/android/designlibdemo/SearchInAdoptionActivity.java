@@ -105,6 +105,7 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
         CheckBox age1to3y = (CheckBox) findViewById(R.id.check_1to3y_age);
         CheckBox age3to7y = (CheckBox) findViewById(R.id.check_3to7y_age);
         CheckBox age7toMorey = (CheckBox) findViewById(R.id.check_7toMorey_age);
+        CheckBox necesitaTransito = (CheckBox) findViewById(R.id.check_transito);
 
         try {
             if (petTypeDog.isChecked()) {
@@ -127,6 +128,12 @@ public class SearchInAdoptionActivity extends AppCompatActivity {
             if (age3to7y.isChecked()) ages.put(Encoder.encode(AGES[3]));
             if (age7toMorey.isChecked()) ages.put(Encoder.encode(AGES[4]));
             object.put("ages", ages);
+
+            if (necesitaTransito.isChecked()) {
+                object.put("needsTransitHome", true);
+            } else {
+                object.put("needsTransitHome", false);
+            }
 
             //object.put("userId", getUserId());
 
