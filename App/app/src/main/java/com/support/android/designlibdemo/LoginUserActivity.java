@@ -24,8 +24,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import utils.Constants;
 import utils.LoginRequest;
 
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.support.android.designlibdemo.model.Password;
 
 import org.json.JSONObject;
@@ -83,6 +86,14 @@ public class LoginUserActivity extends Activity {
 
         mLoginFormView = findViewById(R.id.login_form);
         mProgressView = findViewById(R.id.login_progress);
+
+        //Inicializo Parse
+        try{
+            Parse.initialize(this, Constants.PARSE_APPLICATION_ID, Constants.PARSE_CLIENT_KEY);
+            ParseInstallation.getCurrentInstallation().saveInBackground();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

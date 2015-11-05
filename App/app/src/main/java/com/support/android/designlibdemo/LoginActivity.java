@@ -22,6 +22,8 @@ import com.facebook.GraphResponse;
 import com.facebook.Profile;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.support.android.designlibdemo.model.User;
 
 import org.json.JSONException;
@@ -32,6 +34,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
 
+import utils.Constants;
 import utils.LoginRequest;
 import utils.UserRegisterRequest;
 
@@ -104,6 +107,14 @@ public class LoginActivity extends AppCompatActivity {
         if (object.length() != 0) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
+        }
+
+        //Inicializo Parse
+        try{
+            Parse.initialize(this, Constants.PARSE_APPLICATION_ID, Constants.PARSE_CLIENT_KEY);
+            ParseInstallation.getCurrentInstallation().saveInBackground();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         callbackManager = CallbackManager.Factory.create();
