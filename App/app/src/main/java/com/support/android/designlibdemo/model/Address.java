@@ -13,7 +13,12 @@ public class Address {
     public String country;
 
     public Address() {
-
+        this.street = "";
+        this.number = "";
+        this.neighbourhood = "";
+        this.city = "";
+        this.province = "";
+        this.country = "";
     }
 
     public Address(JSONObject address) {
