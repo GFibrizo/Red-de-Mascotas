@@ -928,7 +928,8 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         }
     }
 
-
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private void finishPublication() {
         runOnUiThread(new Runnable() {
@@ -937,14 +938,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                 progress.dismiss();
             }
         });
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
-        if (intent != null)
-            startActivity(intent);
         finish();
     }
-
-
-
 }
