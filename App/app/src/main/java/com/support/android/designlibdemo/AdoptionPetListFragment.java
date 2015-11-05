@@ -11,7 +11,8 @@ public class AdoptionPetListFragment extends PetsListFragment {
 
     @Override
     protected void setAdapter(RecyclerView recyclerView) {
-        recyclerView.setAdapter(new AdoptionAdapter(getActivity(), result));
+        viewHolderAdapter = new AdoptionAdapter(getActivity(), result);
+        recyclerView.setAdapter(viewHolderAdapter);
     }
 
 

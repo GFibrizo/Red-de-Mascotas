@@ -43,6 +43,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import utils.ViewHolder;
 import utils.ResultsRequest;
 import utils.SimpleItemTouchHelperCallback;
 import utils.SimpleStringRecyclerViewAdapter;
@@ -53,6 +54,7 @@ public class PetsListFragment extends Fragment {
     protected SharedPreferences preferences;
     protected JSONArray result = null;
     protected RecyclerView rv;
+    protected SimpleStringRecyclerViewAdapter viewHolderAdapter;
 
     @Override
     public void setArguments(Bundle bundle) {
@@ -91,7 +93,15 @@ public class PetsListFragment extends Fragment {
     }
 
     protected void setAdapter(RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleStringRecyclerViewAdapter(getActivity(), result));
+        viewHolderAdapter = new SimpleStringRecyclerViewAdapter(getActivity(), result);
+        recyclerView.setAdapter(viewHolderAdapter);
+    }
+
+
+    public void update() {
+        QueryTask resultTask = setQuery();
+        resultTask.execute();
+        viewHolderAdapter.update(result);
     }
 
     /**********************************************************************************************/
@@ -151,7 +161,7 @@ public class PetsListFragment extends Fragment {
             ResultsRequest request = new ResultsRequest(getContext());
             int count = 0;
             response = null;
-            while ((response == null) && (count < 2)) {
+            if (response == null) {
                 response = request.searchPublications(ownerId);
             }
             //Log.e("RESPONSE", response.toString());

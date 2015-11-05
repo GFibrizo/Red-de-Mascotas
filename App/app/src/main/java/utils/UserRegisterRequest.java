@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
 import com.support.android.designlibdemo.LoginActivity;
 import com.support.android.designlibdemo.MainActivity;
+import com.support.android.designlibdemo.model.FacebookUser;
+import com.support.android.designlibdemo.model.User;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -44,7 +45,8 @@ public class UserRegisterRequest {
     private JSONObject createFacebookUser(JSONObject user) throws InterruptedException, ExecutionException, TimeoutException {
         String path = RequestHandler.getServerUrl() + buildRegisterFacebookUserPath();
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
-        JsonObjectRequest request = new JsonObjectRequest(Method.POST, path, user, future, future);
+        FacebookUser completeUser = new FacebookUser(user);
+        JsonObjectRequest request = new JsonObjectRequest(Method.POST, path, completeUser.toJson(), future, future);
         requestHandler.addToRequestQueue(request);
         JSONObject response = null;
         try {
@@ -109,6 +111,7 @@ public class UserRegisterRequest {
 
             facebookId = getJsonData(json, "id");
             jsonRequest.put("facebookId", facebookId);
+            jsonRequest.put("userName", userName);
             jsonRequest.put("name", userName[0]);
             jsonRequest.put("lastName", userName[1]);
         } catch (JSONException e) {
@@ -217,7 +220,8 @@ public class UserRegisterRequest {
             if (success) {
 
                 Log.e(TAG, "Put user preferences");
-                preferences.edit().putString("userData", facebookUser.toString()).commit();
+                User completeUser = new FacebookUser(facebookUser);
+                preferences.edit().putString("userData", completeUser.toJson().toString()).commit();
                 Intent myIntent = new Intent(callerActivity, MainActivity.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(myIntent);

@@ -29,6 +29,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -69,6 +70,8 @@ public class MainActivity extends AppCompatActivity {
     User loginUser;
     private JSONObject userData = new JSONObject();
     SharedPreferences prefs = null;
+    Boolean isInitialized = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -110,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     /**********************************************************************************************/
@@ -148,18 +152,18 @@ public class MainActivity extends AppCompatActivity {
     /**********************************************************************************************/
 
     @Override
+    public void onStop() {
+        super.onStop();
+        isInitialized = true;
+    }
+
+    @Override
     public void onStart() {
         super.onStart();
+        if (!isInitialized) return;
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        if (viewPager != null) {
-            setupViewPager(viewPager);
-        }
-        mTabLayout = (TabLayout) findViewById(R.id.tabs);
-        if (viewPager != null)
-            mTabLayout.setupWithViewPager(viewPager);
-
-        mTabLayout.invalidate();
-
+        updateViewPager(viewPager);
+        isInitialized = false;
     }
 
 
@@ -193,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         fragmentManager = getSupportFragmentManager();
         Adapter adapter = new Adapter(fragmentManager);
+        Log.e("SETUP", "SET UP VIEW PAGER");
 
         PetsListFragment adoption = new AdoptionPetListFragment();
         Bundle bundleAdoption = new Bundle();
@@ -209,6 +214,22 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(publications, "Mis\n publicaciones");
         viewPager.setAdapter(adapter);
     }
+
+    private void updateViewPager(ViewPager viewPager) {
+        fragmentManager = getSupportFragmentManager();
+        Log.e("UPDATE", "UPDATE VIEW PAGER");
+        Adapter adapter = (Adapter) viewPager.getAdapter();
+
+        List<Fragment> fragments = adapter.mFragments;
+
+        PetsListFragment adoption = (PetsListFragment) fragments.get(0);
+        PetsListFragment publications = (PetsListFragment) fragments.get(1);
+
+        adoption.update();
+        publications.update();
+        //adapter.notifyDataSetChanged();
+    }
+
 
     /**********************************************************************************************/
     /**********************************************************************************************/
