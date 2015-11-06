@@ -30,7 +30,7 @@ public class AcceptProposalRequest {
         JSONObject response = null;
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, path,  currentNotification.toJson(), future, future);
-        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,4,2));
         requestHandler.addToRequestQueue(request);
         try {
             response = future.get(10, TimeUnit.SECONDS);

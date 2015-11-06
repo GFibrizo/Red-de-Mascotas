@@ -43,7 +43,7 @@ public class ResultsRequest {
     private JSONArray makeRequest(String path) {
         RequestFuture<JSONArray> future = RequestFuture.newFuture();
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,  path, future, future);
-        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,4,2));
         requestHandler.addToRequestQueue(request);
         JSONArray response = null;
         try {

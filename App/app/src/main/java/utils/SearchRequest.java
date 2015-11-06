@@ -32,7 +32,7 @@ public class SearchRequest {
         JsonArrayRequest request = new JsonArrayRequest(Request.Method.GET,  path, future, future);
         requestHandler.addToRequestQueue(request);
         JSONArray response = null;
-        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,4,2));
 
         try {
 

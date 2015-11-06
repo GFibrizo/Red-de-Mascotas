@@ -23,7 +23,7 @@ public class ImageRequest {
         String path =  requestHandler.getServerUrl() + "/pet/image";
         RequestFuture<String> future = RequestFuture.newFuture();
         MultipartRequest request = new MultipartRequest(path, future, future, file/*, "image"*/);
-        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,4,2));
         requestHandler.addToRequestQueue(request);
         String response = null;
         try {

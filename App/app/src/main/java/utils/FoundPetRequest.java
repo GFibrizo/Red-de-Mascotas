@@ -26,7 +26,7 @@ public class FoundPetRequest {
         String path =   RequestHandler.getServerUrl() + "/pet/found";
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, path,  object, future, future);
-        request.setRetryPolicy(new DefaultRetryPolicy(5000,4,2));
+        request.setRetryPolicy(new DefaultRetryPolicy(10000,4,2));
         requestHandler.addToRequestQueue(request);
         JSONObject response = null;
         try {

@@ -176,7 +176,7 @@ public class PetsListFragment extends Fragment {
         @Override
         protected void onPostExecute(final Boolean success) {
             if (success) {
-                Intent intent = new Intent(getContext(), ResultListActivity.class);
+                //Intent intent = new Intent(getContext(), ResultListActivity.class);
                 if (response != null) {
                     result = response;
                     setupRecyclerView(rv);
