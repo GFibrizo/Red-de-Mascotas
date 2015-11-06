@@ -875,9 +875,8 @@
             android:textColor="#ffffff"
             android:textAllCaps="false"
             android:id="@+id/button_publish_1"
-            android:onClick="finish"
-            android:layout_margin="16dp"
-            android:layout_marginBottom="10dp"
+            android:onClick="finishButton"
+            android:layout_margin="10dp"
             android:elevation="3dp"/>
 
 

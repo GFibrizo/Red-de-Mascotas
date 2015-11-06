@@ -742,7 +742,7 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
 
 
 
-    public void finish(View view) {
+    public void finishButton(View view) {
 
         TextView videos = (TextView) findViewById((R.id.video_report_missing));
         EditText name = (EditText) findViewById(R.id.missing_pet_name);

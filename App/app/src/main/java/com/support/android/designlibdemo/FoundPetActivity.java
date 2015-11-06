@@ -561,7 +561,7 @@ public class FoundPetActivity extends AppCompatActivity implements
     /**********************************************************************************************/
     /**********************************************************************************************/
 
-    public void finish(View view) {
+    public void finishPublication(View view) {
 
         SegmentedGroup pet_type = (SegmentedGroup) findViewById(R.id.segmented_pet_type_found);
         SegmentedGroup pet_gender = (SegmentedGroup) findViewById(R.id.segmented_pet_gender_found);
@@ -784,14 +784,15 @@ public class FoundPetActivity extends AppCompatActivity implements
         @Override
         protected void onPostExecute(final Boolean success) {
             progress.dismiss();
-            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             if (success) {
                 Toast.makeText(getApplicationContext(), "Exito", Toast.LENGTH_SHORT).show();
             }else{
 //                Toast.makeText(getApplicationContext(), "Error de conexion", Toast.LENGTH_SHORT).show();
             }
             Log.e("Exit Found", "EXITING FOUND");
-            startActivity(intent);
+            //startActivity(intent);
+            finish();
         }
 
         @Override

@@ -625,16 +625,15 @@
 
 
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Listo"
+            android:text="Publicar"
             android:background="#2196F3"
             android:textColor="#ffffff"
             android:textAllCaps="false"
             android:id="@+id/button_publish_1"
-            android:onClick="finish"
+            android:onClick="finishButton"
             android:layout_margin="10dp"
-            android:layout_gravity="right"
             android:elevation="3dp"/>
 
 

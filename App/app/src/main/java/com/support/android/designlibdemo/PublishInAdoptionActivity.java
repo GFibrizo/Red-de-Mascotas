@@ -565,7 +565,7 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
 
 
 
-    public void finish(View view) {
+    public void finishButton(View view) {
 
         TextView videos = (TextView) findViewById((R.id.video_report_publish));
         EditText name = (EditText) findViewById(R.id.publish_pet_name);
@@ -803,56 +803,6 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
         finish();
     }
 
-
-    /*
-
-    public void nextPage(View view) {
-        EditText name = (EditText)findViewById(R.id.published_pet_name);
-        SwitchCompat petType = (SwitchCompat)findViewById(R.id.switch_pet_type);
-        SwitchCompat petGender = (SwitchCompat)findViewById(R.id.switch_pet_gender);
-        AutoCompleteTextView breed = (AutoCompleteTextView)findViewById(R.id.breed);
-        TextView age = (TextView) findViewById(R.id.age_label);
-        TextView size = (TextView) findViewById(R.id.size_label);
-
-        try {
-            object.put("name", name.getText());
-
-            if (petType.isChecked()) {
-                object.put("type", petType.getTextOn());
-            } else {
-                object.put("type", petType.getTextOff());
-            }
-
-            if (petGender.isChecked()) {
-                object.put("gender", petGender.getTextOn());
-            } else {
-                object.put("gender", petGender.getTextOff());
-            }
-
-            object.put("breed", breed.getText());
-            object.put("age", age.getText());
-            object.put("size", size.getText());
-            object.put("name", name.getText());
-
-            JSONArray imgs = new JSONArray();
-            for (String img : images) {
-                imgs.put(img);
-            }
-
-            object.put("images", imgs);
-
-
-        } catch (JSONException e) {
-            Log.e("Error al crear el JSON", e.getMessage());
-        }
-
-
-
-        Intent intent = new Intent(getApplicationContext(), PublishInAdoptionActivity2.class);
-        intent.putExtra("data", object.toString());
-        if (intent != null)
-            startActivity(intent);
-    }*/
 
 }
 
