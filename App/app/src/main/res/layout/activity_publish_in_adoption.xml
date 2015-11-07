@@ -445,6 +445,19 @@
                     android:id="@+id/location_publish"
                     android:gravity="center_horizontal" />
 
+                <android.support.design.widget.TextInputLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <AutoCompleteTextView
+                        android:id="@+id/publish_pet_city"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Ciudad"
+                        android:inputType="textAutoComplete" />
+
+                </android.support.design.widget.TextInputLayout>
+
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -455,19 +468,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Barrio"
-                        android:inputType="textAutoComplete" />
-
-                </android.support.design.widget.TextInputLayout>
-
-                <android.support.design.widget.TextInputLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content">
-
-                    <AutoCompleteTextView
-                        android:id="@+id/publish_pet_city"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Ciudad"
                         android:inputType="textAutoComplete" />
 
                 </android.support.design.widget.TextInputLayout>
