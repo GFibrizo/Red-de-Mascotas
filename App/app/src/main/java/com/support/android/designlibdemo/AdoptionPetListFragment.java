@@ -25,8 +25,13 @@ public class AdoptionPetListFragment extends PetsListFragment {
         return new AdoptionQueryTask();
     }
 
+    @Override
+    protected QueryTask setUpdateTask() {return new UpdateTask();}
+
 
     protected class AdoptionQueryTask extends QueryTask {
+
+        public AdoptionQueryTask() {super();}
 
         @Override
         protected Boolean doInBackground(Void... params) {
@@ -39,4 +44,24 @@ public class AdoptionPetListFragment extends PetsListFragment {
             return true;
         }
     }
+
+
+    protected class UpdateTask extends AdoptionQueryTask {
+
+        public UpdateTask() {super();}
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (success) {
+                //Intent intent = new Intent(getContext(), ResultListActivity.class);
+                if (response != null) {
+                    result = response;
+                    if (viewHolderAdapter != null)
+                        viewHolderAdapter.update(result);
+                    rv.invalidate();
+                }
+            }
+        }
+    }
+
 }

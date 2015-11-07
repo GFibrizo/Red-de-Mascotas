@@ -115,7 +115,7 @@
             android:parentActivityName=".MatchResultListActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".ResultListActivity" />
+                android:value=".MatchResultListActivity" />
         </activity>
 
         <activity

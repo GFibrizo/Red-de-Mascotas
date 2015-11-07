@@ -136,7 +136,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="Cargar imagenes"
-                    android:background="#2196F3"
                     android:id="@+id/load_publish_image"
                     android:textColor="@android:color/white"
                     android:visibility="visible"/>
@@ -187,7 +186,6 @@
                     android:text="Cargar videos"
                     android:id="@+id/load_publish_video_button"
                     android:textColor="@android:color/white"
-                    android:background="#2196F3"
                     android:visibility="visible"/>
 
             </LinearLayout>

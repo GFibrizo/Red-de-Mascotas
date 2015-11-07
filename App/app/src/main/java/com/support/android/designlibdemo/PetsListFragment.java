@@ -73,6 +73,10 @@ public class PetsListFragment extends Fragment {
         return new QueryTask();
     }
 
+    protected QueryTask setUpdateTask() {
+        return new UpdateTask();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -103,10 +107,8 @@ public class PetsListFragment extends Fragment {
 
     public void update() {
         Log.e("Update fragment", this.getClass().toString());
-        QueryTask resultTask = setQuery();
+        QueryTask resultTask =  setUpdateTask();
         resultTask.execute();
-        if (viewHolderAdapter != null)
-            viewHolderAdapter.update(result);
     }
 
     /**********************************************************************************************/
@@ -136,10 +138,10 @@ public class PetsListFragment extends Fragment {
 
     protected class QueryTask extends AsyncTask<Void, Void, Boolean> {
 
-        SearchForAdoptionFilters filters;
-        JSONArray response;
-        JSONObject object;
-        String ownerId = "";
+        protected  SearchForAdoptionFilters filters;
+        protected  JSONArray response;
+        protected JSONObject object;
+        protected String ownerId = "";
 
         QueryTask() {
             super();
@@ -182,6 +184,7 @@ public class PetsListFragment extends Fragment {
                     setupRecyclerView(rv);
                     setTouchCallback(rv);
                     rv.invalidate();
+
                 }
             }
         }
@@ -189,6 +192,28 @@ public class PetsListFragment extends Fragment {
         @Override
         protected void onCancelled() { }
 
+    }
+
+
+
+    private class UpdateTask extends QueryTask {
+
+        public UpdateTask() {
+            super();
+        }
+
+        @Override
+        protected void onPostExecute(Boolean success) {
+            if (success) {
+                //Intent intent = new Intent(getContext(), ResultListActivity.class);
+                if (response != null) {
+                    result = response;
+                    if (viewHolderAdapter != null)
+                        viewHolderAdapter.update(result);
+                    rv.invalidate();
+                }
+            }
+        }
     }
 
 }

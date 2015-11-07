@@ -775,7 +775,8 @@ public class FoundPetActivity extends AppCompatActivity implements
                 response = request.post(object);
             } catch (InterruptedException | ExecutionException  | TimeoutException e) {
                 // exception handling
-                Log.e("Found Error",e.getMessage());
+                String message = (e.getMessage() == null) ? "" : e.getMessage();
+                Log.e("Found Error",message);
                 return false;
             }
             return true;
