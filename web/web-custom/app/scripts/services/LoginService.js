@@ -9,6 +9,8 @@
 angular.module('sbAdminApp')
   .service('LoginService', function($q,$cookies,RequestService) {
     
+
+    var _data = {};
     this.data = {
         userName : "",
         password : ""
@@ -30,11 +32,16 @@ angular.module('sbAdminApp')
                 encryptedPassword: this.data.password
             }
         };
-       
+       _data = this.data;
         RequestService.callApi(requestData)
         .then(
             function successCallback(response) {
                 $cookies.isLogged = true;
+                if (_data.remember){
+                    $cookies.userName = _data.userName;
+                    $cookies.password = _data.password;
+                    $cookies.remember = _data.remember;
+                }
                 deferred.resolve(response);     
             }, 
             function errorCallback(response) {
@@ -48,5 +55,8 @@ angular.module('sbAdminApp')
     this.logout = function() {
         console.log("logout")
         delete $cookies["isLogged"];
+        delete $cookies["userName"];
+        delete $cookies["password"];
+        delete $cookies["remember"];
     }
 });

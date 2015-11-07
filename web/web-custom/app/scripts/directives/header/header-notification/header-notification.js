@@ -7,12 +7,13 @@
  * # adminPosHeader
  */
 angular.module('sbAdminApp')
-	.directive('headerNotification',function(LoginService){
+	.directive('headerNotification',function($state,LoginService){
 
 		var _controller = function (){
         	var vm = this;
 	        vm.logout = function(){            
 	            LoginService.logout();
+	            $state.go('login');
 	        }
      
    		}
