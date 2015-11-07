@@ -1,6 +1,7 @@
 package utils;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
@@ -25,8 +26,14 @@ public class AcceptProposalRequest {
     }
 
     public JSONObject accept(InquirerNotification currentNotification) throws InterruptedException, ExecutionException, TimeoutException {
-
-        String path =   RequestHandler.getServerUrl() + "/pet/" + currentNotification.getPetId() + "/adoption/accepted";
+        String path;
+        if (currentNotification.getNotificationType().equals(Constants.ADOPCION_ACEPTADA)) {
+            path = RequestHandler.getServerUrl() + "/pet/" + currentNotification.getPetId() + "/adoption/accepted";
+            Log.i(AcceptProposalRequest.class.getSimpleName(), "path: " + path);
+        } else {
+            path = RequestHandler.getServerUrl() + "/pet/" + currentNotification.getPetId() + "/take-in-transit/accepted";
+            Log.i(AcceptProposalRequest.class.getSimpleName(), "path: " + path);
+        }
         JSONObject response = null;
         RequestFuture<JSONObject> future = RequestFuture.newFuture();
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.PUT, path,  currentNotification.toJson(), future, future);
