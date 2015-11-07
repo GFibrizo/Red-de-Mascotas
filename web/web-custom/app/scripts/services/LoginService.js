@@ -7,12 +7,16 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .service('LoginService', function($q,RequestService) {
-    this.userName = "Usuario3";
+  .service('LoginService', function($q,$cookies,RequestService) {
+    this.userName = "Usuario1";
     this.encryptedPassword = "[B@b7ff838123123";
 
     this.isLogged = function() {
-    	console.log("isLogged");
+        return (!angular.isUndefined($cookies.isLogged) && ($cookies.isLogged));
+	}
+ 
+    this.login = function() {
+        console.log("login");
         var deferred  = $q.defer();
         var requestData =  {
             method: "GET",
@@ -22,10 +26,11 @@ angular.module('sbAdminApp')
                 encryptedPassword: this.encryptedPassword
             }
         };
-        console.log(requestData)
+       
         RequestService.callApi(requestData)
         .then(
             function successCallback(response) {
+                $cookies.isLogged = true;
                 deferred.resolve(response);     
             }, 
             function errorCallback(response) {
@@ -33,14 +38,11 @@ angular.module('sbAdminApp')
             }
         );
         return deferred.promise;
-	}
- 
-    this.login = function() {
-        console.log("login")
     }
 
 
     this.logout = function() {
         console.log("logout")
+        delete $cookies["isLogged"];
     }
 });
