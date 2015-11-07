@@ -120,8 +120,8 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     JSONObject object = null;
     Activity activity = null;
     boolean setMarker = false;
-    private int ID_TYPE_DOG = 2131558787;
-    private int ID_GENDER_MALE = 2131558790;
+    private int ID_TYPE_DOG = 2131558788;
+    private int ID_GENDER_MALE = 2131558791;
     private ProgressDialog progress;
 
 
