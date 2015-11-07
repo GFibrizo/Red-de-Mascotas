@@ -10,9 +10,15 @@ angular.module('sbAdminApp')
   .controller('LoginCtrl', function($scope,$position,$state,LoginService) {
       console.log("LoginCtrl")
       
+      $scope.data = {
+        userName: "",
+        password: ""
+      }
 
       $scope.login = function(){        
   		  console.log("Login")
+        LoginService.data  = $scope.data;
+
         LoginService.login()
         .then(
           function successCallback (response) {

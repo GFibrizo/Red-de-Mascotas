@@ -8,8 +8,12 @@
  */
 angular.module('sbAdminApp')
   .service('LoginService', function($q,$cookies,RequestService) {
-    this.userName = "Usuario1";
-    this.encryptedPassword = "[B@b7ff838123123";
+    
+    this.data = {
+        userName : "",
+        password : ""
+    }
+    
 
     this.isLogged = function() {
         return (!angular.isUndefined($cookies.isLogged) && ($cookies.isLogged));
@@ -22,8 +26,8 @@ angular.module('sbAdminApp')
             method: "GET",
             url:"/login/account",
             params: {
-                userName: this.userName,
-                encryptedPassword: this.encryptedPassword
+                userName: this.data.userName,
+                encryptedPassword: this.data.password
             }
         };
        
