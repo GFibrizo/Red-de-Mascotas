@@ -103,9 +103,15 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 currentNotification = elements.get((Integer) v.getTag());
-                AlertDialog dialogo = crearDialogo("Confirmar adopción",
-                        "¿Desea aceptar esta solicitud de adopción?");
-                dialogo.show();
+                if (currentNotification.getNotificationType().equals(Constants.QUIERE_ADOPTAR)) {
+                    AlertDialog dialogo = crearDialogo("Confirmar adopción",
+                            "¿Desea aceptar esta solicitud de adopción?");
+                    dialogo.show();
+                } else {
+                    AlertDialog dialogo = crearDialogo("Confirmar tránsito",
+                            "¿Desea aceptar esta solicitud de tránsito?");
+                    dialogo.show();
+                }
 
             }
         });
