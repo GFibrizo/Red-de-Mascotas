@@ -13,6 +13,7 @@ angular
     'ui.router',
     'ui.bootstrap',
     'angular-loading-bar',
+    'ngCookies'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
     
@@ -103,7 +104,8 @@ angular
     })
       .state('login',{
         templateUrl:'views/pages/login.html',
-        url:'/login'
+        url:'/login',
+        controller: 'LoginCtrl',
     })
       .state('dashboard.chart',{
         templateUrl:'views/chart.html',
@@ -152,6 +154,19 @@ angular
       .state('dashboard.grid',{
        templateUrl:'views/ui-elements/grid.html',
        url:'/grid'
+   })
+      /*Custom*/
+      .state('dashboard.denuncias',{
+       templateUrl:'views/custom/denuncias.html',
+       url:'/denuncias'
+   })
+      .state('dashboard.users',{
+       templateUrl:'views/custom/users.html',
+       url:'/users'
+   })
+      .state('dashboard.reports',{
+       templateUrl:'views/custom/reports.html',
+       url:'/reports'
    })
   }]);
 
