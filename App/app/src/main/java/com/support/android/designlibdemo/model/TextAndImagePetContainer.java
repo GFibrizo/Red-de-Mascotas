@@ -40,7 +40,9 @@ public class TextAndImagePetContainer implements TextAndImage {
         this.sexo = mascotas.getGender();
         this.edad = mascotas.getAge();
         this.tamanio = mascotas.getSize();
-        this.barrio = mascotas.getAddress().getNeighbourhood();
+        this.barrio = "";
+        if (mascotas.getAddress() != null)
+            this.barrio = mascotas.getAddress().getNeighbourhood();
         this.caracteristicas = "";
         this.colorPelaje = "";
         if (mascotas.getColors() != null) {
@@ -236,13 +238,13 @@ public class TextAndImagePetContainer implements TextAndImage {
         if (this.transito){
             caracteristicas += "Necesita hogar de tránsito";
         }
-        if (this.castrada){
+        if ((this.castrada != null) && (this.castrada)){
             caracteristicas += "\nEstá Castrada";
         }
-        if (this.temporaryMedicine){
+        if ((this.temporaryMedicine != null) && (this.temporaryMedicine)){
             caracteristicas += "\nNecesita tomar alguna medicina de manera temporal.";
         }
-        if (this.chronicMedicine){
+        if ((this.chronicMedicine != null) && (this.chronicMedicine)) {
             caracteristicas += "\nNecesita tomar alguna medicina de manera permanente.";
         }
         return this.caracteristicas;

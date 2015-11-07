@@ -106,6 +106,7 @@ public class PetsDetailActivity extends AppCompatActivity {
                 dialogo.show();
             }
         });
+
         buttonTransitHome = (Button) findViewById(R.id.botonOfrecerHogar);
         buttonTransitHome.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -116,6 +117,14 @@ public class PetsDetailActivity extends AppCompatActivity {
                 dialogo.show();
             }
         });
+
+
+        if (loginUser.getId().equals(getIntent().getStringExtra("ownerId"))) {
+            buttonAdopt.setVisibility(View.GONE);
+            buttonTransitHome.setVisibility(View.GONE);
+        }
+
+
         Boolean transitHome = getIntent().getBooleanExtra("transitHome", false);
         Log.e("Intent transit", transitHome.toString());
         if (!transitHome) {

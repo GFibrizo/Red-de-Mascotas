@@ -15,6 +15,10 @@ public class AdoptionPetListFragment extends PetsListFragment {
         recyclerView.setAdapter(viewHolderAdapter);
     }
 
+    @Override
+    protected void setTouchCallback(RecyclerView recyclerView) {
+        /*Pass*/
+    }
 
     @Override
     protected QueryTask setQuery() {
@@ -28,10 +32,8 @@ public class AdoptionPetListFragment extends PetsListFragment {
         protected Boolean doInBackground(Void... params) {
             ResultsRequest request = new ResultsRequest(getContext());
             response = null;
-            int count = 0;
-            while ((response == null) && (count < 10)){
+            if (response == null){
                 response = request.searchAdoption();
-                count++;
             }
             //Log.e("RESPONSE1", response.toString());
             return true;

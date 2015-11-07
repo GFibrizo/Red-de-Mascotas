@@ -154,12 +154,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onStop() {
         super.onStop();
+        Log.e("STOP", "STOPPED MAIN");
         isInitialized = true;
     }
 
     @Override
     public void onStart() {
         super.onStart();
+        Log.e("START", "STARTED MAIN");
         if (!isInitialized) return;
         ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         updateViewPager(viewPager);
@@ -227,7 +229,7 @@ public class MainActivity extends AppCompatActivity {
 
         adoption.update();
         publications.update();
-        //adapter.notifyDataSetChanged();
+        adapter.notifyDataSetChanged();
     }
 
 

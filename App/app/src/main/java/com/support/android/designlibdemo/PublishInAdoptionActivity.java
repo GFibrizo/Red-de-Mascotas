@@ -796,10 +796,11 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 progress.dismiss();
             }
         });
-        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        //Intent intent = new Intent(getApplicationContext(), MainActivity.class);
         Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
-        if (intent != null)
-            startActivity(intent);
+        //if (intent != null)
+        //    startActivity(intent);
+        finish();
     }
 
 

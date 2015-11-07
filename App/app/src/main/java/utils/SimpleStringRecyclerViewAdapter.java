@@ -15,10 +15,16 @@ import utils.ViewHolder;
 import com.support.android.designlibdemo.PetsDetailActivity;
 import com.support.android.designlibdemo.R;
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
+import com.support.android.designlibdemo.model.Address;
+import com.support.android.designlibdemo.model.PetAdoption;
+import com.support.android.designlibdemo.model.TextAndImagePetContainer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by fabrizio on 18/10/15.
@@ -76,8 +82,9 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
         //holder.mBoundString = mValues.get(position);
         //holder.mBoundString =
         JSONArray images = null;
+        JSONObject object = null;
         try {
-            JSONObject object = (JSONObject) mValues.get(position);
+            object = (JSONObject) mValues.get(position);
             holder.mBoundString = (String) object.get("name");
 
             holder.mNameView.setText((String) object.get("name"));
@@ -100,7 +107,9 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
         }
 
         changeTypeVisibility(holder);
-        //setDetailActivity(holder);
+        if (object != null) {
+            setDetailActivity(holder, object);
+        }
 
             /*Glide.with(holder.mImageView.getContext())
                     .load(getRandomCheeseDrawable())    //TODO: ACA CARGA LA IMAGEN
@@ -129,7 +138,7 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
         return mValues.length();
     }
 
-    protected void setDetailActivity(final ViewHolder holder) {
+    /*protected void setDetailActivity(final ViewHolder holder) {
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -141,6 +150,104 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
                 context.startActivity(intent);
             }
         });
+    }*/
+
+
+
+    private PetAdoption getPetPublication(JSONObject object) {
+
+        PetAdoption mascota = null;
+        try {
+            if (!object.has("name")) {
+                object.put("name", object.getString("state"));
+            }
+
+            if (!object.has("age")) {
+                object.put("age", "Desconocida");
+            }
+
+            if (!object.has("needsTransitHome")) {
+                object.put("needsTransitHome", false);
+            }
+
+            List<String> colors = new ArrayList<>();
+            List<String> behavior = new ArrayList<>();
+            List<String> images = new ArrayList<>();
+            if (!object.get("colors").toString().equals("null")) {
+                for (int j = 0; j < object.getJSONArray("colors").length(); j++) {
+                    colors.add((String) object.getJSONArray("colors").get(j));
+                }
+            }
+
+            if (!object.get("images").toString().equals("null")) {
+                for (int j = 0; j < object.getJSONArray("images").length(); j++) {
+                    images.add(((String) object.getJSONArray("images").get(j)).replace("[","").replace("]", ""));
+                }
+            }
+            mascota = new PetAdoption(object.getString("id"),
+                    object.getString("name"),
+                    object.getString("type"),
+                    object.getString("ownerId"),
+                    null,
+                    object.getString("breed"),
+                    object.getString("gender"),
+                    object.getString("age"),
+                    object.getString("size"),
+                    colors,
+                    object.getString("eyeColor"),
+                    behavior,
+                    images,
+                    object.getBoolean("needsTransitHome"),
+                    null,
+                    null,
+                    null,
+                    null);
+        } catch (JSONException e) {
+            Log.e("Error al crear el JSON", e.getMessage());
+        }
+        return mascota;
     }
+
+
+
+
+    protected void setDetailActivity(final ViewHolder holder, final JSONObject object) {
+
+
+        holder.mView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (object == null) return;
+                Context context = v.getContext();
+                Intent intent = new Intent(context, PetsDetailActivity.class);
+                //intent.putExtra(PetsDetailActivity.EXTRA_NAME, holder.mBoundString);
+                PetAdoption adoption = getPetPublication(object);
+                //Intent intent = new Intent(context, PetsDetailActivity.class);
+                TextAndImagePetContainer petContainer = new TextAndImagePetContainer(adoption);
+                intent.putExtra("id", petContainer.getId());
+                intent.putExtra("ownerId", petContainer.getOwnerId());
+                intent.putExtra("nombre", petContainer.getNombre());
+                intent.putExtra("raza", petContainer.getRaza());
+                intent.putExtra("sexo", petContainer.getSexo());
+                intent.putExtra("edad", petContainer.getEdad());
+                intent.putExtra("tamanio", petContainer.getTamanio());
+                intent.putExtra("colorPelaje", petContainer.getColorPelaje());
+                intent.putExtra("colorOjos", petContainer.getColorOjos());
+                intent.putExtra("ubicacion", petContainer.getBarrio());
+                intent.putExtra("caracteristicas", petContainer.getCaracteristicas());
+                intent.putExtra("descripcion", petContainer.getDescripcion());
+                intent.putExtra("conducta", petContainer.getConducta());
+                intent.putExtra("images", petContainer.getImages());
+                intent.putExtra("transitHome", false);
+                intent.putExtra("mine", true);
+                context.startActivity(intent);
+            }
+        });
+    }
+
+
+
+
+
 
 }

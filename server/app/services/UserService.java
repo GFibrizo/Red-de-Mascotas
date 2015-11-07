@@ -109,13 +109,14 @@ public class UserService {
     }
 
     public List<MatchingPet> getMatchingPets(String userId) {
-        List<MatchingPet> matchingPets = new ArrayList<>();
+        Map<String, MatchingPet> matchingPets = new HashMap<>();
         List<LostPet> userLostPets = LostPet.getPublishedByOwnerId(userId);
         List<FoundPet> userFoundPets = FoundPet.getPublishedByFinderId(userId);
         addFoundPetsToMatches(userLostPets, matchingPets);
         addLostPetsToMatches(userFoundPets, matchingPets);
-        Collections.sort(matchingPets, Collections.reverseOrder());
-        return matchingPets;
+        List<MatchingPet> pets = new ArrayList<>(matchingPets.values());
+        Collections.sort(pets, Collections.reverseOrder());
+        return pets;
     }
 
     public List<PetAdoption> getPetsMatchingSavedSearches(String userId) {
@@ -140,43 +141,43 @@ public class UserService {
 
     private void addPetsForAdoptionToMyPets(List<PetAdoption> petsForAdoption, List<MyPet> myPets) {
         for (PetAdoption pet : petsForAdoption) {
-            myPets.add(new MyPet(pet.id, pet.name, pet.type, pet.breed, pet.gender, pet.images,
-                                 pet.publicationDate, FOR_ADOPTION));
+            myPets.add(new MyPet(pet.id, pet.ownerId, pet.name, pet.type, pet.breed, pet.gender, pet.size, pet.age,
+                    pet.colors, pet.eyeColor, pet.images, pet.publicationDate, FOR_ADOPTION));
         }
     }
 
     private void addLostPetsToMyPets(List<LostPet> lostPets, List<MyPet> myPets) {
         for (LostPet pet : lostPets) {
-            myPets.add(new MyPet(pet.id, pet.name, pet.type, pet.breed, pet.gender, pet.images,
-                                 pet.publicationDate, LOST));
+            myPets.add(new MyPet(pet.id, pet.ownerId, pet.name, pet.type, pet.breed, pet.gender, pet.size, pet.age,
+                    pet.colors, pet.eyeColor, pet.images, pet.publicationDate, LOST));
         }
     }
 
     private void addFoundPetsToMyPets(List<FoundPet> foundPets, List<MyPet> myPets) {
         for (FoundPet pet : foundPets) {
-            myPets.add(new MyPet(pet.id, "", pet.type, pet.breed, pet.gender, pet.images,
-                                 pet.publicationDate, FOUND));
+            myPets.add(new MyPet(pet.id, pet.finderId, "", pet.type, pet.breed, pet.gender, pet.size, "",
+                    pet.colors, pet.eyeColor, pet.images, pet.publicationDate, FOUND));
         }
     }
 
-    private void addFoundPetsToMatches(List<LostPet> userLostPets, List<MatchingPet> matchingPets) {
+    private void addFoundPetsToMatches(List<LostPet> userLostPets, Map<String, MatchingPet> matchingPets) {
         for (LostPet userLostPet : userLostPets) {
             List<FoundPet> matches = FoundPet.getMatches(userLostPet.type, userLostPet.gender, userLostPet.lastSeenDate,
                     userLostPet.lastSeenLocation);
             for (FoundPet match : matches) {
                 User finder = User.getById(match.finderId);
-                matchingPets.add(new MatchingPet(match, userLostPet, finder.email));
+                matchingPets.put(match.id, new MatchingPet(match, userLostPet, finder.email));
             }
         }
     }
 
-    private void addLostPetsToMatches(List<FoundPet> userFoundPets, List<MatchingPet> matchingPets) {
+    private void addLostPetsToMatches(List<FoundPet> userFoundPets, Map<String, MatchingPet> matchingPets) {
         for (FoundPet userFoundPet : userFoundPets) {
             List<LostPet> matches = LostPet.getMatches(userFoundPet.type, userFoundPet.gender, userFoundPet.foundDate,
                     userFoundPet.foundLocation);
             for (LostPet match : matches) {
                 User owner = User.getById(match.ownerId);
-                matchingPets.add(new MatchingPet(match, userFoundPet, owner.email));
+                matchingPets.put(match.id, new MatchingPet(match, userFoundPet, owner.email));
             }
         }
     }

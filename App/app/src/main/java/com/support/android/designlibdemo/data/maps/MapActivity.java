@@ -127,56 +127,15 @@ public class MapActivity extends AppCompatActivity implements OnMapReadyCallback
             mapCoordenates.setLatitude(Double.toString(myLatLng.latitude));
             mapCoordenates.setLongitude(Double.toString(myLatLng.longitude));
         }
-        Intent upIntent = null;
-        Intent intent = new Intent(MapActivity.this, from);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         switch (item.getItemId()) {
             case android.R.id.home:
-               /* upIntent = NavUtils.getParentActivityIntent(this);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                    TaskStackBuilder.create(this)
-                            .addNextIntentWithParentStack(upIntent)
-                            .startActivities();
-                } else {
-                    NavUtils.navigateUpTo(this, upIntent);
-                }*/
-                startActivity(intent);
+                finish();
                 break;
             case 0:
-                /*upIntent = NavUtils.getParentActivityIntent(this);
-                setCoordsToReturn(upIntent);
-                if (NavUtils.shouldUpRecreateTask(this, upIntent)) {
-                    TaskStackBuilder.create(this)
-                            .addNextIntentWithParentStack(upIntent)
-                            .startActivities();
-                } else {
-                    NavUtils.navigateUpTo(this, upIntent);
-                }*/
-                setCoordsToReturn(intent);
-                startActivity(intent);
+                finish();
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-
-    /**********************************************************************************************/
-    /**********************************************************************************************/
-
-    private void setCoordsToReturn(Intent intent) {
-        if ((myLatLng != null) && (myLatLng != null)) {
-            String lat = Double.toString(myLatLng.latitude);
-            String lng = Double.toString(myLatLng.longitude);
-        }
-        /*try {
-            JSONObject aux = new JSONObject();
-            aux.put("latitude", lat);
-            aux.put("longitude", lng);
-            object.put("lastSeenLocation", aux);
-        } catch (JSONException e) {
-            Log.e("Error put latlng", e.getMessage());
-        }*/
-        //intent.putExtra("missing", object.toString());
     }
 
     /**********************************************************************************************/
