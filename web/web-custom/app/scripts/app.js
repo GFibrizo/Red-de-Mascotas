@@ -155,6 +155,19 @@ angular
        templateUrl:'views/ui-elements/grid.html',
        url:'/grid'
    })
+      /*Custom*/
+      .state('dashboard.denuncias',{
+       templateUrl:'views/custom/denuncias.html',
+       url:'/denuncias'
+   })
+      .state('dashboard.users',{
+       templateUrl:'views/custom/users.html',
+       url:'/users'
+   })
+      .state('dashboard.reports',{
+       templateUrl:'views/custom/reports.html',
+       url:'/reports'
+   })
   }]);
 
     
