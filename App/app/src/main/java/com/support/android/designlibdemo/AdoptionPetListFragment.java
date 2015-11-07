@@ -26,7 +26,7 @@ public class AdoptionPetListFragment extends PetsListFragment {
     }
 
     @Override
-    protected QueryTask setUpdateTask() {return new UpdateTask();}
+    protected QueryTask setUpdateTask() {return new UpdateAdoptionTask();}
 
 
     protected class AdoptionQueryTask extends QueryTask {
@@ -46,9 +46,9 @@ public class AdoptionPetListFragment extends PetsListFragment {
     }
 
 
-    protected class UpdateTask extends AdoptionQueryTask {
+    protected class UpdateAdoptionTask extends AdoptionQueryTask {
 
-        public UpdateTask() {super();}
+        public UpdateAdoptionTask() {super();}
 
         @Override
         protected void onPostExecute(Boolean success) {

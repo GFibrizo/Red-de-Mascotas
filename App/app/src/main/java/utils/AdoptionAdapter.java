@@ -53,6 +53,12 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
         notifyItemRemoved(position);
     }
 
+    public void update(JSONArray newValues) {
+        mValues = newValues;
+        notifyDataSetChanged();
+    }
+
+
     /******************************************************************************************/
     /******************************************************************************************/
 

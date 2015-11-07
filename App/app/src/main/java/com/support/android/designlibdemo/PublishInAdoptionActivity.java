@@ -795,21 +795,8 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
         Toast.makeText(getApplicationContext(), "Publicación creada", Toast.LENGTH_SHORT).show();
         //if (intent != null)
         //    startActivity(intent);
-        Thread finishActivity = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    wait(100);
-                } catch (InterruptedException e){}
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        progress.dismiss();
-                    }
-                });
-                finish();
-            }
-        });
+        progress.dismiss();
+        finish();
     }
 
 
