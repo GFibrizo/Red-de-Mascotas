@@ -7,18 +7,30 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .service('RequestService', function($http ) {
+  .service('RequestService', function($http,$q ) {
 
+    
+    /*Atributes*/
+    this.serverIp = "http://localhost:9000";
+
+    /*Functions*/
 
     this.callApi = function(requestData) {
-    	
+    	var deferred  = $q.defer();
         var request = $http({
             method: requestData.method,
-            contentType: 'application/json',
-            url: requestData.url,
+            contentType: 'text/plain',
+            url: this.serverIp + requestData.url,
             params: requestData.params
+        })
+        .success( function(response){
+            deferred.resolve(response);     
+        })
+        
+        .error( function(response){
+            deferred.reject(response);
         });
-        return request;
+        return deferred.promise;
 	}
  
  

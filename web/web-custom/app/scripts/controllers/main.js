@@ -8,8 +8,16 @@
  */
 angular.module('sbAdminApp')
   .controller('MainCtrl', function($scope,$position,$state,LoginService) {
-  		if (!LoginService.isLogged()){
-  			$state.go('login');
-  		}
+  		
+  		LoginService.isLogged()
+  		.then(
+  			function successCallback (argument) {
+  				// body...
+  			},
+  			function errorCallback (response){
+  				$state.go('login');
+  			}
+  		);
+  		
   	
   });

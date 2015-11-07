@@ -7,13 +7,13 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .service('LoginService', function(RequestService) {
-    this.userName = "Usuario1";
-    this.encryptedPassword = "123123";
+  .service('LoginService', function($q,RequestService) {
+    this.userName = "Usuario3";
+    this.encryptedPassword = "[B@b7ff838123123";
 
     this.isLogged = function() {
     	console.log("isLogged");
-        
+        var deferred  = $q.defer();
         var requestData =  {
             method: "GET",
             url:"/login/account",
@@ -23,17 +23,16 @@ angular.module('sbAdminApp')
             }
         };
         console.log(requestData)
-        RequestService.callApi(requestData).
-        then(function successCallback(response) {
-            alert("successCallback")
-            alert(response)
-          }, function errorCallback(response) {
-            // called asynchronously if an error occurs
-            // or server returns response with an error status.
-            alert("errorCallback")
-            alert(response)
-          });
-        return false;
+        RequestService.callApi(requestData)
+        .then(
+            function successCallback(response) {
+                deferred.resolve(response);     
+            }, 
+            function errorCallback(response) {
+                deferred.reject(response);
+            }
+        );
+        return deferred.promise;
 	}
  
     this.login = function() {
