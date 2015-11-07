@@ -18,6 +18,11 @@ public final class Constants {
     public static final String ADOPCION_ACEPTADA = "Aceptaron tu solicitud de Adopción para ";
     public static final String TRANSITO_ACEPTADO = "Aceptaron tu solicitud de Tránsito para ";
 
+    public static final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED";
+    public static final String ADOPTION_ACCEPTED = "ADOPTION_ACCEPTED";
+    public static final String TAKE_IN_TRANSIT_REQUEST = "TAKE_IN_TRANSIT_REQUEST";
+    public static final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
+
     public static final String[] AGES = {"0 - 6 meses", "6 - 12 meses", "1 - 3 años", "3 - 7 años", "más de 7 años"};
 
     public static final String[] CITIES = {"Ciudad Autónoma de Buenos Aires"};

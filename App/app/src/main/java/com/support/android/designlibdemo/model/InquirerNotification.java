@@ -87,6 +87,7 @@ public class InquirerNotification {
         try {
             jsonObject.put("petId",this.petId);
             jsonObject.put("adopterId",this.inquirerId);
+            jsonObject.put("transitHomeUser", this.inquirerId);
         } catch (JSONException e) {
             e.printStackTrace();
         }
