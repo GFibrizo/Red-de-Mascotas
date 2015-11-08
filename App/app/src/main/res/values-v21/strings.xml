@@ -32,5 +32,6 @@
     <string name="firstAndLastName">Nombre y apellido</string>
     <string name="firstName">Nombre</string>
     <string name="aceptarAdopcion">Aceptar</string>
+    <string name="error_invalid_re_password">Debe coincidir con la contraseña</string>
 
 </resources>
