@@ -198,14 +198,18 @@ public class NotificationHandlerActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             Intent resultIntent = null;
             if (success) {
+                Log.e("PUSH", "Previous to start activity");
                 if (notificationType.equals(NEW_SEARCH_MATCHES)) {
+                    Log.e("List", "Result");
                     resultIntent = new Intent(context, ResultListActivity.class);
                 } else {
+                    Log.e("List", "Matches");
                     resultIntent = new Intent(context, MatchResultListActivity.class);
                 }
                 if (response != null) {
                     prefs.edit().putString("searchResponse", response.toString()).commit();
                     //context.startActivity(resultIntent);
+                    Log.e("PUSH", "Start activity");
                     openMain();
                     startActivity(resultIntent);
                     finish();
