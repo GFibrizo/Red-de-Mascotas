@@ -42,17 +42,19 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
     private final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED";
     private final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
     private final String TAKE_IN_TRANSIT_REQUEST = "TAKE_IN_TRANSIT_REQUEST";
+    private String userId;
 
     /**
      * @param layout   El layout que usara para mostrar cada fila
      * @param elements conjunto de elementos en los cuales se mostrara 1 por fila
      */
-    public NotificationImageAndTextArrayAdapter(Activity context, int layout, String baseUrlForImage, ArrayList<InquirerNotification> elements) {
+    public NotificationImageAndTextArrayAdapter(Activity context, int layout, String baseUrlForImage, ArrayList<InquirerNotification> elements, String userId) {
         super(context, layout, elements);
         this.layout = layout;
         this.context = context;
         this.elements = elements;
         this.baseUrlForImage = baseUrlForImage;
+        this.userId = userId;
     }
 
     public View getView(final int position, final View view, final ViewGroup parent) {
@@ -97,7 +99,19 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
         button.setTag(position);
         if (currentNotification.getStatus().equals("ACCEPTED")){
             button.setVisibility(View.INVISIBLE);
-            mensaje.setText(element.getPetName() + " ya fue adoptado");
+            if (currentNotification.getInquirerId().equals(this.userId)){
+                if (currentNotification.getNotificationType().equals(Constants.ADOPTION_ACCEPTED)){
+                    mensaje.setText(Constants.ADOPCION_ACEPTADA + element.getPetName());
+                } else {
+                    mensaje.setText(element.getPetName() + Constants.YA_ADOPTADO);
+                }
+            } else  {
+                if (currentNotification.getNotificationType().equals(Constants.TAKE_IN_TRANSIT_ACCEPTED)){
+                    mensaje.setText(Constants.TRANSITO_ACEPTADO + element.getPetName());
+                } else {
+                    mensaje.setText(element.getPetName() + Constants.YA_EN_TRANSITO);
+                }
+            }
             button.setVisibility(View.GONE);
         }
         button.setOnClickListener(new View.OnClickListener() {

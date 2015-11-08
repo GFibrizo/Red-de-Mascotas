@@ -98,7 +98,7 @@ public class NotificationActivity extends AppCompatActivity {
         listView = (ListView) findViewById(R.id.list);
         textAndImageArray = new ArrayList<InquirerNotification>();
         adapter = new NotificationImageAndTextArrayAdapter(this, R.layout.notification_image_and_text ,
-                null, (ArrayList<InquirerNotification>) textAndImageArray);
+                null, (ArrayList<InquirerNotification>) textAndImageArray, loginUser.getId());
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
