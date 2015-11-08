@@ -201,6 +201,7 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
                     null,
                     null,
                     null,
+                    null,
                     null);
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());

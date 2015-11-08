@@ -120,17 +120,16 @@ public class PetsDetailActivity extends AppCompatActivity {
 
 
         if (loginUser.getId().equals(getIntent().getStringExtra("ownerId"))) {
+            Log.e("Intent transit", "el usuario es owner, no puede ofrecer transito");
             buttonAdopt.setVisibility(View.GONE);
             buttonTransitHome.setVisibility(View.GONE);
         }
 
-
-        Boolean transitHome = getIntent().getBooleanExtra("transitHome", false);
-        Log.e("Intent transit", transitHome.toString());
-        if (!transitHome) {
+        Boolean necesitaTransito = getIntent().getBooleanExtra("necesitaTransito", false);
+        Log.e("Intent transit", necesitaTransito.toString());
+        if (necesitaTransito == false) {
             buttonTransitHome.setVisibility(View.GONE);
         }
-
 
         contacto = (CardView) findViewById(R.id.cardContacto);
         contacto.setVisibility(View.GONE);

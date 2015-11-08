@@ -32,7 +32,8 @@ public class PetAdoption {
     public PetAdoption(String id, String name, String type, String ownerId, Address address, String breed,
                        String gender, String age, String size, List<String> colors, String eyeColor,
                        List<String> behavior, List<String> images, Boolean needsTransitHome,
-                       Boolean isCastrated, Boolean isOnTemporaryMedicine, Boolean isOnChronicMedicine, String description) {
+                       Boolean isCastrated, Boolean isOnTemporaryMedicine, Boolean isOnChronicMedicine, String description,
+                        String transitHomeUser) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -51,6 +52,7 @@ public class PetAdoption {
         this.isOnTemporaryMedicine = isOnTemporaryMedicine;
         this.isOnChronicMedicine = isOnChronicMedicine;
         this.description = description;
+        this.transitHomeUser = transitHomeUser;
     }
 
     public String getId() {
