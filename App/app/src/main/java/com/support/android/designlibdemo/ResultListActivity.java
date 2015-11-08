@@ -194,6 +194,8 @@ public class ResultListActivity extends AppCompatActivity {
                    intent.putExtra("descripcion", petContainer.getDescripcion());
                    intent.putExtra("conducta", petContainer.getConducta());
                    intent.putExtra("images", petContainer.getImages());
+                   intent.putExtra("transitHomeUser", petContainer.getTransitHomeUser());
+                   intent.putExtra("necesitaTransito", petContainer.getTransito());
                    startActivity(intent);
                 }
 
@@ -257,7 +259,8 @@ public class ResultListActivity extends AppCompatActivity {
                         object.getBoolean("isCastrated"),
                         object.getBoolean("isOnTemporaryMedicine"),
                         object.getBoolean("isOnChronicMedicine"),
-                        object.getString("description"));
+                        object.getString("description"),
+                        object.getString("transitHomeUser"));
                 list.add(mascota);
             }
         } catch (JSONException e) {
