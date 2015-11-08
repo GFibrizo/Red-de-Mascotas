@@ -97,20 +97,21 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
 
         final Button button = (Button) rowView.findViewById(R.id.button_accept);
         button.setTag(position);
-        if (currentNotification.getStatus().equals("ACCEPTED")){
+        if (currentNotification.getStatus().equals(Constants.NOTIFICATION_ACCEPTED)){
             button.setVisibility(View.INVISIBLE);
             if (currentNotification.getInquirerId().equals(this.userId)){
-                if (currentNotification.getNotificationType().equals(Constants.ADOPTION_ACCEPTED)){
-                    mensaje.setText(Constants.ADOPCION_ACEPTADA + element.getPetName());
-                } else {
-                    mensaje.setText(element.getPetName() + Constants.YA_ADOPTADO);
-                }
-            } else  {
                 if (currentNotification.getNotificationType().equals(Constants.TAKE_IN_TRANSIT_ACCEPTED)){
                     mensaje.setText(Constants.TRANSITO_ACEPTADO + element.getPetName());
                 } else {
+                    mensaje.setText(Constants.ADOPCION_ACEPTADA + element.getPetName());
+                }
+            } else  {
+                if (currentNotification.getNotificationType().equals(Constants.ADOPTION_ACCEPTED)){
+                    mensaje.setText(element.getPetName() + Constants.YA_ADOPTADO);
+                }else {
                     mensaje.setText(element.getPetName() + Constants.YA_EN_TRANSITO);
                 }
+
             }
             button.setVisibility(View.GONE);
         }
