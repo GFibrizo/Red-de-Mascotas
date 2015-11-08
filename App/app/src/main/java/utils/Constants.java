@@ -6,6 +6,8 @@ import java.util.Random;
 
 public final class Constants {
 
+    public static final String NOTIFICATION_ACCEPTED = "ACCEPTED";
+
     private Constants() { }
 
     public static final String IP_SERVER = "http://10.0.2.2:9000";//"http://192.168.1.107:9000"
