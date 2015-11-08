@@ -233,7 +233,8 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
                     object.getBoolean("isCastrated"),
                     object.getBoolean("isOnTemporaryMedicine"),
                     object.getBoolean("isOnChronicMedicine"),
-                    object.getString("description"));
+                    object.getString("description"),
+                    null);
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

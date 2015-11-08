@@ -60,6 +60,7 @@ public class LoginUserActivity extends AppCompatActivity {
     SharedPreferences preferences = null;
 
     @Override
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_user);

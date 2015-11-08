@@ -101,7 +101,7 @@ public class RegisterActivity extends AppCompatActivity {
         }
         // Check for a valid repassword
         if (TextUtils.isEmpty(password) || !password.equals(rePassword)) {
-            mRePasswordView.setError(getString(R.string.error_invalid_password));
+            mRePasswordView.setError(getString(R.string.error_invalid_re_password));
             focusView = mRePasswordView;
             cancel = true;
         }

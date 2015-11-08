@@ -15,8 +15,10 @@ public final class Constants {
 
     public static final String QUIERE_ADOPTAR = "Quieren adoptar a ";
     public static final String QUIERE_DAR_TRANSITO = "Quieren dar tránsito a ";
-    public static final String ADOPCION_ACEPTADA = "Aceptaron tu solicitud de Adopción para ";
-    public static final String TRANSITO_ACEPTADO = "Aceptaron tu solicitud de Tránsito para ";
+    public static final String ADOPCION_ACEPTADA = "Aceptaron tu solicitud de adopción para ";
+    public static final String TRANSITO_ACEPTADO = "Aceptaron tu solicitud de tránsito para ";
+    public static final String YA_ADOPTADO =" ya fue adoptado";
+    public static final String YA_EN_TRANSITO =" ya fue dado en tránsito";
 
     public static final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED";
     public static final String ADOPTION_ACCEPTED = "ADOPTION_ACCEPTED";
