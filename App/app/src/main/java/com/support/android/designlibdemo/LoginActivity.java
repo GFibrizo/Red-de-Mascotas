@@ -111,6 +111,7 @@ public class LoginActivity extends AppCompatActivity {
 
         //Inicializo Parse
         try{
+            Parse.enableLocalDatastore(getApplication());
             Parse.initialize(this, Constants.PARSE_APPLICATION_ID, Constants.PARSE_CLIENT_KEY);
             ParseInstallation.getCurrentInstallation().saveInBackground();
         } catch (Exception e) {

@@ -73,7 +73,9 @@ public class CustomPushReceiver extends ParsePushBroadcastReceiver {
 
     @Override
     protected void onPushOpen(Context context, Intent intent) {
-        super.onPushOpen(context, intent);
+        //super.onPushOpen(context, intent);
+        if (intent == null) Log.e("Intent", "Is NULL");
+        if (context == null) Log.e("Context", "Is NULL");
         try{
             if (intent != null) {
                 JSONObject json = new JSONObject(intent.getExtras().getString("com.parse.Data"));

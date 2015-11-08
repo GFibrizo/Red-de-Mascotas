@@ -137,7 +137,8 @@ public class NotificationHandlerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        context = this;
+        //context = this;
+        context = getApplicationContext();
         prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         loginUser = obtenerUsuario(getApplicationContext());
         setNotificationType(getIntent());
@@ -203,8 +204,11 @@ public class NotificationHandlerActivity extends AppCompatActivity {
                     resultIntent = new Intent(context, MatchResultListActivity.class);
                 }
                 if (response != null) {
-                prefs.edit().putString("searchResponse", response.toString()).commit();
-                context.startActivity(resultIntent);
+                    prefs.edit().putString("searchResponse", response.toString()).commit();
+                    //context.startActivity(resultIntent);
+                    openMain();
+                    startActivity(resultIntent);
+                    finish();
                 }
             }
         }
@@ -212,6 +216,15 @@ public class NotificationHandlerActivity extends AppCompatActivity {
         @Override
         protected void onCancelled() { }
 
+    }
+
+
+
+    public void openMain() {
+        Log.e("BACK", "BACK TO MAIN");
+        Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
 }
