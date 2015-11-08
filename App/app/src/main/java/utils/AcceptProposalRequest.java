@@ -27,7 +27,7 @@ public class AcceptProposalRequest {
 
     public JSONObject accept(InquirerNotification currentNotification) throws InterruptedException, ExecutionException, TimeoutException {
         String path;
-        if (currentNotification.getNotificationType().equals(Constants.ADOPCION_ACEPTADA)) {
+        if (currentNotification.getNotificationType().equals(Constants.ADOPTION_ACCEPTED)) {
             path = RequestHandler.getServerUrl() + "/pet/" + currentNotification.getPetId() + "/adoption/accepted";
             Log.i(AcceptProposalRequest.class.getSimpleName(), "path: " + path);
         } else {
