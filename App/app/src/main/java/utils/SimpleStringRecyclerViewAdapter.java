@@ -239,7 +239,7 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
                 intent.putExtra("descripcion", petContainer.getDescripcion());
                 intent.putExtra("conducta", petContainer.getConducta());
                 intent.putExtra("images", petContainer.getImages());
-                intent.putExtra("transitHome", false);
+                intent.putExtra("transitHome", "false");
                 intent.putExtra("mine", true);
                 context.startActivity(intent);
             }

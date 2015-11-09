@@ -24,6 +24,7 @@ public class ParseUtils {
     public static void registerParse(Context context) {
         // initializing parse library
         try{
+            Parse.enableLocalDatastore(context);
             Parse.initialize(context, Constants.PARSE_APPLICATION_ID, Constants.PARSE_CLIENT_KEY);
             ParseInstallation.getCurrentInstallation().saveInBackground();
         } catch (Exception e) {

@@ -82,8 +82,8 @@
     <string name="notification">Notificaciones</string>
     <string name="search_in_adoption">Búsqueda de mascotas en adopción</string>
     <string name="adopt">Buscar</string>
-    <string name="report_missing">Encontré una mascota</string>
-    <string name="report_found">Perdí una mascota</string>
+    <string name="report_missing">Perdí una mascota</string>
+    <string name="report_found">Encontré una mascota</string>
     <string name="invite_a_friend">Invitar a un amigo</string>
     <string name="config">Ajustes</string>
     <string name="about">Acerca de</string>
