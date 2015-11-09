@@ -78,16 +78,6 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
 
         fecha.setText(fecha.getText() + " " + newFormatDate);
 
-        if (element.getNotificationType().equals(ADOPTION_REQUEST)) {
-            mensaje.setText(Constants.QUIERE_ADOPTAR +  element.getPetName());
-        }else if (element.getNotificationType().equals(TAKE_IN_TRANSIT_REQUEST)) {
-            mensaje.setText(Constants.QUIERE_DAR_TRANSITO + element.getPetName());
-        }else if (element.getNotificationType().equals(ADOPTION_ACCEPTED)) {
-            mensaje.setText(Constants.ADOPCION_ACEPTADA + element.getPetName());
-        }else if (element.getNotificationType().equals(TAKE_IN_TRANSIT_ACCEPTED)) {
-            mensaje.setText(Constants.TRANSITO_ACEPTADO + element.getPetName());
-        }
-
         contacto.setText(contacto.getText() + " " + element.getInquirerEmail());
         if (!element.getPetImageId().equals("") && !element.getPetImageId().equals("[]")) {
             String id = (element.getPetImageId().replace("[", "").replace("]", "").split(", "))[0];
@@ -97,28 +87,41 @@ public class NotificationImageAndTextArrayAdapter extends ArrayAdapter<InquirerN
 
         final Button button = (Button) rowView.findViewById(R.id.button_accept);
         button.setTag(position);
+
+        if (element.getNotificationType().equals(ADOPTION_REQUEST)) {
+            mensaje.setText(Constants.QUIERE_ADOPTAR +  element.getPetName());
+        }else if (element.getNotificationType().equals(TAKE_IN_TRANSIT_REQUEST)) {
+            mensaje.setText(Constants.QUIERE_DAR_TRANSITO + element.getPetName());
+        }else if (element.getNotificationType().equals(ADOPTION_ACCEPTED)) {
+            mensaje.setText(element.getPetName() + Constants.YA_ADOPTADO);
+        }else if (element.getNotificationType().equals(TAKE_IN_TRANSIT_ACCEPTED)) {
+            mensaje.setText(element.getPetName() + Constants.YA_EN_TRANSITO);
+        }
+//        Log.i("TIPO NOTIFICACION", currentNotification.getNotificationType());
+//        Log.i("ESTADO NOTIFICACION", currentNotification.getStatus());
         if (currentNotification.getStatus().equals(Constants.NOTIFICATION_ACCEPTED)){
             button.setVisibility(View.INVISIBLE);
-            if (currentNotification.getInquirerId().equals(this.userId)){
-                if (currentNotification.getNotificationType().equals(Constants.TAKE_IN_TRANSIT_ACCEPTED)){
+//            Log.i("INQUIRER_ID", currentNotification.getInquirerId());
+//            Log.i("NOTIF_USER_ID", this.userId);
+            if (!currentNotification.getInquirerId().equals(this.userId)) {
+                if (currentNotification.getNotificationType().equals(Constants.TAKE_IN_TRANSIT_ACCEPTED)) {
                     mensaje.setText(Constants.TRANSITO_ACEPTADO + element.getPetName());
-                } else {
+                } else if (currentNotification.getNotificationType().equals(Constants.ADOPTION_ACCEPTED)) {
                     mensaje.setText(Constants.ADOPCION_ACEPTADA + element.getPetName());
                 }
-            } else  {
-                if (currentNotification.getNotificationType().equals(Constants.ADOPTION_ACCEPTED)){
-                    mensaje.setText(element.getPetName() + Constants.YA_ADOPTADO);
-                }else {
-                    mensaje.setText(element.getPetName() + Constants.YA_EN_TRANSITO);
-                }
-
             }
+            if (element.getNotificationType().equals(ADOPTION_REQUEST)) {
+                mensaje.setText(Constants.EXITO_ADOPCION + element.getPetName());
+            }else if (element.getNotificationType().equals(TAKE_IN_TRANSIT_REQUEST)) {
+                mensaje.setText(Constants.EXITO_TRANSITO + element.getPetName());
+            }
+
             button.setVisibility(View.GONE);
         }
         button.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 currentNotification = elements.get((Integer) v.getTag());
-                if (currentNotification.getNotificationType().equals(Constants.QUIERE_ADOPTAR)) {
+                if (currentNotification.getNotificationType().equals(Constants.ADOPTION_REQUEST)) {
                     AlertDialog dialogo = crearDialogo("Confirmar adopción",
                             "¿Desea aceptar esta solicitud de adopción?");
                     dialogo.show();
