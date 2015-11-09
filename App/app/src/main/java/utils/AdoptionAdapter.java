@@ -156,11 +156,13 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
                 try {
                     Boolean transitHome = object.getBoolean("needsTransitHome");
                     String transitHomeUser = object.getString("transitHomeUser");
-                    Log.e("TransitHome", transitHome + ", " + transitHomeUser);
-                    if ((transitHome != false) && (transitHomeUser == null)) {
-                        intent.putExtra("transitHome", true);
+                    Log.e("Adoption TransitHome", transitHome + ", " + transitHomeUser);
+                    if ((transitHome != false) && (transitHomeUser.equals("null"))) {
+                        Log.e("TRUE", "transit");
+                        intent.putExtra("transitHome", "true");
                     } else {
-                        intent.putExtra("transitHome", false);
+                        Log.e("FALSE", "transit");
+                        intent.putExtra("transitHome", "false");
                     }
                 } catch (JSONException e) {}
                 context.startActivity(intent);

@@ -194,8 +194,16 @@ public class ResultListActivity extends AppCompatActivity {
                    intent.putExtra("descripcion", petContainer.getDescripcion());
                    intent.putExtra("conducta", petContainer.getConducta());
                    intent.putExtra("images", petContainer.getImages());
-                   intent.putExtra("transitHomeUser", petContainer.getTransitHomeUser());
-                   intent.putExtra("necesitaTransito", petContainer.getTransito());
+                   Boolean transitHome = petContainer.getTransito();
+                   String transitHomeUser = petContainer.getTransitHomeUser();
+                   Log.e("Result TransitHome", transitHome + ", " + transitHomeUser);
+                   if ((transitHome != false) && (transitHomeUser.equals("null"))) {
+                       Log.e("TRUE", "transit");
+                       intent.putExtra("transitHome", "true");
+                   } else {
+                       intent.putExtra("transitHome", "false");
+                       Log.e("FALSE", "transit");
+                   }
                    startActivity(intent);
                 }
 
