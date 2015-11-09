@@ -126,8 +126,12 @@ public class PetsDetailActivity extends AppCompatActivity {
         }
 
         Boolean necesitaTransito = getIntent().getBooleanExtra("necesitaTransito", false);
+        String transitHomeUser = getIntent().getStringExtra("transitHomeUser");
         Log.e("Intent transit", necesitaTransito.toString());
         if (necesitaTransito == false) {
+            buttonTransitHome.setVisibility(View.GONE);
+        }
+        if (transitHomeUser != null){
             buttonTransitHome.setVisibility(View.GONE);
         }
 
