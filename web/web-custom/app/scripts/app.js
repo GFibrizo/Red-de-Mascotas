@@ -162,11 +162,13 @@ angular
    })
       .state('dashboard.users',{
        templateUrl:'views/custom/users.html',
-       url:'/users'
+       url:'/users',
+       controller: 'UsersCtrl'
    })
       .state('dashboard.reports',{
        templateUrl:'views/custom/reports.html',
-       url:'/reports'
+       url:'/reports',
+       controller: 'ReportsCtrl'
    })
   }]);
 

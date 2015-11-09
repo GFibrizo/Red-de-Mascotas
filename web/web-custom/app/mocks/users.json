@@ -1,3 +1,36 @@
 {
-	"users" : []
+    "users": [
+        {
+            "id": "563f82172b5ecedae6a7bb1a",
+            "userName": "Usuario1",
+            "name": "Juan",
+            "lastName": "Perez",
+            "email": "us1@u1.com",
+            "phone": "13123",
+            "address": {
+                "street": "sasas",
+                "number": "123",
+                "neighbourhood": "Caballito",
+                "city": "Ciudad Autónoma de Buenos Aires",
+                "province": "Ciudad Autónoma de Buenos Aires",
+                "country": "Argentina"
+            }
+        },
+        {
+            "id": "563f82202b5ecedae6a7bb1b",
+            "userName": "Usuario2",
+            "name": "Monica",
+            "lastName": "Sanchez",
+            "email": "us2@u2.com",
+            "phone": "131231",
+            "address": {
+                "street": "lalala",
+                "number": "12312",
+                "neighbourhood": "Monte Castro",
+                "city": "Ciudad Autónoma de Buenos Aires",
+                "province": "Ciudad Autónoma de Buenos Aires",
+                "country": "Argentina"
+            }
+        }
+    ]
 }

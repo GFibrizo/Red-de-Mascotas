@@ -1,7 +1,54 @@
 <div class="container-fluid">
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Users</h1>
+			<h1 class="page-header">Usuarios</h1>
+
+			<div class="row">
+                <div class="col-lg-12">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                           
+                            <div class="table-responsive">
+                                <table class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Usuario</th>
+                                            <th>Nombre</th>
+                                            <th>Apellido</th>
+                                            <th>Email</th>
+                                            <th>Telefono</th>
+                                            <th>Dirección</th>
+                                            <th>Activo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>                                        
+                                        <tr ng-repeat="user in data.users">
+                                            <td>{{user.userName}}</td>
+                                            <td>{{user.name}}</td>
+                                            <td>{{user.lastName}}</td>
+                                            <td>{{user.email}}</td>
+                                            <td>{{user.phone}}</td>                                            
+                                            <td>
+                                            	{{user.address.street}} {{user.address.number}}<br>
+                                            	{{user.address.neighbourhood}}<br>
+                                            	{{user.address.city}}<br>
+                                            	{{user.address.province}}<br>
+                                            	{{user.address.country}}
+                                            </td>
+                                            <td> <input name="active" type="checkbox"></td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                        </div>
+                    </div>
+                </div>
+                <!-- /.col-lg-12 -->
+            </div>
+            <!-- /.row -->
+
 		</div>
 		<!-- /.col-lg-12 -->
 	</div>
