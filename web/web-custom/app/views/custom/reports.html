@@ -14,29 +14,12 @@
                                     <thead>
                                         <tr>
                                             <th>Usuario</th>
-                                            <th>Nombre</th>
-                                            <th>Apellido</th>
-                                            <th>Email</th>
-                                            <th>Telefono</th>
-                                            <th>Dirección</th>
-                                            <th>Activo</th>
+                                         
                                         </tr>
                                     </thead>
                                     <tbody>                                        
-                                        <tr ng-repeat="user in data.users">
-                                            <td>{{user.userName}}</td>
-                                            <td>{{user.name}}</td>
-                                            <td>{{user.lastName}}</td>
-                                            <td>{{user.email}}</td>
-                                            <td>{{user.phone}}</td>                                            
-                                            <td>
-                                            	{{user.address.street}} {{user.address.number}}<br>
-                                            	{{user.address.neighbourhood}}<br>
-                                            	{{user.address.city}}<br>
-                                            	{{user.address.province}}<br>
-                                            	{{user.address.country}}
-                                            </td>
-                                            <td> <input name="active" type="checkbox"></td>
+                                        <tr ng-repeat="alta in data.altas">
+                                           
                                         </tr>
                                         
                                     </tbody>

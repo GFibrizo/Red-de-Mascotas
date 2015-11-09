@@ -220,7 +220,8 @@ public class UserRegisterRequest {
             if (success) {
 
                 Log.e(TAG, "Put user preferences");
-                User completeUser = new FacebookUser(facebookUser);
+//                User completeUser = new FacebookUser(facebookUser);
+                User completeUser = new User(facebookUser);
                 preferences.edit().putString("userData", completeUser.toJson().toString()).commit();
                 Intent myIntent = new Intent(callerActivity, MainActivity.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

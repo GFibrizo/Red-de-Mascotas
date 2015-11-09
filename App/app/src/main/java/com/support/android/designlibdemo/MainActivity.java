@@ -128,6 +128,7 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Error cargando datos de usuario", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             this.loginUser = new User(object);
             userData.put("ownerId", loginUser.getId());
             Log.e("ID",loginUser.getId());
