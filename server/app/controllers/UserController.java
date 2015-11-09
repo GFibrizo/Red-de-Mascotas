@@ -27,7 +27,11 @@ public class UserController {
         LogInUser logInUser = form.get();
         User user = service.logInWithAccount(logInUser);
         if (user == null) {
-            Logger.error("User " + logInUser.userName + " could not be logged in");
+            Logger.error("User " + logInUser.userName + " not found");
+            return play.mvc.Controller.internalServerError();
+        }
+        if (!logInUser.encryptedPassword.equals(user.password.encryption)) {
+            Logger.error("User " + logInUser.userName + "'s password is invalid");
             return play.mvc.Controller.badRequest();
         }
         Logger.info("User " + logInUser.userName + " successfully logged in");

@@ -21,6 +21,8 @@ public final class Constants {
     public static final String TRANSITO_ACEPTADO = "Aceptaron tu solicitud de tránsito para ";
     public static final String YA_ADOPTADO =" ya fue adoptado";
     public static final String YA_EN_TRANSITO =" ya fue dado en tránsito";
+    public static final String EXITO_ADOPCION =" Felicitaciones! Diste en adopción a ";
+    public static final String EXITO_TRANSITO =" Felicitaciones! Diste en tránsito a ";
 
     public static final String TAKE_IN_TRANSIT_ACCEPTED = "TAKE_IN_TRANSIT_ACCEPTED";
     public static final String ADOPTION_ACCEPTED = "ADOPTION_ACCEPTED";

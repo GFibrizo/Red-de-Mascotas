@@ -16,12 +16,7 @@ import static utils.Constants.*;
 public class UserService {
 
     public User logInWithAccount(LogInUser logInUser) {
-        User user = User.getByUserName(logInUser.userName);
-        if (user != null && logInUser.encryptedPassword.equals(user.password.encryption)) {
-            return user;
-        }
-        Logger.error("User " + logInUser.userName + " not found or password is invalid");
-        return null;
+        return User.getByUserName(logInUser.userName);
     }
 
     public String getUserSalt(String userName) {
