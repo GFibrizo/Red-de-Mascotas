@@ -13,6 +13,8 @@ angular.module('sbAdminApp')
       $scope.data = {
         users:[]
       };
+
+      $scope.radioModel = 'Activo';
       UsersService.getUsers().then(
         function succes(response){
           $scope.data = response.data;

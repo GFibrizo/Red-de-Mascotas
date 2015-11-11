@@ -27,7 +27,8 @@
                         </thead>
                         <tbody>
                             <tr class="odd gradeX">
-                                <td>1</td>
+                                <td>
+                                1</td>
                                 <td>Jose</td>
                                 <td>Juan</td>
                                 <td class="center">Publicación incorrecta</td>
@@ -35,6 +36,7 @@
                                 <td class="center">
                                 	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
                                 	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
+                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
                                 </td>
                             </tr>
                             <tr class="even gradeC">
@@ -46,6 +48,7 @@
                                 <td class="center">
                                 	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
                                 	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
+                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
                                 </td>
                             </tr>
                             <tr class="odd gradeA">
@@ -57,6 +60,7 @@
                                 <td class="center">
                                 	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
                                 	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
+                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
                                 </td>
                             </tr>
                             <tr class="even gradeA">
@@ -68,6 +72,7 @@
                                 <td class="center">
                                 	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
                                 	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
+                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
                                 </td>
                             </tr>
                             <tr class="odd gradeA">
@@ -79,6 +84,7 @@
                                 <td class="center">
                                 	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
                                 	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
+                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
                                 </td>
                          
                         </tbody>
@@ -92,3 +98,18 @@
     </div>
     <!-- /.col-lg-12 -->
 </div>
+<script type="text/ng-template" id="myModalContent.html">
+    <div class="modal-header">
+        <h3 class="modal-title">Publicacion</h3>
+    </div>
+    <div class="modal-body">
+    <img src="mocks/perro3.jpg" alt="Smiley face" height="70" width="70">
+    <div>Adopcion</div>
+    <div>Perro</div>
+    <div>Grande</div>
+    </div>
+    <div class="modal-footer">
+        <button class="btn btn-primary" ng-click="ok()">OK</button>
+        <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+    </div>
+</script>

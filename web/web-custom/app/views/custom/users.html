@@ -17,8 +17,9 @@
                                             <th>Apellido</th>
                                             <th>Email</th>
                                             <th>Telefono</th>
+                                            <th>Denuncias</th>
                                             <th>Dirección</th>
-                                            <th>Activo</th>
+                                            <th>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>                                        
@@ -28,6 +29,7 @@
                                             <td>{{user.lastName}}</td>
                                             <td>{{user.email}}</td>
                                             <td>{{user.phone}}</td>                                            
+                                            <td>{{$index+10}}</td>                                            
                                             <td>
                                             	{{user.address.street}} {{user.address.number}}<br>
                                             	{{user.address.neighbourhood}}<br>
@@ -35,7 +37,13 @@
                                             	{{user.address.province}}<br>
                                             	{{user.address.country}}
                                             </td>
-                                            <td> <input name="active" type="checkbox" ></td>
+                                            <td> 
+                                                <div class="btn-group">
+                                                    <label class="btn btn-success" ng-model="radioModel" btn-radio="'Left'" >Activo</label>
+                                                    <label class="btn btn-danger" ng-model="radioModel" btn-radio="'Right'" >Inactivo</label>
+                                                 
+                                                </div>
+                                            </td>
                                         </tr>
                                         
                                     </tbody>
