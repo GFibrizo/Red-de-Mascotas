@@ -2,32 +2,115 @@
 	<div class="row">
 		<div class="col-lg-12">
 			<h1 class="page-header">Reportes</h1>
+	        <div class="row">
+	        <!-- TODO:AGREGAR VALIDACIONES DE RANGOS -->
+
+		        <div class="col-md-3">
+		            <p class="input-group">
+		            	<span class="input-group-btn">
+		                	<label class="btn btn-primary">Desde</label>
+		              	</span>
+		              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="date.from" is-open="openedFrom"  ng-required="true" close-text="Close" />
+		              <span class="input-group-btn">
+		                <button type="button" class="btn btn-default" ng-click="openFrom($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		              </span>
+		            </p>
+		        </div>
+		        <div class="col-md-3">
+		            <p class="input-group">
+		            	<span class="input-group-btn">
+		                	<label class="btn btn-primary">Hasta</label>
+		              	</span>
+		              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="date.to" is-open="openedTo" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+		              <span class="input-group-btn">
+		                <button type="button" class="btn btn-default" ng-click="openTo($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+		              </span>
+		            </p>
+		        </div>
+		        <div class="col-md-3">
+		        	 <div class="btn-group">
+				        <label class="btn btn-primary" ng-model="checkModel.both" btn-checkbox>Ambos</label>
+				        <label class="btn btn-primary" ng-model="checkModel.dogs" btn-checkbox>Perros</label>
+				        <label class="btn btn-primary" ng-model="checkModel.cats" btn-checkbox>Gatos</label>
+				    </div>
+		        </div>
+		        <div class="col-md-2">
+		        	 <button type="button" class="btn btn-default" ng-click="search()"><i class="glyphicon glyphicon-search"></i>Buscar</button>
+		        </div>
+		    </div>
+			
 			<div class="panel panel-default">
 	            <div class="panel-heading">Reporte de altas</div>
 
 	            <div class="panel-body">
-	                <canvas id="bar" class="chart chart-bar" data="bar.data" labels="bar.labels" series="bar.series" options="bar.options"></canvas>	                
+	                <canvas id="reports-bar" class="chart chart-bar" data="bar.data" labels="bar.labels" series="bar.series"></canvas>
 
 	            </div>
 	            <div class="table-responsive">
-                                <table class="table table-bordered table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Usuario</th>
-                                         
-                                        </tr>
-                                    </thead>
-                                    <tbody>                                        
-                                        <tr ng-repeat="alta in data.altas">
-                                           
-                                        </tr>
-                                        
-                                    </tbody>
-                                </table>
-
-	        </div>
-		</div>
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>Mascota</th>
+                                <th>Alta publicacion adopciones</th>
+                                <th>Alta publicacion adoptadas</th>
+                                <th>Alta publicacion perdidas</th>
+                                <th>Alta publicacion halladas</th>
+                             
+                            </tr>
+                        </thead>
+                        <tbody >                                        
+                            <tr>
+                            	<th>Perro</th>
+                            	<td>{{bar.dataByPets.dogs[0]}}</td>
+                            	<td>{{bar.dataByPets.dogs[1]}}</td>
+                            	<td>{{bar.dataByPets.dogs[2]}}</td>
+                            	<td>{{bar.dataByPets.dogs[3]}}</td>
+                            </tr>
+                            <tr>
+                            	<th>Gato</th>
+                            	<td>{{bar.dataByPets.cats[0]}}</td>
+                            	<td>{{bar.dataByPets.cats[1]}}</td>
+                            	<td>{{bar.dataByPets.cats[2]}}</td>
+                            	<td>{{bar.dataByPets.cats[3]}}</td>
+                            </tr>
+                            <tr>
+                            	<th>Ambos</th>
+                            	<td>{{bar.data[0][0]}}</td>
+                            	<td>{{bar.data[0][1]}}</td>
+                            	<td>{{bar.data[0][2]}}</td>
+                            	<td>{{bar.data[0][3]}}</td>
+                            </tr>
+                           
+                        </tbody>
+                    </table>
+	       		 </div>
+			</div>
 		<!-- /.col-lg-12 -->
-	</div>
+		</div>
 	<!-- /.row -->
+	</div>	
+
+	<div class="row">
+		<div class="col-lg-12">
+			<h1 class="page-header">Reporte de tiempos</h1>
+			<div class="panel panel-default">
+	            <div class="panel-heading">Tiempo promedio de adopcion</div>
+	            <div class="panel-body">                      
+	            	{{average.adoption}}
+	            </div>
+
+			</div>
+			<div class="panel panel-default">
+	            <div class="panel-heading">Tiempo promedio de hallazgo</div>
+
+	            <div class="panel-body">                       
+	            	{{average.found}}
+	            </div>
+
+			</div>
+		<!-- /.col-lg-12 -->
+		</div>
+	<!-- /.row -->
+	</div>
 </div>
+

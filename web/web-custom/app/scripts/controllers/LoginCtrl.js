@@ -10,6 +10,12 @@ angular.module('sbAdminApp')
   .controller('LoginCtrl', function($scope,$position,$state,$cookies,LoginService) {
       console.log("LoginCtrl")
       
+      $scope.error = {
+        loginLabelStatus: "",
+        status: false
+      };
+
+
       $scope.data = {
         userName: "",
         password: "",
@@ -32,6 +38,10 @@ angular.module('sbAdminApp')
         .then(
           function successCallback (response) {
             $state.go('dashboard.home');
+          },
+          function errorCallback (response) {
+            $scope.error.loginLabelStatus = "loginLabelStatus-error";
+            $scope.error.status = true;
           }
         );
       }

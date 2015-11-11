@@ -10,10 +10,14 @@ angular.module('sbAdminApp')
   .service('LoginService', function($q,$cookies,RequestService) {
     
 
-    var _data = {};
+    var _data = {
+      original:{},
+      passwordSalt: ""
+    };
     this.data = {
         userName : "",
-        password : ""
+        password : "",
+
     }
     
 
@@ -26,23 +30,39 @@ angular.module('sbAdminApp')
         var deferred  = $q.defer();
         var requestData =  {
             method: "GET",
-            url:"/login/account",
-            params: {
-                userName: this.data.userName,
-                encryptedPassword: this.data.password
-            }
+            url: "/user/" + this.data.userName + "/salt"
         };
-       _data = this.data;
+       _data.original = this.data;
+       //Obtengo el task
         RequestService.callApi(requestData)
         .then(
             function successCallback(response) {
-                $cookies.isLogged = true;
-                if (_data.remember){
-                    $cookies.userName = _data.userName;
-                    $cookies.password = _data.password;
-                    $cookies.remember = _data.remember;
-                }
-                deferred.resolve(response);     
+                _data.passwordSalt = response + _data.original.password;
+                var requestDataSession =  {
+                    method: "GET",
+                    url:"/login/account",
+                    params: {
+                        userName: _data.original.userName,
+                        encryptedPassword:  _data.passwordSalt
+                    }
+                };
+                //Valido sesion
+                 RequestService.callApi(requestDataSession)
+                    .then(
+                        function successCallback(response) {
+                            $cookies.isLogged = true;
+                            if (_data.remember){
+                                $cookies.userName = _data.original.userName;
+                                $cookies.password = _data.original.password;
+                                $cookies.remember = _data.original.remember;
+                            }
+                            deferred.resolve(response);     
+                        },
+                        function errorCallback(response) {
+                            deferred.reject(response);
+                        }            
+                    );
+                
             }, 
             function errorCallback(response) {
                 deferred.reject(response);

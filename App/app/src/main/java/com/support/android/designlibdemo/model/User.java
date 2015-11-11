@@ -67,6 +67,12 @@ public class User {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        try {
+            this.facebookId = object.getString("facebookId");
+        }
+        catch (JSONException e) {
+            this.facebookId = "";
+        }
     }
 
 

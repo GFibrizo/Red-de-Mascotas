@@ -13,7 +13,9 @@ angular
     'ui.router',
     'ui.bootstrap',
     'angular-loading-bar',
-    'ngCookies'
+    'ngCookies',
+    'chart.js',
+    'ngAnimate'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
     
@@ -156,9 +158,10 @@ angular
        url:'/grid'
    })
       /*Custom*/
-      .state('dashboard.denuncias',{
-       templateUrl:'views/custom/denuncias.html',
-       url:'/denuncias'
+      .state('dashboard.denunciation',{
+       templateUrl:'views/custom/denunciation.html',
+       url:'/denunciation',
+       controller: 'DenunciationCtrl'
    })
       .state('dashboard.users',{
        templateUrl:'views/custom/users.html',
@@ -168,7 +171,27 @@ angular
       .state('dashboard.reports',{
        templateUrl:'views/custom/reports.html',
        url:'/reports',
-       controller: 'ReportsCtrl'
+       controller: 'ReportsCtrl',
+       resolve: {
+        loadMyFile:function($ocLazyLoad) {
+          return $ocLazyLoad.load({
+            name:'ReportsCtrl.js',
+            files:[
+              'bower_components/angular-chart.js/dist/angular-chart.min.js',
+              'bower_components/angular-chart.js/dist/angular-chart.css'
+            ]
+          }),
+          $ocLazyLoad.load({
+              name:'sbAdminApp',
+              files:['scripts/controllers/ReportsCtrl.js']
+          }),
+                $ocLazyLoad.load(
+                {
+                  name:'ngAnimate',
+                  files:['bower_components/angular-animate/angular-animate.js']
+                })
+        }
+      }
    })
   }]);
 

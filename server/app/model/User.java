@@ -67,6 +67,7 @@ public class User {
         this.facebookId = facebookId;
         this.phone = phone;
         this.address = address;
+        this.password = new Password();
     }
 
     public void setId(String id) {
