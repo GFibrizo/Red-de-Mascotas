@@ -57,6 +57,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         dialog.show();
     }
 
+    public void verificarEncuentroMascota(final RecyclerView.ViewHolder viewHolder){
+        AlertDialog dialog = createDialogMascota(viewHolder, "Verificación",
+                "¿Encontraste a tu mascota?");
+        dialog.show();
+    }
+
     public AlertDialog createDialog(final RecyclerView.ViewHolder viewHolder, String titulo, String mensaje) {
         // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.context);
@@ -69,6 +75,7 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
+                    verificarEncuentroMascota(viewHolder);
                     JSONObject object = mAdapter.getAt(viewHolder.getAdapterPosition());
                     UnpublishRequest request = new UnpublishRequest(context);
                     Log.e("REMOVE", object.getString("id") + " : " + object.getString("publicationType"));
@@ -86,6 +93,41 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton("No", listenerCancelar);
+        alertDialogBuilder.setNegativeButton("Si", listenerOk);
+
+        return alertDialogBuilder.create();
+    }
+
+
+    public AlertDialog createDialogMascota(final RecyclerView.ViewHolder viewHolder, String titulo, String mensaje) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.context);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(mensaje);
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //avisar al server.
+                Log.i("MASCOTA ENCONTRADA: ", "si");
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("MASCOTA ENCONTRADA: ", "no");
+                return;
             }
         };
 
