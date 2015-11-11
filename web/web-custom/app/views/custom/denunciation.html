@@ -13,11 +13,12 @@
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
+                <input type="search" ng-model="searchText" placeholder="Filtro" aria-label="filter denunciations" />
                 <div class="dataTable_wrapper">
                     <table class="table table-striped table-bordered table-hover" id="dataTables-example">
                         <thead>
                             <tr>
-                                <th>Id</th>
+                                <th>Tipo publicación</th>
                                 <th>Usuario denunciado</th>
                                 <th>Usuario denunciante</th>
                                 <th>Comentario</th>
@@ -25,67 +26,19 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr class="odd gradeX">
-                                <td>
-                                1</td>
-                                <td>Jose</td>
-                                <td>Juan</td>
-                                <td class="center">Publicación incorrecta</td>
-                                <td class="center">11/11/2015</td>
+                        <tbody>                        
+                            <tr class="animate-repeat" ng-repeat="result in data.denunciations | filter:searchText">
+                                <td>{{result.publication.type}}</td>
+                                <td>{{result.denouncedUser}}</td>
+                                <td>{{result.complainantUser}}</td>
+                                <td class="center">{{result.comment}}</td>
+                                <td class="center">{{result.date}}</td>
                                 <td class="center">
-                                	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
-                                	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
-                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
+                                    <button ng-click="showMessageAccept(result)" type="button" class="btn btn-success">Aceptar</button>
+                                    <button ng-click="showMessage(result)" type="button" class="btn btn-danger">Rechazar</button>
+                                    <button class="btn btn-default" ng-click="open('sm',result)">Ver publicación</button>
                                 </td>
-                            </tr>
-                            <tr class="even gradeC">
-                                <td>2</td>
-                                <td>Pablo</td>
-                                <td>Jasmina</td>
-                                <td class="center">Publicación inadecuada</td>
-                                <td class="center">11/11/2015</td>
-                                <td class="center">
-                                	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
-                                	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
-                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
-                                </td>
-                            </tr>
-                            <tr class="odd gradeA">
-                                <td>3</td>
-                                <td>Maria</td>
-                                <td>Pepe</td>
-                                <td class="center">No me gusta</td>
-                                <td class="center">11/11/2015</td>
-                                <td class="center">
-                                	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
-                                	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
-                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
-                                </td>
-                            </tr>
-                            <tr class="even gradeA">
-                                <td>6</td>
-                                <td>Yami</td>
-                                <td>Fabri</td>
-                                <td class="center">Ofensiva</td>
-                                <td class="center">11/11/2015</td>
-                                <td class="center">
-                                	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
-                                	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
-                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
-                                </td>
-                            </tr>
-                            <tr class="odd gradeA">
-                                <td>5</td>
-                                <td>Fabri</td>
-                                <td>Yami</td>
-                                <td class="center">Esta vendiendo este animal</td>
-                                <td class="center">11/11/2015</td>
-                                <td class="center">
-                                	<button ng-click="showMessageAccept()" type="button" class="btn btn-success">Aceptar</button>
-                                	<button ng-click="showMessage()" type="button" class="btn btn-danger">Rechazar</button>
-                                    <button class="btn btn-default" ng-click="open('sm')">Ver publicación</button>
-                                </td>
+                            </tr>                            
                          
                         </tbody>
                     </table>
@@ -104,9 +57,12 @@
     </div>
     <div class="modal-body">
     <img src="mocks/perro3.jpg" alt="Smiley face" height="70" width="70">
-    <div>Adopcion</div>
-    <div>Perro</div>
-    <div>Grande</div>
+    <div>{{denunciation.publication.publicationId}}</div>
+    <div>{{denunciation.publication.type}}</div>
+    <div>{{denunciation.publication.petName}}</div>
+    <div>{{denunciation.publication.petSize}}</div>
+    <div>{{denunciation.publication.petColor}}</div>
+    <div>{{denunciation.publication.petBred}}</div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">OK</button>

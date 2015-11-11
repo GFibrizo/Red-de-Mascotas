@@ -7,33 +7,42 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .controller('DenunciationCtrl', function($scope,$position,$state,$modal) {
-      console.log("DenunciationCtrl")
+  .controller('DenunciationCtrl', function($scope,$position,$state,$modal,$log,DenunciationsService) {
       
+    console.log("DenunciationCtrl")
       
+    $scope.data = {
+      denunciations: []
+    };
+    
+    DenunciationsService.getDenunciations().then(
+        function succes(response){
+          $scope.data = response.data;
+        }
+    );
 
-      $scope.showMessageAccept = function(){        
-        console.log("showMessageAccept")
-        alert("Aceptar denuncia")
-      }
+    
+    $scope.showMessageAccept = function(result){        
+      console.log("showMessageAccept")
+      console.log(result)
+      alert("Aceptar denuncia")
+    }
 
-      $scope.showMessage = function(){        
-  		  console.log("Denuncias")
-        alert("Rechazar denuncia")
-      }
+    $scope.showMessage = function(result){        
+      console.log("Denuncias")
+      console.log(result)
+      alert("Rechazar denuncia")
+    }
 
-
-  $scope.items = ['item1', 'item2', 'item3'];
-
-  $scope.open = function (size) {
+  $scope.open = function (size,denunciation) {
 
     var modalInstance = $modal.open({
       templateUrl: 'myModalContent.html',
       controller: 'ModalInstanceCtrl',
       size: size,
       resolve: {
-        items: function () {
-          return $scope.items;
+        denunciation: function () {
+          return denunciation;
         }
       }
     });
@@ -46,15 +55,12 @@ angular.module('sbAdminApp')
   };
   	
   });
-angular.module('sbAdminApp').controller('ModalInstanceCtrl', function ($scope, $modalInstance, items) {
+angular.module('sbAdminApp').controller('ModalInstanceCtrl', function ($scope, $modalInstance, denunciation) {
 
-  $scope.items = items;
-  $scope.selected = {
-    item: $scope.items[0]
-  };
-
+  $scope.denunciation = denunciation;
+  console.log($scope.denunciation)
   $scope.ok = function () {
-    $modalInstance.close($scope.selected.item);
+    $modalInstance.close($scope.denunciation);
   };
 
   $scope.cancel = function () {

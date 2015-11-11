@@ -7,7 +7,7 @@
  * Controller of the sbAdminApp
  */
 angular.module('sbAdminApp')
-  .controller('ReportsCtrl', function($scope,$position,$state) {
+  .controller('ReportsCtrl', function($scope,$position,$state, ReportsService) {
       console.log("ReportsCtrl")
       
 
@@ -34,20 +34,22 @@ angular.module('sbAdminApp')
             adoption: "1 dia",
             found: "1 dia"
         }
-
-        $scope.checkModel = {
+/*
+        $scope.radioModel = {
             both: true,
             dogs: false,
             cats: false
-        }
-
+        }*/
+        $scope.radioModel = 'both';
         $scope.dateOptions = {
             formatYear: 'yy',
             startingDay: 1
         };
 
-        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-        $scope.format = $scope.formats[3];
+
+
+        $scope.formats = ['dd/MM/yyyy',,'dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+        $scope.format = $scope.formats[0];
 
         //Functions
         $scope.init = function() {
@@ -62,16 +64,6 @@ angular.module('sbAdminApp')
             $scope.date.from = null;
         };
 
-        // Disable weekend selection
-         $scope.disabledFrom = function(date, mode) {
-           return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-        };
-
-        $scope.toggleMin = function() {
-            $scope.minDate = $scope.minDate ? null : new Date();
-        };
-        
-        $scope.toggleMin();
 
         $scope.openFrom = function($event) {
             $event.preventDefault();
@@ -88,7 +80,15 @@ angular.module('sbAdminApp')
         $scope.search = function () {
             console.log($scope.date.to);
             console.log($scope.date.from);
-            console.log($scope.checkModel);
+            console.log($scope.radioModel);
+            var filters = {
+                date: {
+                    to: $scope.date.to,
+                    from: $scope.date.from
+                },
+                type: ReportsService.getNameByCheck($scope.radioModel)
+            }
+            console.log(filters);
         }
     
   });

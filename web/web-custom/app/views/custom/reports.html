@@ -10,7 +10,7 @@
 		            	<span class="input-group-btn">
 		                	<label class="btn btn-primary">Desde</label>
 		              	</span>
-		              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="date.from" is-open="openedFrom"  ng-required="true" close-text="Close" />
+		              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="date.from" is-open="openedFrom" max-date="date.to" ng-required="true" close-text="Close" />
 		              <span class="input-group-btn">
 		                <button type="button" class="btn btn-default" ng-click="openFrom($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 		              </span>
@@ -21,7 +21,7 @@
 		            	<span class="input-group-btn">
 		                	<label class="btn btn-primary">Hasta</label>
 		              	</span>
-		              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="date.to" is-open="openedTo" datepicker-options="dateOptions" ng-required="true" close-text="Close" />
+		              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="date.to" is-open="openedTo" datepicker-options="dateOptions" min-date="date.from" ng-required="true" close-text="Close" />
 		              <span class="input-group-btn">
 		                <button type="button" class="btn btn-default" ng-click="openTo($event)"><i class="glyphicon glyphicon-calendar"></i></button>
 		              </span>
@@ -29,9 +29,9 @@
 		        </div>
 		        <div class="col-md-3">
 		        	 <div class="btn-group">
-				        <label class="btn btn-primary" ng-model="checkModel.both" btn-checkbox>Ambos</label>
-				        <label class="btn btn-primary" ng-model="checkModel.dogs" btn-checkbox>Perros</label>
-				        <label class="btn btn-primary" ng-model="checkModel.cats" btn-checkbox>Gatos</label>
+				        <label class="btn btn-primary" ng-model="radioModel" ng-change="toggleMode()" btn-radio="'both'">Ambos</label>
+				        <label class="btn btn-primary" ng-model="radioModel" ng-change="toggleMode()" btn-radio="'dogs'">Perros</label>
+				        <label class="btn btn-primary" ng-model="radioModel" ng-change="toggleMode()" btn-radio="'cats'">Gatos</label>
 				    </div>
 		        </div>
 		        <div class="col-md-2">
@@ -40,7 +40,10 @@
 		    </div>
 			
 			<div class="panel panel-default">
-	            <div class="panel-heading">Reporte de altas</div>
+	            <div class="panel-heading">
+	            	<h3>Reporte de altas</h3>
+	            	<small>Desde {{date.from | date:"dd/MM/yyyy"}} hasta {{date.to | date:"dd/MM/yyyy"}}</small>
+	            </div>
 
 	            <div class="panel-body">
 	                <canvas id="reports-bar" class="chart chart-bar" data="bar.data" labels="bar.labels" series="bar.series"></canvas>
@@ -92,16 +95,24 @@
 
 	<div class="row">
 		<div class="col-lg-12">
-			<h1 class="page-header">Reporte de tiempos</h1>
+			<h1 class="page-header">
+				Reporte de tiempos
+			</h1>
 			<div class="panel panel-default">
-	            <div class="panel-heading">Tiempo promedio de adopcion</div>
+	            <div class="panel-heading">
+	            	<h3>Tiempo promedio de adopcion</h3>
+	            	<small>Desde {{date.from | date:"dd/MM/yyyy"}} hasta {{date.to | date:"dd/MM/yyyy"}}</small>
+	            </div>
 	            <div class="panel-body">                      
 	            	{{average.adoption}}
 	            </div>
 
 			</div>
 			<div class="panel panel-default">
-	            <div class="panel-heading">Tiempo promedio de hallazgo</div>
+	            <div class="panel-heading">
+	            	<h3>Tiempo promedio de hallazgo</h3>
+	            	<small>Desde {{date.from | date:"dd/MM/yyyy"}} hasta {{date.to | date:"dd/MM/yyyy"}}</small>
+	            </div>
 
 	            <div class="panel-body">                       
 	            	{{average.found}}

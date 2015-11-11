@@ -1,4 +1,32 @@
 {
-	"denuncias": [
+	"denunciations": [
+		  {
+	        "denouncedUser":"Jose",
+	        "complainantUser":"Juan",
+	        "comment":"caca1",
+	        "date":"12/11/2011",
+	        "publication": {
+	        	"publicationId": 123,
+	        	"type":"Adoption",
+	        	"petName":"Coco",
+	        	"petSize":"Chico",
+	        	"petColor":"Marron",
+	        	"petBred":"Caniche"
+	        }
+	      },
+	      {
+	        "denouncedUser":"Jose",
+	        "complainantUser":"Juan",
+	        "comment":"caca2",
+	        "date":"12/11/2011",
+	        "publication": {
+	        	"publicationId": 321,
+	        	"type":"Perdida",
+	        	"petName":"Aquiles",
+	        	"petSize":"Chico",
+	        	"petColor":"Gris",
+	        	"petBred":"schawzer"	
+	        }
+	      }
 	]
 }
