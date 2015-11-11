@@ -13,7 +13,9 @@ angular
     'ui.router',
     'ui.bootstrap',
     'angular-loading-bar',
-    'ngCookies'
+    'ngCookies',
+    'chart.js',
+    'ngAnimate'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
     
@@ -183,7 +185,7 @@ angular
               name:'sbAdminApp',
               files:['scripts/controllers/ReportsCtrl.js']
           }),
-          $ocLazyLoad.load(
+                $ocLazyLoad.load(
                 {
                   name:'ngAnimate',
                   files:['bower_components/angular-animate/angular-animate.js']

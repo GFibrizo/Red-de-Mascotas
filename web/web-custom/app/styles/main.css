@@ -82,13 +82,7 @@ text-decoration: none;
 background-color: #eee;
 }
 
-  .full button span {
-    background-color: limegreen;
-    border-radius: 32px;
-    color: black;
-  }
-  .partially button span {
-    background-color: orange;
-    border-radius: 32px;
-    color: black;
+
+  .loginLabelStatus-error{
+    background-color: red;
   }

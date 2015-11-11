@@ -10,88 +10,85 @@ angular.module('sbAdminApp')
   .controller('ReportsCtrl', function($scope,$position,$state) {
       console.log("ReportsCtrl")
       
+
+        //Data
        $scope.bar = {
-            labels: ['Adopcion', 'Encontrado', 'Hallado', 'Adoptado'],
+            labels: ['Adopcion', 'Adoptado', 'Encontrado', 'Hallado'],
             series: ['Series A'],
             data: [
-               [65, 59, 80, 81]
-               
-            ]  ,
-            options: { scaleShowVerticalLines: false }
-          
+               [65, 59, 80, 81],//ambos               
+            ],
+            dataByPets: {
+              dogs: [65, 59, 80, 81],
+              cats: [65, 59, 80, 81]
+            },
+            options: { scaleShowVerticalLines: false }          
         };
-        $scope.today = function() {
-    $scope.dt = new Date();
-  };
-  $scope.today();
 
-  $scope.clear = function () {
-    $scope.dt = null;
-  };
-
-  // Disable weekend selection
-  $scope.disabled = function(date, mode) {
-    return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
-  };
-
-  $scope.toggleMin = function() {
-    $scope.minDate = $scope.minDate ? null : new Date();
-  };
-  $scope.toggleMin();
-  $scope.maxDate = new Date(2020, 5, 22);
-
-  $scope.open = function($event) {
-    $scope.status.opened = true;
-  };
-
-  $scope.setDate = function(year, month, day) {
-    $scope.dt = new Date(year, month, day);
-  };
-
-  $scope.dateOptions = {
-    formatYear: 'yy',
-    startingDay: 1
-  };
-
-  $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-  $scope.format = $scope.formats[0];
-
-  $scope.status = {
-    opened: false
-  };
-
-  var tomorrow = new Date();
-  tomorrow.setDate(tomorrow.getDate() + 1);
-  var afterTomorrow = new Date();
-  afterTomorrow.setDate(tomorrow.getDate() + 2);
-  $scope.events =
-    [
-      {
-        date: tomorrow,
-        status: 'full'
-      },
-      {
-        date: afterTomorrow,
-        status: 'partially'
-      }
-    ];
-
-  $scope.getDayClass = function(date, mode) {
-    if (mode === 'day') {
-      var dayToCheck = new Date(date).setHours(0,0,0,0);
-
-      for (var i=0;i<$scope.events.length;i++){
-        var currentDay = new Date($scope.events[i].date).setHours(0,0,0,0);
-
-        if (dayToCheck === currentDay) {
-          return $scope.events[i].status;
+        $scope.date = {
+            from: "",
+            to: ""
         }
-      }
-    }
 
-    return '';
-  };
+        $scope.average = {
+            adoption: "1 dia",
+            found: "1 dia"
+        }
 
-   
-  	
+        $scope.checkModel = {
+            both: true,
+            dogs: false,
+            cats: false
+        }
+
+        $scope.dateOptions = {
+            formatYear: 'yy',
+            startingDay: 1
+        };
+
+        $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+        $scope.format = $scope.formats[3];
+
+        //Functions
+        $scope.init = function() {
+            $scope.date.to = new Date();
+            $scope.date.from = new Date();
+            $scope.date.from.setMonth($scope.date.from.getMonth()-1);
+        };
+        $scope.init();
+
+        $scope.clear = function () {
+            $scope.date.to = null;
+            $scope.date.from = null;
+        };
+
+        // Disable weekend selection
+         $scope.disabledFrom = function(date, mode) {
+           return ( mode === 'day' && ( date.getDay() === 0 || date.getDay() === 6 ) );
+        };
+
+        $scope.toggleMin = function() {
+            $scope.minDate = $scope.minDate ? null : new Date();
+        };
+        
+        $scope.toggleMin();
+
+        $scope.openFrom = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.openedFrom = true;
+        };      
+
+        $scope.openTo = function($event) {
+            $event.preventDefault();
+            $event.stopPropagation();
+            $scope.openedTo = true;
+        };
+
+        $scope.search = function () {
+            console.log($scope.date.to);
+            console.log($scope.date.from);
+            console.log($scope.checkModel);
+        }
+    
   });
