@@ -29,7 +29,8 @@ angular.module('sbAdminApp')
             url:"/login/account",
             params: {
                 userName: this.data.userName,
-                encryptedPassword: this.data.password
+                /*encryptedPassword: this.data.password*/
+                encryptedPassword: "[B@89427ca123123"
             }
         };
        _data = this.data;
