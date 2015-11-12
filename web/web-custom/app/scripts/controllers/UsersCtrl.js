@@ -20,5 +20,15 @@ angular.module('sbAdminApp')
           $scope.data = response.data;
         }
       );
+
+      $scope.active = function(user){
+          user.active = true;
+          console.log(user)
+      }
+
+      $scope.inactive = function(user){
+          user.active = false;
+          console.log(user)
+      }
   	
   });
