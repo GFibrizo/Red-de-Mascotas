@@ -231,26 +231,29 @@ public class PetAdoption implements Comparable<PetAdoption> {
         PetAdoption.collection.updateById(petId, pet);
     }
 
-    public static int countPetsPublished(String fromDate, String toDate) {
+    public static int countPetsPublished(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) PetAdoption.collection.count(query.get());
     }
 
-    public static int countPetsAdopted(String fromDate, String toDate) {
+    public static int countPetsAdopted(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("adoptionDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) PetAdoption.collection.count(query.get());
     }
 
-    public static int getAverageAdoptionTimeLapse(String fromDate, String toDate) {
+    public static int getAverageAdoptionTimeLapse(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter localDateFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = localDateFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         query.push("adoptionDate").add("$gte", fromDate).add("$lt", to).pop();
         List<PetAdoption> pets = PetAdoption.collection.find(query.get()).toArray();
