@@ -122,6 +122,11 @@ public class PetAdoptionService {
         PetAdoption.addReport(request);
     }
 
+    public void acceptPublicationReport(AcceptPublicationReportRequest request) {
+        PetAdoption pet = PetAdoption.acceptReport(request);
+        User.incrementAcceptedPublicationReports(pet.ownerId);
+    }
+
     private void alertUsersAboutMatchingSavedSearches() {
         List<User> users = User.getUsersWithSavedSearchFilters();
         for (User user : users) {

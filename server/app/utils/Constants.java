@@ -10,6 +10,8 @@ public class Constants {
 
     public static final String UNPUBLISHED = "UNPUBLISHED";
 
+    public static final String BLOCKED = "BLOCKED";
+
     public static final String FOR_ADOPTION = "FOR_ADOPTION";
 
     public static final String LOST = "LOST";

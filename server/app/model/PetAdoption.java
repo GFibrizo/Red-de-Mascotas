@@ -3,10 +3,7 @@ package model;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
-import model.external.AdoptionRequest;
-import model.external.ReportPublicationRequest;
-import model.external.SearchForAdoptionFilters;
-import model.external.TransitHomeRequest;
+import model.external.*;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
@@ -140,10 +137,13 @@ public class PetAdoption implements Comparable<PetAdoption> {
         return PetAdoption.collection.findOneById(id);
     }
 
-    public static List<PetAdoption> getPublishedByOwnerId(String ownerId) {
+    public static List<PetAdoption> getPublishedAndBlockedByOwnerId(String ownerId) {
+        ArrayList<String> status = new ArrayList<>();
+        status.add(PUBLISHED);
+        status.add(BLOCKED);
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("ownerId", ownerId);
-        query.add("publicationStatus", PUBLISHED);
+        query.push("publicationStatus").add("$in", status).pop();
         return PetAdoption.collection.find(query.get()).toArray();
     }
 
@@ -153,7 +153,7 @@ public class PetAdoption implements Comparable<PetAdoption> {
         List<PetAdoption> pets = PetAdoption.collection.find(query.get()).toArray();
         List<PetAdoption> petsToRemove = new ArrayList<>();
         for (PetAdoption pet : pets) {
-            if (pet.publicationStatus.equals(UNPUBLISHED) && pet.adopterId == null)
+            if ((pet.publicationStatus.equals(UNPUBLISHED) && pet.adopterId == null) || pet.publicationStatus.equals(BLOCKED))
                 petsToRemove.add(pet);
         }
         pets.removeAll(petsToRemove);
@@ -200,6 +200,13 @@ public class PetAdoption implements Comparable<PetAdoption> {
     public static PetAdoption addReport(ReportPublicationRequest request) {
         PetAdoption pet = getById(request.petId);
         pet.addNewReport(request);
+        PetAdoption.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
+    public static PetAdoption acceptReport(AcceptPublicationReportRequest request) {
+        PetAdoption pet = getById(request.petId);
+        pet.updatePublicationStatusToBlocked(request.informer);
         PetAdoption.collection.updateById(request.petId, pet);
         return pet;
     }
@@ -287,8 +294,7 @@ public class PetAdoption implements Comparable<PetAdoption> {
     }
 
     private void updatePublicationStatusToAdopted(String adopterId) {
-        List<Adoption> requests = this.adoptionRequests;
-        for (Adoption request : requests) {
+        for (Adoption request : this.adoptionRequests) {
             if (request.adopterId.equals(adopterId))
                 request.updateStatus(NOTIFICATION_ACCEPTED);
             else
@@ -301,14 +307,24 @@ public class PetAdoption implements Comparable<PetAdoption> {
     }
 
     private void updateTransitHomeRequestsToAccepted(String transitHomeUser) {
-        List<TransitHome> requests = this.transitHomeRequests;
-        for (TransitHome request : requests) {
+        for (TransitHome request : this.transitHomeRequests) {
             if (request.transitHomeUserId.equals(transitHomeUser))
                 request.updateStatus(NOTIFICATION_ACCEPTED);
             else
                 request.updateStatus(NOTIFICATION_REJECTED);
         }
         this.transitHomeUser = transitHomeUser;
+        this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
+    }
+
+    private void updatePublicationStatusToBlocked(String informer) {
+        for (PublicationReport report : this.reports) {
+            if (report.informer.equals(informer))
+                report.updateStatus(REPORT_ACCEPTED);
+            else
+                report.updateStatus(REPORT_REJECTED);
+        }
+        this.publicationStatus = BLOCKED;
         this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 

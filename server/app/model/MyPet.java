@@ -31,8 +31,11 @@ public class MyPet implements Comparable<MyPet> {
 
     public String publicationType;
 
+    public String publicationStatus;
+
     public MyPet(String id, String ownerId, String name, String type, String breed, String gender, String size, String age,
-                 List<String> colors, String eyeColor, List<String> images, String publicationDate, String publicationType) {
+                 List<String> colors, String eyeColor, List<String> images, String publicationDate, String publicationType,
+                 String publicationStatus) {
         this.id = id;
         this.ownerId = ownerId;
         this.name = name;
@@ -46,6 +49,7 @@ public class MyPet implements Comparable<MyPet> {
         this.images = images;
         this.publicationDate = publicationDate;
         this.publicationType = publicationType;
+        this.publicationStatus = publicationStatus;
     }
 
     @Override
