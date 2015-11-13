@@ -10,6 +10,8 @@ public class Constants {
 
     public static final String UNPUBLISHED = "UNPUBLISHED";
 
+    public static final String BLOCKED = "BLOCKED";
+
     public static final String FOR_ADOPTION = "FOR_ADOPTION";
 
     public static final String LOST = "LOST";
@@ -21,6 +23,12 @@ public class Constants {
     public static final String NOTIFICATION_ACCEPTED = "ACCEPTED";
 
     public static final String NOTIFICATION_REJECTED = "REJECTED";
+
+    public static final String REPORT_PENDING = "PENDING";
+
+    public static final String REPORT_ACCEPTED = "ACCEPTED";
+
+    public static final String REPORT_REJECTED = "REJECTED";
 
     public static final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
 

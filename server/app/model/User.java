@@ -40,6 +40,8 @@ public class User {
 
     public List<Notification> notifications;
 
+    public int acceptedPublicationReports;
+
 
     private static JacksonDBCollection<User, String> collection = MongoDB.getCollection("users", User.class, String.class);
 
@@ -93,6 +95,10 @@ public class User {
         this.notifications.add(notification);
     }
 
+    private void incrementAcceptedPublicationReports() {
+        this.acceptedPublicationReports++;
+    }
+
 
     public static User getById(String id) {
         return User.collection.findOneById(id);
@@ -142,6 +148,12 @@ public class User {
     public static void saveNotification(String userId, Notification notification) {
         User user = getById(userId);
         user.addNewNotification(notification);
+        User.collection.updateById(userId, user);
+    }
+
+    public static void incrementAcceptedPublicationReports(String userId) {
+        User user = getById(userId);
+        user.incrementAcceptedPublicationReports();
         User.collection.updateById(userId, user);
     }
 

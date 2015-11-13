@@ -1,10 +1,7 @@
 package controllers;
 
 import model.PetAdoption;
-import model.external.AdoptionRequest;
-import model.external.SearchForAdoptionFilters;
-import model.external.PublishForAdoptionPet;
-import model.external.TransitHomeRequest;
+import model.external.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import play.Logger;
@@ -84,6 +81,30 @@ public class PetAdoptionController {
         TransitHomeRequest request = form.get();
         service.acceptTakeInTransitRequest(request);
         Logger.info("Take in transit request successfully accepted for pet with id " + petId);
+        return play.mvc.Controller.ok();
+    }
+
+    public Result reportPublication(String petId) {
+        Form<ReportPublicationRequest> form = Form.form(ReportPublicationRequest.class).bindFromRequest();
+        ReportPublicationRequest request = form.get();
+        service.reportPublication(request);
+        Logger.info("Publication for pet with id " + petId + " successfully reported");
+        return play.mvc.Controller.ok();
+    }
+
+    public Result acceptPublicationReport(String petId) {
+        Form<AcceptPublicationReportRequest> form = Form.form(AcceptPublicationReportRequest.class).bindFromRequest();
+        AcceptPublicationReportRequest request = form.get();
+        service.acceptPublicationReport(request);
+        Logger.info("Informer " + request.informer + "'s report of publication for pet with id " + petId + " successfully accepted");
+        return play.mvc.Controller.ok();
+    }
+
+    public Result rejectPublicationReport(String petId) {
+        Form<AcceptPublicationReportRequest> form = Form.form(AcceptPublicationReportRequest.class).bindFromRequest();
+        AcceptPublicationReportRequest request = form.get();
+        service.rejectPublicationReport(request);
+        Logger.info("Informer " + request.informer + "'s report of publication for pet with id " + petId + " successfully rejected");
         return play.mvc.Controller.ok();
     }
 

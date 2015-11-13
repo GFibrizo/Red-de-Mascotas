@@ -31,6 +31,11 @@ GET         /pet/:petId/adopted                         @controllers.PetAdoption
 POST        /pet/:petId/adoption                        @controllers.PetAdoptionController.adoptPet(petId)
 PUT         /pet/:petId/adoption/accepted               @controllers.PetAdoptionController.acceptAdoptionRequest(petId)
 
+# Denuncia de mascota en adopción
+POST        /pet/:petId/report                          @controllers.PetAdoptionController.reportPublication(petId)
+PUT         /pet/:petId/report/accepted                 @controllers.PetAdoptionController.acceptPublicationReport(petId)
+PUT         /pet/:petId/report/rejected                 @controllers.PetAdoptionController.rejectPublicationReport(petId)
+
 # Tomar mascota en hogar de transito
 POST        /pet/:petId/take-in-transit                 @controllers.PetAdoptionController.takePetInTransit(petId)
 PUT         /pet/:petId/take-in-transit/accepted        @controllers.PetAdoptionController.acceptTakeInTransitRequest(petId)
@@ -43,7 +48,11 @@ POST        /pet/found                                  @controllers.FoundPetCon
 
 # Mis publicaciones
 PUT         /pet/:petId/unpublish                       @controllers.MyPetController.unpublishPet(petId)
+PUT         /pet/:petId/found                           @controllers.LostPetController.updateToFound(petId)
 
 # Media
 GET         /pet/image/:imageId                         @controllers.ImageController.getPetImage(imageId)
 POST        /pet/image                                  @controllers.ImageController.uploadPetImage
+
+# Reportes
+GET         /reports                                    @controllers.ReportController.getPetsReport

@@ -5,6 +5,7 @@ import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
 import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -61,6 +62,8 @@ public class LostPet {
     public String publicationStatus;
 
     public String publicationDate;
+
+    public String findingDate;
 
 
     private static JacksonDBCollection<LostPet, String> collection = MongoDB.getCollection("lostPets", LostPet.class, String.class);
@@ -132,10 +135,42 @@ public class LostPet {
         return lostPets;
     }
 
+    public static int getAverageFindingTimeLapse(String fromDate, String toDate) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        DateTimeFormatter localDateFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
+        String to = localDateFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
+        query.push("findingDate").add("$gte", fromDate).add("$lt", to).pop();
+        List<LostPet> pets = LostPet.collection.find(query.get()).toArray();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_HOUR_FORMAT);
+        int timeLapse = 0;
+        for (LostPet pet : pets) {
+            DateTime findingDate = dateTimeFormatter.parseDateTime(pet.findingDate);
+            DateTime publicationDate = dateTimeFormatter.parseDateTime(pet.publicationDate);
+            timeLapse += Days.daysBetween(publicationDate, findingDate).getDays();
+        }
+        return pets.size() == 0 ? 0 : timeLapse / pets.size();
+    }
+
     public static void unpublishPet(String petId) {
         LostPet pet = getById(petId);
         pet.updatePublicationStatusToUnpublished();
         LostPet.collection.updateById(petId, pet);
+    }
+
+    public static void updateToFound(String petId) {
+        LostPet pet = getById(petId);
+        pet.updatePublicationStatusToFound();
+        pet.updatePublicationStatusToUnpublished();
+        LostPet.collection.updateById(petId, pet);
+    }
+
+    public static int countPetsPublished(String fromDate, String toDate) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
+        String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
+        return (int) LostPet.collection.count(query.get());
     }
 
     public static void delete(String id) {
@@ -151,6 +186,10 @@ public class LostPet {
 
     private void updatePublicationStatusToUnpublished() {
         this.publicationStatus = UNPUBLISHED;
+    }
+
+    private void updatePublicationStatusToFound() {
+        this.findingDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 
 }
