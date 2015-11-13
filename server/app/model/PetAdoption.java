@@ -4,6 +4,7 @@ import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBObject;
 import model.external.AdoptionRequest;
+import model.external.ReportPublicationRequest;
 import model.external.SearchForAdoptionFilters;
 import model.external.TransitHomeRequest;
 import net.vz.mongodb.jackson.Id;
@@ -78,6 +79,8 @@ public class PetAdoption implements Comparable<PetAdoption> {
     public List<Adoption> adoptionRequests;
 
     public List<TransitHome> transitHomeRequests;
+
+    public List<PublicationReport> reports;
 
 
     private static JacksonDBCollection<PetAdoption, String> collection = MongoDB.getCollection("petsAdoption", PetAdoption.class, String.class);
@@ -194,6 +197,13 @@ public class PetAdoption implements Comparable<PetAdoption> {
         return pet;
     }
 
+    public static PetAdoption addReport(ReportPublicationRequest request) {
+        PetAdoption pet = getById(request.petId);
+        pet.addNewReport(request);
+        PetAdoption.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
     public static void updateLastSeenAdoptionRequests(String petId) {
         PetAdoption pet = getById(petId);
         if (!pet.updateLastSeenRequests())
@@ -305,19 +315,25 @@ public class PetAdoption implements Comparable<PetAdoption> {
     private void addNewAdoptionRequest(AdoptionRequest request) {
         Adoption adoptionRequest = new Adoption(request.adopterId,
                                                 DateTime.now().toString(DATE_HOUR_FORMAT));
-        if (this.adoptionRequests == null) {
+        if (this.adoptionRequests == null)
             this.adoptionRequests = new ArrayList<>();
-        }
         this.adoptionRequests.add(adoptionRequest);
     }
 
     private void addNewTransitHomeRequest(TransitHomeRequest request) {
         TransitHome transitHomeRequest = new TransitHome(request.transitHomeUser,
                                                          DateTime.now().toString(DATE_HOUR_FORMAT));
-        if (this.transitHomeRequests == null) {
+        if (this.transitHomeRequests == null)
             this.transitHomeRequests = new ArrayList<>();
-        }
         this.transitHomeRequests.add(transitHomeRequest);
+    }
+
+    private void addNewReport(ReportPublicationRequest request) {
+        PublicationReport report = new PublicationReport(request.informer, request.reason, REPORT_PENDING,
+                                                         DateTime.now().toString(DATE_HOUR_FORMAT));
+        if (this.reports == null)
+            this.reports = new ArrayList<>();
+        this.reports.add(report);
     }
 
     private Boolean updateLastSeenRequests() {

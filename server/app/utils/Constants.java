@@ -22,6 +22,12 @@ public class Constants {
 
     public static final String NOTIFICATION_REJECTED = "REJECTED";
 
+    public static final String REPORT_PENDING = "PENDING";
+
+    public static final String REPORT_ACCEPTED = "ACCEPTED";
+
+    public static final String REPORT_REJECTED = "REJECTED";
+
     public static final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
 
     public static final String ADOPTION_MESSAGE = "Hay nuevos interesados en adoptar a ";

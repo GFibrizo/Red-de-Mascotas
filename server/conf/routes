@@ -31,6 +31,9 @@ GET         /pet/:petId/adopted                         @controllers.PetAdoption
 POST        /pet/:petId/adoption                        @controllers.PetAdoptionController.adoptPet(petId)
 PUT         /pet/:petId/adoption/accepted               @controllers.PetAdoptionController.acceptAdoptionRequest(petId)
 
+# Denuncia de mascota en adopción
+POST        /pet/:petId/report                          @controllers.PetAdoptionController.reportPublication(petId)
+
 # Tomar mascota en hogar de transito
 POST        /pet/:petId/take-in-transit                 @controllers.PetAdoptionController.takePetInTransit(petId)
 PUT         /pet/:petId/take-in-transit/accepted        @controllers.PetAdoptionController.acceptTakeInTransitRequest(petId)
@@ -50,4 +53,4 @@ GET         /pet/image/:imageId                         @controllers.ImageContro
 POST        /pet/image                                  @controllers.ImageController.uploadPetImage
 
 # Reportes
-GET         /reports                                    @controllers.ReportController.getPetsReport()
+GET         /reports                                    @controllers.ReportController.getPetsReport

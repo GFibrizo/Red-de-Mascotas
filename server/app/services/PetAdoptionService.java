@@ -4,10 +4,7 @@ import model.Adoption;
 import model.Notification;
 import model.PetAdoption;
 import model.User;
-import model.external.AdoptionRequest;
-import model.external.SearchForAdoptionFilters;
-import model.external.PublishForAdoptionPet;
-import model.external.TransitHomeRequest;
+import model.external.*;
 import notifications.NotificationsClient;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -119,6 +116,10 @@ public class PetAdoptionService {
                                                      NOTIFICATION_ACCEPTED);
         User.saveNotification(transitHomeUser.id, notification);
         notificationsClient.pushNotification(transitHomeUser.notificationId, TAKE_IN_TRANSIT_ACCEPTED, TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_1 + pet.name + TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_2);
+    }
+
+    public void reportPublication(ReportPublicationRequest request) {
+        PetAdoption.addReport(request);
     }
 
     private void alertUsersAboutMatchingSavedSearches() {
