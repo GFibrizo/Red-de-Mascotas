@@ -211,6 +211,13 @@ public class PetAdoption implements Comparable<PetAdoption> {
         return pet;
     }
 
+    public static PetAdoption rejectReport(AcceptPublicationReportRequest request) {
+        PetAdoption pet = getById(request.petId);
+        pet.updateReportToRejected(request.informer);
+        PetAdoption.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
     public static void updateLastSeenAdoptionRequests(String petId) {
         PetAdoption pet = getById(petId);
         if (!pet.updateLastSeenRequests())
@@ -326,6 +333,15 @@ public class PetAdoption implements Comparable<PetAdoption> {
         }
         this.publicationStatus = BLOCKED;
         this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
+    }
+
+    private void updateReportToRejected(String informer) {
+        for (PublicationReport report : this.reports) {
+            if (report.informer.equals(informer)) {
+                report.updateStatus(REPORT_REJECTED);
+                break;
+            }
+        }
     }
 
     private void addNewAdoptionRequest(AdoptionRequest request) {

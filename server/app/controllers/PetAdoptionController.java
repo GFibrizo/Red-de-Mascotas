@@ -100,4 +100,12 @@ public class PetAdoptionController {
         return play.mvc.Controller.ok();
     }
 
+    public Result rejectPublicationReport(String petId) {
+        Form<AcceptPublicationReportRequest> form = Form.form(AcceptPublicationReportRequest.class).bindFromRequest();
+        AcceptPublicationReportRequest request = form.get();
+        service.rejectPublicationReport(request);
+        Logger.info("Informer " + request.informer + "'s report of publication for pet with id " + petId + " successfully rejected");
+        return play.mvc.Controller.ok();
+    }
+
 }

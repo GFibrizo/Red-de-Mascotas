@@ -127,6 +127,10 @@ public class PetAdoptionService {
         User.incrementAcceptedPublicationReports(pet.ownerId);
     }
 
+    public void rejectPublicationReport(AcceptPublicationReportRequest request) {
+        PetAdoption.rejectReport(request);
+    }
+
     private void alertUsersAboutMatchingSavedSearches() {
         List<User> users = User.getUsersWithSavedSearchFilters();
         for (User user : users) {

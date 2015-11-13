@@ -34,6 +34,7 @@ PUT         /pet/:petId/adoption/accepted               @controllers.PetAdoption
 # Denuncia de mascota en adopción
 POST        /pet/:petId/report                          @controllers.PetAdoptionController.reportPublication(petId)
 PUT         /pet/:petId/report/accepted                 @controllers.PetAdoptionController.acceptPublicationReport(petId)
+PUT         /pet/:petId/report/rejected                 @controllers.PetAdoptionController.rejectPublicationReport(petId)
 
 # Tomar mascota en hogar de transito
 POST        /pet/:petId/take-in-transit                 @controllers.PetAdoptionController.takePetInTransit(petId)
