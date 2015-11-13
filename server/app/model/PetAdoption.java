@@ -10,6 +10,10 @@ import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.joda.time.DateTime;
+import org.joda.time.Days;
+import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import play.modules.mongodb.jackson.MongoDB;
 
 import java.util.ArrayList;
@@ -66,6 +70,8 @@ public class PetAdoption implements Comparable<PetAdoption> {
     public String publicationStatus;
 
     public String publicationDate;
+
+    public String adoptionDate;
 
     public String lastModifiedDate;
 
@@ -201,6 +207,39 @@ public class PetAdoption implements Comparable<PetAdoption> {
         PetAdoption.collection.updateById(petId, pet);
     }
 
+    public static int countPetsPublished(String fromDate, String toDate) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
+        String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
+        return (int) PetAdoption.collection.count(query.get());
+    }
+
+    public static int countPetsAdopted(String fromDate, String toDate) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
+        String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        query.push("adoptionDate").add("$gte", fromDate).add("$lt", to).pop();
+        return (int) PetAdoption.collection.count(query.get());
+    }
+
+    public static int getAverageAdoptionTimeLapse(String fromDate, String toDate) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        DateTimeFormatter localDateFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
+        String to = localDateFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
+        query.push("adoptionDate").add("$gte", fromDate).add("$lt", to).pop();
+        List<PetAdoption> pets = PetAdoption.collection.find(query.get()).toArray();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_HOUR_FORMAT);
+        int timeLapse = 0;
+        for (PetAdoption pet : pets) {
+            DateTime adoptionDate = dateTimeFormatter.parseDateTime(pet.adoptionDate);
+            DateTime publicationDate = dateTimeFormatter.parseDateTime(pet.publicationDate);
+            timeLapse += Days.daysBetween(publicationDate, adoptionDate).getDays();
+        }
+        return pets.size() == 0 ? 0 : timeLapse / pets.size();
+    }
+
     public static void delete(String id) {
         PetAdoption petAdoption = PetAdoption.collection.findOneById(id);
         if (petAdoption != null)
@@ -247,6 +286,7 @@ public class PetAdoption implements Comparable<PetAdoption> {
         }
         this.adopterId = adopterId;
         this.publicationStatus = UNPUBLISHED;
+        this.adoptionDate = DateTime.now().toString(DATE_HOUR_FORMAT);
         this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 

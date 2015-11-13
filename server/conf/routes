@@ -43,7 +43,11 @@ POST        /pet/found                                  @controllers.FoundPetCon
 
 # Mis publicaciones
 PUT         /pet/:petId/unpublish                       @controllers.MyPetController.unpublishPet(petId)
+PUT         /pet/:petId/found                           @controllers.LostPetController.updateToFound(petId)
 
 # Media
 GET         /pet/image/:imageId                         @controllers.ImageController.getPetImage(imageId)
 POST        /pet/image                                  @controllers.ImageController.uploadPetImage
+
+# Reportes
+GET         /reports                                    @controllers.ReportController.getPetsReport()

@@ -25,4 +25,9 @@ public class LostPetController {
         return play.mvc.Controller.badRequest();
     }
 
+    public Result updateToFound(String petId) {
+        service.updateToFound(petId);
+        return play.mvc.Controller.ok();
+    }
+
 }

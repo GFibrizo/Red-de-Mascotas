@@ -100,12 +100,8 @@ public class FoundPet {
     }
 
     public static List<FoundPet> getMatches(String type, String gender, String lastSeenDate, GeoLocation location) {
-        String lastSeenDateSplit = lastSeenDate;
-        if (lastSeenDate.split(" ").length > 1){ //TODO: ver si lo saco o lo dejo
-            lastSeenDateSplit = lastSeenDate.split(" ")[1];
-        }
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
-        LocalDate date = dateTimeFormatter.parseLocalDate(lastSeenDateSplit);
+        LocalDate date = dateTimeFormatter.parseLocalDate(lastSeenDate);
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("type", type);
         query.add("gender", gender);
@@ -131,6 +127,14 @@ public class FoundPet {
         FoundPet pet = getById(petId);
         pet.updatePublicationStatusToUnpublished();
         FoundPet.collection.updateById(petId, pet);
+    }
+
+    public static int countPetsPublished(String fromDate, String toDate) {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
+        String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
+        return (int) FoundPet.collection.count(query.get());
     }
 
     public static void delete(String id) {
