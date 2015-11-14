@@ -129,10 +129,11 @@ public class FoundPet {
         FoundPet.collection.updateById(petId, pet);
     }
 
-    public static int countPetsPublished(String fromDate, String toDate) {
+    public static int countPetsPublished(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) FoundPet.collection.count(query.get());
     }

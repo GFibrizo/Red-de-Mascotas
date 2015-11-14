@@ -135,10 +135,11 @@ public class LostPet {
         return lostPets;
     }
 
-    public static int getAverageFindingTimeLapse(String fromDate, String toDate) {
+    public static int getAverageFindingTimeLapse(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter localDateFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = localDateFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         query.push("findingDate").add("$gte", fromDate).add("$lt", to).pop();
         List<LostPet> pets = LostPet.collection.find(query.get()).toArray();
@@ -165,10 +166,11 @@ public class LostPet {
         LostPet.collection.updateById(petId, pet);
     }
 
-    public static int countPetsPublished(String fromDate, String toDate) {
+    public static int countPetsPublished(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) LostPet.collection.count(query.get());
     }

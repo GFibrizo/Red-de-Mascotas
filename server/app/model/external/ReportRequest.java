@@ -6,4 +6,6 @@ public class ReportRequest {
 
     public String toDate;
 
+    public String petType;
+
 }

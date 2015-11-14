@@ -9,7 +9,6 @@ import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import play.modules.mongodb.jackson.MongoDB;
@@ -160,6 +159,13 @@ public class PetAdoption implements Comparable<PetAdoption> {
         return pets;
     }
 
+    public static List<PetAdoption> getPetsWithReports() {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("publicationStatus", PUBLISHED);
+        query.push("reports").add("$ne", null).pop();
+        return PetAdoption.collection.find(query.get()).toArray();
+    }
+
     public static List<PetAdoption> search(SearchForAdoptionFilters filters) {
         return PetAdoption.collection.find(buildSearchFilters(filters)).toArray();
     }
@@ -231,26 +237,29 @@ public class PetAdoption implements Comparable<PetAdoption> {
         PetAdoption.collection.updateById(petId, pet);
     }
 
-    public static int countPetsPublished(String fromDate, String toDate) {
+    public static int countPetsPublished(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) PetAdoption.collection.count(query.get());
     }
 
-    public static int countPetsAdopted(String fromDate, String toDate) {
+    public static int countPetsAdopted(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("adoptionDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) PetAdoption.collection.count(query.get());
     }
 
-    public static int getAverageAdoptionTimeLapse(String fromDate, String toDate) {
+    public static int getAverageAdoptionTimeLapse(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter localDateFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = localDateFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         query.push("adoptionDate").add("$gte", fromDate).add("$lt", to).pop();
         List<PetAdoption> pets = PetAdoption.collection.find(query.get()).toArray();
