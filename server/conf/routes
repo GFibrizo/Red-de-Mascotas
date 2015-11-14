@@ -18,6 +18,8 @@ GET         /user/:userId/search-matches                @controllers.UserControl
 GET         /user/:userId/notifications                 @controllers.UserController.getNotifications(userId)
 GET         /user/:userId/pending-notifications         @controllers.UserController.userHasPendingNotifications(userId)
 PUT         /user/:userId/notifications                 @controllers.UserController.updateLastSeenNotifications(userId)
+PUT         /user/:userId/block                         @controllers.UserController.blockUser(userId)
+PUT         /user/:userId/unblock                       @controllers.UserController.unblockUser(userId)
 
 # Publicacion de mascota en adopcion
 POST        /pet/adoption                               @controllers.PetAdoptionController.publishPet
@@ -32,9 +34,9 @@ POST        /pet/:petId/adoption                        @controllers.PetAdoption
 PUT         /pet/:petId/adoption/accepted               @controllers.PetAdoptionController.acceptAdoptionRequest(petId)
 
 # Denuncia de mascota en adopción
-POST        /pet/:petId/report                          @controllers.PetAdoptionController.reportPublication(petId)
-PUT         /pet/:petId/report/accepted                 @controllers.PetAdoptionController.acceptPublicationReport(petId)
-PUT         /pet/:petId/report/rejected                 @controllers.PetAdoptionController.rejectPublicationReport(petId)
+POST        /pet/:petId/report                          @controllers.DenunciationController.reportPublication(petId)
+PUT         /pet/:petId/report/accepted                 @controllers.DenunciationController.acceptPublicationReport(petId)
+PUT         /pet/:petId/report/rejected                 @controllers.DenunciationController.rejectPublicationReport(petId)
 
 # Tomar mascota en hogar de transito
 POST        /pet/:petId/take-in-transit                 @controllers.PetAdoptionController.takePetInTransit(petId)

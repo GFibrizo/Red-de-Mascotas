@@ -118,19 +118,6 @@ public class PetAdoptionService {
         notificationsClient.pushNotification(transitHomeUser.notificationId, TAKE_IN_TRANSIT_ACCEPTED, TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_1 + pet.name + TAKE_IN_TRANSIT_ACCEPTED_MESSAGE_2);
     }
 
-    public void reportPublication(ReportPublicationRequest request) {
-        PetAdoption.addReport(request);
-    }
-
-    public void acceptPublicationReport(AcceptPublicationReportRequest request) {
-        PetAdoption pet = PetAdoption.acceptReport(request);
-        User.incrementAcceptedPublicationReports(pet.ownerId);
-    }
-
-    public void rejectPublicationReport(AcceptPublicationReportRequest request) {
-        PetAdoption.rejectReport(request);
-    }
-
     private void alertUsersAboutMatchingSavedSearches() {
         List<User> users = User.getUsersWithSavedSearchFilters();
         for (User user : users) {

@@ -60,8 +60,8 @@ public class UserService {
 
     public List<MyPet> getPetsByUserId(String userId) {
         List<PetAdoption> petsForAdoption = PetAdoption.getPublishedAndBlockedByOwnerId(userId);
-        List<LostPet> lostPets = LostPet.getPublishedByOwnerId(userId);
-        List<FoundPet> foundPets = FoundPet.getPublishedByFinderId(userId);
+        List<LostPet> lostPets = LostPet.getPublishedAndBlockedByOwnerId(userId);
+        List<FoundPet> foundPets = FoundPet.getPublishedAndBlockedByFinderId(userId);
 
         List<MyPet> myPets = new ArrayList<>();
         addPetsForAdoptionToMyPets(petsForAdoption, myPets);
@@ -132,6 +132,20 @@ public class UserService {
         User.removeFiltersFromSavedSearchFilters(userId, indexesToRemove);
         Collections.sort(pets, Collections.reverseOrder());
         return pets;
+    }
+
+    public void blockUser(String userId) {
+        PetAdoption.blockAllPetsFromUser(userId);
+        LostPet.blockAllPetsFromUser(userId);
+        FoundPet.blockAllPetsFromUser(userId);
+        User.blockUser(userId);
+    }
+
+    public void unblockUser(String userId) {
+        PetAdoption.unblockPetsFromUser(userId);
+        LostPet.unblockPetsFromUser(userId);
+        FoundPet.unblockPetsFromUser(userId);
+        User.unblockUser(userId);
     }
 
     private void addPetsForAdoptionToMyPets(List<PetAdoption> petsForAdoption, List<MyPet> myPets) {

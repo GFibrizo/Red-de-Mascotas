@@ -78,6 +78,8 @@ public class PetAdoption implements Comparable<PetAdoption> {
 
     public List<PublicationReport> reports;
 
+    public Boolean hasBeenBlockedOnce;
+
 
     private static JacksonDBCollection<PetAdoption, String> collection = MongoDB.getCollection("petsAdoption", PetAdoption.class, String.class);
 
@@ -105,6 +107,7 @@ public class PetAdoption implements Comparable<PetAdoption> {
         this.isOnTemporaryMedicine = isOnTemporaryMedicine;
         this.isOnChronicMedicine = isOnChronicMedicine;
         this.description = description;
+        this.hasBeenBlockedOnce = false;
     }
 
     @Override
@@ -273,6 +276,26 @@ public class PetAdoption implements Comparable<PetAdoption> {
         return pets.size() == 0 ? 0 : timeLapse / pets.size();
     }
 
+    public static void blockAllPetsFromUser(String userId) {
+        List<PetAdoption> pets = PetAdoption.collection.find(new BasicDBObject("ownerId", userId)).toArray();
+        for (PetAdoption pet : pets) {
+            if (pet.publicationStatus.equals(PUBLISHED)) {
+                pet.temporaryBlock();
+                PetAdoption.collection.updateById(pet.id, pet);
+            }
+        }
+    }
+
+    public static void unblockPetsFromUser(String userId) {
+        List<PetAdoption> pets = PetAdoption.collection.find(new BasicDBObject("ownerId", userId)).toArray();
+        for (PetAdoption pet : pets) {
+            if (pet.publicationStatus.equals(BLOCKED) && !pet.hasBeenBlockedOnce) {
+                pet.unblock();
+                PetAdoption.collection.updateById(pet.id, pet);
+            }
+        }
+    }
+
     public static void delete(String id) {
         PetAdoption petAdoption = PetAdoption.collection.findOneById(id);
         if (petAdoption != null)
@@ -341,6 +364,7 @@ public class PetAdoption implements Comparable<PetAdoption> {
                 report.updateStatus(REPORT_REJECTED);
         }
         this.publicationStatus = BLOCKED;
+        this.hasBeenBlockedOnce = true;
         this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 
@@ -384,6 +408,14 @@ public class PetAdoption implements Comparable<PetAdoption> {
             adoptionRequest.updateLastSeen(DateTime.now().toString(DATE_HOUR_FORMAT));
         }
         return true;
+    }
+
+    private void temporaryBlock() {
+        this.publicationStatus = BLOCKED;
+    }
+
+    private void unblock() {
+        this.publicationStatus = PUBLISHED;
     }
 
 }

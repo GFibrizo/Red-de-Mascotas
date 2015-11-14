@@ -105,6 +105,10 @@ public class User {
         this.acceptedPublicationReports++;
     }
 
+    private void setActive(Boolean active) {
+        this.active = active;
+    }
+
 
     public static User getById(String id) {
         return User.collection.findOneById(id);
@@ -164,6 +168,18 @@ public class User {
     public static void incrementAcceptedPublicationReports(String userId) {
         User user = getById(userId);
         user.incrementAcceptedPublicationReports();
+        User.collection.updateById(userId, user);
+    }
+
+    public static void blockUser(String userId) {
+        User user = getById(userId);
+        user.setActive(false);
+        User.collection.updateById(userId, user);
+    }
+
+    public static void unblockUser(String userId) {
+        User user = getById(userId);
+        user.setActive(true);
         User.collection.updateById(userId, user);
     }
 
