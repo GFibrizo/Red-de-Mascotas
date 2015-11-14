@@ -14,8 +14,8 @@ angular.module('sbAdminApp')
     
     /*Functions*/
 
-    this.getUsers = function(filters) {
-    	var deferred  = $q.defer();
+/*    this.getUsers = function(filters) {
+        var deferred  = $q.defer();
         $http.get('mocks/users.json').then(
             function (response) {               
                 
@@ -26,7 +26,59 @@ angular.module('sbAdminApp')
             }
         );
         return deferred.promise;
+    }*/
+    this.getUsers = function(filters) {
+    	var deferred  = $q.defer();
+        var requestData =  {
+            method: "GET",
+            url: "/users/denunciations"
+        };
+        RequestService.callApi(requestData)
+        .then(
+            function successCallback(response) {
+                deferred.resolve(response);
+            }, 
+            function errorCallback(response) {
+                deferred.reject(response);
+            }
+        );
+        return deferred.promise;
 	}
  
+    this.blockUser = function(user){
+     var deferred  = $q.defer();
+        var requestData =  {
+            method: "PUT",
+            url: "/user/" + user.Id + "/block"
+        };
+        RequestService.callApi(requestData)
+        .then(
+            function successCallback(response) {
+                deferred.resolve(response);
+            }, 
+            function errorCallback(response) {
+                deferred.reject(response);
+            }
+        );
+        return deferred.promise;   
+    }
+
+    this.unBlockUser = function(user){
+        var deferred  = $q.defer();
+        var requestData =  {
+            method: "PUT",
+            url: "/user/" + user.Id + "/unblock"
+        };
+        RequestService.callApi(requestData)
+        .then(
+            function successCallback(response) {
+                deferred.resolve(response);
+            }, 
+            function errorCallback(response) {
+                deferred.reject(response);
+            }
+        );
+        return deferred.promise;
+    }
  
 });

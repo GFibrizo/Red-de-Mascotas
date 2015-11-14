@@ -13,10 +13,32 @@ angular.module('sbAdminApp')
       $scope.data = {
         users:[]
       };
+
+      $scope.radioModel = 'Activo';
       UsersService.getUsers().then(
         function succes(response){
-          $scope.data = response.data;
+          $scope.data.users = response;
         }
       );
+
+      $scope.active = function(user){
+          user.active = true;
+          console.log(user)
+          UsersService.unBlockUser(user).then(
+            function succes(response){
+             console.log(response);
+            }
+          );
+      }
+
+      $scope.inactive = function(user){
+          user.active = false;
+          console.log(user)
+          UsersService.blockUser(user).then(
+            function succes(response){
+             console.log(response);
+            }
+          );
+      }
   	
   });

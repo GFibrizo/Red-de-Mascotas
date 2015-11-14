@@ -40,6 +40,10 @@ public class User {
 
     public List<Notification> notifications;
 
+    public int acceptedPublicationReports;
+
+    public Boolean active;
+
 
     private static JacksonDBCollection<User, String> collection = MongoDB.getCollection("users", User.class, String.class);
 
@@ -56,6 +60,8 @@ public class User {
         this.password = password;
         this.phone = phone;
         this.address = address;
+        this.acceptedPublicationReports = 0;
+        this.active = true;
     }
 
     public User(String notificationId, String name, String lastName, String email, String facebookId,
@@ -68,6 +74,8 @@ public class User {
         this.phone = phone;
         this.address = address;
         this.password = new Password();
+        this.acceptedPublicationReports = 0;
+        this.active = true;
     }
 
     public void setId(String id) {
@@ -93,6 +101,14 @@ public class User {
         this.notifications.add(notification);
     }
 
+    private void incrementAcceptedPublicationReports() {
+        this.acceptedPublicationReports++;
+    }
+
+    private void setActive(Boolean active) {
+        this.active = active;
+    }
+
 
     public static User getById(String id) {
         return User.collection.findOneById(id);
@@ -104,6 +120,10 @@ public class User {
 
     public static User getByUserName(String userName) {
         return User.collection.findOne(new BasicDBObject("userName", userName));
+    }
+
+    public static List<User> getAll() {
+        return User.collection.find().toArray();
     }
 
     public static String create(User user) {
@@ -142,6 +162,24 @@ public class User {
     public static void saveNotification(String userId, Notification notification) {
         User user = getById(userId);
         user.addNewNotification(notification);
+        User.collection.updateById(userId, user);
+    }
+
+    public static void incrementAcceptedPublicationReports(String userId) {
+        User user = getById(userId);
+        user.incrementAcceptedPublicationReports();
+        User.collection.updateById(userId, user);
+    }
+
+    public static void blockUser(String userId) {
+        User user = getById(userId);
+        user.setActive(false);
+        User.collection.updateById(userId, user);
+    }
+
+    public static void unblockUser(String userId) {
+        User user = getById(userId);
+        user.setActive(true);
         User.collection.updateById(userId, user);
     }
 

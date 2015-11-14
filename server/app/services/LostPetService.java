@@ -35,6 +35,10 @@ public class LostPetService {
         return true;
     }
 
+    public void updateToFound(String petId) {
+        LostPet.updateToFound(petId);
+    }
+
     private void sendNotificationsOfFoundPets(LostPet lostPet) {
         List<FoundPet> foundPets = FoundPet.getMatches(lostPet.type, lostPet.gender, lostPet.lastSeenDate, lostPet.lastSeenLocation);
         for (FoundPet foundPet : foundPets) {

@@ -18,6 +18,8 @@ GET         /user/:userId/search-matches                @controllers.UserControl
 GET         /user/:userId/notifications                 @controllers.UserController.getNotifications(userId)
 GET         /user/:userId/pending-notifications         @controllers.UserController.userHasPendingNotifications(userId)
 PUT         /user/:userId/notifications                 @controllers.UserController.updateLastSeenNotifications(userId)
+PUT         /user/:userId/block                         @controllers.UserController.blockUser(userId)
+PUT         /user/:userId/unblock                       @controllers.UserController.unblockUser(userId)
 
 # Publicacion de mascota en adopcion
 POST        /pet/adoption                               @controllers.PetAdoptionController.publishPet
@@ -31,6 +33,11 @@ GET         /pet/:petId/adopted                         @controllers.PetAdoption
 POST        /pet/:petId/adoption                        @controllers.PetAdoptionController.adoptPet(petId)
 PUT         /pet/:petId/adoption/accepted               @controllers.PetAdoptionController.acceptAdoptionRequest(petId)
 
+# Denuncia de mascota en adopción
+POST        /pet/:petId/report                          @controllers.DenunciationController.reportPublication(petId)
+PUT         /pet/:petId/report/accepted                 @controllers.DenunciationController.acceptPublicationReport(petId)
+PUT         /pet/:petId/report/rejected                 @controllers.DenunciationController.rejectPublicationReport(petId)
+
 # Tomar mascota en hogar de transito
 POST        /pet/:petId/take-in-transit                 @controllers.PetAdoptionController.takePetInTransit(petId)
 PUT         /pet/:petId/take-in-transit/accepted        @controllers.PetAdoptionController.acceptTakeInTransitRequest(petId)
@@ -43,7 +50,15 @@ POST        /pet/found                                  @controllers.FoundPetCon
 
 # Mis publicaciones
 PUT         /pet/:petId/unpublish                       @controllers.MyPetController.unpublishPet(petId)
+PUT         /pet/:petId/found                           @controllers.LostPetController.updateToFound(petId)
 
 # Media
 GET         /pet/image/:imageId                         @controllers.ImageController.getPetImage(imageId)
 POST        /pet/image                                  @controllers.ImageController.uploadPetImage
+
+# Reportes
+GET         /reports                                    @controllers.ReportController.getPetsReport
+
+# Administracion de denuncias
+GET         /pets/denunciations                         @controllers.DenunciationController.getPetPublicationDenunciations
+GET         /users/denunciations                        @controllers.DenunciationController.getUserDenunciations

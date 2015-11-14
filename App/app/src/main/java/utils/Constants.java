@@ -29,6 +29,8 @@ public final class Constants {
     public static final String TAKE_IN_TRANSIT_REQUEST = "TAKE_IN_TRANSIT_REQUEST";
     public static final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
 
+    public static final String LOST = "LOST";
+
     public static final String[] AGES = {"0 - 6 meses", "6 - 12 meses", "1 - 3 años", "3 - 7 años", "más de 7 años"};
 
     public static final String[] CITIES = {"Ciudad Autónoma de Buenos Aires"};

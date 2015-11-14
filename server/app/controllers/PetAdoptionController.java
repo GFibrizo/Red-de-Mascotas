@@ -1,10 +1,7 @@
 package controllers;
 
 import model.PetAdoption;
-import model.external.AdoptionRequest;
-import model.external.SearchForAdoptionFilters;
-import model.external.PublishForAdoptionPet;
-import model.external.TransitHomeRequest;
+import model.external.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import play.Logger;

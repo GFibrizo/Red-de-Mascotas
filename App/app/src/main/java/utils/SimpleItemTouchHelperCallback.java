@@ -57,6 +57,12 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
         dialog.show();
     }
 
+    public void verificarEncuentroMascota(final RecyclerView.ViewHolder viewHolder){
+        AlertDialog dialog = createDialogMascota(viewHolder, "Verificación",
+                "¿Encontraste a tu mascota?");
+        dialog.show();
+    }
+
     public AlertDialog createDialog(final RecyclerView.ViewHolder viewHolder, String titulo, String mensaje) {
         // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.context);
@@ -70,13 +76,19 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     JSONObject object = mAdapter.getAt(viewHolder.getAdapterPosition());
-                    UnpublishRequest request = new UnpublishRequest(context);
-                    Log.e("REMOVE", object.getString("id") + " : " + object.getString("publicationType"));
-                    request.send(object.getString("id"), object.getString("publicationType"));
-                } catch (JSONException e) {
-                    Log.e("ERROR UNPUBLISH SWIPE", e.getMessage());
+                    Log.i("PUBLICATION TYPE", object.getString("publicationType") );
+                    if (object.getString("publicationType").equals(Constants.LOST)){
+                        verificarEncuentroMascota(viewHolder);
+                    }else {
+                        UnpublishRequest request = new UnpublishRequest(context);
+                        Log.i("REMOVE", object.getString("id") + " : " + object.getString("publicationType"));
+                        request.send(object.getString("id"), object.getString("publicationType"));
+                        mAdapter.remove(viewHolder.getAdapterPosition());
+                    }
+                } catch (Exception e) {
+                    Log.e("ERROR AL OBTENER PetId", e.getMessage());
                 }
-                mAdapter.remove(viewHolder.getAdapterPosition());
+
             }
         };
 
@@ -86,6 +98,58 @@ public class SimpleItemTouchHelperCallback extends ItemTouchHelper.Callback {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 mAdapter.notifyItemChanged(viewHolder.getAdapterPosition());
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton("No", listenerCancelar);
+        alertDialogBuilder.setNegativeButton("Si", listenerOk);
+
+        return alertDialogBuilder.create();
+    }
+
+
+    public AlertDialog createDialogMascota(final RecyclerView.ViewHolder viewHolder, String titulo, String mensaje) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this.context);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(mensaje);
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("MASCOTA ENCONTRADA: ", "si");
+                try {
+                    JSONObject object = mAdapter.getAt(viewHolder.getAdapterPosition());
+//                    Log.i("REMOVE ENCONTRADA", object.getString("id") + " : " + object.getString("publicationType"));
+                    PetWasFoundRequest request = new PetWasFoundRequest(context);
+                    request.markAsFound(object.getString("id"));
+                    mAdapter.remove(viewHolder.getAdapterPosition());
+                } catch (JSONException e) {
+                    Log.i("LOG DE ERROR", "al encontrar mascota");
+//                    Log.e("ERROR AL OBTENER PetId", e.getMessage()); //TODO: SOLVE BUG """println needs a message"""
+                }
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i("MASCOTA ENCONTRADA: ", "no");
+                try {
+                    JSONObject object = mAdapter.getAt(viewHolder.getAdapterPosition());
+                    Log.i("REMOVE NO ENCONTRADA", object.getString("id") + " : " + object.getString("publicationType"));
+                    UnpublishRequest request = new UnpublishRequest(context);
+                    request.send(object.getString("id"), object.getString("publicationType"));
+                    mAdapter.remove(viewHolder.getAdapterPosition());
+                } catch (JSONException e) {
+                    Log.e("ERROR UNPUBLISH SWIPE", e.getMessage());
+                }
             }
         };
 
