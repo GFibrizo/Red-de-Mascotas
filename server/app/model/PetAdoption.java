@@ -9,7 +9,6 @@ import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import play.modules.mongodb.jackson.MongoDB;
@@ -158,6 +157,13 @@ public class PetAdoption implements Comparable<PetAdoption> {
         }
         pets.removeAll(petsToRemove);
         return pets;
+    }
+
+    public static List<PetAdoption> getPetsWithReports() {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("publicationStatus", PUBLISHED);
+        query.push("reports").add("$ne", null).pop();
+        return PetAdoption.collection.find(query.get()).toArray();
     }
 
     public static List<PetAdoption> search(SearchForAdoptionFilters filters) {

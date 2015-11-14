@@ -56,3 +56,6 @@ POST        /pet/image                                  @controllers.ImageContro
 
 # Reportes
 GET         /reports                                    @controllers.ReportController.getPetsReport
+
+# Administracion de denuncias
+GET         /pets/denunciations                         @controllers.DenunciationController.getPetPublicationDenunciations
