@@ -134,6 +134,16 @@ public class UserService {
         return pets;
     }
 
+    public void blockUser(String userId) {
+        PetAdoption.blockAllPetsFromUser(userId);
+        User.blockUser(userId);
+    }
+
+    public void unblockUser(String userId) {
+        PetAdoption.unblockPetsFromUser(userId);
+        User.unblockUser(userId);
+    }
+
     private void addPetsForAdoptionToMyPets(List<PetAdoption> petsForAdoption, List<MyPet> myPets) {
         for (PetAdoption pet : petsForAdoption) {
             myPets.add(new MyPet(pet.id, pet.ownerId, pet.name, pet.type, pet.breed, pet.gender, pet.size, pet.age,
