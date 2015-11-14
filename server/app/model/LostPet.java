@@ -1,6 +1,9 @@
 package model;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
+import model.external.AcceptPublicationReportRequest;
+import model.external.ReportPublicationRequest;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
@@ -65,6 +68,10 @@ public class LostPet {
 
     public String findingDate;
 
+    public List<PublicationReport> reports;
+
+    public Boolean hasBeenBlockedOnce;
+
 
     private static JacksonDBCollection<LostPet, String> collection = MongoDB.getCollection("lostPets", LostPet.class, String.class);
 
@@ -93,6 +100,7 @@ public class LostPet {
         this.lastSeenLocation = lastSeenLocation;
         this.lastSeenDate = lastSeenDate;
         this.lastSeenHour = lastSeenHour;
+        this.hasBeenBlockedOnce = false;
     }
 
     public static void create(LostPet lostPet) {
@@ -108,6 +116,23 @@ public class LostPet {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("ownerId", ownerId);
         query.add("publicationStatus", PUBLISHED);
+        return LostPet.collection.find(query.get()).toArray();
+    }
+
+    public static List<LostPet> getPublishedAndBlockedByOwnerId(String ownerId) {
+        ArrayList<String> status = new ArrayList<>();
+        status.add(PUBLISHED);
+        status.add(BLOCKED);
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("ownerId", ownerId);
+        query.push("publicationStatus").add("$in", status).pop();
+        return LostPet.collection.find(query.get()).toArray();
+    }
+
+    public static List<LostPet> getPetsWithReports() {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("publicationStatus", PUBLISHED);
+        query.push("reports").add("$ne", null).pop();
         return LostPet.collection.find(query.get()).toArray();
     }
 
@@ -135,10 +160,11 @@ public class LostPet {
         return lostPets;
     }
 
-    public static int getAverageFindingTimeLapse(String fromDate, String toDate) {
+    public static int getAverageFindingTimeLapse(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter localDateFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = localDateFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         query.push("findingDate").add("$gte", fromDate).add("$lt", to).pop();
         List<LostPet> pets = LostPet.collection.find(query.get()).toArray();
@@ -165,12 +191,54 @@ public class LostPet {
         LostPet.collection.updateById(petId, pet);
     }
 
-    public static int countPetsPublished(String fromDate, String toDate) {
+    public static int countPetsPublished(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) LostPet.collection.count(query.get());
+    }
+
+    public static LostPet addReport(ReportPublicationRequest request) {
+        LostPet pet = getById(request.petId);
+        pet.addNewReport(request);
+        LostPet.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
+    public static LostPet acceptReport(AcceptPublicationReportRequest request) {
+        LostPet pet = getById(request.petId);
+        pet.updatePublicationStatusToBlocked(request.informer);
+        LostPet.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
+    public static LostPet rejectReport(AcceptPublicationReportRequest request) {
+        LostPet pet = getById(request.petId);
+        pet.updateReportToRejected(request.informer);
+        LostPet.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
+    public static void blockAllPetsFromUser(String userId) {
+        List<LostPet> pets = LostPet.collection.find(new BasicDBObject("ownerId", userId)).toArray();
+        for (LostPet pet : pets) {
+            if (pet.publicationStatus.equals(PUBLISHED)) {
+                pet.temporaryBlock();
+                LostPet.collection.updateById(pet.id, pet);
+            }
+        }
+    }
+
+    public static void unblockPetsFromUser(String userId) {
+        List<LostPet> pets = LostPet.collection.find(new BasicDBObject("ownerId", userId)).toArray();
+        for (LostPet pet : pets) {
+            if (pet.publicationStatus.equals(BLOCKED) && !pet.hasBeenBlockedOnce) {
+                pet.unblock();
+                LostPet.collection.updateById(pet.id, pet);
+            }
+        }
     }
 
     public static void delete(String id) {
@@ -190,6 +258,42 @@ public class LostPet {
 
     private void updatePublicationStatusToFound() {
         this.findingDate = DateTime.now().toString(DATE_HOUR_FORMAT);
+    }
+
+    private void addNewReport(ReportPublicationRequest request) {
+        PublicationReport report = new PublicationReport(request.informer, request.reason, REPORT_PENDING,
+                DateTime.now().toString(DATE_HOUR_FORMAT));
+        if (this.reports == null)
+            this.reports = new ArrayList<>();
+        this.reports.add(report);
+    }
+
+    private void updatePublicationStatusToBlocked(String informer) {
+        for (PublicationReport report : this.reports) {
+            if (report.informer.equals(informer))
+                report.updateStatus(REPORT_ACCEPTED);
+            else
+                report.updateStatus(REPORT_REJECTED);
+        }
+        this.publicationStatus = BLOCKED;
+        this.hasBeenBlockedOnce = true;
+    }
+
+    private void updateReportToRejected(String informer) {
+        for (PublicationReport report : this.reports) {
+            if (report.informer.equals(informer)) {
+                report.updateStatus(REPORT_REJECTED);
+                break;
+            }
+        }
+    }
+
+    private void temporaryBlock() {
+        this.publicationStatus = BLOCKED;
+    }
+
+    private void unblock() {
+        this.publicationStatus = PUBLISHED;
     }
 
 }

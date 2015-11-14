@@ -41,9 +41,9 @@
                                             	{{user.address.country}}
                                             </td>
                                             <td> 
-                                                <div class="btn-group">
-                                                    <label class="btn btn-success" ng-model="radioModel" btn-radio="'Left'" >Activo</label>
-                                                    <label class="btn btn-danger" ng-model="radioModel" btn-radio="'Right'" >Inactivo</label>
+                                                <div class="btn-group" >
+                                                    <label class="btn btn-success" ng-click="active(user)" ng-model="radioModel" btn-radio="'active'" >Activo</label>
+                                                    <label class="btn btn-danger" ng-click="inactive(user)" ng-model="radioModel" btn-radio="'inactive'" >Inactivo</label>
                                                  
                                                 </div>
                                             </td>

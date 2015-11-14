@@ -14,7 +14,8 @@
                 "city": "Ciudad Autónoma de Buenos Aires",
                 "province": "Ciudad Autónoma de Buenos Aires",
                 "country": "Argentina"
-            }
+            },
+            "active": true
         },
         {
             "id": "563f82202b5ecedae6a7bb1b",
@@ -30,7 +31,8 @@
                 "city": "Ciudad Autónoma de Buenos Aires",
                 "province": "Ciudad Autónoma de Buenos Aires",
                 "country": "Argentina"
-            }
+            },
+            "active": false
         }
     ]
 }

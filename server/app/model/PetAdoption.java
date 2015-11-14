@@ -9,7 +9,6 @@ import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
 import org.joda.time.DateTime;
 import org.joda.time.Days;
-import org.joda.time.LocalDate;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import play.modules.mongodb.jackson.MongoDB;
@@ -79,6 +78,8 @@ public class PetAdoption implements Comparable<PetAdoption> {
 
     public List<PublicationReport> reports;
 
+    public Boolean hasBeenBlockedOnce;
+
 
     private static JacksonDBCollection<PetAdoption, String> collection = MongoDB.getCollection("petsAdoption", PetAdoption.class, String.class);
 
@@ -106,6 +107,7 @@ public class PetAdoption implements Comparable<PetAdoption> {
         this.isOnTemporaryMedicine = isOnTemporaryMedicine;
         this.isOnChronicMedicine = isOnChronicMedicine;
         this.description = description;
+        this.hasBeenBlockedOnce = false;
     }
 
     @Override
@@ -158,6 +160,13 @@ public class PetAdoption implements Comparable<PetAdoption> {
         }
         pets.removeAll(petsToRemove);
         return pets;
+    }
+
+    public static List<PetAdoption> getPetsWithReports() {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("publicationStatus", PUBLISHED);
+        query.push("reports").add("$ne", null).pop();
+        return PetAdoption.collection.find(query.get()).toArray();
     }
 
     public static List<PetAdoption> search(SearchForAdoptionFilters filters) {
@@ -231,26 +240,29 @@ public class PetAdoption implements Comparable<PetAdoption> {
         PetAdoption.collection.updateById(petId, pet);
     }
 
-    public static int countPetsPublished(String fromDate, String toDate) {
+    public static int countPetsPublished(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) PetAdoption.collection.count(query.get());
     }
 
-    public static int countPetsAdopted(String fromDate, String toDate) {
+    public static int countPetsAdopted(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("adoptionDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) PetAdoption.collection.count(query.get());
     }
 
-    public static int getAverageAdoptionTimeLapse(String fromDate, String toDate) {
+    public static int getAverageAdoptionTimeLapse(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter localDateFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = localDateFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         query.push("adoptionDate").add("$gte", fromDate).add("$lt", to).pop();
         List<PetAdoption> pets = PetAdoption.collection.find(query.get()).toArray();
@@ -262,6 +274,26 @@ public class PetAdoption implements Comparable<PetAdoption> {
             timeLapse += Days.daysBetween(publicationDate, adoptionDate).getDays();
         }
         return pets.size() == 0 ? 0 : timeLapse / pets.size();
+    }
+
+    public static void blockAllPetsFromUser(String userId) {
+        List<PetAdoption> pets = PetAdoption.collection.find(new BasicDBObject("ownerId", userId)).toArray();
+        for (PetAdoption pet : pets) {
+            if (pet.publicationStatus.equals(PUBLISHED)) {
+                pet.temporaryBlock();
+                PetAdoption.collection.updateById(pet.id, pet);
+            }
+        }
+    }
+
+    public static void unblockPetsFromUser(String userId) {
+        List<PetAdoption> pets = PetAdoption.collection.find(new BasicDBObject("ownerId", userId)).toArray();
+        for (PetAdoption pet : pets) {
+            if (pet.publicationStatus.equals(BLOCKED) && !pet.hasBeenBlockedOnce) {
+                pet.unblock();
+                PetAdoption.collection.updateById(pet.id, pet);
+            }
+        }
     }
 
     public static void delete(String id) {
@@ -332,6 +364,7 @@ public class PetAdoption implements Comparable<PetAdoption> {
                 report.updateStatus(REPORT_REJECTED);
         }
         this.publicationStatus = BLOCKED;
+        this.hasBeenBlockedOnce = true;
         this.lastModifiedDate = DateTime.now().toString(DATE_HOUR_FORMAT);
     }
 
@@ -375,6 +408,14 @@ public class PetAdoption implements Comparable<PetAdoption> {
             adoptionRequest.updateLastSeen(DateTime.now().toString(DATE_HOUR_FORMAT));
         }
         return true;
+    }
+
+    private void temporaryBlock() {
+        this.publicationStatus = BLOCKED;
+    }
+
+    private void unblock() {
+        this.publicationStatus = PUBLISHED;
     }
 
 }

@@ -34,8 +34,8 @@
                                 <td class="center">{{result.comment}}</td>
                                 <td class="center">{{result.date}}</td>
                                 <td class="center">
-                                    <button ng-click="showMessageAccept(result)" type="button" class="btn btn-success">Aceptar</button>
-                                    <button ng-click="showMessage(result)" type="button" class="btn btn-danger">Rechazar</button>
+                                    <button ng-click="accept('sm',result,'A')" type="button" class="btn btn-success">Aceptar</button>
+                                    <button ng-click="reject('sm',result,'C')" type="button" class="btn btn-danger">Rechazar</button>
                                     <button class="btn btn-default" ng-click="open('sm',result)">Ver publicación</button>
                                 </td>
                             </tr>                            
@@ -51,21 +51,25 @@
     </div>
     <!-- /.col-lg-12 -->
 </div>
+
+<!-- Modal to show publication -->
 <script type="text/ng-template" id="myModalContent.html">
     <div class="modal-header">
+        <h3 ng-show="action.status" class="modal-title">Desea {{action.name}}</h3>
         <h3 class="modal-title">Publicacion</h3>
     </div>
     <div class="modal-body">
-    <img src="mocks/perro3.jpg" alt="Smiley face" height="70" width="70">
-    <div>{{denunciation.publication.publicationId}}</div>
-    <div>{{denunciation.publication.type}}</div>
-    <div>{{denunciation.publication.petName}}</div>
-    <div>{{denunciation.publication.petSize}}</div>
-    <div>{{denunciation.publication.petColor}}</div>
-    <div>{{denunciation.publication.petBred}}</div>
+        <img src="mocks/perro3.jpg" alt="Smiley face" height="70" width="70">
+        <div>{{denunciation.publication.publicationId}}</div>
+        <div>{{denunciation.publication.type}}</div>
+        <div>{{denunciation.publication.petName}}</div>
+        <div>{{denunciation.publication.petSize}}</div>
+        <div>{{denunciation.publication.petColor}}</div>
+        <div>{{denunciation.publication.petBred}}</div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">OK</button>
         <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
     </div>
 </script>
+

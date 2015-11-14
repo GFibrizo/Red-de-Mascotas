@@ -90,5 +90,7 @@ angular.module('sbAdminApp')
             }
             console.log(filters);
         }
+
+      
     
   });

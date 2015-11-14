@@ -1,6 +1,9 @@
 package model;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
+import model.external.AcceptPublicationReportRequest;
+import model.external.ReportPublicationRequest;
 import net.vz.mongodb.jackson.Id;
 import net.vz.mongodb.jackson.JacksonDBCollection;
 import net.vz.mongodb.jackson.ObjectId;
@@ -13,10 +16,8 @@ import play.modules.mongodb.jackson.MongoDB;
 import java.util.ArrayList;
 import java.util.List;
 
-import static utils.Constants.DATE_FORMAT;
-import static utils.Constants.DATE_HOUR_FORMAT;
-import static utils.Constants.PUBLISHED;
-import static utils.Constants.UNPUBLISHED;
+import static utils.Constants.*;
+import static utils.Constants.REPORT_REJECTED;
 
 public class FoundPet {
 
@@ -58,6 +59,10 @@ public class FoundPet {
 
     public String publicationDate;
 
+    public List<PublicationReport> reports;
+
+    public Boolean hasBeenBlockedOnce;
+
 
     private static JacksonDBCollection<FoundPet, String> collection = MongoDB.getCollection("foundPets", FoundPet.class, String.class);
 
@@ -81,6 +86,7 @@ public class FoundPet {
         this.foundLocation = foundLocation;
         this.foundDate = foundDate;
         this.foundHour = foundHour;
+        this.hasBeenBlockedOnce = false;
     }
 
     public static void create(FoundPet foundPet) {
@@ -96,6 +102,23 @@ public class FoundPet {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("finderId", finderId);
         query.add("publicationStatus", PUBLISHED);
+        return FoundPet.collection.find(query.get()).toArray();
+    }
+
+    public static List<FoundPet> getPublishedAndBlockedByFinderId(String finderId) {
+        ArrayList<String> status = new ArrayList<>();
+        status.add(PUBLISHED);
+        status.add(BLOCKED);
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("finderId", finderId);
+        query.push("publicationStatus").add("$in", status).pop();
+        return FoundPet.collection.find(query.get()).toArray();
+    }
+
+    public static List<FoundPet> getPetsWithReports() {
+        BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("publicationStatus", PUBLISHED);
+        query.push("reports").add("$ne", null).pop();
         return FoundPet.collection.find(query.get()).toArray();
     }
 
@@ -129,12 +152,54 @@ public class FoundPet {
         FoundPet.collection.updateById(petId, pet);
     }
 
-    public static int countPetsPublished(String fromDate, String toDate) {
+    public static int countPetsPublished(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        if (petType != null) query.add("type", petType);
         query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
         return (int) FoundPet.collection.count(query.get());
+    }
+
+    public static FoundPet addReport(ReportPublicationRequest request) {
+        FoundPet pet = getById(request.petId);
+        pet.addNewReport(request);
+        FoundPet.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
+    public static FoundPet acceptReport(AcceptPublicationReportRequest request) {
+        FoundPet pet = getById(request.petId);
+        pet.updatePublicationStatusToBlocked(request.informer);
+        FoundPet.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
+    public static FoundPet rejectReport(AcceptPublicationReportRequest request) {
+        FoundPet pet = getById(request.petId);
+        pet.updateReportToRejected(request.informer);
+        FoundPet.collection.updateById(request.petId, pet);
+        return pet;
+    }
+
+    public static void blockAllPetsFromUser(String userId) {
+        List<FoundPet> pets = FoundPet.collection.find(new BasicDBObject("finderId", userId)).toArray();
+        for (FoundPet pet : pets) {
+            if (pet.publicationStatus.equals(PUBLISHED)) {
+                pet.temporaryBlock();
+                FoundPet.collection.updateById(pet.id, pet);
+            }
+        }
+    }
+
+    public static void unblockPetsFromUser(String userId) {
+        List<FoundPet> pets = FoundPet.collection.find(new BasicDBObject("finderId", userId)).toArray();
+        for (FoundPet pet : pets) {
+            if (pet.publicationStatus.equals(BLOCKED) && !pet.hasBeenBlockedOnce) {
+                pet.unblock();
+                FoundPet.collection.updateById(pet.id, pet);
+            }
+        }
     }
 
     public static void delete(String id) {
@@ -150,6 +215,42 @@ public class FoundPet {
 
     private void updatePublicationStatusToUnpublished() {
         this.publicationStatus = UNPUBLISHED;
+    }
+
+    private void addNewReport(ReportPublicationRequest request) {
+        PublicationReport report = new PublicationReport(request.informer, request.reason, REPORT_PENDING,
+                DateTime.now().toString(DATE_HOUR_FORMAT));
+        if (this.reports == null)
+            this.reports = new ArrayList<>();
+        this.reports.add(report);
+    }
+
+    private void updatePublicationStatusToBlocked(String informer) {
+        for (PublicationReport report : this.reports) {
+            if (report.informer.equals(informer))
+                report.updateStatus(REPORT_ACCEPTED);
+            else
+                report.updateStatus(REPORT_REJECTED);
+        }
+        this.publicationStatus = BLOCKED;
+        this.hasBeenBlockedOnce = true;
+    }
+
+    private void updateReportToRejected(String informer) {
+        for (PublicationReport report : this.reports) {
+            if (report.informer.equals(informer)) {
+                report.updateStatus(REPORT_REJECTED);
+                break;
+            }
+        }
+    }
+
+    private void temporaryBlock() {
+        this.publicationStatus = BLOCKED;
+    }
+
+    private void unblock() {
+        this.publicationStatus = PUBLISHED;
     }
 
 }

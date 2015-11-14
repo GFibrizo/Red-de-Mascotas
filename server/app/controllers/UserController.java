@@ -122,4 +122,16 @@ public class UserController {
         return play.mvc.Controller.ok(Json.toJson(pets));
     }
 
+    public Result blockUser(String userId) {
+        service.blockUser(userId);
+        Logger.info("User with id " + userId + " successfully blocked");
+        return play.mvc.Controller.ok();
+    }
+
+    public Result unblockUser(String userId) {
+        service.unblockUser(userId);
+        Logger.info("User with id " + userId + " successfully unblocked");
+        return play.mvc.Controller.ok();
+    }
+
 }
