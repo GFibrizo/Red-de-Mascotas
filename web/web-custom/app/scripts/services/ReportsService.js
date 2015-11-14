@@ -12,57 +12,34 @@ angular.module('sbAdminApp')
     
     /*Atributes*/
     
-    /*Functions*/
 
+    /*Functions*/
+    ///reports?fromDate=2015/11/08&toDate=2015/11/15 
     this.getData = function(filters) {
         var deferred  = $q.defer();
-        $http.get('mocks/reporteAltas.json').then(
-            function (response) {               
-                
+        var requestData =  {
+            method: "GET",
+            url: "/reports",
+            params: filters
+        };
+        RequestService.callApi(requestData)
+        .then(
+            function successCallback(response) {
                 deferred.resolve(response);
-            },
-            function (response) {               
+            }, 
+            function errorCallback(response) {
                 deferred.reject(response);
             }
         );
         return deferred.promise;
     }
 
-    this.getAverageFromAdoption = function(filters) {
-        var deferred  = $q.defer();
-        $http.get('mocks/reporteTiempoAdopcion.json').then(
-            function (response) {               
-                
-                deferred.resolve(response);
-            },
-            function (response) {               
-                deferred.reject(response);
-            }
-        );
-        return deferred.promise;
-    }
 
-    this.getAverageFromFounded = function(filters) {
-    	var deferred  = $q.defer();
-        $http.get('mocks/reporteTiempoHallazgo.json').then(
-            function (response) {               
-                
-                deferred.resolve(response);
-            },
-            function (response) {               
-                deferred.reject(response);
-            }
-        );
-        return deferred.promise;
-	}
-
-    this.getNameByCheck =  function(object){
-            if (object.both)
-                    return "both";
-            if (object.dogs)
-                    return "dogs";
-            if (object.cats)
-                    return "cats";
+    this.getNameByCheck =  function(filterPetName){
+        if (filterPetName == "Ambos")
+            return;
+        else
+            return filterPetName;   
     }
  
  

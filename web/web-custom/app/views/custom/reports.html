@@ -3,8 +3,6 @@
 		<div class="col-lg-12">
 			<h1 class="page-header">Reportes</h1>
 	        <div class="row">
-	        <!-- TODO:AGREGAR VALIDACIONES DE RANGOS -->
-
 		        <div class="col-md-3">
 		            <p class="input-group">
 		            	<span class="input-group-btn">
@@ -29,9 +27,9 @@
 		        </div>
 		        <div class="col-md-3">
 		        	 <div class="btn-group">
-				        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'both'">Ambos</label>
-				        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'dogs'">Perros</label>
-				        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'cats'">Gatos</label>
+				        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Ambos'">Ambos</label>
+				        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Perro'">Perros</label>
+				        <label class="btn btn-primary" ng-model="radioModel" btn-radio="'Gato'">Gatos</label>
 				    </div>
 		        </div>
 		        <div class="col-md-2">
@@ -52,35 +50,26 @@
 	            <div class="table-responsive">
                     <table class="table table-bordered table-striped">
                         <thead>
-                            <tr>
-                                <th>Mascota</th>
-                                <th>Alta publicacion adopciones</th>
-                                <th>Alta publicacion adoptadas</th>
-                                <th>Alta publicacion perdidas</th>
-                                <th>Alta publicacion halladas</th>
-                             
+                            <tr>                                
+                                <th>Dato</th>
+                                <th>Número</th>
                             </tr>
                         </thead>
                         <tbody >                                        
                             <tr>
-                            	<th>Perro</th>
-                            	<td>{{bar.dataByPets.dogs[0]}}</td>
-                            	<td>{{bar.dataByPets.dogs[1]}}</td>
-                            	<td>{{bar.dataByPets.dogs[2]}}</td>
-                            	<td>{{bar.dataByPets.dogs[3]}}</td>
-                            </tr>
-                            <tr>
-                            	<th>Gato</th>
-                            	<td>{{bar.dataByPets.cats[0]}}</td>
-                            	<td>{{bar.dataByPets.cats[1]}}</td>
-                            	<td>{{bar.dataByPets.cats[2]}}</td>
-                            	<td>{{bar.dataByPets.cats[3]}}</td>
-                            </tr>
-                            <tr>
-                            	<th>Ambos</th>
+                            	<th>Alta publicacion adopciones</th>
                             	<td>{{bar.data[0][0]}}</td>
+                            </tr>
+                            <tr>
+                            	<th>Alta publicacion adoptadas</th>
                             	<td>{{bar.data[0][1]}}</td>
+                            </tr>
+                            <tr>
+                            	<th>Alta publicacion perdidas</th>
                             	<td>{{bar.data[0][2]}}</td>
+                            </tr>
+                            <tr>
+                            	<th>Alta publicacion halladas</th>
                             	<td>{{bar.data[0][3]}}</td>
                             </tr>
                            
@@ -100,7 +89,7 @@
 			</h1>
 			<div class="panel panel-default">
 	            <div class="panel-heading">
-	            	<h3>Tiempo promedio de adopcion</h3>
+	            	<h3>Tiempo promedio de adopcion <small>[En días]</small></h3>
 	            	<small>Desde {{date.from | date:"dd/MM/yyyy"}} hasta {{date.to | date:"dd/MM/yyyy"}}</small>
 	            </div>
 	            <div class="panel-body">                      
@@ -110,7 +99,7 @@
 			</div>
 			<div class="panel panel-default">
 	            <div class="panel-heading">
-	            	<h3>Tiempo promedio de hallazgo</h3>
+	            	<h3>Tiempo promedio de hallazgo <small>[En días]</small></h3>
 	            	<small>Desde {{date.from | date:"dd/MM/yyyy"}} hasta {{date.to | date:"dd/MM/yyyy"}}</small>
 	            </div>
 

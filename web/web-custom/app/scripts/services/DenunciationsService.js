@@ -17,6 +17,7 @@ angular.module('sbAdminApp')
     this.getDenunciations = function(filters) {
     	var deferred  = $q.defer();
         $http.get('mocks/denuncias.json').then(
+        
             function (response) {               
                 
                 deferred.resolve(response);
@@ -74,6 +75,7 @@ angular.module('sbAdminApp')
             method: "PUT",
             url: "/pet/" + object.petId + "/report/rejected",
             params: {
+                petId: object.petId,
                 petId: object.petId,
                 informer:  object.informer
             }
