@@ -1,6 +1,7 @@
 package controllers;
 
 import model.PublicationDenunciation;
+import model.UserDenunciation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import play.Logger;
@@ -18,7 +19,13 @@ public class DenunciationController {
 
     public Result getPetPublicationDenunciations() {
         List<PublicationDenunciation> denunciations = service.getPetPublicationDenunciations();
-        Logger.info("Number of denunciations: " + denunciations.size());
+        Logger.info("Number of pet publication denunciations: " + denunciations.size());
+        return play.mvc.Controller.ok(Json.toJson(denunciations));
+    }
+
+    public Result getUserDenunciations() {
+        List<UserDenunciation> denunciations = service.getUserDenunciations();
+        Logger.info("Number of user denunciations: " + denunciations.size());
         return play.mvc.Controller.ok(Json.toJson(denunciations));
     }
 

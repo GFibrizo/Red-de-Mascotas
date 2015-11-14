@@ -21,6 +21,17 @@ public class DenunciationService {
         return denunciations;
     }
 
+    public List<UserDenunciation> getUserDenunciations() {
+        List<UserDenunciation> denunciations = new ArrayList<>();
+        List<User> users = User.getAll();
+        for (User user : users) {
+            denunciations.add(new UserDenunciation(user.id, user.userName, user.name, user.lastName, user.email,
+                                                   user.phone, user.address, user.acceptedPublicationReports, user.active));
+        }
+        Collections.sort(denunciations, Collections.reverseOrder());
+        return denunciations;
+    }
+
     private void addPetAdoptionDenunciations(List<PetAdoption> publications, List<PublicationDenunciation> denunciations) {
         for (PetAdoption publication : publications) {
             User owner = User.getById(publication.ownerId);
