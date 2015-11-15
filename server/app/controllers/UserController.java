@@ -9,6 +9,7 @@ import org.springframework.stereotype.Controller;
 import play.Logger;
 import play.data.Form;
 import play.libs.Json;
+import play.mvc.Http;
 import play.mvc.Result;
 import services.UserService;
 
@@ -23,6 +24,8 @@ public class UserController {
     // Devuelve el usuario en caso de ser la misma password encriptada, sino devuelve BadRequest.
     // Si no encuentra el usuario devuelve BadRequest.
     public Result logInWithAccount() {
+        Http.Response response = play.mvc.Controller.response();
+        response.setHeader(play.mvc.Controller.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         Form<LogInUser> form = Form.form(LogInUser.class).bindFromRequest();
         LogInUser logInUser = form.get();
         User user = service.logInWithAccount(logInUser);
@@ -40,6 +43,8 @@ public class UserController {
 
     // Devuelve el salt del usuario, si existe el usuario, sino devuelve BadRequest.
     public Result getUserSalt(String userName) {
+        Http.Response response = play.mvc.Controller.response();
+        response.setHeader(play.mvc.Controller.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         String salt = service.getUserSalt(userName);
         if (salt == null) {
             Logger.error("Salt for user " + userName + " could not be retrieved");
@@ -125,12 +130,16 @@ public class UserController {
     public Result blockUser(String userId) {
         service.blockUser(userId);
         Logger.info("User with id " + userId + " successfully blocked");
+        Http.Response response = play.mvc.Controller.response();
+        response.setHeader(play.mvc.Controller.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         return play.mvc.Controller.ok();
     }
 
     public Result unblockUser(String userId) {
         service.unblockUser(userId);
         Logger.info("User with id " + userId + " successfully unblocked");
+        Http.Response response = play.mvc.Controller.response();
+        response.setHeader(play.mvc.Controller.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         return play.mvc.Controller.ok();
     }
 

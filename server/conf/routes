@@ -21,6 +21,11 @@ PUT         /user/:userId/notifications                 @controllers.UserControl
 PUT         /user/:userId/block                         @controllers.UserController.blockUser(userId)
 PUT         /user/:userId/unblock                       @controllers.UserController.unblockUser(userId)
 
+#Preflight
+#OPTIONS     /user/:userId/block                         @controllers.ApplicationController.preflight(userId)
+#OPTIONS     /user/:userId/unblock                       @controllers.ApplicationController.preflight(userId)
+OPTIONS      /*all                                       controllers.ApplicationController.preflight(all)
+
 # Publicacion de mascota en adopcion
 POST        /pet/adoption                               @controllers.PetAdoptionController.publishPet
 
