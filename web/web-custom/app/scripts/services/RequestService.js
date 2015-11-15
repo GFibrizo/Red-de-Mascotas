@@ -32,6 +32,6 @@ angular.module('sbAdminApp')
         });
         return deferred.promise;
 	}
- 
- 
+
+
 });
