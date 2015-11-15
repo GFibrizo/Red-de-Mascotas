@@ -15,6 +15,7 @@ public class FacebookUser extends  User {
             this.userName = object.getString("userName");
             this.name = object.getString("name");
             this.lastName = object.getString("lastName");
+            this.notificationId = object.getString("notificationId");
             this.email = "";
             this.password = new Password();
             this.phone = "";
@@ -22,5 +23,23 @@ public class FacebookUser extends  User {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    public JSONObject toJson() {
+        JSONObject  jsonObject = new JSONObject();
+        try {
+            jsonObject.put("userName",this.userName);
+            jsonObject.put("name",this.name);
+            jsonObject.put("lastName",this.lastName);
+            jsonObject.put("email",this.email);
+            jsonObject.put("facebookId",this.facebookId);
+            jsonObject.put("notificationId", this.notificationId);
+            jsonObject.put("phone",this.phone);
+            jsonObject.put("password",this.password.toJson());
+            jsonObject.put("address", address.toJson());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return jsonObject;
     }
 }

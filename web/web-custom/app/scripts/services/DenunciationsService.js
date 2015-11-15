@@ -15,14 +15,17 @@ angular.module('sbAdminApp')
     /*Functions*/
 
     this.getDenunciations = function(filters) {
-    	var deferred  = $q.defer();
-        $http.get('mocks/denuncias.json').then(
-        
-            function (response) {               
-                
+        var deferred  = $q.defer();
+        var requestData =  {
+            method: "GET",
+            url: "/pets/denunciations"
+        };
+        RequestService.callApi(requestData)
+        .then(
+            function successCallback(response) {
                 deferred.resolve(response);
-            },
-            function (response) {               
+            }, 
+            function errorCallback(response) {
                 deferred.reject(response);
             }
         );
@@ -35,7 +38,8 @@ angular.module('sbAdminApp')
         Body de ejemplo:
         {
         "petId": "5646013b44ae767f48567d7c",
-        "informer": "5645e44e44ae767f48567d7a"
+        "informer": "5645e44e44ae767f48567d7a",
+        "publicationType":
         }
     */
     this.acceptDenunciation = function(object) {
@@ -45,7 +49,8 @@ angular.module('sbAdminApp')
             url: "/pet/" + object.petId + "/report/accepted",
             params: {
                 petId: object.petId,
-                informer:  object.informer
+                informer:  object.informer,
+                publicationType: object.type,
             }
         };
         RequestService.callApi(requestData)
@@ -76,8 +81,8 @@ angular.module('sbAdminApp')
             url: "/pet/" + object.petId + "/report/rejected",
             params: {
                 petId: object.petId,
-                petId: object.petId,
-                informer:  object.informer
+                informer:  object.informer,
+                publicationType: object.type
             }
         };
         RequestService.callApi(requestData)

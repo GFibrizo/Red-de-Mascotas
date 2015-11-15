@@ -79,6 +79,7 @@ public class User {
     public JSONObject toJson() {
         JSONObject  jsonObject = new JSONObject();
         try {
+            jsonObject.put("id",this.id);
             jsonObject.put("userName",this.userName);
             jsonObject.put("name",this.name);
             jsonObject.put("lastName",this.lastName);
