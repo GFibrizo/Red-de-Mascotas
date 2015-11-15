@@ -73,6 +73,7 @@ public class PetsDetailActivity extends AppCompatActivity {
     public static  String imagesItem[] = {};
     public static final String[] IMAGE_NAME = {"orange_kitten", "black_cat", "grey_cat",  "pardo_cat", "tiger_cat", "tiger_kitten"};
     private String publicationType;
+    private Menu menu = null;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -237,6 +238,7 @@ public class PetsDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
+        this.menu = menu;
         if (loginUser.getId().equals(getIntent().getStringExtra("ownerId")))
             return false;
         return true;
@@ -257,6 +259,7 @@ public class PetsDetailActivity extends AppCompatActivity {
         if (id == R.id.report_complain) {
             AlertDialog dialog = createReportDialog("Denunciar publicación", "Escriba la causa de la denuncia");
             dialog.show();
+            if (menu != null) menu.setGroupVisible(R.id.report_complain, false);
             return true;
         }
         return super.onOptionsItemSelected(item);
