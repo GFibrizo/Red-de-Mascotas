@@ -23,21 +23,22 @@ public class ReportComplainRequest {
         requestHandler.setContext(context);
     }
 
-    public void send(String petId, String reporterId, String text) {
+    public void send(String petId, String reporterId, String text, String publicationType) {
 
         String path =  requestHandler.getServerUrl() + this.buildUnpublishtPath(petId);
         JSONObject object = new JSONObject();
         try {
             object.put("petId", petId);
-            object.put("reporterId", reporterId);
-            object.put("text", text);
+            object.put("informer", reporterId);
+            object.put("reason", text);
+            object.put("publicationType", publicationType);
             Log.e("REPORT", object.toString());
         } catch (JSONException e) {
             return;
         }
 
         JsonObjectRequest request = new JsonObjectRequest(
-                Request.Method.PUT,
+                Request.Method.POST,
                 path,
                 object.toString(),
                 new Response.Listener<JSONObject>() {

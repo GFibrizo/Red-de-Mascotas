@@ -288,7 +288,7 @@ public class LoginUserActivity extends AppCompatActivity {
             }
 
             try {
-                if (responseUserLogin.getBoolean("status") == BLOCKED) {
+                if (responseUserLogin.getBoolean("active") == BLOCKED) {
                     Toast.makeText(getApplicationContext(), "Su usuario ha sido bloqueado debido a una gran cantidad de denuncias", Toast.LENGTH_LONG).show();
                     return;
                 }

@@ -72,7 +72,7 @@ public class PetsDetailActivity extends AppCompatActivity {
     private User loginUser;
     public static  String imagesItem[] = {};
     public static final String[] IMAGE_NAME = {"orange_kitten", "black_cat", "grey_cat",  "pardo_cat", "tiger_cat", "tiger_kitten"};
-
+    private String publicationType;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -237,6 +237,8 @@ public class PetsDetailActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
+        if (loginUser.getId().equals(getIntent().getStringExtra("ownerId")))
+            return false;
         return true;
     }
 
@@ -310,7 +312,7 @@ public class PetsDetailActivity extends AppCompatActivity {
 
     private void reportComplain(String petId, String reporterId, String text) {
         ReportComplainRequest request = new ReportComplainRequest(getApplicationContext());
-        request.send(petId, reporterId, text);
+        request.send(petId, reporterId, text, publicationType);
     }
 
     /**********************************************************************************************/
@@ -329,6 +331,7 @@ public class PetsDetailActivity extends AppCompatActivity {
         String descripcionItem = getIntent().getStringExtra("descripcion");
         String conductaItem = getIntent().getStringExtra("conducta");
         imagesItem = getIntent().getStringExtra("images").split(", ");
+        publicationType = getIntent().getStringExtra("publicationType");
 
         TextView nombre = (TextView) findViewById(R.id.nombreAnimal);
         TextView raza = (TextView) findViewById(R.id.razaAnimal);
