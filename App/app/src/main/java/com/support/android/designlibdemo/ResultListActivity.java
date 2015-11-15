@@ -194,6 +194,7 @@ public class ResultListActivity extends AppCompatActivity {
                    intent.putExtra("descripcion", petContainer.getDescripcion());
                    intent.putExtra("conducta", petContainer.getConducta());
                    intent.putExtra("images", petContainer.getImages());
+                   intent.putExtra("publicationType", "FOR_ADOPTION");
                    Boolean transitHome = petContainer.getTransito();
                    String transitHomeUser = petContainer.getTransitHomeUser();
                    Log.e("Result TransitHome", transitHome + ", " + transitHomeUser);

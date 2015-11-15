@@ -153,6 +153,8 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
                 intent.putExtra("descripcion", petContainer.getDescripcion());
                 intent.putExtra("conducta", petContainer.getConducta());
                 intent.putExtra("images", petContainer.getImages());
+                intent.putExtra("publicationType", "FOR_ADOPTION");
+
                 try {
                     Boolean transitHome = object.getBoolean("needsTransitHome");
                     String transitHomeUser = object.getString("transitHomeUser");

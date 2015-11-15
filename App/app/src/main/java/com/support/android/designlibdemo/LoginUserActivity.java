@@ -34,6 +34,7 @@ import com.parse.Parse;
 import com.parse.ParseInstallation;
 import com.support.android.designlibdemo.model.Password;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.concurrent.ExecutionException;
@@ -58,6 +59,7 @@ public class LoginUserActivity extends AppCompatActivity {
     private View mProgressView;
     private View mLoginFormView;
     SharedPreferences preferences = null;
+    final private boolean BLOCKED = false;
 
     @Override
 
@@ -269,14 +271,7 @@ public class LoginUserActivity extends AppCompatActivity {
             mAuthTask = null;
             showProgress(false);
 
-            if (success) {
-                Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
-                //intent.putExtra("user", responseUserLogin.toString());
-                preferences.edit().putString("userData", responseUserLogin.toString()).commit();
-                startActivity(intent);
-                finish();
-            } else {
-
+            if (!success) {
                 if (apiError){
                     Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
                     return;
@@ -289,7 +284,20 @@ public class LoginUserActivity extends AppCompatActivity {
                     mPasswordView.setError(getString(R.string.error_incorrect_password));
                     mPasswordView.requestFocus();
                 }
+                return;
             }
+
+            try {
+                if (responseUserLogin.getBoolean("active") == BLOCKED) {
+                    Toast.makeText(getApplicationContext(), "Su usuario ha sido bloqueado debido a una gran cantidad de denuncias", Toast.LENGTH_LONG).show();
+                    return;
+                }
+            } catch (JSONException e) {}
+            Intent intent = new Intent(LoginUserActivity.this, MainActivity.class);
+            //intent.putExtra("user", responseUserLogin.toString());
+            preferences.edit().putString("userData", responseUserLogin.toString()).commit();
+            startActivity(intent);
+            finish();
         }
 
         @Override
