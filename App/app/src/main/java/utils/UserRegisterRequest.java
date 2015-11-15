@@ -8,6 +8,8 @@ import android.util.Log;
 
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.RequestFuture;
+import com.parse.Parse;
+import com.parse.ParseInstallation;
 import com.support.android.designlibdemo.LoginActivity;
 import com.support.android.designlibdemo.MainActivity;
 import com.support.android.designlibdemo.model.FacebookUser;
@@ -108,12 +110,18 @@ public class UserRegisterRequest {
         try {
             //TODO: Ver como recuperar mas datos desde el api de facewbook
             String[] userName = getJsonData(json, "name").split(" ");
-
+            try{
+                Parse.initialize(this.mContext, Constants.PARSE_APPLICATION_ID, Constants.PARSE_CLIENT_KEY);
+                ParseInstallation.getCurrentInstallation().saveInBackground();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
             facebookId = getJsonData(json, "id");
             jsonRequest.put("facebookId", facebookId);
             jsonRequest.put("userName", userName);
             jsonRequest.put("name", userName[0]);
             jsonRequest.put("lastName", userName[1]);
+            jsonRequest.put("notificationId", ParseInstallation.getCurrentInstallation().getInstallationId());
         } catch (JSONException e) {
             return;
         }
@@ -222,12 +230,11 @@ public class UserRegisterRequest {
                 Log.e(TAG, "Put user preferences");
 //                User completeUser = new FacebookUser(facebookUser);
                 User completeUser = new User(facebookUser);
+                preferences.edit().clear().commit();
                 preferences.edit().putString("userData", completeUser.toJson().toString()).commit();
                 Intent myIntent = new Intent(callerActivity, MainActivity.class);
                 myIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(myIntent);
-
-
             }
         }
 

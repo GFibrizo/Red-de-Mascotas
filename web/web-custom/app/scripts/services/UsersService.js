@@ -49,7 +49,7 @@ angular.module('sbAdminApp')
      var deferred  = $q.defer();
         var requestData =  {
             method: "PUT",
-            url: "/user/" + user.Id + "/block"
+            url: "/user/" + user.id + "/block"
         };
         RequestService.callApi(requestData)
         .then(
@@ -67,7 +67,7 @@ angular.module('sbAdminApp')
         var deferred  = $q.defer();
         var requestData =  {
             method: "PUT",
-            url: "/user/" + user.Id + "/unblock"
+            url: "/user/" + user.id + "/unblock"
         };
         RequestService.callApi(requestData)
         .then(
