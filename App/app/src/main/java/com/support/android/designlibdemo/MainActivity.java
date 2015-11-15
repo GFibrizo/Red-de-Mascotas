@@ -239,8 +239,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupDrawerContent(NavigationView navigationView) {
         TextView nameAndLastName = (TextView) findViewById(R.id.profile_name);
-//        nameAndLastName.setText(loginUser.getName() + " " + loginUser.getLastName());
-        nameAndLastName.setText("AGUSTIN ROJAs");
+        nameAndLastName.setText(loginUser.getName() + " " + loginUser.getLastName());
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
