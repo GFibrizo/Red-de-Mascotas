@@ -37,7 +37,8 @@ angular.module('sbAdminApp')
         LoginService.login()
         .then(
           function successCallback (response) {
-            $state.go('dashboard.home');
+            //$state.go('dashboard.home');
+            $state.go('dashboard.reports');
           },
           function errorCallback (response) {
             $scope.error.loginLabelStatus = "loginLabelStatus-error";
