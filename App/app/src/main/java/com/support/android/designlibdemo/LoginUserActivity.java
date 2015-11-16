@@ -165,7 +165,7 @@ public class LoginUserActivity extends AppCompatActivity {
     private boolean isUserValid(String user) {
         //TODO: Longitud mínima: 6 caracteres - Longitud máxima: 12 caracteres
         //return ((user.length() >= 6 && user.length() <= 12) && user.matches("[a-zA-Z][0-9]+"));
-        return ((user.length() >= 5 && user.length() <= 12));
+        return ((user.length() >= 3 && user.length() <= 12));
     }
 
     private boolean isPasswordValid(String password) {
