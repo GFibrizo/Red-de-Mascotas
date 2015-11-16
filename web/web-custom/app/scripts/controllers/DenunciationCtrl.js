@@ -17,7 +17,8 @@ angular.module('sbAdminApp')
     
     DenunciationsService.getDenunciations().then(
         function succes(response){
-          $scope.data = response.data;
+          // $scope.data = response.data;
+          $scope.data.denunciations = response;
         }
     );
 

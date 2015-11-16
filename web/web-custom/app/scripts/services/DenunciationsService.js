@@ -39,18 +39,18 @@ angular.module('sbAdminApp')
         {
         "petId": "5646013b44ae767f48567d7c",
         "informer": "5645e44e44ae767f48567d7a",
-        "publicationType":
+        "publicationType": ""
         }
     */
     this.acceptDenunciation = function(object) {
         var deferred  = $q.defer();
         var requestData =  {
             method: "PUT",
-            url: "/pet/" + object.petId + "/report/accepted",
+            url: "/pet/" + object.publication.petId + "/report/accepted",
             params: {
-                petId: object.petId,
+                petId: object.publication.petId,
                 informer:  object.informer,
-                publicationType: object.type,
+                publicationType: object.publication.type,
             }
         };
         RequestService.callApi(requestData)
@@ -72,17 +72,18 @@ angular.module('sbAdminApp')
         {
         "petId": "5646013b44ae767f48567d7c",
         "informer": "5645e44e44ae767f48567d7a"
+        "publicationType": ""
         }
     */
     this.rejectDenunciation = function(object) {
         var deferred  = $q.defer();
         var requestData =  {
             method: "PUT",
-            url: "/pet/" + object.petId + "/report/rejected",
+            url: "/pet/" + object.publication.petId + "/report/rejected",
             params: {
-                petId: object.petId,
+                petId: object.publication.petId,
                 informer:  object.informer,
-                publicationType: object.type
+                publicationType: object.publication.type
             }
         };
         RequestService.callApi(requestData)
