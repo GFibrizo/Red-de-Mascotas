@@ -89,8 +89,9 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
             holder.mBoundString = (String) object.get("name");
 
             String status = object.getString("publicationStatus");
-            if (status == "BLOCKED") {
-                holder.mNameView.setText("Bloquedo");
+            Log.e("STATUS", status);
+            if (status.equals("BLOCKED")) {
+                holder.mNameView.setText("BLOQUEADO");
                 holder.mNameView.setTextColor(Color.RED);
             } else {
                 holder.mNameView.setText((String) object.get("name"));

@@ -261,6 +261,7 @@ public class MatchedPetsDetailActivity extends AppCompatActivity implements View
         String colorOjosItem = getIntent().getStringExtra("colorOjos");
         String contactoItem = getIntent().getStringExtra("contactEmail");
         imagesItem = getIntent().getStringExtra("images").split(", ");
+        publicationType = getIntent().getStringExtra("publicationType");
 
 
         TextView contacto = (TextView) findViewById(R.id.contacto);

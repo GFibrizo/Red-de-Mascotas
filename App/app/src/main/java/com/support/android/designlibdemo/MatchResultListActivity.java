@@ -189,7 +189,7 @@ public class MatchResultListActivity extends AppCompatActivity {
                         images.add(imageArray.getString(j));
                     }
                 }
-                MatchedPet mascota = new MatchedPet(null,
+                MatchedPet mascota = new MatchedPet(object.getString("id"),
                         object.getString("type"),
                         object.getString("breed"),
                         object.getString("gender"),
