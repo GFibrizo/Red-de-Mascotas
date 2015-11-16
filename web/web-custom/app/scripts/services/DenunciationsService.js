@@ -49,7 +49,7 @@ angular.module('sbAdminApp')
             url: "/pet/" + object.publication.petId + "/report/accepted",
             params: {
                 petId: object.publication.petId,
-                informer:  object.informer,
+                informer:  object.complainantUserId,
                 publicationType: object.publication.type,
             }
         };
@@ -82,7 +82,7 @@ angular.module('sbAdminApp')
             url: "/pet/" + object.publication.petId + "/report/rejected",
             params: {
                 petId: object.publication.petId,
-                informer:  object.informer,
+                informer:  object.complainantUserId,
                 publicationType: object.publication.type
             }
         };
