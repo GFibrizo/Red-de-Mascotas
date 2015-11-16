@@ -38,7 +38,9 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,8 +51,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import utils.AdoptionRequest;
 import utils.Constants;
+import utils.ReportComplainRequest;
 
 
 public class MatchedPetsDetailActivity extends AppCompatActivity implements View.OnClickListener{
@@ -64,6 +69,8 @@ public class MatchedPetsDetailActivity extends AppCompatActivity implements View
     private SharedPreferences prefs;
     private User loginUser;
     public static  String imagesItem[] = {};
+    private String publicationType;
+    private Menu menu = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -78,6 +85,7 @@ public class MatchedPetsDetailActivity extends AppCompatActivity implements View
                 return;
             }
             this.loginUser = new User(object);
+            Log.e("USER", this.loginUser.getId());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -116,7 +124,7 @@ public class MatchedPetsDetailActivity extends AppCompatActivity implements View
 
     private void adoptar(){
         String petId = getIntent().getStringExtra("id");
-        String adopterId = loginUser.getId();
+        String adopterId = this.loginUser.getId();
         QueryResultTask qTask = new QueryResultTask(petId, adopterId);
         qTask.execute((Void) null);
         contacto.setVisibility(View.VISIBLE);
@@ -157,7 +165,15 @@ public class MatchedPetsDetailActivity extends AppCompatActivity implements View
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.sample_actions, menu);
+        getMenuInflater().inflate(R.menu.menu_detail, menu);
+        this.menu = menu;
+        ArrayList<String> informers = getIntent().getStringArrayListExtra("informers");
+        if (informers.contains(this.loginUser.getId()))
+            menu.findItem(R.id.report_complain).setVisible(false);
+        //menu.setGroupVisible(R.id.report_complain, false);
+        if (this.loginUser.getId().equals(getIntent().getStringExtra("ownerId")))
+            menu.findItem(R.id.report_complain).setVisible(false);
+        //menu.setGroupVisible(R.id.report_complain, false);
         return true;
     }
 
@@ -167,13 +183,73 @@ public class MatchedPetsDetailActivity extends AppCompatActivity implements View
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
+        //Log.e("MENU ID", Integer.toString(id));
+        //Log.e("COMPLAIN ID", Integer.toString((R.id.report_complain)));
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.report_complain) {
+            AlertDialog dialog = createReportDialog("Denunciar publicación", "Escriba la causa de la denuncia");
+            dialog.show();
+            if (menu != null) menu.findItem(R.id.report_complain).setVisible(false);
             return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private AlertDialog createReportDialog(String titulo, String message) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(message);
+        RelativeLayout linearLayout = new RelativeLayout(this);
+        final EditText link = new EditText(this);
+        link.setHint("Causa de la denuncia");
+        link.setWidth(750);
+        linearLayout.addView(link);
+        linearLayout.setPadding(70, 0, 0, 0);
+        alertDialogBuilder.setView(linearLayout);
+        link.invalidate();
+        linearLayout.invalidate();
+        final String petId = getIntent().getStringExtra("id");
+        final String reporterId = this.loginUser.getId();
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                reportComplain(petId, reporterId, link.getText().toString());
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton(R.string.dialogCancel, listenerCancelar);
+        alertDialogBuilder.setNegativeButton(R.string.dialogSend, listenerOk);
+
+        return alertDialogBuilder.create();
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private void reportComplain(String petId, String reporterId, String text) {
+        ReportComplainRequest request = new ReportComplainRequest(getApplicationContext());
+        request.send(petId, reporterId, text, publicationType);
+    }
+
+
 
     private void cargarResultados(){
         String tipoItem = getIntent().getStringExtra("tipo");
@@ -185,6 +261,7 @@ public class MatchedPetsDetailActivity extends AppCompatActivity implements View
         String colorOjosItem = getIntent().getStringExtra("colorOjos");
         String contactoItem = getIntent().getStringExtra("contactEmail");
         imagesItem = getIntent().getStringExtra("images").split(", ");
+        publicationType = getIntent().getStringExtra("publicationType");
 
 
         TextView contacto = (TextView) findViewById(R.id.contacto);

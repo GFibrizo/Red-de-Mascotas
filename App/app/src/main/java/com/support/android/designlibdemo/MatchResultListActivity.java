@@ -95,6 +95,7 @@ public class MatchResultListActivity extends AppCompatActivity {
             //object = new JSONArray(getIntent().getStringExtra("data"));
             object = new JSONArray(prefs.getString("searchResponse", "[]"));
             if (object.length() != 0){
+                Log.e("MATCHES", object.toString());
                 mascotas = fromJSONArrayToListMascotas(object);
             }
         } catch (JSONException e) {
@@ -111,25 +112,30 @@ public class MatchResultListActivity extends AppCompatActivity {
 
         // ListView Item Click Listener
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-               @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                   Intent intent = new Intent(getApplicationContext(), MatchedPetsDetailActivity.class);
-                   MatchedPet petContainer = mascotas.get(position);
-                   intent.putExtra("id", petContainer.getId());
-                   intent.putExtra("tipo", petContainer.getType());
-                   intent.putExtra("raza", petContainer.getBreed());
-                   intent.putExtra("sexo", petContainer.getGender());
-                   intent.putExtra("tamanio", petContainer.getSize());
-                   intent.putExtra("colorPelaje", petContainer.getColors());
-                   intent.putExtra("colorOjos", petContainer.getEyeColor());
-                   intent.putExtra("contactEmail", petContainer.getContactEmail());
-                   intent.putExtra("latitude", petContainer.getLatitude());
-                   intent.putExtra("longitude", petContainer.getLongitude());
-                   intent.putExtra("lastSeenOrFoundDate", petContainer.getLastSeenOrFoundDate());
-                   intent.putExtra("matchingScore", petContainer.getMatchingScore());
-                   intent.putExtra("images", petContainer.getImages());
-                   startActivity(intent);
-                }
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(getApplicationContext(), MatchedPetsDetailActivity.class);
+                MatchedPet petContainer = mascotas.get(position);
+                intent.putExtra("id", petContainer.getId());
+                intent.putExtra("tipo", petContainer.getType());
+                intent.putExtra("raza", petContainer.getBreed());
+                intent.putExtra("sexo", petContainer.getGender());
+                intent.putExtra("tamanio", petContainer.getSize());
+                intent.putExtra("colorPelaje", petContainer.getColors());
+                intent.putExtra("colorOjos", petContainer.getEyeColor());
+                intent.putExtra("contactEmail", petContainer.getContactEmail());
+                intent.putExtra("latitude", petContainer.getLatitude());
+                intent.putExtra("longitude", petContainer.getLongitude());
+                intent.putExtra("lastSeenOrFoundDate", petContainer.getLastSeenOrFoundDate());
+                intent.putExtra("matchingScore", petContainer.getMatchingScore());
+                intent.putExtra("images", petContainer.getImages());
+                intent.putExtra("informers", mascotas.get(position).getInformers());
+                try {
+                    JSONObject pet = (JSONObject) object.get(position);
+                    intent.putExtra("publicationType", pet.getString("publicationType"));
+                } catch (JSONException e) {}
+                startActivity(intent);
+            }
 
         });
 
@@ -140,7 +146,28 @@ public class MatchResultListActivity extends AppCompatActivity {
     }
 
 
-//    public MatchedPet(String id, String type, String breed,
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private ArrayList<String> getInformers(JSONObject object) {
+        ArrayList<String> informers = new ArrayList<>();
+        try {
+            JSONArray reports = object.getJSONArray("reports");
+            int length = reports.length();
+            for (int i = 0; i < length; i++) {
+                JSONObject report = (JSONObject) reports.get(i);
+                if (report.getString("status").equals("PENDING")) {
+                    informers.add(report.getString("informer"));
+                }
+            }
+        } catch (JSONException e) {}
+        return informers;
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    //    public MatchedPet(String id, String type, String breed,
 //                      String gender, String size, List<String> colors, String eyeColor,
 //                      List<String> images, String contactEmail, String latitude, String longitude,
 //                      String lastSeenOrFoundDate, String matchingScore) {
@@ -162,7 +189,7 @@ public class MatchResultListActivity extends AppCompatActivity {
                         images.add(imageArray.getString(j));
                     }
                 }
-                MatchedPet mascota = new MatchedPet(null,
+                MatchedPet mascota = new MatchedPet(object.getString("id"),
                         object.getString("type"),
                         object.getString("breed"),
                         object.getString("gender"),
@@ -174,7 +201,8 @@ public class MatchResultListActivity extends AppCompatActivity {
                         ((JSONObject) object.get("lastSeenOrFoundLocation")).getString("latitude"),
                         ((JSONObject) object.get("lastSeenOrFoundLocation")).getString("longitude"),
                         object.getString("lastSeenOrFoundDate"),
-                        object.getString("matchingScore"));
+                        object.getString("matchingScore"),
+                        getInformers(object));
                 list.add(mascota);
             }
         } catch (JSONException e) {

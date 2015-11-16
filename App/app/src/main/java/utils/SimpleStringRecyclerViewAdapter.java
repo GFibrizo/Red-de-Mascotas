@@ -2,6 +2,7 @@ package utils;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.util.TypedValue;
@@ -87,7 +88,15 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
             object = (JSONObject) mValues.get(position);
             holder.mBoundString = (String) object.get("name");
 
-            holder.mNameView.setText((String) object.get("name"));
+            String status = object.getString("publicationStatus");
+            Log.e("STATUS", status);
+            if (status.equals("BLOCKED")) {
+                holder.mNameView.setText("BLOQUEADO");
+                holder.mNameView.setTextColor(Color.RED);
+            } else {
+                holder.mNameView.setText((String) object.get("name"));
+            }
+
             holder.mPetTypeView.setText("Tipo: " + (String) object.get("type"));
             holder.mBreedView.setText("Raza: " + (String) object.get("breed"));
             holder.mGenderView.setText("Género: " + (String) object.get("gender"));

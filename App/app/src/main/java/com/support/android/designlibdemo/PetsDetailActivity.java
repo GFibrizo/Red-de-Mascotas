@@ -267,7 +267,7 @@ public class PetsDetailActivity extends AppCompatActivity {
         if (id == R.id.report_complain) {
             AlertDialog dialog = createReportDialog("Denunciar publicación", "Escriba la causa de la denuncia");
             dialog.show();
-            if (menu != null) menu.setGroupVisible(R.id.report_complain, false);
+            if (menu != null) menu.findItem(R.id.report_complain).setVisible(false);
             return true;
         }
         return super.onOptionsItemSelected(item);
