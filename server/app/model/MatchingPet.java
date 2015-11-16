@@ -6,6 +6,8 @@ import static utils.Constants.*;
 
 public class MatchingPet implements Comparable<MatchingPet> {
 
+    public String id;
+
     public String type;
 
     public String contactEmail;
@@ -32,6 +34,7 @@ public class MatchingPet implements Comparable<MatchingPet> {
 
 
     public MatchingPet(FoundPet foundPetMatch, LostPet lostPet, String contactEmail) {
+        this.id = foundPetMatch.id;
         this.type = foundPetMatch.type;
         this.contactEmail = contactEmail;
         this.breed = foundPetMatch.breed;
@@ -47,6 +50,7 @@ public class MatchingPet implements Comparable<MatchingPet> {
     }
 
     public MatchingPet(LostPet lostPetMatch, FoundPet foundPet, String contactEmail) {
+        this.id = lostPetMatch.id;
         this.type = lostPetMatch.type;
         this.contactEmail = contactEmail;
         this.breed = lostPetMatch.breed;
