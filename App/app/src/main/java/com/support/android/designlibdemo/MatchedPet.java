@@ -2,6 +2,7 @@ package com.support.android.designlibdemo;
 
 import com.support.android.designlibdemo.model.Address;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class MatchedPet {
@@ -22,13 +23,14 @@ public class MatchedPet {
     public String longitude;
     public String lastSeenOrFoundDate;
     public String matchingScore;
+    public ArrayList<String> informers;
 
     public MatchedPet() { }
 
     public MatchedPet(String id, String type, String breed,
                       String gender, String size, List<String> colors, String eyeColor,
                       List<String> images, String contactEmail, String latitude, String longitude,
-                      String lastSeenOrFoundDate, String matchingScore) {
+                      String lastSeenOrFoundDate, String matchingScore, ArrayList<String> informers) {
         this.id = id;
         this.type = type;
         this.breed = breed;
@@ -42,6 +44,7 @@ public class MatchedPet {
         this.longitude = longitude;
         this.lastSeenOrFoundDate = lastSeenOrFoundDate;
         this.matchingScore = matchingScore;
+        this.informers = informers;
     }
 
     public String getId() {
@@ -183,5 +186,11 @@ public class MatchedPet {
 
     public void setMatchingScore(String matchingScore) {
         this.matchingScore = matchingScore;
+    }
+
+    public ArrayList<String> getInformers() {return informers;}
+
+    public void setInformers(ArrayList<String> informers) {
+        this.informers = informers;
     }
 }
