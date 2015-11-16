@@ -14,19 +14,6 @@ angular.module('sbAdminApp')
     
     /*Functions*/
 
-/*    this.getUsers = function(filters) {
-        var deferred  = $q.defer();
-        $http.get('mocks/users.json').then(
-            function (response) {               
-                
-                deferred.resolve(response);
-            },
-            function (response) {               
-                deferred.reject(response);
-            }
-        );
-        return deferred.promise;
-    }*/
     this.getUsers = function(filters) {
     	var deferred  = $q.defer();
         var requestData =  {
