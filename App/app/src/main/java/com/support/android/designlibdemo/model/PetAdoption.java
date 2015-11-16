@@ -1,5 +1,6 @@
 package com.support.android.designlibdemo.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PetAdoption {
@@ -26,6 +27,7 @@ public class PetAdoption {
     public String description;
     public String publicationStatus;
     public String publicationDate;
+    public ArrayList<String> informers;
 
     public PetAdoption() { }
 
@@ -33,7 +35,7 @@ public class PetAdoption {
                        String gender, String age, String size, List<String> colors, String eyeColor,
                        List<String> behavior, List<String> images, Boolean needsTransitHome,
                        Boolean isCastrated, Boolean isOnTemporaryMedicine, Boolean isOnChronicMedicine, String description,
-                        String transitHomeUser) {
+                        String transitHomeUser, ArrayList<String> informers) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -53,6 +55,7 @@ public class PetAdoption {
         this.isOnChronicMedicine = isOnChronicMedicine;
         this.description = description;
         this.transitHomeUser = transitHomeUser;
+        this.informers = informers;
     }
 
     public String getId() {
@@ -229,5 +232,11 @@ public class PetAdoption {
 
     public void setPublicationDate(String publicationDate) {
         this.publicationDate = publicationDate;
+    }
+
+    public ArrayList<String> getInformers() {return informers;}
+
+    public void setInformers(ArrayList<String> informers) {
+        this.informers = informers;
     }
 }

@@ -198,6 +198,8 @@ public class ResultListActivity extends AppCompatActivity {
                    Boolean transitHome = petContainer.getTransito();
                    String transitHomeUser = petContainer.getTransitHomeUser();
                    Log.e("Result TransitHome", transitHome + ", " + transitHomeUser);
+                   intent.putExtra("informers", mascotas.get(position).getInformers());
+
                    if ((transitHome != false) && (transitHomeUser.equals("null"))) {
                        Log.e("TRUE", "transit");
                        intent.putExtra("transitHome", "true");
@@ -215,6 +217,25 @@ public class ResultListActivity extends AppCompatActivity {
         listView.setAdapter(adapter);
 
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private ArrayList<String> getInformers(JSONObject object) {
+        ArrayList<String> informers = new ArrayList<>();
+        try {
+            JSONArray reports = object.getJSONArray("reports");
+            int length = reports.length();
+            for (int i = 0; i < length; i++) {
+                JSONObject report = (JSONObject) reports.get(i);
+                if (report.getString("status").equals("PENDING")) {
+                    informers.add(report.getString("informer"));
+                }
+            }
+        } catch (JSONException e) {}
+        return informers;
+    }
+
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -269,7 +290,8 @@ public class ResultListActivity extends AppCompatActivity {
                         object.getBoolean("isOnTemporaryMedicine"),
                         object.getBoolean("isOnChronicMedicine"),
                         object.getString("description"),
-                        object.getString("transitHomeUser"));
+                        object.getString("transitHomeUser"),
+                        getInformers(object));
                 list.add(mascota);
             }
         } catch (JSONException e) {

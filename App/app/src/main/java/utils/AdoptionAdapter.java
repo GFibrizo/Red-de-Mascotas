@@ -154,7 +154,7 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
                 intent.putExtra("conducta", petContainer.getConducta());
                 intent.putExtra("images", petContainer.getImages());
                 intent.putExtra("publicationType", "FOR_ADOPTION");
-
+                intent.putExtra("informers", getInformers(object));
                 try {
                     Boolean transitHome = object.getBoolean("needsTransitHome");
                     String transitHomeUser = object.getString("transitHomeUser");
@@ -173,6 +173,26 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
         });
     }
 
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private ArrayList<String> getInformers(JSONObject object) {
+        ArrayList<String> informers = new ArrayList<>();
+        try {
+            JSONArray reports = object.getJSONArray("reports");
+            int length = reports.length();
+            for (int i = 0; i < length; i++) {
+                JSONObject report = (JSONObject) reports.get(i);
+                if (report.getString("status").equals("PENDING")) {
+                    informers.add(report.getString("informer"));
+                }
+            }
+        } catch (JSONException e) {}
+        return informers;
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
     private String getHairColor(String colors) {
         String strColors = null;
@@ -189,6 +209,9 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
         }
         return strColors;
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
 
 
     //    public PetAdoption(String name, String type, String ownerId, Address address, String breed,
@@ -238,6 +261,7 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
                     object.getBoolean("isOnTemporaryMedicine"),
                     object.getBoolean("isOnChronicMedicine"),
                     object.getString("description"),
+                    null,
                     null);
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
