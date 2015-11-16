@@ -51,8 +51,8 @@ public class LoginActivity extends AppCompatActivity {
         callback = new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                AccessToken accessToken = loginResult.getAccessToken();
-                GraphRequest.newMeRequest(
+
+                GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(), new GraphRequest.GraphJSONObjectCallback() {
                             @Override
                             public void onCompleted(JSONObject json, GraphResponse response) {
@@ -75,7 +75,11 @@ public class LoginActivity extends AppCompatActivity {
                                 }
 
                             }
-                        }).executeAsync();
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,link,gender,birthday,email");
+                request.setParameters(parameters);
+                request.executeAsync();
             }
 
             @Override

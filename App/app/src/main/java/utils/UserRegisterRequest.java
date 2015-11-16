@@ -120,6 +120,7 @@ public class UserRegisterRequest {
             jsonRequest.put("facebookId", facebookId);
             jsonRequest.put("userName", userName);
             jsonRequest.put("name", userName[0]);
+            jsonRequest.put("email", getJsonData(json, "email"));
             jsonRequest.put("lastName", userName[1]);
             jsonRequest.put("notificationId", ParseInstallation.getCurrentInstallation().getInstallationId());
         } catch (JSONException e) {
