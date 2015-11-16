@@ -103,7 +103,8 @@ public class DenunciationService {
                         color = publication.colors.get(0);
                     }
                     DenouncedPublication publicationApi = new DenouncedPublication(publication.id, FOR_ADOPTION,
-                            publication.name, publication.size, color, publication.breed);
+                            publication.name, publication.size, color, publication.breed, publication.gender,
+                            publication.eyeColor, publication.images, publication.description);
                     denunciations.add(new PublicationDenunciation(owner.userName, report.informer, informer.userName,
                             report.reason, report.reportDate, publicationApi));
                 }
@@ -122,7 +123,8 @@ public class DenunciationService {
                         color = publication.colors.get(0);
                     }
                     DenouncedPublication publicationApi = new DenouncedPublication(publication.id, LOST,
-                            publication.name, publication.size, color, publication.breed);
+                            publication.name, publication.size, color, publication.breed, publication.gender,
+                            publication.eyeColor, publication.images, publication.description);
                     denunciations.add(new PublicationDenunciation(owner.userName, report.informer, informer.userName,
                             report.reason, report.reportDate, publicationApi));
                 }
@@ -141,7 +143,8 @@ public class DenunciationService {
                         color = publication.colors.get(0);
                     }
                     DenouncedPublication publicationApi = new DenouncedPublication(publication.id, FOUND,
-                            "", publication.size, color, publication.breed);
+                            "", publication.size, color, publication.breed, publication.gender,
+                            publication.eyeColor, publication.images, publication.description);
                     denunciations.add(new PublicationDenunciation(owner.userName, report.informer, informer.userName,
                             report.reason, report.reportDate, publicationApi));
                 }

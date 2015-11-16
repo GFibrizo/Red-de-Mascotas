@@ -52,6 +52,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
+
 import utils.AdoptionRequest;
 import utils.BasicOwnerPetRequest;
 import utils.Constants;
@@ -239,10 +241,16 @@ public class PetsDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_detail, menu);
         this.menu = menu;
+        ArrayList<String> informers = getIntent().getStringArrayListExtra("informers");
+        if (informers.contains(loginUser.getId()))
+            menu.findItem(R.id.report_complain).setVisible(false);
+            //menu.setGroupVisible(R.id.report_complain, false);
         if (loginUser.getId().equals(getIntent().getStringExtra("ownerId")))
-            return false;
+            menu.findItem(R.id.report_complain).setVisible(false);
+            //menu.setGroupVisible(R.id.report_complain, false);
         return true;
     }
+
 
     /**********************************************************************************************/
     /**********************************************************************************************/

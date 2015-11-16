@@ -202,6 +202,7 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
                     null,
                     null,
                     null,
+                    null,
                     null);
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
@@ -241,6 +242,7 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
                 intent.putExtra("images", petContainer.getImages());
                 intent.putExtra("transitHome", "false");
                 intent.putExtra("mine", true);
+                intent.putExtra("informers", getInformers(object));
                 try {
                     String pubType = object.getString("publicationType");
                     intent.putExtra("publicationType", pubType);
@@ -251,6 +253,20 @@ public class SimpleStringRecyclerViewAdapter extends RecyclerView.Adapter<ViewHo
     }
 
 
+    private ArrayList<String> getInformers(JSONObject object) {
+        ArrayList<String> informers = new ArrayList<>();
+        try {
+            JSONArray reports = object.getJSONArray("reports");
+            int length = reports.length();
+            for (int i = 0; i < length; i++) {
+                JSONObject report = (JSONObject) reports.get(i);
+                if (report.getString("status").equals("PENDING")) {
+                    informers.add(report.getString("informer"));
+                }
+            }
+        } catch (JSONException e) {}
+        return informers;
+    }
 
 
 
