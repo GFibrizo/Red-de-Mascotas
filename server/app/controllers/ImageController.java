@@ -33,6 +33,8 @@ public class ImageController extends play.mvc.Controller {
     }
 
     public Result getPetImage(String imageId) {
+        Http.Response response = play.mvc.Controller.response();
+        response.setHeader(play.mvc.Controller.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         File file = new File("public/images/pets", imageId + ".jpg");
         return play.mvc.Controller.ok(file);
     }
