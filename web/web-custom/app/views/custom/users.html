@@ -21,8 +21,9 @@
                                             <th>Email</th>
                                             <th>Telefono</th>
                                             <th>Denuncias</th>
-                                            <th>Dirección</th>
                                             <th>Estado</th>
+                                            <th>Dirección</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>                                        
@@ -32,6 +33,7 @@
                                             <td>{{user.lastName}}</td>
                                             <td>{{user.email}}</td>
                                             <td>{{user.phone}}</td>                                            
+                                            <td>{{user.active ? 'Activo' : 'Bloqueado'}}</td>                                            
                                             <td>{{user.acceptedDenunciations}}</td>                                            
                                             <td>
                                             	{{user.address.street}} {{user.address.number}}<br>
@@ -42,8 +44,8 @@
                                             </td>
                                             <td> 
                                                 <div class="btn-group" >
-                                                    <label class="btn btn-success" ng-click="active(user)" ng-model="radioModel" btn-radio="'active'" >Activo</label>
-                                                    <label class="btn btn-danger" ng-click="inactive(user)" ng-model="radioModel" btn-radio="'inactive'" >Inactivo</label>
+                                                    <label class="btn btn-success" ng-show="!user.active" ng-click="active(user)" ng-model="radioModel" btn-radio="'active'">Desbloquear</label>
+                                                    <label class="btn btn-danger" ng-show="user.active" ng-click="inactive(user)" ng-model="radioModel" btn-radio="'inactive'" >Bloquear</label>
                                                  
                                                 </div>
                                             </td>

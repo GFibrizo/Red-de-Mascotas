@@ -46,10 +46,10 @@ angular.module('sbAdminApp')
         var deferred  = $q.defer();
         var requestData =  {
             method: "PUT",
-            url: "/pet/" + object.publication.petId + "/report/accepted",
+            url: "/pet/" + object.publication.publicationId + "/report/accepted",
             params: {
-                petId: object.publication.petId,
-                informer:  object.informer,
+                petId: object.publication.publicationId,
+                informer:  object.complainantUserId,
                 publicationType: object.publication.type,
             }
         };
@@ -79,10 +79,10 @@ angular.module('sbAdminApp')
         var deferred  = $q.defer();
         var requestData =  {
             method: "PUT",
-            url: "/pet/" + object.publication.petId + "/report/rejected",
+            url: "/pet/" + object.publication.publicationId + "/report/rejected",
             params: {
-                petId: object.publication.petId,
-                informer:  object.informer,
+                petId: object.publication.publicationId,
+                informer:  object.complainantUserId,
                 publicationType: object.publication.type
             }
         };

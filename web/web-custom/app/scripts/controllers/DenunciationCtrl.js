@@ -15,12 +15,16 @@ angular.module('sbAdminApp')
       denunciations: []
     };
     
-    DenunciationsService.getDenunciations().then(
-        function succes(response){
-          // $scope.data = response.data;
-          $scope.data.denunciations = response;
-        }
-    );
+    $scope.init = function(){
+        DenunciationsService.getDenunciations().then(
+            function succes(response){
+              // $scope.data = response.data;
+              $scope.data.denunciations = response;
+            }
+        );    
+    }
+
+    $scope.init();   
 
     
     $scope.accept = function(size,denunciation){        
@@ -35,15 +39,21 @@ angular.module('sbAdminApp')
         controller: 'ModalInstanceActionCtrl',
         size: size,
         resolve: {
-          denunciation: function () {
-            return denunciation;
-          },
-          action: function(){
-            return action
-          }
-        }
-      });
-    }
+              denunciation: function () {
+                return denunciation;
+              },
+              action: function(){
+                return action
+              }
+            }
+        });
+        modalInstance.result.then(
+            function (selectedItem) {
+              $scope.init();
+            }
+        );
+      };
+    
 
     $scope.reject = function(size,denunciation){        
       console.log("Denuncias")
@@ -65,6 +75,11 @@ angular.module('sbAdminApp')
           }
         }
       });      
+      modalInstance.result.then(
+            function (selectedItem) {
+              $scope.init();
+            }
+        );
     }
 
   $scope.open = function (size,denunciation) {
@@ -118,9 +133,11 @@ angular.module('sbAdminApp')
     .then(
       function successCallback(response) {
           console.log(response);
+           $modalInstance.close(response);
       }, 
       function errorCallback(response) {
           console.log(response);
+           $modalInstance.close(response);
       }
     );
   };
