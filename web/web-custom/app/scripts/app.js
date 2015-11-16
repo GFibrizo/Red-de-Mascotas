@@ -15,7 +15,8 @@ angular
     'angular-loading-bar',
     'ngCookies',
     'chart.js',
-    'ngAnimate'
+    'ngAnimate',
+    'base64'
   ])
   .config(['$stateProvider','$urlRouterProvider','$ocLazyLoadProvider',function ($stateProvider,$urlRouterProvider,$ocLazyLoadProvider) {
     

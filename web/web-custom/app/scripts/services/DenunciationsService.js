@@ -97,5 +97,30 @@ angular.module('sbAdminApp')
         );
         return deferred.promise;
     }
- 
+    
+    this.getImage = function(imageId){
+         var deferred  = $q.defer();
+    /*    var requestData =  {
+            method: "GET",
+            url: "/pet/image/" + imageId
+        };
+        RequestService.callApi(requestData)
+        .then(
+            function successCallback(response) {
+                deferred.resolve(response);
+            }, 
+            function errorCallback(response) {
+                deferred.reject(response);
+            }
+        );*/
+        $http.get("http://localhost:9000/pet/image/" + imageId )
+        .then(function successCallback(response) {
+                deferred.resolve(response);
+            });
+        return deferred.promise;
+
+    }
+
+
+
 });

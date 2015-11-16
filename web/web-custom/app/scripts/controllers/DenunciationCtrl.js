@@ -107,12 +107,24 @@ angular.module('sbAdminApp')
 
 angular.module('sbAdminApp')
 .controller('ModalInstanceCtrl', 
-    function ($scope, $modalInstance, denunciation,action) {
+    function ($scope, $http, $modalInstance,$base64, denunciation,action,DenunciationsService) {
 
   $scope.denunciation = denunciation;
   $scope.action = action;
   console.log($scope.denunciation)
+  DenunciationsService.getImage(denunciation.publication.images[0])
+  .then(
+    function(success){
+        console.log(success);
+        //console.log($base64.encode(unescape(encodeURIComponent(success.data))));
+        var encode = $base64.encode(unescape(encodeURIComponent(success.data)));
+        //var decode = $base64.decode(unescape(encodeURIComponent(success.data)));
+        denunciation.publication.image = encode;
+  });      
+  
   $scope.ok = function () {
+
+
     $modalInstance.close($scope.denunciation);
   };
 

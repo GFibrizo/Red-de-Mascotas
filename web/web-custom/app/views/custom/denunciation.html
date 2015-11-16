@@ -59,13 +59,16 @@
         <h3 class="modal-title">Publicacion</h3>
     </div>
     <div class="modal-body">
-        <img src="mocks/perro3.jpg" alt="Smiley face" height="70" width="70">
-        <div>{{denunciation.publication.publicationId}}</div>
-        <div>{{denunciation.publication.type}}</div>
-        <div>{{denunciation.publication.petName}}</div>
-        <div>{{denunciation.publication.petSize}}</div>
-        <div>{{denunciation.publication.petColor}}</div>
-        <div>{{denunciation.publication.petBred}}</div>
+        <!-- <img ng-src="{{denunciation.imageId}}" alt="Smiley face" height="70" width="70">-->
+        <!-- <img ng-src="data:image/jpeg;base64,{{denunciation.publication.image}}"/> -->
+        <img ng-src="{{'data:image/jpeg;base64,'+ denunciation.publication.image}}" />
+        <div><b>Id:</b> {{denunciation.publication.publicationId}}</div>
+        <div><b>Tipo:</b> {{denunciation.publication.type}}</div>
+        <div><b>Mascota:</b> {{denunciation.publication.petName}}</div>
+        <div><b>Tamaño:</b> {{denunciation.publication.petSize}}</div>
+        <div><b>Color:</b> {{denunciation.publication.petColor}}</div>
+        <div><b>Raza:</b> {{denunciation.publication.petBreed}}</div>
+        <div><b>Descripcion:</b> {{denunciation.publication.description}}</div>
     </div>
     <div class="modal-footer">
         <button class="btn btn-primary" ng-click="ok()">OK</button>
