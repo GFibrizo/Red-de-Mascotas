@@ -13,7 +13,7 @@ angular.module('sbAdminApp')
 
         //Data
        $scope.bar = {
-            labels: ['Adopcion', 'Adoptado', 'Encontrado', 'Hallado'],
+            labels: ['Adopcion', 'Adoptado', 'Encontrado', 'Perdido'],
             series: ['Series A'],
             data: [
                [65, 59, 80, 0],//ambos               

@@ -59,9 +59,7 @@
         <h3 class="modal-title">Publicacion</h3>
     </div>
     <div class="modal-body">
-        <!-- <img ng-src="{{denunciation.imageId}}" alt="Smiley face" height="70" width="70">-->
-        <!-- <img ng-src="data:image/jpeg;base64,{{denunciation.publication.image}}"/> -->
-        <img ng-src="{{'data:image/jpeg;base64,'+ denunciation.publication.image}}" />
+        <img ng-src="{{'data:image/jpeg;base64,'+ denunciation.publication.image}}" alt="Smiley face" height="160" width="160"/>
         <div><b>Id:</b> {{denunciation.publication.publicationId}}</div>
         <div><b>Tipo:</b> {{denunciation.publication.type}}</div>
         <div><b>Mascota:</b> {{denunciation.publication.petName}}</div>

@@ -1,5 +1,6 @@
 package controllers;
 
+import org.apache.commons.codec.binary.Base64;
 import org.apache.commons.io.FileUtils;
 import org.springframework.stereotype.Controller;
 import play.Logger;
@@ -37,6 +38,22 @@ public class ImageController extends play.mvc.Controller {
         response.setHeader(play.mvc.Controller.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
         File file = new File("public/images/pets", imageId + ".jpg");
         return play.mvc.Controller.ok(file);
+    }
+
+
+    public Result getPetImageBase64(String imageId) {
+        Http.Response response = play.mvc.Controller.response();
+        response.setHeader(play.mvc.Controller.ACCESS_CONTROL_ALLOW_ORIGIN, "*");
+        File file = new File("public/images/pets", imageId + ".jpg");
+        try {
+            byte[] fileEncoded = Base64.encodeBase64(FileUtils.readFileToByteArray(file));
+            if (fileEncoded == null)
+                return play.mvc.Controller.internalServerError();
+            return play.mvc.Controller.ok(fileEncoded);
+        } catch (IOException e) {
+            Logger.error(e.getMessage());
+        }
+        return play.mvc.Controller.internalServerError();
     }
 
 }

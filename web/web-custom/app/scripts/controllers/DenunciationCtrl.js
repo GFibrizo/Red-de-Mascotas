@@ -18,10 +18,19 @@ angular.module('sbAdminApp')
     $scope.init = function(){
         DenunciationsService.getDenunciations().then(
             function succes(response){
-              // $scope.data = response.data;
               $scope.data.denunciations = response;
+
+              angular.forEach($scope.data.denunciations, function(value, key) {
+                
+                DenunciationsService.getImage(value.publication.images[0])
+                  .then(
+                    function(success){
+                        console.log(success);
+                        value.publication.image = success.data;
+                  });
+              });
             }
-        );    
+        );
     }
 
     $scope.init();   
@@ -112,19 +121,14 @@ angular.module('sbAdminApp')
   $scope.denunciation = denunciation;
   $scope.action = action;
   console.log($scope.denunciation)
-  DenunciationsService.getImage(denunciation.publication.images[0])
+ /* DenunciationsService.getImage(denunciation.publication.images[0])
   .then(
     function(success){
         console.log(success);
-        //console.log($base64.encode(unescape(encodeURIComponent(success.data))));
-        var encode = $base64.encode(unescape(encodeURIComponent(success.data)));
-        //var decode = $base64.decode(unescape(encodeURIComponent(success.data)));
-        denunciation.publication.image = encode;
+        denunciation.publication.image = success.data;
   });      
-  
+  */
   $scope.ok = function () {
-
-
     $modalInstance.close($scope.denunciation);
   };
 

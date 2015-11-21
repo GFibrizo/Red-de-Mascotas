@@ -113,7 +113,7 @@ angular.module('sbAdminApp')
                 deferred.reject(response);
             }
         );*/
-        $http.get("http://localhost:9000/pet/image/" + imageId )
+        $http.get("http://localhost:9000/pet/image/" + imageId + "/base64" )
         .then(function successCallback(response) {
                 deferred.resolve(response);
             });

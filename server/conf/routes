@@ -67,3 +67,5 @@ GET         /reports                                    @controllers.ReportContr
 # Administracion de denuncias
 GET         /pets/denunciations                         @controllers.DenunciationController.getPetPublicationDenunciations
 GET         /users/denunciations                        @controllers.DenunciationController.getUserDenunciations
+
+GET         /pet/image/:imageId/base64                  @controllers.ImageController.getPetImageBase64(imageId)
