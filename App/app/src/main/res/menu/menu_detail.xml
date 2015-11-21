@@ -9,4 +9,10 @@
         android:title="@string/report_complain"
         android:orderInCategory="100"
         app:showAsAction="never" />
+
+    <item
+        android:id="@+id/share"
+        android:title="@string/share"
+        android:orderInCategory="100"
+        app:showAsAction="never" />
 </menu>

@@ -74,4 +74,5 @@ dependencies {
     compile fileTree(dir: 'libs', include: 'Parse-*.jar')
     compile fileTree(dir: 'libs', include: 'commons-io-2.4.jar')
     compile files('libs/Parse-1.10.3.jar')
+    compile 'com.sromku:simple-fb:4.1.1'
 }

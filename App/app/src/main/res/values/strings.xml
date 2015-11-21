@@ -34,6 +34,7 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="report_complain">Denunciar</string>
+    <string name="share">Compartir</string>
 
     <string name="facebook_app_name">HelloFBSample</string>
     <string name="cancelled">Cancelar</string>

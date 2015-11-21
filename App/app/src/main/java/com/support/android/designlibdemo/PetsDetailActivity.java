@@ -45,6 +45,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.sromku.simple.fb.SimpleFacebook;
+import com.sromku.simple.fb.entities.Feed;
+import com.sromku.simple.fb.listeners.OnPublishListener;
 import com.support.android.designlibdemo.data.communications.ImageUrlView;
 import com.support.android.designlibdemo.model.User;
 
@@ -58,6 +61,7 @@ import utils.AdoptionRequest;
 import utils.BasicOwnerPetRequest;
 import utils.Constants;
 import utils.ReportComplainRequest;
+import utils.RequestHandler;
 import utils.TransitHomeRequest;
 
 
@@ -76,6 +80,7 @@ public class PetsDetailActivity extends AppCompatActivity {
     public static final String[] IMAGE_NAME = {"orange_kitten", "black_cat", "grey_cat",  "pardo_cat", "tiger_cat", "tiger_kitten"};
     private String publicationType;
     private Menu menu = null;
+    OnPublishListener listener;
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -158,6 +163,23 @@ public class PetsDetailActivity extends AppCompatActivity {
 //                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE),
 //                                this, "esta es una notificacion");
 //        notification.sendNotification();
+
+
+
+        listener = new OnPublishListener() {
+            @Override
+            public void onComplete(String postId) {
+                Log.i("PUBLISH", "Published successfully. The new post id = " + postId);
+                Toast.makeText(getApplicationContext(), "Publicación compartida exitosamente", Toast.LENGTH_SHORT).show();
+            }
+
+     /*
+      * You can override other methods here:
+      * onThinking(), onFail(String reason), onException(Throwable throwable)
+      */
+        };
+
+
     }
 
 /*    @Override
@@ -244,13 +266,17 @@ public class PetsDetailActivity extends AppCompatActivity {
         ArrayList<String> informers = getIntent().getStringArrayListExtra("informers");
         if (informers.contains(loginUser.getId()))
             menu.findItem(R.id.report_complain).setVisible(false);
-            //menu.setGroupVisible(R.id.report_complain, false);
-        if (loginUser.getId().equals(getIntent().getStringExtra("ownerId")))
+
+        if (loginUser.getId().equals(getIntent().getStringExtra("ownerId"))) {
             menu.findItem(R.id.report_complain).setVisible(false);
-            //menu.setGroupVisible(R.id.report_complain, false);
+            if (!publicationType.equals("LOST")){
+                menu.findItem(R.id.share).setVisible(false);
+            }
+        } else {
+            menu.findItem(R.id.share).setVisible(false);
+        }
         return true;
     }
-
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -269,8 +295,38 @@ public class PetsDetailActivity extends AppCompatActivity {
             dialog.show();
             if (menu != null) menu.findItem(R.id.report_complain).setVisible(false);
             return true;
+        } else if (id == R.id.share) {
+            shareOnFacebook();
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    public void shareOnFacebook() {
+        Feed feed = new Feed.Builder()
+                .setMessage("Ayúdenme a encontrar mi mascota compartiendo esta publicación")
+                .setName(getIntent().getStringExtra("nombre"))
+                .setCaption("")
+                .setDescription(buildDescription())
+                .setPicture(Constants.IP_SERVER + "/pet/image/" + imagesItem[0])
+                .build();
+
+        SimpleFacebook mSimpleFacebook = SimpleFacebook.getInstance(this);
+        mSimpleFacebook.publish(feed, true, listener);
+    }
+
+    private String buildDescription() {
+        String description = "Caracteristicas: \n" +
+                "Raza: "            + getIntent().getStringExtra("raza")            + "\n" +
+                "Género: "          + getIntent().getStringExtra("sexo")            + "\n" +
+                "Edad: "            + getIntent().getStringExtra("edad")            + "\n" +
+                "Tamaño: "          + getIntent().getStringExtra("tamanio")         + "\n" +
+                "Color de pelaje: " + getIntent().getStringExtra("colorPelaje")     + "\n" +
+                "Otros datos:"      + getIntent().getStringExtra("caracteristicas") + "\n" +
+                "Descripción"       + getIntent().getStringExtra("descripcion");
+        return description;
     }
 
     /**********************************************************************************************/
