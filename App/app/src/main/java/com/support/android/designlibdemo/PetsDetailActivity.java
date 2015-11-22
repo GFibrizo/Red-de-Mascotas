@@ -21,6 +21,8 @@ import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -45,6 +47,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.share.ShareApi;
+import com.facebook.share.model.SharePhoto;
+import com.facebook.share.model.SharePhotoContent;
+import com.sromku.simple.fb.Permission;
 import com.sromku.simple.fb.SimpleFacebook;
 import com.sromku.simple.fb.entities.Feed;
 import com.sromku.simple.fb.listeners.OnPublishListener;
@@ -55,6 +61,10 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 import utils.AdoptionRequest;
@@ -81,6 +91,13 @@ public class PetsDetailActivity extends AppCompatActivity {
     private String publicationType;
     private Menu menu = null;
     OnPublishListener listener;
+    private static Bitmap sharedImage;
+
+    Permission[] permissions = new Permission[] {
+            Permission.USER_PHOTOS,
+            Permission.EMAIL,
+            Permission.PUBLISH_ACTION
+    };
 
     /**********************************************************************************************/
     /**********************************************************************************************/
@@ -305,7 +322,7 @@ public class PetsDetailActivity extends AppCompatActivity {
     /**********************************************************************************************/
 
     public void shareOnFacebook() {
-        Feed feed = new Feed.Builder()
+        /*Feed feed = new Feed.Builder()
                 .setMessage("Ayúdenme a encontrar mi mascota compartiendo esta publicación")
                 .setName(getIntent().getStringExtra("nombre"))
                 .setCaption("")
@@ -314,18 +331,26 @@ public class PetsDetailActivity extends AppCompatActivity {
                 .build();
 
         SimpleFacebook mSimpleFacebook = SimpleFacebook.getInstance(this);
-        mSimpleFacebook.publish(feed, true, listener);
+        mSimpleFacebook.publish(feed, true, listener);*/
+        SharePhoto photo = new SharePhoto.Builder()
+                .setBitmap(sharedImage)//BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher)
+                .setCaption(buildDescription())
+                .build();
+
+        SharePhotoContent content = new SharePhotoContent.Builder()
+                .addPhoto(photo)
+                .build();
+        ShareApi.share(content, null);
     }
 
     private String buildDescription() {
-        String description = "Caracteristicas: \n" +
+        String description = "Su nombre es " + getIntent().getStringExtra("nombre") + " es mi mascota y se encuentra perdida, por favor ayúdenme a encontrarla compartiendo esta publicación. Sus caracteristicas son:\n" +
                 "Raza: "            + getIntent().getStringExtra("raza")            + "\n" +
                 "Género: "          + getIntent().getStringExtra("sexo")            + "\n" +
                 "Edad: "            + getIntent().getStringExtra("edad")            + "\n" +
                 "Tamaño: "          + getIntent().getStringExtra("tamanio")         + "\n" +
                 "Color de pelaje: " + getIntent().getStringExtra("colorPelaje")     + "\n" +
-                "Otros datos:"      + getIntent().getStringExtra("caracteristicas") + "\n" +
-                "Descripción"       + getIntent().getStringExtra("descripcion");
+                "Otros datos:"      + getIntent().getStringExtra("caracteristicas");
         return description;
     }
 
@@ -458,6 +483,7 @@ public class PetsDetailActivity extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
 
+            Thread thread;
             View swipeView = null;
             Bundle bundle = getArguments();
             int position = bundle.getInt("position");
@@ -466,6 +492,9 @@ public class PetsDetailActivity extends AppCompatActivity {
                 ImageView imageView = (ImageView) swipeView.findViewById(R.id.imageView);
                 String imageFileName = imagesItem[position];
                 baseUrlForImage = IP_EMULADOR + "/pet/image/" + imageFileName;
+                if (position == 0) {
+                    loadImageFromUrl(baseUrlForImage);
+                }
                 new ImageUrlView(baseUrlForImage, imageView).connect();
             }
             return swipeView;
@@ -525,4 +554,35 @@ public class PetsDetailActivity extends AppCompatActivity {
         protected void onCancelled() { }
 
     }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private static void loadImageFromUrl(final String url) {
+        AsyncTask.execute(new Runnable() {
+            @Override
+            public void run() {
+                sharedImage = getBitmapFromURL(url);
+            }
+        });
+    }
+
+
+    public static Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            return null;
+        }
+    }
+
+
+
 }

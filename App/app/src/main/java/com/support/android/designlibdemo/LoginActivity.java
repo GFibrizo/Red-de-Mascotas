@@ -1,6 +1,7 @@
 package com.support.android.designlibdemo;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
@@ -20,6 +21,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.Profile;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.parse.Parse;
@@ -30,6 +32,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeoutException;
@@ -46,6 +49,7 @@ public class LoginActivity extends AppCompatActivity {
     private AccessTokenTracker accessTokenTracker;
     SharedPreferences preferences = null;
     private FacebookCallback<LoginResult> callback;
+    private Activity activity;
 
     {
         callback = new FacebookCallback<LoginResult>() {
@@ -97,7 +101,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        activity = this;
         FacebookSdk.sdkInitialize(this.getApplicationContext());
         setContentView(R.layout.activity_login);
 
@@ -137,8 +141,8 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
         LoginButton loginButton = (LoginButton) findViewById(R.id.fb_login_button);
-        List<String> permissions = Arrays.asList("email", "public_profile", "user_friends");
-        loginButton.setReadPermissions(permissions);
+        List<String> readPermissions =  Arrays.asList("publish_actions");//Arrays.asList("email", "public_profile", "user_friends");
+        loginButton.setPublishPermissions(readPermissions);
         loginButton.registerCallback(callbackManager, callback);
 
 
@@ -201,6 +205,12 @@ public class LoginActivity extends AppCompatActivity {
         protected void onPostExecute(final Boolean success) {
             if (success) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                //LoginManager manager = LoginManager.getInstance();
+                //manager.logOut();
+                //Collection<String> publishPermissions = Arrays.asList("publish_actions");
+                //manager.logInWithPublishPermissions(activity, publishPermissions);
+
+
                 if (response != null) {
                     //intent.putExtra("user", response.toString());
                     preferences.edit().putString("userData", response.toString()).commit();
