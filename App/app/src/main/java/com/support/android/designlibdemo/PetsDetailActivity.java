@@ -498,6 +498,7 @@ public class PetsDetailActivity extends AppCompatActivity {
             cardConducta.setVisibility(View.GONE);
             cardCaracteristicas.setVisibility(View.GONE);
             cardDescripcion.setVisibility(View.GONE);
+            ubicacion.setVisibility(View.GONE);
         }
 //
 //        Button botonAdoptar = (Button) findViewById(R.id.botonAdoptar);
