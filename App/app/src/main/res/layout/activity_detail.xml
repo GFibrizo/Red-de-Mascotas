@@ -140,10 +140,12 @@
                         android:text="@string/ubicacionLabel"
                         android:id="@+id/ubicacionAnimal" />
 
-                    <!--<TextView-->
-                        <!--android:layout_width="match_parent"-->
-                        <!--android:layout_height="wrap_content"-->
-                        <!--android:text="@string/cheese_ipsum" />-->
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAppearance="?android:attr/textAppearanceSmall"
+                        android:text="@string/fechaLabel"
+                        android:id="@+id/fechaAnimal" />
 
                 </LinearLayout>
 
