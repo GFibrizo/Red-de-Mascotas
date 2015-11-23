@@ -120,8 +120,8 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
     JSONObject object = null;
     Activity activity = null;
     boolean setMarker = false;
-    private int ID_TYPE_DOG = 2131558788;
-    private int ID_GENDER_MALE = 2131558791;
+    private int ID_TYPE_DOG = 2131558791;
+    private int ID_GENDER_MALE = 2131558794;
     private ProgressDialog progress;
 
 
@@ -172,6 +172,10 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null)
             actionBar.setDisplayHomeAsUpEnabled(true);
+
+
+        SegmentedGroup pet_gender = (SegmentedGroup) findViewById(R.id.segmented_pet_gender_missing);
+        Log.e("GENDER", Integer.toString(pet_gender.getCheckedRadioButtonId()));
 
         activity = this;
         setBreed();
