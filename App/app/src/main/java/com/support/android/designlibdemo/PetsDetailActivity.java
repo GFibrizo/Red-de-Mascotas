@@ -500,6 +500,10 @@ public class PetsDetailActivity extends AppCompatActivity {
             cardDescripcion.setVisibility(View.GONE);
             ubicacion.setVisibility(View.GONE);
         }
+        if (publicationType.equals(Constants.FOUND)){
+            nombre.setVisibility(View.GONE);
+            edad.setVisibility(View.GONE);
+        }
 //
 //        Button botonAdoptar = (Button) findViewById(R.id.botonAdoptar);
 

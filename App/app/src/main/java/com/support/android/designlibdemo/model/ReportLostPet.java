@@ -908,7 +908,11 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
 
                 JSONArray colors = new JSONArray();
                 colors.put(hairColor1.getSelectedItem().toString());
-                colors.put(hairColor2.getSelectedItem().toString());
+                if (!hairColor2.getSelectedItem().toString().equals(NONE_COLORS[1])) {
+                    colors.put(hairColor2.getSelectedItem().toString());
+                } else {
+                    colors.put("");
+                }
                 object.put("colors", colors);
                 object.put("eyeColor", eyesColor.getSelectedItem().toString());
                 object.put("isCastrated", Boolean.toString(castrated.isChecked()));
