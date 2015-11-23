@@ -216,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
                     //intent.putExtra("user", response.toString());
                     preferences.edit().putString("userData", response.toString()).commit();
                 } else {
-                    Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Usuario o contraseña invalidos", Toast.LENGTH_SHORT).show();
                 }
                 startActivity(intent);
                 finish();
