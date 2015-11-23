@@ -30,6 +30,9 @@ public final class Constants {
     public static final String ADOPTION_REQUEST = "ADOPTION_REQUEST";
 
     public static final String LOST = "LOST";
+    public static final String FOUND = "FOUND";
+    public static final String FOR_ADOPTION = "FOR_ADOPTION";
+
 
     public static final String[] AGES = {"0 - 6 meses", "6 - 12 meses", "1 - 3 años", "3 - 7 años", "más de 7 años"};
 

@@ -173,14 +173,7 @@ public class PetsDetailActivity extends AppCompatActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         collapsingToolbar.setTitle(cheeseName);
 
-//        loadBackdrop();
         cargarResultados();
-//        TODO: sacar la exampleNotification de acá
-//        ExampleNotification notification = new ExampleNotification(getResources(),
-//                                (NotificationManager) getSystemService(NOTIFICATION_SERVICE),
-//                                this, "esta es una notificacion");
-//        notification.sendNotification();
-
 
 
         listener = new OnPublishListener() {
@@ -313,7 +306,9 @@ public class PetsDetailActivity extends AppCompatActivity {
             if (menu != null) menu.findItem(R.id.report_complain).setVisible(false);
             return true;
         } else if (id == R.id.share) {
-            shareOnFacebook();
+            AlertDialog dialog = createPublicationDialog("Compartir Publicación", "Haz un comentario");
+            dialog.show();
+//            shareOnFacebook();
         }
         return super.onOptionsItemSelected(item);
     }
@@ -321,7 +316,7 @@ public class PetsDetailActivity extends AppCompatActivity {
     /**********************************************************************************************/
     /**********************************************************************************************/
 
-    public void shareOnFacebook() {
+    public void shareOnFacebook(String texto) {
         /*Feed feed = new Feed.Builder()
                 .setMessage("Ayúdenme a encontrar mi mascota compartiendo esta publicación")
                 .setName(getIntent().getStringExtra("nombre"))
@@ -334,7 +329,7 @@ public class PetsDetailActivity extends AppCompatActivity {
         mSimpleFacebook.publish(feed, true, listener);*/
         SharePhoto photo = new SharePhoto.Builder()
                 .setBitmap(sharedImage)//BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher)
-                .setCaption(buildDescription())
+                .setCaption(texto)
                 .build();
 
         SharePhotoContent content = new SharePhotoContent.Builder()
@@ -344,14 +339,61 @@ public class PetsDetailActivity extends AppCompatActivity {
     }
 
     private String buildDescription() {
-        String description = "Su nombre es " + getIntent().getStringExtra("nombre") + " es mi mascota y se encuentra perdida, por favor ayúdenme a encontrarla compartiendo esta publicación. Sus caracteristicas son:\n" +
+        String description = "\n\nSu nombre es " + getIntent().getStringExtra("nombre") + " y se encuentra perdido.\nSus caracteristicas son:\n" +
                 "Raza: "            + getIntent().getStringExtra("raza")            + "\n" +
                 "Género: "          + getIntent().getStringExtra("sexo")            + "\n" +
                 "Edad: "            + getIntent().getStringExtra("edad")            + "\n" +
                 "Tamaño: "          + getIntent().getStringExtra("tamanio")         + "\n" +
-                "Color de pelaje: " + getIntent().getStringExtra("colorPelaje")     + "\n" +
-                "Otros datos:"      + getIntent().getStringExtra("caracteristicas");
+                "Color de pelaje: " + getIntent().getStringExtra("colorPelaje")     + "\n";
+//                + "Otros datos:"      + getIntent().getStringExtra("caracteristicas");
         return description;
+    }
+
+    /**********************************************************************************************/
+    /**********************************************************************************************/
+
+    private AlertDialog createPublicationDialog(String titulo, String message) {
+        // Instanciamos un nuevo AlertDialog Builder y le asociamos titulo y mensaje
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle(titulo);
+        alertDialogBuilder.setMessage(message);
+        RelativeLayout linearLayout = new RelativeLayout(this);
+        final EditText link = new EditText(this);
+        link.setText(buildDescription());
+        link.setTextSize(12);
+        link.setWidth(750);
+        linearLayout.addView(link);
+        linearLayout.setPadding(70, 0, 0, 0);
+        alertDialogBuilder.setView(linearLayout);
+        link.invalidate();
+        linearLayout.invalidate();
+//        final String petId = getIntent().getStringExtra("id");
+
+        // Creamos un nuevo OnClickListener para el boton OK que realice la conexion
+        DialogInterface.OnClickListener listenerOk = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                String texto = link.getText().toString();
+                shareOnFacebook(texto);
+            }
+        };
+
+        // Creamos un nuevo OnClickListener para el boton Cancelar
+        DialogInterface.OnClickListener listenerCancelar = new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        };
+
+        // Asignamos los botones positivo y negativo a sus respectivos listeners
+        //OJO: estan al reves para que sea display si - no en vez de no - si
+        alertDialogBuilder.setPositiveButton(R.string.dialogCancel, listenerCancelar);
+        alertDialogBuilder.setNegativeButton(R.string.dialogPublish, listenerOk);
+
+        return alertDialogBuilder.create();
     }
 
     /**********************************************************************************************/
@@ -402,6 +444,7 @@ public class PetsDetailActivity extends AppCompatActivity {
     /**********************************************************************************************/
     /**********************************************************************************************/
 
+
     private void reportComplain(String petId, String reporterId, String text) {
         ReportComplainRequest request = new ReportComplainRequest(getApplicationContext());
         request.send(petId, reporterId, text, publicationType);
@@ -447,6 +490,16 @@ public class PetsDetailActivity extends AppCompatActivity {
         caracteristicas.setText(caracteristicasItem);
         descripcion.setText(descripcionItem);
         conducta.setText(conductaItem);
+
+        if (!publicationType.equals(Constants.FOR_ADOPTION)){
+            CardView cardConducta = (CardView) findViewById(R.id.cardConducta);
+            CardView cardCaracteristicas = (CardView) findViewById(R.id.cardCaracteristicas);
+            CardView cardDescripcion = (CardView) findViewById(R.id.cardDescripcion);
+            cardConducta.setVisibility(View.GONE);
+            cardCaracteristicas.setVisibility(View.GONE);
+            cardDescripcion.setVisibility(View.GONE);
+            ubicacion.setVisibility(View.GONE);
+        }
 //
 //        Button botonAdoptar = (Button) findViewById(R.id.botonAdoptar);
 

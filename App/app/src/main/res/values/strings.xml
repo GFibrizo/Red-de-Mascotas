@@ -124,6 +124,7 @@
     <string name="dialogDone">Listo</string>
     <string name="dialogCancel">Cancelar</string>
     <string name="dialogSend">Enviar</string>
+    <string name="dialogPublish">Publicar</string>
     <string name="title_activity_report_lost_pet">ReportLostPet</string>
     <string name="title_activity_map">Ultima vez visto en</string>
     <string name="aceptarAdopcion">Aceptar</string>
