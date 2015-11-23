@@ -376,6 +376,7 @@ public class PetsDetailActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 String texto = link.getText().toString();
                 shareOnFacebook(texto);
+                Toast.makeText(getApplicationContext(), "Publicación compartida correctamente", Toast.LENGTH_SHORT).show();
             }
         };
 

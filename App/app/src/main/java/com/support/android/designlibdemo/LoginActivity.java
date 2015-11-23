@@ -115,6 +115,7 @@ public class LoginActivity extends AppCompatActivity {
         if (object.length() != 0) {
             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
             startActivity(intent);
+            finish();
         }
 
         //Inicializo Parse
@@ -218,6 +219,7 @@ public class LoginActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
                 }
                 startActivity(intent);
+                finish();
             }
         }
 
