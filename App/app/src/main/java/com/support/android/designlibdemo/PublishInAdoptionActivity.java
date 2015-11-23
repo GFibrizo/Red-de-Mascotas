@@ -168,8 +168,9 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.publish_pet_breed);
                 ArrayAdapter<String> adapter = null;
 
-                Log.e("CHECKED", Integer.toString(group.getCheckedRadioButtonId()));
-                if (group.getCheckedRadioButtonId() == ID_TYPE_DOG) {
+                Log.e("CHECKED", (checkedId == R.id.dog_publish) ? "DOG" : "CAT");
+                //if (group.getCheckedRadioButtonId() == ID_TYPE_DOG) {
+                if (checkedId == R.id.dog_publish) {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS);
                 } else {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
@@ -694,15 +695,15 @@ public class PublishInAdoptionActivity extends AppCompatActivity {
                 object.put("images", imgs);
                 object.put("name", name.getText());
 
-                Log.e("ID Perro", Integer.toString(pet_type.getCheckedRadioButtonId()));
-                if (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) {
+                Log.e("ID Perro", Boolean.toString(pet_type.getCheckedRadioButtonId() == R.id.dog_publish));
+                if (pet_type.getCheckedRadioButtonId() == R.id.dog_publish) {
                     object.put("type", "Perro");
                 } else {
                     object.put("type", "Gato");
                 }
 
-                Log.e("ID Macho", Integer.toString(pet_gender.getCheckedRadioButtonId()));
-                if (pet_gender.getCheckedRadioButtonId() == ID_GENDER_MALE) {
+                Log.e("ID Macho", Boolean.toString(pet_gender.getCheckedRadioButtonId() == R.id.male_publish));
+                if (pet_gender.getCheckedRadioButtonId() == R.id.male_publish) {
                     object.put("gender", "Macho");
                 } else {
                     object.put("gender", "Hembra");

@@ -202,8 +202,9 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                 AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.missing_pet_breed);
                 ArrayAdapter<String> adapter = null;
 
-                Log.e("CHECKED", Integer.toString(group.getCheckedRadioButtonId()));
-                if (group.getCheckedRadioButtonId() == ID_TYPE_DOG) {
+                Log.e("CHECKED", (checkedId == R.id.dog_missing) ? "DOG" : "CAT");
+                //if (group.getCheckedRadioButtonId() == ID_TYPE_DOG) {
+                if (checkedId == R.id.dog_missing) {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS);
                 } else {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
@@ -890,18 +891,18 @@ public class ReportLostPet extends AppCompatActivity implements TimePickerDialog
                 object.put("images", imgs);
                 object.put("name", name.getText());
 
-                Log.e("Perro", Integer.toString(pet_type.getCheckedRadioButtonId()));
-                Log.e("Macho", Integer.toString(pet_gender.getCheckedRadioButtonId()));
+                Log.e("Perro", Boolean.toString(pet_type.getCheckedRadioButtonId() == R.id.dog_missing));
+                Log.e("Macho", Boolean.toString(pet_gender.getCheckedRadioButtonId() == R.id.male_missing));
 
 
-                if (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) {
+                if (pet_type.getCheckedRadioButtonId() == R.id.dog_missing) {
                     object.put("type", "Perro");
                 } else {
                     object.put("type", "Gato");
                 }
 
 
-                if (pet_gender.getCheckedRadioButtonId() == ID_GENDER_MALE) {
+                if (pet_gender.getCheckedRadioButtonId() == R.id.male_missing) {
                     object.put("gender", "Macho");
                 } else {
                     object.put("gender", "Hembra");

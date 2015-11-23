@@ -332,8 +332,8 @@ public class FoundPetActivity extends AppCompatActivity implements
                 AutoCompleteTextView breed = (AutoCompleteTextView) findViewById(R.id.breed);
                 ArrayAdapter<String> adapter = null;
 
-                Log.e("CHECKED", Integer.toString(group.getCheckedRadioButtonId()));
-                if (group.getCheckedRadioButtonId() == ID_TYPE_DOG) {
+                Log.e("CHECKED", checkedId == R.id.dog_found ? "DOG" : "CAT");
+                if (checkedId == R.id.dog_found) {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, DOGS);
                 } else {
                     adapter = new ArrayAdapter<>(activity, android.R.layout.simple_dropdown_item_1line, CATS);
@@ -619,8 +619,8 @@ public class FoundPetActivity extends AppCompatActivity implements
         Log.e("PERRO", Integer.toString(pet_type.getCheckedRadioButtonId()));
         Log.e("MACHO", Integer.toString(pet_gender.getCheckedRadioButtonId()));
 
-        petTypeString = (pet_type.getCheckedRadioButtonId() == ID_TYPE_DOG) ?  "Perro": "Gato";
-        petGenderString = (pet_gender.getCheckedRadioButtonId() == ID_GENDER_MALE) ? "Macho" : "Hembra";
+        petTypeString = (pet_type.getCheckedRadioButtonId() == R.id.dog_found) ?  "Perro": "Gato";
+        petGenderString = (pet_gender.getCheckedRadioButtonId() == R.id.male_found) ? "Macho" : "Hembra";
 
 
         String hairColor = hairColor1Spinner.getSelectedItem().toString();
