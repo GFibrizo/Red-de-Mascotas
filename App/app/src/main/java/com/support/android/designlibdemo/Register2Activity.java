@@ -225,7 +225,7 @@ public class Register2Activity extends AppCompatActivity {
                 Toast.makeText(getApplicationContext(), "Usuario creado", Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }else{
-                Toast.makeText(getApplicationContext(), "Error de conexion", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Usuario no creado. Este usuario ya existe", Toast.LENGTH_SHORT).show();
             }
         }
 
