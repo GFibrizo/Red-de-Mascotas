@@ -273,7 +273,7 @@ public class LoginUserActivity extends AppCompatActivity {
 
             if (!success) {
                 if (apiError){
-                    Toast.makeText(getApplicationContext(), "Error de Conexion", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Usuario o contraseña invalidos", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 if (!userValid) {
