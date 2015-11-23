@@ -91,7 +91,14 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
             holder.mGenderView.setText("Género: " + (String) object.get("gender"));
             holder.mTypeView.setText("Barrio: " + ((JSONObject)object.get("address")).getString("neighbourhood"));
 
-            holder.mDateView.setText("Fecha: " + (String) object.get("publicationDate"));
+            String[] partesFecha = object.get("publicationDate").toString().split(" ")[0].split("/");
+            holder.mDateView.setText("Fecha: " + partesFecha[2] + "/" + partesFecha[1] + "/" + partesFecha[0]);
+
+            if (!object.get("age").toString().equals("")){
+                holder.mAgeView.setText("Edad: " + (String) object.get("age"));
+            }else {
+                holder.mAgeView.setText("Edad: " + "Desconocida");
+            }
 
         } catch (JSONException e) {
             Log.e("ERROR JSON RESP", e.getMessage());
@@ -149,6 +156,7 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
                 intent.putExtra("colorPelaje", petContainer.getColorPelaje());
                 intent.putExtra("colorOjos", petContainer.getColorOjos());
                 intent.putExtra("ubicacion", petContainer.getBarrio());
+                intent.putExtra("fecha", petContainer.getPublicationDate());
                 intent.putExtra("caracteristicas", petContainer.getCaracteristicas());
                 intent.putExtra("descripcion", petContainer.getDescripcion());
                 intent.putExtra("conducta", petContainer.getConducta());
@@ -263,6 +271,7 @@ public class AdoptionAdapter  extends SimpleStringRecyclerViewAdapter {
                     object.getString("description"),
                     null,
                     null);
+            mascota.setPublicationDate(object.getString("publicationDate"));
         } catch (JSONException e) {
             Log.e("Error al crear el JSON", e.getMessage());
         }

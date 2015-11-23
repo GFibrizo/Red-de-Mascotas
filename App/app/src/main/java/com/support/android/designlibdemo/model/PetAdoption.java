@@ -231,7 +231,8 @@ public class PetAdoption {
     }
 
     public void setPublicationDate(String publicationDate) {
-        this.publicationDate = publicationDate;
+        String[] partesFecha = publicationDate.split(" ")[0].split("/");
+        this.publicationDate = partesFecha[2] + "/" + partesFecha[1] + "/" + partesFecha[0];
     }
 
     public ArrayList<String> getInformers() {return informers;}

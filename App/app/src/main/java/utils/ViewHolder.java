@@ -21,6 +21,7 @@ public class ViewHolder extends RecyclerView.ViewHolder {
     public final TextView mGenderView;
     public final TextView mTypeView;
     public final TextView mDateView;
+    public final TextView mAgeView;
 
     public ViewHolder(View view) {
         super(view);
@@ -32,6 +33,8 @@ public class ViewHolder extends RecyclerView.ViewHolder {
         mGenderView = (TextView) view.findViewById(R.id.gender_main);
         mTypeView = (TextView) view.findViewById(R.id.type_main);
         mDateView = (TextView) view.findViewById(R.id.date_main);
+        mAgeView = (TextView) view.findViewById(R.id.age_main);
+        mDateView.setVisibility(View.VISIBLE);
     }
 
     @Override

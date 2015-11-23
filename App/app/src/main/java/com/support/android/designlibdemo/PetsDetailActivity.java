@@ -460,6 +460,7 @@ public class PetsDetailActivity extends AppCompatActivity {
         String edadItem = getIntent().getStringExtra("edad");
         String tamanioItem = getIntent().getStringExtra("tamanio");
         String ubicacionItem = getIntent().getStringExtra("ubicacion");
+        String fechaItem = getIntent().getStringExtra("fecha");
         String colorPelajeItem = getIntent().getStringExtra("colorPelaje");
         String colorOjosItem = getIntent().getStringExtra("colorOjos");
         String caracteristicasItem = getIntent().getStringExtra("caracteristicas");
@@ -474,6 +475,7 @@ public class PetsDetailActivity extends AppCompatActivity {
         TextView edad = (TextView) findViewById(R.id.edadAnimal);
         TextView tamanio = (TextView) findViewById(R.id.tamanioAnimal);
         TextView ubicacion = (TextView) findViewById(R.id.ubicacionAnimal);
+        TextView fecha = (TextView) findViewById(R.id.fechaAnimal);
         TextView colorPelaje = (TextView) findViewById(R.id.colorPelajeAnimal);
         TextView colorOjos = (TextView) findViewById(R.id.colorOjosAnimal);
         TextView caracteristicas = (TextView) findViewById(R.id.caracteristicas);
@@ -485,6 +487,7 @@ public class PetsDetailActivity extends AppCompatActivity {
         edad.setText(edad.getText()+" "+edadItem);
         tamanio.setText(tamanio.getText() + " " + tamanioItem);
         ubicacion.setText(ubicacion.getText()+" "+ubicacionItem);
+        fecha.setText(fecha.getText() + " " + fechaItem);
         colorPelaje.setText(colorPelaje.getText() + " " + colorPelajeItem);
         colorOjos.setText(colorOjos.getText()+" "+colorOjosItem);
         caracteristicas.setText(caracteristicasItem);
