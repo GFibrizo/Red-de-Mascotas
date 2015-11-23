@@ -142,8 +142,8 @@ public class LostPet {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
         query.add("type", type);
         query.add("gender", gender);
-        query.push("lastSeenDate").add("$gte", date.minusDays(1).toString(DATE_FORMAT))
-                                  .add("$lte", date.plusDays(1).toString(DATE_FORMAT)).pop();
+        query.push("lastSeenDate").add("$gte", date.minusDays(30).toString(DATE_FORMAT))
+                                  .add("$lte", date.plusDays(3).toString(DATE_FORMAT)).pop();
         List<LostPet> basicMatches = LostPet.collection.find(query.get()).toArray();
 
         List<LostPet> lostPets = new ArrayList<>();
