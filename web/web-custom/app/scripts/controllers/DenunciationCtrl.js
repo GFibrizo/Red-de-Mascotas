@@ -22,6 +22,7 @@ angular.module('sbAdminApp')
 
               angular.forEach($scope.data.denunciations, function(value, key) {
                 
+                value.date = value.date.substring(0,10);
                 DenunciationsService.getImage(value.publication.images[0])
                   .then(
                     function(success){
