@@ -16,7 +16,7 @@ public class FacebookUser extends  User {
             this.name = object.getString("name");
             this.lastName = object.getString("lastName");
             this.notificationId = object.getString("notificationId");
-            this.email = "";
+            this.email = object.getString("email");
             this.password = new Password();
             this.phone = "";
             this.address = new Address();
