@@ -49,7 +49,7 @@ angular.module('sbAdminApp')
 
 
         $scope.formats = ['dd/MM/yyyy','dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
-        $scope.format = $scope.formats[2];
+        $scope.format = $scope.formats[0];
 
         //Functions
         $scope.init = function() {
