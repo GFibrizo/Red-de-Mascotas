@@ -162,11 +162,12 @@ public class LostPet {
 
     public static int getAverageFindingTimeLapse(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
-        DateTimeFormatter localDateFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
-        String to = localDateFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        DateTimeFormatter argDateTimeFormatter = DateTimeFormat.forPattern(ARG_DATE_FORMAT);
+        String from = argDateTimeFormatter.parseLocalDate(fromDate).toString(DATE_FORMAT);
+        String to = argDateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
         if (petType != null) query.add("type", petType);
-        query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
-        query.push("findingDate").add("$gte", fromDate).add("$lt", to).pop();
+        query.push("publicationDate").add("$gte", from).add("$lt", to).pop();
+        query.push("findingDate").add("$gte", from).add("$lt", to).pop();
         List<LostPet> pets = LostPet.collection.find(query.get()).toArray();
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_HOUR_FORMAT);
         int timeLapse = 0;
@@ -193,10 +194,11 @@ public class LostPet {
 
     public static int countPetsPublished(String fromDate, String toDate, String petType) {
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
-        DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
-        String to = dateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
+        DateTimeFormatter argDateTimeFormatter = DateTimeFormat.forPattern(ARG_DATE_FORMAT);
+        String from = argDateTimeFormatter.parseLocalDate(fromDate).toString(DATE_FORMAT);
+        String to = argDateTimeFormatter.parseLocalDate(toDate).plusDays(1).toString(DATE_FORMAT);
         if (petType != null) query.add("type", petType);
-        query.push("publicationDate").add("$gte", fromDate).add("$lt", to).pop();
+        query.push("publicationDate").add("$gte", from).add("$lt", to).pop();
         return (int) LostPet.collection.count(query.get());
     }
 
