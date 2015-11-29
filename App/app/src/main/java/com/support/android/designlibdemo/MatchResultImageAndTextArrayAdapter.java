@@ -57,7 +57,9 @@ public class MatchResultImageAndTextArrayAdapter extends ArrayAdapter<MatchedPet
         sexo.setText(sexo.getText()+" "+element.getGender());
         tipo.setText(tipo.getText()+" "+element.getType());
         tamanio.setText(tamanio.getText()+" "+element.getSize());
-        fecha.setText(fecha.getText()+" "+element.getLastSeenOrFoundDate());
+        String[] dateSplit = element.getLastSeenOrFoundDate().split("/");
+        String newFormatDate = dateSplit[2] + "/" + dateSplit[1] + "/" + dateSplit[0];
+        fecha.setText(fecha.getText()+" "+newFormatDate);
         String id;
 //        String id = element.getId(); //TODO: ojo que no debe ser el mismo id de imagen
         String images[] = element.getImages().split(", ");

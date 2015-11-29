@@ -273,7 +273,9 @@ public class MatchedPetsDetailActivity extends AppCompatActivity implements View
         TextView colorPelaje = (TextView) findViewById(R.id.colorPelajeAnimal);
         TextView colorOjos = (TextView) findViewById(R.id.colorOjosAnimal);
         tipo.setText(tipo.getText()+" "+tipoItem);
-        fecha.setText(fecha.getText()+" "+fechaItem);
+        String[] dateSplit = fechaItem.split("/");
+        String newFormatDate = dateSplit[2] + "/" + dateSplit[1] + "/" + dateSplit[0];
+        fecha.setText(fecha.getText()+" "+newFormatDate);
         raza.setText(raza.getText()+" "+razaItem);
         sexo.setText(sexo.getText() + " " + sexoItem);
         contacto.setText(contactoItem);
