@@ -22,6 +22,14 @@ angular.module('sbAdminApp')
 
               angular.forEach($scope.data.denunciations, function(value, key) {
                 
+                if (value.publication.type == "FOR_ADOPTION") {
+                    value.publication.type = "En adopción"
+                } else if (value.publication.type == "LOST") {
+                    value.publication.type = "Perdido"
+                } else {
+                    value.publication.type = "Encontrado"
+                }
+
                 value.date = value.date.substring(0,10);
                 DenunciationsService.getImage(value.publication.images[0])
                   .then(

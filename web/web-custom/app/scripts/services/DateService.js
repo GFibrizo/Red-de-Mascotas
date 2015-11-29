@@ -20,7 +20,8 @@ angular.module('sbAdminApp')
         var month = date.getMonth() + 1;
     	var year = date.getFullYear();
 
-        return year + "/" + month + "/" + day; 
+        // return year + "/" + month + "/" + day; 
+        return day + "/" + month + "/" + year; 
 	}
  
  
