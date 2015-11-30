@@ -140,6 +140,7 @@ public class LostPet {
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         LocalDate date = dateTimeFormatter.parseLocalDate(lastSeenDate);
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("publicationStatus", PUBLISHED);
         query.add("type", type);
         query.add("gender", gender);
         query.push("lastSeenDate").add("$gte", date.minusDays(30).toString(DATE_FORMAT))

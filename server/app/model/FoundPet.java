@@ -126,6 +126,7 @@ public class FoundPet {
         DateTimeFormatter dateTimeFormatter = DateTimeFormat.forPattern(DATE_FORMAT);
         LocalDate date = dateTimeFormatter.parseLocalDate(lastSeenDate);
         BasicDBObjectBuilder query = BasicDBObjectBuilder.start();
+        query.add("publicationStatus", PUBLISHED);
         query.add("type", type);
         query.add("gender", gender);
         query.push("foundDate").add("$gte", date.minusDays(3).toString(DATE_FORMAT))
